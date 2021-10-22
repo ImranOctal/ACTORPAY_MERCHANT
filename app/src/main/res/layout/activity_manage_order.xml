@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/parentFull"
+    android:orientation="vertical"
+    android:background="@color/primary"
+    tools:context=".ui.manageOrder.ManageOrderActivity">
+    <include
+       layout="@layout/toolbar2"
+        android:id="@+id/toolbar"/>
+    <LinearLayout
+       android:background="@drawable/top_round_drawble_white"
+
+        android:orientation="vertical"
+        style="@style/parentFull">
+        <LinearLayout
+            android:id="@+id/businessLay"
+            style="@style/TxtOutline2"
+            android:elevation="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/searchEdit"
+                style="@style/regular1Full"
+                android:autofillHints="name"
+                android:background="@color/transparent"
+                android:hint="@string/search_hint"
+                android:inputType="textAutoComplete"
+                android:drawableEnd="@drawable/search_ico"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+           style="@style/parentFull"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:itemCount="5"
+            tools:listitem="@layout/manage_order_layout_item"
+            android:id="@+id/manageOrder"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</layout>

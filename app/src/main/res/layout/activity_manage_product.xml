@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/parentFull"
+        android:background="@color/primary"
+        android:orientation="vertical"
+        android:weightSum="1"
+        tools:context=".ui.manageProduct.ManageProductActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar2" />
+
+        <LinearLayout
+            style="@style/parentFull"
+            android:background="@drawable/top_round_drawble_white"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/businessLay"
+                style="@style/TxtOutline2"
+                android:elevation="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/searchEdit"
+                    style="@style/regular1Full"
+                    android:autofillHints="name"
+                    android:background="@color/transparent"
+                    android:drawableEnd="@drawable/search_ico"
+                    android:hint="@string/search_hint"
+                    android:inputType="textAutoComplete"
+                    android:singleLine="true" />
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/manageProduct"
+                style="@style/parentConstraintMatchHeight"
+                android:layout_weight=".88"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/manage_product_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".12">
+
+                <Button
+                    android:id="@+id/AddNewProductButton"
+                    style="@style/btn_main"
+                    android:elevation="2dp"
+                    android:paddingLeft="@dimen/_50sdp"
+                    android:paddingRight="@dimen/_50sdp"
+                    android:text="@string/addNewProduct" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>
