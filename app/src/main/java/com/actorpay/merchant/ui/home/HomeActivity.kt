@@ -65,6 +65,12 @@ class HomeActivity : BaseActivity(){
             }
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
+        binding.myOrderLay.setOnClickListener {
+            if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)){
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
+        }
 
         binding.reportsLay.setOnClickListener {
             if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)){
