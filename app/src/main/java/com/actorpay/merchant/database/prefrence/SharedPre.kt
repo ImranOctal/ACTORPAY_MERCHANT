@@ -62,8 +62,8 @@ class SharedPre(context: Context) {
         return GetDataBoolean(APP_BACKGROUND)
     }
 
-    fun setUserId(uid: Int) {
-        SetDataString(USER_ID, uid.toString())
+    fun setUserId(uid: String) {
+        SetDataString(USER_ID, uid)
     }
 
     val userId: String?

@@ -1,4 +1,4 @@
-package v.repositories.retrofitrepository
+package com.actorpay.merchant.repositories.retrofitrepository.provider
 /*
 * © Copyright Ishant Sharma
 * Android Developer

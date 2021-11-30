@@ -14,6 +14,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="user_type">User Type</string>
 
+    <string name="please_try_after_sometime">Something went Wrong</string>
+    <string name="server_not_responding">Server Not Responding!!</string>
 
     <string name="not_connected_internet">Not connected to Internet</string>
     <string name="logout">Logout</string>
@@ -39,10 +41,9 @@
     <string name="resourceType">Resource Type</string>
     <string name="alreadySignup">already have an account ?</string>
     <string name="signup">Signup</string>
-    <string name="termsTxt">By Signing up you are agreeing to our</string>
-    <string name="terms_and_condition">Terms of use</string>
-    <string name="and">and</string>
-    <string name="privacy">Privacy Policy</string>
+    <string name="termsTxt">By Signing up you are agreeing to our Terms of use and Privacy Policy</string>
+    <string name="error_phone">Oops! Your Phone is Not Corret or Empty</string>
+    <string name="mobile_not_start_with_0">Mobile No. should not start with 0</string>
     <string name="productName">Product Name</string>
     <string name="chooseCategory">Choose Product Category</string>
     <string name="actualPrice">Enter Actual Price</string>
@@ -79,7 +80,16 @@
     <string name="userName">Username</string>
     <string name="submit">Submit</string>
     <string name="manage_new_sub_admin">Manage New Sub Admin</string>
-
+    <string name="ok">OK</string>
+    <string name="cancel1">Cancel</string>
+    <string name="change_password">Change Password</string>
+    <string name="field_should_not_be_empty">Field should not be empty</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="enter_your_current_password">Enter Your Current Password</string>
+    <string name="enter_your_new_password">Enter Your New Password</string>
+    <string name="confirm_your_new_password">Confirm Your New Password</string>
+    <string name="save">save</string>
+    <string name="hint_balance">₹ 10,000</string>
 
     <string-array name="productCat">
         <item>Home</item>

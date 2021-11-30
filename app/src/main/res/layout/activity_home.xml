@@ -109,7 +109,7 @@
                     android:id="@+id/profileLay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:gravity="center"
                     android:weightSum="1">
 
@@ -122,6 +122,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/user"
+                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -132,7 +133,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight=".5"
                         android:text="@string/my_profile"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
                         app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -160,6 +162,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/report"
+                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -168,7 +171,8 @@
                         style="@style/viewParent"
                         android:layout_marginStart="16dp"
                         android:text="@string/reportUser"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -196,6 +200,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/cancel"
+                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -204,7 +209,8 @@
                         style="@style/viewParent"
                         android:layout_marginStart="16dp"
                         android:text="@string/cancel"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
                         app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -231,6 +237,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@drawable/doller"
+                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -239,7 +246,8 @@
                         style="@style/viewParent"
                         android:layout_marginStart="16dp"
                         android:text="@string/my_orders"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/orderIco"
                         app:layout_constraintStart_toEndOf="@+id/orderIco"
                         app:layout_constraintTop_toTopOf="@+id/orderIco" />
@@ -266,6 +274,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@drawable/user_group"
+                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -274,11 +283,51 @@
                         style="@style/viewParent"
                         android:layout_marginStart="16dp"
                         android:text="@string/merchant_sub_merchant"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                         app:layout_constraintStart_toEndOf="@+id/imageView4"
                         app:layout_constraintTop_toTopOf="@+id/imageView4" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/gray"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/change_password_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/change_password_icon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/user_group"
+                        app:tint="@color/text_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        style="@style/viewParent"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/change_password"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/change_password_icon"
+                        app:layout_constraintStart_toEndOf="@+id/change_password_icon"
+                        app:layout_constraintTop_toTopOf="@+id/change_password_icon" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
