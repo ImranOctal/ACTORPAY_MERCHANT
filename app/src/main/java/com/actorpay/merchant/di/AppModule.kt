@@ -15,6 +15,7 @@ import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.RetrofitMainRepository
 import com.actorpay.merchant.repositories.retrofitrepository.RetrofitRepository
+import com.actorpay.merchant.repositories.retrofitrepository.apiclient.ClientConstance
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -59,7 +60,7 @@ private val appKoinModule = module {
         }
     }
     single<ApiClient>{
-        Retrofit.Builder().baseUrl("")
+        Retrofit.Builder().baseUrl(ClientConstance.BASE_URL)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(ApiClient::class.java)
