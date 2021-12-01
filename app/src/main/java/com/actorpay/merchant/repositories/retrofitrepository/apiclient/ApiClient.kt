@@ -6,7 +6,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangeP
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
 import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -25,25 +28,25 @@ interface ApiClient {
 
     @POST(AppConstance.CHANGE_PASSWORD)
     suspend fun changePassword(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Body changePasswordParams: ChangePasswordParams
     ): Response<SuccessResponse>
 
-    @GET(AppConstance.GET_PROFILE + "{id}")
+    @GET(AppConstance.GET_PROFILE + IDS)
     suspend fun getProfile(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Path("id") id: String
     ): Response<ProfileReesponse>
 
     @PUT(AppConstance.UPDATE_PROFILE)
     suspend fun saveProfile(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Body profileParams: ProfileParams
     ): Response<SuccessResponse>
 
 
     @GET(GET_CONTENT)
     suspend fun getContent(
-        @Query("type") type: String
+        @Query(TYPE) type: String
     ): Response<ContentResponse>
 }

@@ -14,7 +14,10 @@ import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.viewmodel.AuthViewModel
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BASE_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BEARER
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATRIBUTE
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -52,7 +55,7 @@ private val appKoinModule = module {
     }
     single<okhttp3.Interceptor>{
         okhttp3.Interceptor {chain ->
-            val request: Request =chain.request().newBuilder().addHeader("Authorization", "Bearer " + "token").build()
+            val request: Request =chain.request().newBuilder().addHeader(AUTH, BEARER + TOKEN_ATRIBUTE).build()
             chain.proceed(request)
         }
     }

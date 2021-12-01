@@ -116,8 +116,8 @@ class HomeActivity : BaseActivity(){
         }
 
     private fun logOut(){
-        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, "Log Out ",
-            "Are you sure?",
+        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, getString(R.string.log_out),
+            getString(R.string.are_you_sure),
             autoCancelable = true,
             isCancelAvailable = true,
             isOKAvailable = true,
@@ -203,7 +203,7 @@ class HomeActivity : BaseActivity(){
             return
         }
         doubleBackToExitPressedOnce = true
-        showCustomAlert("Press back again",binding.root)
+        showCustomAlert(getString(R.string.press_back_again),binding.root)
         //Toast.makeText(this, "Press back again", Toast.LENGTH_SHORT)
         lifecycleScope.launch(Dispatchers.Default) {
             delay(2000)

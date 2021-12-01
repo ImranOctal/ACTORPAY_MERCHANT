@@ -90,6 +90,12 @@
     <string name="confirm_your_new_password">Confirm Your New Password</string>
     <string name="save">save</string>
     <string name="hint_balance">₹ 10,000</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="log_out">\"Log Out \"</string>
+    <string name="press_back_again">Press back again</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="agree_our_terms_and_condition">Please agree to our terms to sign up</string>
+    <string name="profile_update">Profile Update</string>
 
     <string-array name="productCat">
         <item>Home</item>
