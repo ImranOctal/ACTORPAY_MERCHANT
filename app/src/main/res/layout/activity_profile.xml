@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/parentFull"
+        android:orientation="vertical"
+        android:background="@color/primary"
+        tools:context=".ui.manageOrder.ManageOrderActivity">
+        <include
+            layout="@layout/toolbar2"
+            android:id="@+id/toolbar"/>
+        <LinearLayout
+            android:background="@drawable/top_round_drawble_white"
+
+            android:orientation="vertical"
+            style="@style/parentFull">
+
+
+            <androidx.core.widget.NestedScrollView style="@style/parentFull">
+
+                <LinearLayout
+                    style="@style/parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center">
+
+
+
+                    <LinearLayout
+                        style="@style/parentFull"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="0dp">
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/imgCamelMD_PRDet"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_105sdp"
+                            android:layout_marginTop="24dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/demo"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:riv_border_color="@color/white"
+                            app:riv_border_width="2dip"
+                            app:riv_corner_radius="20dp"
+                            app:riv_mutate_background="false" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="JORDEN NIELSEN"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imgCamelMD_PRDet" />
+
+                        <!--Email -->
+                        <LinearLayout
+                            android:id="@+id/emailLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/emailEdit"
+                                style="@style/regular1Full"
+                                android:autofillHints="emailAddress"
+                                android:background="@color/transparent"
+                                android:hint="@string/your_email"
+                                android:maxLength="100"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:focusableInTouchMode="false"
+                                android:inputType="textEmailAddress"
+                                android:singleLine="true" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/errorOnEmail"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/oops_your_email_is_not_correct_or_empty"
+                            android:visibility="gone" />
+                        <!--Password-->
+                   <!--     <LinearLayout
+                            android:id="@+id/passLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/password"
+                                style="@style/regular1Full"
+                                android:width="0dp"
+                                android:layout_weight="1"
+                                android:background="@color/transparent"
+                                android:hint="@string/password"
+                                android:autofillHints="phone"
+                                android:inputType="textPassword"
+                                android:singleLine="true" />
+
+                            <ImageView
+                                android:id="@+id/signup_password_show_hide"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:src="@drawable/ic_baseline_remove_red_eye_24"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_5sdp"
+                                />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnPassword"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/oops_your_password_is_not_valid"
+                            android:visibility="gone" />-->
+                        <!--Business Name-->
+                        <LinearLayout
+                            android:id="@+id/businessLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/businessName"
+                                style="@style/regular1Full"
+                                android:autofillHints="name"
+                                android:background="@color/transparent"
+                                android:hint="@string/business"
+                                android:inputType="textAutoComplete"
+                                android:maxLength="50"
+                                android:singleLine="true" />
+
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnBusinessName"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/field_should_not_be_empty"
+                            android:visibility="gone" />
+
+                        <!--Mobile Number-->
+
+                        <LinearLayout
+                            android:id="@+id/mobileLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <com.hbb20.CountryCodePicker
+                                android:id="@+id/profile_ccp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:ccpDialog_allowSearch="true"
+                                app:ccpDialog_backgroundColor="@color/white"
+                                app:ccpDialog_fastScroller_bubbleColor="@color/primary"
+                                app:ccpDialog_fastScroller_bubbleTextAppearance="@style/regular_white"
+                                app:ccpDialog_fastScroller_handleColor="@color/colorAccent"
+                                app:ccpDialog_initialScrollToSelection="true"
+                                app:ccpDialog_keyboardAutoPopup="false"
+                                app:ccpDialog_searchEditTextTint="@color/gray"
+                                app:ccpDialog_showCloseIcon="true"
+                                app:ccpDialog_showFastScroller="true"
+                                app:ccpDialog_showFlag="true"
+                                app:ccpDialog_showPhoneCode="true"
+                                app:ccpDialog_showTitle="false"
+                                app:ccpDialog_textColor="@color/black"
+                                app:ccp_arrowColor="@color/colorAccent"
+                                app:ccp_arrowSize="20dp"
+                                app:ccp_autoDetectCountry="true"
+                                app:ccp_autoDetectLanguage="true"
+                                app:ccp_autoFormatNumber="false"
+                                app:ccp_clickable="false"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:focusableInTouchMode="false"
+                                app:ccp_contentColor="@color/black"
+                                app:ccp_countryAutoDetectionPref="SIM_ONLY"
+                                app:ccp_countryPreference="US,IN"
+                                app:ccp_defaultLanguage="ENGLISH"
+                                app:ccp_defaultNameCode="IN"
+                                app:ccp_flagBorderColor="@color/transparent"
+                                app:ccp_hintExampleNumber="true"
+                                app:ccp_hintExampleNumberType="FIXED_LINE"
+                                app:ccp_rememberLastSelection="true"
+                                app:ccp_selectionMemoryTag="signupCCP"
+                                app:ccp_showArrow="false"
+                                app:ccp_showFlag="true"
+                                app:ccp_showFullName="false"
+                                app:ccp_showNameCode="false"
+                                app:ccp_showPhoneCode="true"
+                                app:ccp_textGravity="RIGHT"
+                                app:ccp_textSize="@dimen/_12ssp" />
+
+                            <View
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:background="@color/gray" />
+
+                            <EditText
+                                android:id="@+id/mobileNumber"
+                                style="@style/regular1Full"
+                                android:autofillHints="phone"
+                                android:background="@color/transparent"
+                                android:hint="@string/mobile"
+                                android:inputType="number"
+                                android:maxLength="15"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:focusableInTouchMode="false"
+                                android:singleLine="true" />
+
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnMobile"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/error_phone"
+                            android:visibility="gone" />
+
+                        <!--Shop Address -->
+
+                        <LinearLayout
+                            android:id="@+id/shopLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/shopAddress"
+                                style="@style/regular1Full"
+                                android:autofillHints="postalAddress"
+                                android:background="@color/transparent"
+                                android:hint="@string/shopAddress"
+                                android:inputType="textAutoComplete"
+                                android:singleLine="true" />
+
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnShopAddress"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/field_should_not_be_empty"
+                            android:visibility="gone" />
+
+                        <!--Full Address-->
+
+                        <LinearLayout
+                            android:id="@+id/addressLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/address"
+                                style="@style/regular1Full"
+                                android:autofillHints="postalAddress"
+                                android:background="@color/transparent"
+                                android:hint="@string/address"
+                                android:inputType="textAutoComplete"
+                                android:singleLine="true" />
+
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnfullAddress"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/field_should_not_be_empty"
+                            android:visibility="gone" />
+
+                        <!--Shop Act or licence number-->
+                        <LinearLayout
+                            android:id="@+id/ShopActLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/shopAct"
+                                style="@style/regular1Full"
+                                android:autofillHints="creditCardSecurityCode"
+                                android:background="@color/transparent"
+                                android:hint="@string/shopact"
+                                android:inputType="textAutoComplete"
+                                android:singleLine="true" />
+
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/errorOnShopAct"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/field_should_not_be_empty"
+                            android:visibility="gone" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/btn_save_profile"
+                                style="@style/btn_main"
+                                android:elevation="2dp"
+                                android:paddingLeft="@dimen/_50sdp"
+                                android:paddingRight="@dimen/_50sdp"
+                                android:text="@string/save" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

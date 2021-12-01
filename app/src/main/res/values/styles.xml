@@ -399,7 +399,12 @@
         <item name="android:layout_marginLeft">@dimen/_15sdp</item>
     </style>
 
-
+    <style name="DialogAnimationTheme">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
 
 
 </resources>

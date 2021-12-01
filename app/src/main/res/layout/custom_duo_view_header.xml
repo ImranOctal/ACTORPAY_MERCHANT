@@ -32,5 +32,14 @@
         android:textSize="@dimen/_12ssp"
         android:id="@+id/userProfileName"
         android:fontFamily="@font/poppins_semibold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hint_balance"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_10ssp"
+        android:id="@+id/userProfileBalance"
+        android:fontFamily="@font/poppins_regular"/>
 </LinearLayout>
 </layout>

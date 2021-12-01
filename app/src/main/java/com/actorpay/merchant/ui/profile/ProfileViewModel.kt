@@ -1,0 +1,80 @@
+package com.actorpay.merchant.ui.profile
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.actorpay.merchant.di.models.CoroutineContextProvider
+import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
+import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
+import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+
+class ProfileViewModel(
+    val dispatcherProvider: CoroutineContextProvider,
+    val methodRepo: MethodsRepo,
+    val apiRepo: RetrofitRepository,
+) : AndroidViewModel(
+    Application()
+) {
+    val profileResponseLive = MutableStateFlow<ResponseProfileSealed>(ResponseProfileSealed.Empty)
+
+    sealed class ResponseProfileSealed {
+        class Success(val response: Any) : ResponseProfileSealed()
+        class ErrorOnResponse(val failResponse: FailResponse?) : ResponseProfileSealed()
+        class loading : ResponseProfileSealed()
+        object Empty : ResponseProfileSealed()
+    }
+
+
+    fun getProfile() {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            profileResponseLive.value = ResponseProfileSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                methodRepo.dataStore.getUserId().collect { userId ->
+                    when (val response = apiRepo.getProfile(userId, token)) {
+                        is RetrofitResource.Error -> profileResponseLive.value =
+                            ResponseProfileSealed.ErrorOnResponse(response.failResponse)
+                        is RetrofitResource.Success -> profileResponseLive.value =
+                            ResponseProfileSealed.Success(response.data!!)
+                    }
+                }
+
+            }
+        }
+    }
+
+    fun saveProfile(
+        email: String,
+        shopAddress: String,
+        fullAddress: String,
+        businessName: String,
+        licenceNumber: String
+    ) {
+
+        viewModelScope.launch(dispatcherProvider.IO) {
+            profileResponseLive.value = ResponseProfileSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                methodRepo.dataStore.getUserId().collect { userId ->
+                    when (val response = apiRepo.saveProfile(
+                        email,
+                        shopAddress,
+                        fullAddress,
+                        businessName,
+                        licenceNumber,
+                        userId,
+                        token
+                    )) {
+                        is RetrofitResource.Error -> profileResponseLive.value =
+                            ResponseProfileSealed.ErrorOnResponse(response.failResponse)
+                        is RetrofitResource.Success -> profileResponseLive.value =
+                            ResponseProfileSealed.Success(response.data!!)
+                    }
+                }
+            }
+        }
+    }
+
+}

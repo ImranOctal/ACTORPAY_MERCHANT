@@ -1,22 +1,20 @@
 package com.actorpay.merchant.di
 
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.actorpay.merchant.viewmodel.ActorPayViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.actorpay.merchant.database.datastore.*
-import com.actorpay.merchant.database.prefrence.SharedPre
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
-import com.actorpay.merchant.repositories.retrofitrepository.RetrofitMainRepository
-import com.actorpay.merchant.repositories.retrofitrepository.RetrofitRepository
-import com.actorpay.merchant.repositories.retrofitrepository.apiclient.ClientConstance
+import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitMainRepository
+import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
+import com.actorpay.merchant.ui.content.ContentViewModel
+import com.actorpay.merchant.ui.home.HomeViewModel
+import com.actorpay.merchant.ui.profile.ProfileViewModel
+import com.actorpay.merchant.viewmodel.AuthViewModel
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -31,7 +29,6 @@ private val appKoinModule = module {
 
     single { DataStoreCoroutinesHandler }
 
-    single { SharedPre(androidContext()) }
 
     single<DataStoreBase>{
         DataStoreCustom(androidContext())
@@ -60,7 +57,7 @@ private val appKoinModule = module {
         }
     }
     single<ApiClient>{
-        Retrofit.Builder().baseUrl(ClientConstance.BASE_URL)
+        Retrofit.Builder().baseUrl(BASE_URL)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(ApiClient::class.java)
@@ -71,6 +68,18 @@ private val appKoinModule = module {
 
     viewModel {
         ActorPayViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        AuthViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        HomeViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        ProfileViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        ContentViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
 
    /* factory<ScreenNavigator> {

@@ -59,6 +59,7 @@
                                     android:autofillHints="emailAddress"
                                     android:background="@color/transparent"
                                     android:hint="@string/your_email"
+                                    android:maxLength="100"
                                     android:inputType="textEmailAddress"
                                     android:singleLine="true" />
 
@@ -78,12 +79,22 @@
                                 <EditText
                                     android:id="@+id/password"
                                     style="@style/regular1Full"
+                                    android:width="0dp"
+                                    android:layout_weight="1"
                                     android:background="@color/transparent"
                                     android:hint="@string/password"
                                     android:autofillHints="phone"
                                     android:inputType="textPassword"
                                     android:singleLine="true" />
 
+                                <ImageView
+                                    android:id="@+id/signup_password_show_hide"
+                                    android:layout_width="@dimen/_25sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:src="@drawable/ic_baseline_remove_red_eye_24"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    />
 
                             </LinearLayout>
 
@@ -91,6 +102,7 @@
                             <TextView
                                 android:id="@+id/errorOnPassword"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/oops_your_password_is_not_valid"
                                 android:visibility="gone" />
                             <!--Business Name-->
                             <LinearLayout
@@ -105,6 +117,7 @@
                                     android:background="@color/transparent"
                                     android:hint="@string/business"
                                     android:inputType="textAutoComplete"
+                                    android:maxLength="50"
                                     android:singleLine="true" />
 
 
@@ -114,6 +127,7 @@
                             <TextView
                                 android:id="@+id/errorOnBusinessName"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/field_should_not_be_empty"
                                 android:visibility="gone" />
 
                             <!--Mobile Number-->
@@ -124,6 +138,7 @@
                                 android:orientation="horizontal">
 
                                 <com.hbb20.CountryCodePicker
+                                    android:id="@+id/singup_ccp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     app:ccpDialog_allowSearch="true"
@@ -178,8 +193,8 @@
                                     android:autofillHints="phone"
                                     android:background="@color/transparent"
                                     android:hint="@string/mobile"
-                                    android:inputType="phone"
-                                    android:maxLength="10"
+                                    android:inputType="number"
+                                    android:maxLength="15"
                                     android:singleLine="true" />
 
 
@@ -189,6 +204,7 @@
                             <TextView
                                 android:id="@+id/errorOnMobile"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/error_phone"
                                 android:visibility="gone" />
 
                             <!--Shop Address -->
@@ -214,12 +230,13 @@
                             <TextView
                                 android:id="@+id/errorOnShopAddress"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/field_should_not_be_empty"
                                 android:visibility="gone" />
 
                             <!--Full Address-->
 
                             <LinearLayout
-                                android:id="@+id/AddressLay"
+                                android:id="@+id/addressLay"
                                 style="@style/TxtOutline2"
                                 android:orientation="horizontal">
 
@@ -239,6 +256,7 @@
                             <TextView
                                 android:id="@+id/errorOnfullAddress"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/field_should_not_be_empty"
                                 android:visibility="gone" />
 
                             <!--Shop Act or licence number-->
@@ -263,10 +281,11 @@
                             <TextView
                                 android:id="@+id/errorOnShopAct"
                                 style="@style/errotextViewStyle"
+                                android:text="@string/field_should_not_be_empty"
                                 android:visibility="gone" />
                             <!--Resourse Type-->
 
-                            <LinearLayout
+                      <!--      <LinearLayout
                                 android:id="@+id/resourseLay"
                                 style="@style/TxtOutline2"
                                 android:orientation="horizontal">
@@ -288,6 +307,7 @@
                                 android:id="@+id/errorOnResourceType"
                                 style="@style/errotextViewStyle"
                                 android:visibility="gone" />
+                                -->
 
                             <LinearLayout
                                 android:id="@+id/termsAndConditionlay"
@@ -300,42 +320,18 @@
 
                                 <CheckBox
                                     android:id="@+id/rememberMe"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight=".07"
-                                    android:checked="false" />
+                                    android:layout_width="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:checked="true" />
 
                                 <TextView
+                                    android:id="@+id/signup_terms_text"
                                     style="@style/regular1"
-                                    android:layout_width="0dp"
-                                    android:layout_weight=".52"
+                                    android:layout_width="match_parent"
                                     android:text="@string/termsTxt"
                                     android:textColor="@color/gray"
-                                    android:textSize="@dimen/_8ssp" />
+                                    android:textSize="@dimen/_10ssp" />
 
-                                <TextView
-                                    android:id="@+id/terms"
-                                    style="@style/regular1_primary"
-                                    android:layout_width="0dp"
-                                    android:layout_weight=".18"
-                                    android:text="@string/terms_and_condition"
-                                    android:textSize="@dimen/_7ssp" />
-
-                                <TextView
-                                    style="@style/regular1"
-                                    android:layout_width="0dp"
-                                    android:layout_weight=".07"
-                                    android:text="@string/and"
-                                    android:textColor="@color/gray"
-                                    android:textSize="@dimen/_8ssp" />
-
-                                <TextView
-                                    android:id="@+id/privacy"
-                                    style="@style/regular1_primary"
-                                    android:layout_width="0dp"
-                                    android:layout_weight=".18"
-                                    android:text="@string/privacy"
-                                    android:textSize="@dimen/_7ssp" />
                             </LinearLayout>
 
 
@@ -345,7 +341,7 @@
                                 android:gravity="center">
 
                                 <Button
-                                    android:id="@+id/signinBtn"
+                                    android:id="@+id/signupbtn"
                                     style="@style/btn_main"
                                     android:elevation="2dp"
                                     android:paddingLeft="@dimen/_50sdp"
