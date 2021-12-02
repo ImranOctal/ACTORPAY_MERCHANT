@@ -57,29 +57,29 @@ interface ApiClient {
     @Multipart
     @POST(ADD_PRODUCT)
     suspend fun addProduct(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Part("product") product: RequestBody,
         @Part file: MultipartBody.Part
     ): Response<ProductResponse>
 
     @Multipart
-    @PUT(ADD_PRODUCT+ "/{id}")
+    @PUT(ADD_PRODUCT+ IDS)
     suspend fun updateProduct(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Part("product") product: RequestBody,
         @Part file: MultipartBody.Part,
         @Path("id") id: String
     ): Response<ProductResponse>
 
-    @GET(ADD_PRODUCT + "/{id}")
+    @GET(ADD_PRODUCT + IDS)
     suspend fun getProduct(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Path("id") id: String
     ): Response<ProductResponse>
 
-    @DELETE(ADD_PRODUCT + "/{id}")
+    @DELETE(ADD_PRODUCT + IDS)
     suspend fun deleteProduct(
-        @Header("Authorization") token: String,
+        @Header(AUTH) token: String,
         @Path("id") id: String
     ): Response<ProductResponse>
 }
