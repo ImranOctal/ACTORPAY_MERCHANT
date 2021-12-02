@@ -59,7 +59,7 @@ class HomeViewModel(
         r1 = file.asRequestBody("/*".toMediaTypeOrNull())
         f1 =
             MultipartBody.Part.createFormData(
-                "profile_img",
+                "file",
                 "${System.currentTimeMillis()}.jpg",
                 r1
             )
@@ -138,4 +138,4 @@ class HomeViewModel(
 
         }
     }
-}
+    }

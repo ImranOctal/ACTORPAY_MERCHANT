@@ -21,7 +21,6 @@ class AuthViewModel(
 ) : AndroidViewModel(
     Application()
 ) {
-
     val loginResponseLive = MutableStateFlow<ResponseLoginSealed>(ResponseLoginSealed.Empty)
 
     sealed class ResponseLoginSealed {

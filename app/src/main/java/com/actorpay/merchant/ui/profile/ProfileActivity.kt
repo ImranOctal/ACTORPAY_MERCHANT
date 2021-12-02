@@ -31,12 +31,9 @@ class ProfileActivity : BaseActivity() {
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.my_profile)
         clickListeners()
-
+        getProfile()
         apiResponse()
-        profileViewModel.getProfile()
-        binding.btnSaveProfile.setOnClickListener {
-            validate()
-        }
+
 
     }
 
@@ -70,7 +67,8 @@ class ProfileActivity : BaseActivity() {
                             }
                         }
                         else if(it.response is SuccessResponse){
-                            CommonDialogsUtils.showCommonDialog(this@ProfileActivity,profileViewModel.methodRepo,"Profile Update",it.response.message)
+                            CommonDialogsUtils.showCommonDialog(this@ProfileActivity,profileViewModel.methodRepo,getString(
+                                                            R.string.profile_update),it.response.message)
                         }
 
                         else {
@@ -109,43 +107,35 @@ class ProfileActivity : BaseActivity() {
         }*/
         else if (binding.businessName.text.toString().trim().length<3) {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.VISIBLE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_search_outline)
         }
         else if (binding.mobileNumber.text.toString().trim().length<6) {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.VISIBLE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_search_outline)
         }
         else if(binding.mobileNumber.text.toString().trim()[0].toString() == "0")
         {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.VISIBLE
             binding.errorOnMobile.text=getString(R.string.mobile_not_start_with_0)
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_search_outline)
         }
         else if(binding.shopAddress.text.toString().trim().length<3)
         {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.GONE
             binding.errorOnShopAddress.visibility = View.VISIBLE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.shopLay, R.drawable.btn_search_outline)
@@ -153,13 +143,11 @@ class ProfileActivity : BaseActivity() {
         else if(binding.address.text.toString().trim().length<3)
         {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.GONE
             binding.errorOnShopAddress.visibility = View.GONE
             binding.errorOnfullAddress.visibility = View.VISIBLE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.shopLay, R.drawable.btn_outline_gray)
@@ -168,14 +156,12 @@ class ProfileActivity : BaseActivity() {
         else if(binding.shopAct.text.toString().trim().length<3)
         {
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.GONE
             binding.errorOnShopAddress.visibility = View.GONE
             binding.errorOnfullAddress.visibility = View.GONE
             binding.errorOnShopAct.visibility = View.VISIBLE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.addressLay, R.drawable.btn_outline_gray)
@@ -184,14 +170,12 @@ class ProfileActivity : BaseActivity() {
         }
         else{
             binding.errorOnEmail.visibility = View.GONE
-//            binding.errorOnPassword.visibility = View.GONE
             binding.errorOnBusinessName.visibility=View.GONE
             binding.errorOnMobile.visibility = View.GONE
             binding.errorOnShopAddress.visibility = View.GONE
             binding.errorOnfullAddress.visibility = View.GONE
             binding.errorOnShopAct.visibility = View.GONE
             profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
-//            profileViewModel.methodRepo.setBackGround(this, binding.passLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_outline_gray)
             profileViewModel.methodRepo.setBackGround(this, binding.addressLay, R.drawable.btn_outline_gray)
@@ -213,10 +197,13 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun getProfile(){
-
+        profileViewModel.getProfile()
     }
 
     private fun clickListeners() {
+        binding.btnSaveProfile.setOnClickListener {
+            validate()
+        }
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
         }

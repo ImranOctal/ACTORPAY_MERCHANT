@@ -26,7 +26,6 @@ class SplashActivity : BaseActivity() {
         binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
         lifecycleScope.launch (Dispatchers.Main){
             delay(2000L)
-
             actorPayViewModel.methodRepo.dataStore.isLoggedIn().collect {
                 if(it){
                     startActivity(Intent(baseContext(),HomeActivity::class.java))

@@ -44,13 +44,14 @@ class LoginActivity : BaseActivity() {
 
     private fun clickListeners() {
         disposable = binding.signinBtn.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
                 validate()
             }
-
-        binding.forgetPassword.setOnClickListener {
-            forgetPassword()
-        }
+        disposable = binding.forgetPassword.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                forgetPassword()
+            }
     }
 
     private fun validate() {
@@ -148,7 +149,7 @@ class LoginActivity : BaseActivity() {
                             CommonDialogsUtils.showCommonDialog(
                                 this@LoginActivity,
                                 loginViewModel.methodRepo,
-                                "Forget Password",
+                                getString(R.string.forget_password),
                                 it.response.message
                             )
                         } else {

@@ -35,11 +35,11 @@ class SignupActivity : BaseActivity() {
         binding.toolbar.back.visibility= View.INVISIBLE
         binding.toolbar.ToolbarTitle.text=getString(R.string.signup)
 
-        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText,"Terms of use",true,null){
+        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText,getString(R.string.terms_of_use),true,null){
             ContentViewModel.type=3
             startActivity(Intent(this, ContentActivity::class.java))
         }
-        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText,"Privacy Policy",true,null){
+        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText,getString(R.string.privacy_policy),true,null){
             ContentViewModel.type=2
             startActivity(Intent(this,ContentActivity::class.java))
         }
@@ -65,10 +65,6 @@ class SignupActivity : BaseActivity() {
         binding.signupbtn.setOnClickListener {
             validate()
         }
-
-
-
-
     }
     fun validate(){
         var isValidate=true
@@ -153,7 +149,7 @@ class SignupActivity : BaseActivity() {
         }
         if (!binding.rememberMe.isChecked){
             isValidate=false
-            showCustomToast("Please agree to our terms to sign up")
+            showCustomToast(getString(R.string.agree_our_terms_and_condition))
         }
         if(isValidate){
            signUp()
