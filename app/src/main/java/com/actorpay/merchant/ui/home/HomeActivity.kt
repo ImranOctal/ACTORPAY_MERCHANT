@@ -13,11 +13,13 @@ import com.actorpay.merchant.databinding.ActivityHomeBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
+import com.actorpay.merchant.ui.home.adapter.Action
 import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.subAdmin.CreateSubAdminActivity
+import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -26,7 +28,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.ArrayList
 
-class HomeActivity : BaseActivity(){
+class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var adapter: ManageProductAdapter
     private var doubleBackToExitPressedOnce = false
@@ -34,68 +36,76 @@ class HomeActivity : BaseActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_home)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         initialisation()
     }
 
 
-
     private fun initialisation() {
-        adapter = ManageProductAdapter(this)
-        adapter.UpdateList(ArrayList<String>())
+        adapter = ManageProductAdapter(this) { action, position ->
+
+            if (action == Action.ActionView) {
+                switchActivity(Intent(baseContext(), UpdateProduct::class.java))
+            }
+            else if (action == Action.ActionDelete) {
+               homeviewmodel.deleteProduct("prod Id")
+            }
+        }
+
+        adapter.UpdateList(arrayListOf("dfa","dfsd"))
         binding.manageProduct.adapter = adapter
         binding.toolbar.back.visibility = View.VISIBLE
-        binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.hamburger))
+        binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
         binding.toolbar.ToolbarTitle.text = getString(R.string.manage_product)
         clickListeners()
         apiResponse()
 
         lifecycleScope.launchWhenCreated {
-        homeviewmodel.methodRepo.dataStore.getBussinessName().collect {
-            businessName->
-            binding.headerTitle.userProfileName.text="$businessName"
-        }
+            homeviewmodel.methodRepo.dataStore.getBussinessName().collect { businessName ->
+                binding.headerTitle.userProfileName.text = "$businessName"
+            }
         }
 
     }
+
     private fun clickListeners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
         }
         binding.toolbar.back.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
-            }else{
-                binding.drawerLayout.openDrawer(GravityCompat.START,true)
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START, true)
             }
         }
         binding.AddNewProductButton.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), AddNewProduct::class.java))
         }
         binding.profileLay.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ProfileActivity::class.java))
         }
         binding.myOrderLay.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
 
         binding.reportsLay.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), PayRollActivity::class.java))
         }
         binding.merchatLay.setOnClickListener {
-            if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), CreateSubAdminActivity::class.java))
@@ -108,15 +118,14 @@ class HomeActivity : BaseActivity(){
         }
     }
 
-        fun changePasswordUi(){
-            ChangePasswordDialog().show(this,homeviewmodel.methodRepo){
-                    oldPassword, newPassword ->
-                homeviewmodel.changePassword(oldPassword,newPassword    )
-            }
+    fun changePasswordUi() {
+        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
+            homeviewmodel.changePassword(oldPassword, newPassword)
         }
+    }
 
-    private fun logOut(){
-        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, "Log Out ",
+    private fun logOut() {
+        CommonDialogsUtils.showCommonDialog(this, viewModel.methodRepo, "Log Out ",
             "Are you sure?",
             autoCancelable = true,
             isCancelAvailable = true,
@@ -140,8 +149,8 @@ class HomeActivity : BaseActivity(){
         lifecycleScope.launch {
 
             homeviewmodel.homeResponseLive.collect {
-                when(it){
-                    is HomeViewModel.ResponseHomeSealed.loading->{
+                when (it) {
+                    is HomeViewModel.ResponseHomeSealed.loading -> {
                         homeviewmodel.methodRepo.showLoadingDialog(this@HomeActivity)
                     }
                     is HomeViewModel.ResponseHomeSealed.Success -> {
@@ -172,8 +181,7 @@ class HomeActivity : BaseActivity(){
                                     }
                                 }
                             )
-                        }
-                        else {
+                        } else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root
@@ -203,7 +211,7 @@ class HomeActivity : BaseActivity(){
             return
         }
         doubleBackToExitPressedOnce = true
-        showCustomAlert("Press back again",binding.root)
+        showCustomAlert("Press back again", binding.root)
         //Toast.makeText(this, "Press back again", Toast.LENGTH_SHORT)
         lifecycleScope.launch(Dispatchers.Default) {
             delay(2000)

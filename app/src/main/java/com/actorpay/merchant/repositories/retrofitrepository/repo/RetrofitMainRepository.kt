@@ -17,6 +17,9 @@ import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitRe
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
+import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 
 class RetrofitMainRepository constructor(var context: Context, private var apiClient: ApiClient) :
@@ -179,4 +182,101 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
+    override suspend fun addProduct(
+        token: String,
+        product: RequestBody,
+        poduct_pic: MultipartBody.Part
+    ): RetrofitResource<ProductResponse> {
+        try {
+
+            val data = apiClient.addProduct(AppConstance.B_Token +token,product,poduct_pic)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun updateProduct(
+        token: String,
+        productId: String,
+        product: RequestBody,
+        poduct_pic: MultipartBody.Part
+    ): RetrofitResource<ProductResponse> {
+        try {
+
+            val data = apiClient.updateProduct(AppConstance.B_Token +token,product,poduct_pic,productId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+    override suspend fun getProduct(
+        token: String,
+        productId: String,
+    ): RetrofitResource<ProductResponse> {
+        try {
+
+            val data = apiClient.getProduct(AppConstance.B_Token +token,productId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun deleteProduct(
+        token: String,
+        productId: String,
+    ): RetrofitResource<ProductResponse> {
+        try {
+
+            val data = apiClient.deleteProduct(AppConstance.B_Token +token,productId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
 }

@@ -66,38 +66,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * override onBackPressed
-     *
-     */
-/*    @Override
-    override fun onBackPressed() {
-       *//* val fm = supportFragmentManager
-        val backStackCount = fm.backStackEntryCount
-
-        if (backStackCount == 0) {
-            finish()
-        } else if (backStackCount > 1) {
-            val backStackEntry = fm.getBackStackEntryAt(backStackCount - 1)
-            val frag = fm.findFragmentByTag(backStackEntry.name)
-
-            if (frag!!.childFragmentManager.backStackEntryCount > 1) {
-                frag.childFragmentManager.popBackStack()
-            } else {
-                fm.popBackStack()
-            }
-
-        } else {
-            val backStackEntry = fm.getBackStackEntryAt(fm.backStackEntryCount - 1)
-            val frag = fm.findFragmentByTag(backStackEntry.name)
-            if (frag!!.childFragmentManager.backStackEntryCount > 1) {
-                frag.childFragmentManager.popBackStack()
-            } else {
-                finish()
-            }
-        }*//*
-     onBackPressed()
-    }*/
 
     fun switchActivity( intent: Intent){
         startActivity(intent)

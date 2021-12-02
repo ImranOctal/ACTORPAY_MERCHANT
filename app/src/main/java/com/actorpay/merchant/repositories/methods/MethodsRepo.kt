@@ -5,9 +5,11 @@ package com.actorpay.merchant.repositories.methods
 * JAVA/KOTLIN
 * */
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -19,15 +21,18 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Base64
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.actorpay.merchant.R
 import com.actorpay.merchant.database.datastore.DataStoreBase
+import com.octal.actorpay.repositories.AppConstance.AppConstance
 import java.io.UnsupportedEncodingException
 import java.text.DateFormat
 import java.text.ParseException
@@ -185,6 +190,21 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
         textView.text = spannableString
         textView.movementMethod = LinkMovementMethod.getInstance()
         textView.highlightColor = Color.TRANSPARENT
+    }
+
+    fun checkPermission(activity: Activity,permission:String):Boolean {
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                permission
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+
+            return false
+        } else {
+
+          return true
+
+        }
     }
 
 }

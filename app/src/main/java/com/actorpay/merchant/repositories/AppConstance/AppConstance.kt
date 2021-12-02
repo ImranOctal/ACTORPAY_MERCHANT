@@ -20,5 +20,14 @@ class AppConstance {
         const val UPDATE_PROFILE: String = SUB_DOMAIN+SUB_DOMAIN2+ SUB_DOMAIN_MERCHANT+ UPDATE
         const val CHANGE_PASSWORD: String = SUB_DOMAIN+SUB_DOMAIN2+ SUB_DOMAIN_MERCHANT+ "user/change/password"
         const val GET_CONTENT: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "get/static/data/by/cms"
+
+        const val ADD_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+  "products"
+
+
+
+
+        const val STORAGE_REQUEST_CODE: Int = 101
+        const val GALLERY: Int = 102
+
     }
 }

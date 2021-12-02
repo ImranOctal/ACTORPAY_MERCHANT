@@ -272,7 +272,7 @@
                                 android:gravity="center">
 
                                 <Button
-                                    android:id="@+id/addProduct"
+                                    android:id="@+id/updateProduct"
                                     style="@style/btn_main"
                                     android:elevation="2dp"
                                     android:paddingLeft="@dimen/_50sdp"

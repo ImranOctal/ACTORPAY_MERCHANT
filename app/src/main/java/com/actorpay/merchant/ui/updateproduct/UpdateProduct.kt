@@ -1,4 +1,4 @@
-package com.actorpay.merchant.ui.addnewproduct
+package com.actorpay.merchant.ui.updateproduct
 
 
 import android.Manifest
@@ -38,24 +38,28 @@ import java.io.IOException
 import java.util.ArrayList
 import android.content.Intent.getIntent
 import androidx.core.net.toFile
+import com.actorpay.merchant.databinding.ActivityEditProductBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import org.json.JSONObject
 
 
-class AddNewProduct : BaseActivity() {
-    private lateinit var binding: ActivityAddNewProductBinding
+class UpdateProduct : BaseActivity() {
+    private lateinit var binding: ActivityEditProductBinding
     private val homeviewmodel: HomeViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage:File?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_product)
         Installation()
     }
 
     private fun Installation() {
+        homeviewmodel.getProduct("dfsdf")
         binding.toolbar.back.visibility = View.VISIBLE
-        binding.toolbar.ToolbarTitle.text = getString(R.string.addNewProduct)
+        binding.toolbar.ToolbarTitle.text = getString(R.string.updateProduct)
         ClickListners()
         apiResponse()
     }
@@ -64,7 +68,7 @@ class AddNewProduct : BaseActivity() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
         }
-        binding.addProduct.setOnClickListener {
+        binding.updateProduct.setOnClickListener {
             validate()
         }
         binding.uploadImage.setOnClickListener {
@@ -167,14 +171,13 @@ class AddNewProduct : BaseActivity() {
             productJson.put("productPictureUrl","String")
             productJson.put("merchantId",0)
 
-            homeviewmodel.addProduct(productJson.toString(),prodImage!!)
+            homeviewmodel.updateProduct("product Id",productJson.toString(),prodImage!!)
 
         }
 
     }
 
     fun fetchImage() {
-
 
         val galleryIntent = Intent(
             Intent.ACTION_PICK,
@@ -240,12 +243,12 @@ class AddNewProduct : BaseActivity() {
             .withOptions(options)
 
         val intent = uCrop.getIntent(this)
-        croporResult.launch(intent)
+        cropResult.launch(intent)
 
 
     }
 
-    val croporResult =
+    val cropResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
@@ -287,13 +290,13 @@ class AddNewProduct : BaseActivity() {
             homeviewmodel.homeResponseLive.collect {
                 when (it) {
                     is HomeViewModel.ResponseHomeSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
                     }
                     is HomeViewModel.ResponseHomeSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                             CommonDialogsUtils.showCommonDialog(
-                                this@AddNewProduct,
+                                this@UpdateProduct,
                                 homeviewmodel.methodRepo,
                                 "Signed Up",
                                 it.response.message,
@@ -305,7 +308,7 @@ class AddNewProduct : BaseActivity() {
                                     override fun onClick() {
                                         startActivity(
                                             Intent(
-                                                this@AddNewProduct,
+                                                this@UpdateProduct,
                                                 LoginActivity::class.java
                                             )
                                         )
@@ -317,7 +320,28 @@ class AddNewProduct : BaseActivity() {
                                     }
                                 }
                             )
-                        } else {
+                        }
+                        else if(it.response is ProductResponse){
+                            CommonDialogsUtils.showCommonDialog(
+                                this@UpdateProduct,
+                                homeviewmodel.methodRepo,
+                                "Get Prododuct",
+                                it.response.message,
+                                autoCancelable = false,
+                                isCancelAvailable = false,
+                                isOKAvailable = true,
+                                showClickable = false,
+                                callback = object : CommonDialogsUtils.DialogClick {
+                                    override fun onClick() {
+
+                                    }
+
+                                    override fun onCancel() {
+
+                                    }
+                                })
+                        }
+                        else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root

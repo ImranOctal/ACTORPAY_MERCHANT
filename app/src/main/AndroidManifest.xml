@@ -3,6 +3,7 @@
     package="com.actorpay.merchant">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".app.MyApplication"
@@ -36,6 +37,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.updateproduct.UpdateProduct"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.signup.SignupActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -57,6 +62,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
