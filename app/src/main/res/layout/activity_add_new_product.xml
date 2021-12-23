@@ -17,9 +17,8 @@
             android:background="@drawable/top_round_drawble_white"
             android:orientation="vertical"
          >
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <androidx.core.widget.NestedScrollView
+                style="@style/parentFull">
             <LinearLayout
                         style="@style/parent"
                         android:layout_marginBottom="@dimen/_20sdp"
@@ -32,24 +31,23 @@
                             tools:layout_editor_absoluteX="0dp"
                             tools:layout_editor_absoluteY="0dp">
 
-
-
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                style="@style/parent"
                                 android:gravity="center">
 
-                                <ImageView
-                                    android:id="@+id/image"
-                                    android:layout_width="@dimen/_150sdp"
-                                    android:layout_height="@dimen/_150sdp"
-                                    android:visibility="visible"
-                                    android:src="@drawable/demo"
 
-                                    />
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/image"
+                                    android:layout_width="96dp"
+                                    android:layout_height="96dp"
+                                    android:src="@drawable/demo"
+                                    app:civ_border_width="2dp"
+                                    app:civ_border_color="#FF000000"/>
+
                                 <Button
                                     android:id="@+id/uploadImage"
-                                    style="@style/btn_main1"
+                                    style="@style/btn_main_blue"
                                     android:layout_width="wrap_content"
                                     android:elevation="2dp"
                                     android:paddingLeft="@dimen/_5sdp"
@@ -58,23 +56,17 @@
                             </LinearLayout>
 
 
-                            <LinearLayout
-                                android:id="@+id/productNameLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
+
 
 
                                 <EditText
                                     android:id="@+id/productNameEdit"
-                                    style="@style/regular1Full"
-                                    android:background="@color/transparent"
+                                    style="@style/TxtOutlineCustom"
                                     android:hint="@string/productName"
                                     android:inputType="text"
                                     android:autofillHints="name"
                                     android:singleLine="true" />
 
-                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/errorOnName"
@@ -83,27 +75,21 @@
                                 android:visibility="gone" />
 
                             <!--ChooseProductCategory-->
-                            <LinearLayout
-                                android:id="@+id/categoryLay"
-                                style="@style/TxtOutlineWrapHeight"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:orientation="vertical"
-                                >
+
 
                                 <com.skydoves.powerspinner.PowerSpinnerView
-                                   style="@style/parentFull"
-                                    android:background="@color/white"
+                                    style="@style/TxtOutlineCustom"
                                     android:id="@+id/chooseCategory"
                                     android:gravity="start"
                                     app:spinner_arrow_show="true"
                                     app:spinner_arrow_drawable="@drawable/drop_down_arrow"
                                     android:hint="@string/chooseCategory"
-                                    android:paddingVertical="@dimen/_5sdp"
+                                    android:paddingVertical="@dimen/_10sdp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/gray"
                                     android:textSize="14.5sp"
                                     app:spinner_arrow_gravity="end"
-                                    app:spinner_arrow_padding="8dp"
+                                    app:spinner_arrow_padding="1dp"
                                     app:spinner_divider_color="@color/gray"
                                     app:spinner_divider_show="true"
                                     app:spinner_divider_size="0.4dp"
@@ -111,7 +97,7 @@
                                     app:spinner_popup_animation="dropdown"
                                     app:spinner_popup_background="@color/white"
                                     app:spinner_popup_elevation="14dp" />
-                            </LinearLayout>
+
 
                             <TextView
                                 android:id="@+id/error_on_cat"
@@ -119,22 +105,16 @@
                                 android:text="@string/prod_choose_cat"
                                 android:visibility="gone" />
 
-                            <LinearLayout
-                                android:id="@+id/subCategoryLay"
-                                style="@style/TxtOutlineWrapHeight"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:orientation="vertical"
-                                >
+
 
                                 <com.skydoves.powerspinner.PowerSpinnerView
-                                   style="@style/parentFull"
-                                    android:background="@color/white"
+                                    style="@style/TxtOutlineCustom"
                                     android:id="@+id/chooseSubCategory"
                                     android:gravity="start"
                                     app:spinner_arrow_show="true"
                                     app:spinner_arrow_drawable="@drawable/drop_down_arrow"
                                     android:hint="@string/chooseSubCategory"
-                                    android:paddingVertical="@dimen/_5sdp"
+                                    android:paddingVertical="@dimen/_10sdp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/gray"
                                     android:textSize="14.5sp"
@@ -147,8 +127,6 @@
                                     app:spinner_popup_animation="dropdown"
                                     app:spinner_popup_background="@color/white"
                                     app:spinner_popup_elevation="14dp" />
-                            </LinearLayout>
-
 
                             <TextView
                                 android:id="@+id/error_on_subcat"
@@ -157,15 +135,10 @@
                                 android:visibility="gone" />
                             <!--Actual Price-->
 
-                            <LinearLayout
-                                android:id="@+id/actualPriceLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal"
-                                >
+
                                  <EditText
-                                    android:background="@color/transparent"
                                     android:id="@+id/actualPrice"
-                                    style="@style/regular1Full"
+                                     style="@style/TxtOutlineCustom"
                                     android:hint="@string/actualPrice"
                                     android:maxLength="10"
                                      android:autofillHints="creditCardSecurityCode"
@@ -173,7 +146,6 @@
                                     android:singleLine="true" />
 
 
-                            </LinearLayout>
 
 
                             <TextView
@@ -183,16 +155,10 @@
                                 android:visibility="gone" />
 
 
-
-                            <LinearLayout
-                                android:id="@+id/dealPriceLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal"
-                                >
                                 <EditText
-                                    android:background="@color/transparent"
+                                    style="@style/TxtOutlineCustom"
                                     android:id="@+id/dealPrice"
-                                    style="@style/regular1Full"
+
                                     android:hint="@string/dealPrice"
                                     android:maxLength="10"
                                     android:inputType="numberDecimal"
@@ -200,33 +166,52 @@
                                     android:singleLine="true" />
 
 
-                            </LinearLayout>
-
 
                             <TextView
                                 android:id="@+id/errorOndealPrice"
                                 style="@style/errotextViewStyle"
                                 android:text="@string/prod_price_empty"
                                 android:visibility="gone" />
+                            <com.skydoves.powerspinner.PowerSpinnerView
+                                style="@style/TxtOutlineCustom"
+                                android:id="@+id/taxData"
+                                android:gravity="start"
+                                android:hint="@string/enter_taxation"
+                                app:spinner_arrow_show="true"
+                                app:spinner_arrow_drawable="@drawable/drop_down_arrow"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:textSize="14.5sp"
+                                app:spinner_arrow_gravity="end"
+                                app:spinner_arrow_padding="8dp"
+                                app:spinner_divider_color="@color/gray"
+                                app:spinner_divider_show="true"
+                                app:spinner_divider_size="0.4dp"
+                                app:spinner_item_array="@array/productCat"
+                                app:spinner_popup_animation="dropdown"
+                                app:spinner_popup_background="@color/white"
+                                app:spinner_popup_elevation="14dp" />
+
+
+                            <TextView
+                                android:id="@+id/errorOntaxData"
+                                style="@style/errotextViewStyle"
+                                android:text="@string/tax_detail_is_not_be_empty"
+                                android:visibility="gone" />
 
                             <!--quantity-->
-                            <LinearLayout
-                                android:id="@+id/quantityLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal"
-                                >
+
                                 <EditText
-                                    android:background="@color/transparent"
+
                                     android:id="@+id/quantity"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:hint="@string/quantity"
                                     android:inputType="number"
                                     android:maxLength="10"
                                     android:autofillHints="creditCardSecurityCode"
                                     android:singleLine="true" />
 
-
-                            </LinearLayout>
 
 
                             <TextView
@@ -236,16 +221,10 @@
                                 android:visibility="gone" />
                             <!--Full Address-->
 
-                            <LinearLayout
-                                android:id="@+id/discriptionLay"
-                                style="@style/TxtOutlineWrapHeight"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:orientation="horizontal"
-                                >
+
                                 <EditText
-                                    android:background="@color/transparent"
                                     android:id="@+id/description"
-                                    style="@style/regular1WrapHeight"
+                                    style="@style/TxtOutlineCustom"
                                     android:ellipsize="end"
                                     android:hint="@string/discription"
                                     android:autofillHints="postalAddress"
@@ -253,10 +232,6 @@
                                     android:inputType="text"
                                     android:maxLength="500"
                                     />
-
-
-                            </LinearLayout>
-
 
                             <TextView
                                 android:id="@+id/errorOnDescription"
@@ -282,7 +257,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 
         </LinearLayout>

@@ -21,6 +21,7 @@
     <string name="user_type">User Type</string>
 
     <string name="please_try_after_sometime">Something went Wrong</string>
+    <string name="data_not_available">Data Not Available</string>
     <string name="server_not_responding">Server Not Responding!!</string>
 
     <string name="not_connected_internet">Not connected to Internet</string>
@@ -105,6 +106,13 @@
     <string name="terms_of_use">Terms of use</string>
     <string name="agree_our_terms_and_condition">Please agree to our terms to sign up</string>
     <string name="profile_update">Profile Update</string>
+    <string name="tax_detail_is_not_be_empty">Tax Detail is not be empty</string>
+    <string name="enter_taxation">Enter Taxation</string>
+    <string name="no_product_data_found">No Product Data Found</string>
+    <string name="category_not_found">Categories Not Found Please try again</string>
+    <string name="sub_category_not_found">SubCategories Not Found Please try again</string>
+    <string name="tax_not_found">Tax details Not Found Please try again</string>
+    <string name="error_on_tax">Please Choose Tax Details</string>
 
     <string-array name="productCat">
         <item>Home</item>

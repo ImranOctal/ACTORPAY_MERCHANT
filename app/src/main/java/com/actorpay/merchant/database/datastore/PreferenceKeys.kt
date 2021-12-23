@@ -22,5 +22,6 @@ object PreferenceKeys {
     val BUSSINESS_NAME : Preferences.Key<String> = stringPreferencesKey("bussiness_name")
     val EMAIL : Preferences.Key<String> = stringPreferencesKey("email")
     val ACCESS_TOKEN : Preferences.Key<String> = stringPreferencesKey("access_token")
+    val REFRESH_TOKEN : Preferences.Key<String> = stringPreferencesKey("refresh_token")
 
 }

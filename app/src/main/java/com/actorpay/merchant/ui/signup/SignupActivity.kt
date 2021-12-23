@@ -71,11 +71,10 @@ class SignupActivity : BaseActivity() {
         if (binding.emailEdit.text.toString().length<3 || !signUpViewModel.methodRepo.isValidEmail(binding.emailEdit.text.toString())) {
             isValidate=false
             binding.errorOnEmail.visibility = View.VISIBLE
-            signUpViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_search_outline)
         }
         else{
             binding.errorOnEmail.visibility = View.GONE
-            signUpViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_outline_gray)
+
         }
         if (binding.password.text.toString().trim().length<8 || !signUpViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
             isValidate=false
@@ -89,11 +88,9 @@ class SignupActivity : BaseActivity() {
         if (binding.businessName.text.toString().trim().length<3) {
             isValidate=false
             binding.errorOnBusinessName.visibility=View.VISIBLE
-            signUpViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_search_outline)
         }
         else{
             binding.errorOnBusinessName.visibility=View.GONE
-            signUpViewModel.methodRepo.setBackGround(this, binding.businessLay, R.drawable.btn_outline_gray)
 
         }
         if (binding.mobileNumber.text.toString().trim().length<6) {
@@ -121,31 +118,25 @@ class SignupActivity : BaseActivity() {
         {
             isValidate=false
             binding.errorOnShopAddress.visibility = View.VISIBLE
-            signUpViewModel.methodRepo.setBackGround(this, binding.shopLay, R.drawable.btn_search_outline)
         }
         else{
             binding.errorOnShopAddress.visibility = View.GONE
-            signUpViewModel.methodRepo.setBackGround(this, binding.shopLay, R.drawable.btn_outline_gray)
         }
         if(binding.address.text.toString().trim().length<3)
         {
             isValidate=false
             binding.errorOnfullAddress.visibility = View.VISIBLE
-            signUpViewModel.methodRepo.setBackGround(this, binding.addressLay, R.drawable.btn_search_outline)
         }
         else{
             binding.errorOnfullAddress.visibility = View.GONE
-            signUpViewModel.methodRepo.setBackGround(this, binding.addressLay, R.drawable.btn_outline_gray)
         }
         if(binding.shopAct.text.toString().trim().length<3)
         {
             isValidate=false
             binding.errorOnShopAct.visibility = View.VISIBLE
-            signUpViewModel.methodRepo.setBackGround(this, binding.ShopActLay, R.drawable.btn_search_outline)
         }
         else{
             binding.errorOnShopAct.visibility = View.GONE
-            signUpViewModel.methodRepo.setBackGround(this, binding.ShopActLay, R.drawable.btn_outline_gray)
         }
         if (!binding.rememberMe.isChecked){
             isValidate=false

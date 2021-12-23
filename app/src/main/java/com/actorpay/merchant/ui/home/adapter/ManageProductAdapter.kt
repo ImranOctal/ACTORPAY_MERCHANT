@@ -1,31 +1,39 @@
 package com.actorpay.merchant.ui.home.adapter
 
 import android.content.Context
+import android.view.View
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseAdapter
 import com.actorpay.merchant.base.BaseViewHolder
 import com.actorpay.merchant.databinding.ManageProductItemBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
+import com.bumptech.glide.Glide
 
-class ManageProductAdapter ( context: Context,val onClick:(action:Action,position:Int)->Unit) :
-    BaseAdapter<String, ManageProductItemBinding>(context, R.layout.manage_product_item) {
+class ManageProductAdapter(context: Context, val onClick:(position: Int, data: String)->Unit) :
+    BaseAdapter<Item, ManageProductItemBinding>(context, R.layout.manage_product_item) {
 
 
     override fun onViewHolderBind(
         viewHolder: BaseViewHolder<ManageProductItemBinding>,
         binding: ManageProductItemBinding,
         position: Int,
-        data: String
+        data: Item
     ) {
-            binding.root.setOnClickListener {
-                onClick(Action.ActionView,position)
-            }
-            binding.delete.setOnClickListener {
-                onClick(Action.ActionDelete,position)
-            }
+        Glide.with(binding.root).load(data.image).placeholder(R.drawable.demo).into(binding.productImage)
+        binding.titleOfOrder.text = data.name
+        binding.status.visibility=View.GONE
+        binding.actualPrice.text = data.actualPrice.toString()
+        binding.date.text = data.createdAt
+        binding.dealPrice.text = data.dealPrice.toString()
+        binding.root.setOnClickListener {
+            onClick(position,"root")
+        }
+        binding.delete.setOnClickListener {
+            onClick(position,"delete")
+        }
+        binding.edit.setOnClickListener {
+            onClick(position,"edit")
+        }
     }
 }
 
-enum class Action{
-    ActionView,
-    ActionDelete
-}

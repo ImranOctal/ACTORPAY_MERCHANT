@@ -24,11 +24,8 @@ import com.actorpay.merchant.databinding.ActivityAddNewProductBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.login.LoginActivity
-import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.bumptech.glide.Glide
-import com.octal.actorpay.repositories.AppConstance.AppConstance
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GALLERY
 import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -38,23 +35,62 @@ import java.io.IOException
 import java.util.ArrayList
 import android.content.Intent.getIntent
 import androidx.core.net.toFile
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.Data
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
+import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
+import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
+import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
+import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import org.json.JSONObject
 
 
 class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
+    private lateinit var catAdapter: CategoryAdapter
+    private lateinit var taxAdapter: TaxAdapter
+    private lateinit var subCategoryAdapter: SubCategoryAdapter
     private val homeviewmodel: HomeViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
-    var prodImage:File?=null
+    var prodImage: File? = null
+    var taxId:String=""
+    var catId=""
+    var SubCatId=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
+
         Installation()
     }
 
     private fun Installation() {
         binding.toolbar.back.visibility = View.VISIBLE
+        homeviewmodel.getCatogrys()
+        homeviewmodel.getSubCatDetalis()
+        homeviewmodel.getTaxationDetails()
+        catAdapter = CategoryAdapter(binding.chooseCategory)
+        taxAdapter = TaxAdapter(binding.taxData)
+        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
+        catAdapter.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
+                catId=newItem.id
+            }
+        taxAdapter.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
+                taxId=newItem.id
+            }
+        subCategoryAdapter.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener<Item>() { oldIndex: Int, oldItem: Item?, newIndex: Int, newItem: Item ->
+                SubCatId=newItem.id
+            }
+
+        binding.chooseCategory.setSpinnerAdapter(catAdapter)
+        binding.taxData.setSpinnerAdapter(taxAdapter)
+        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
         binding.toolbar.ToolbarTitle.text = getString(R.string.addNewProduct)
         ClickListners()
         apiResponse()
@@ -86,88 +122,93 @@ class AddNewProduct : BaseActivity() {
     fun validate() {
         var isValidate = true
 
-
-
         if (binding.productNameEdit.text.toString().trim().length < 3) {
             isValidate = false
             binding.errorOnName.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOnName.visibility = View.GONE
 
-        if (binding.chooseCategory.selectedIndex == -1) {
+        if (catId=="") {
             isValidate = false
             binding.errorOnCat.visibility = View.VISIBLE
-        }
-         else
-        binding.errorOnCat.visibility = View.GONE
+        } else
+            binding.errorOnCat.visibility = View.GONE
 
-        if (binding.chooseSubCategory.selectedIndex == -1) {
+        if (SubCatId=="") {
             isValidate = false
             binding.errorOnSubcat.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOnSubcat.visibility = View.GONE
 
-        if (binding.actualPrice.text.toString().trim() =="" || binding.actualPrice.text.toString().trim().toFloat() < 1) {
+        if (binding.actualPrice.text.toString().trim() == "" || binding.actualPrice.text.toString()
+                .trim().toFloat() < 1
+        ) {
             isValidate = false
             binding.errorOnActualPrice.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOnActualPrice.visibility = View.GONE
 
-        if (binding.dealPrice.text.toString().trim() =="" || binding.dealPrice.text.toString().trim().toFloat() < 1) {
+        if (binding.dealPrice.text.toString().trim() == "" || binding.dealPrice.text.toString()
+                .trim().toFloat() < 1
+        ) {
             isValidate = false
             binding.errorOndealPrice.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOndealPrice.visibility = View.GONE
 
-        if (binding.quantity.text.toString().trim() =="" || binding.quantity.text.toString().trim().toInt() < 1) {
+        if (binding.quantity.text.toString().trim() == "" || binding.quantity.text.toString().trim()
+                .toInt() < 1
+        ) {
             isValidate = false
             binding.errorOnquantity.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOnquantity.visibility = View.GONE
 
-        if (binding.description.text.toString().trim() =="") {
+        if (binding.description.text.toString().trim() == "") {
             isValidate = false
             binding.errorOnDescription.visibility = View.VISIBLE
-        }
-        else
+        } else
             binding.errorOnDescription.visibility = View.GONE
 
-        if(isValidate){
+        if (taxId == "") {
+            isValidate = false
+            binding.errorOntaxData.visibility = View.VISIBLE
+            binding.errorOntaxData.text=getString(R.string.error_on_tax)
+        } else
+            binding.errorOntaxData.visibility = View.GONE
 
-            if(prodImage==null)
-            {
+
+
+
+        if (isValidate) {
+
+            if (prodImage == null) {
                 showCustomToast("Please Select Product Image")
                 return
             }
 
+            lifecycleScope.launch {
+                val name = binding.productNameEdit.text.toString().trim()
+                val price = binding.actualPrice.text.toString().trim()
+                val dealPrice = binding.dealPrice.text.toString().trim()
+                val desc = binding.description.text.toString().trim()
+                val qaunt = binding.quantity.text.toString().trim()
 
-           val name=binding.productNameEdit.text.toString().trim()
-           val price=binding.actualPrice.text.toString().trim()
-           val dealPrice=binding.dealPrice.text.toString().trim()
-           val desc=binding.description.text.toString().trim()
-           val qaunt=binding.quantity.text.toString().trim()
-           val catIndex=binding.chooseCategory.selectedIndex
-           val subCatIndex=binding.chooseSubCategory.selectedIndex
-            val cat=resources.getStringArray(R.array.productCat).get(catIndex)
-            val subCat=resources.getStringArray(R.array.productCat).get(subCatIndex)
+                val productJson = JSONObject()
+                productJson.put("productId", "")
+                productJson.put("name", name)
+                productJson.put("description", desc)
+                productJson.put("categoryId", catId)
+                productJson.put("subCategoryId", SubCatId)
+                productJson.put("actualPrice", price)
+                productJson.put("dealPrice", dealPrice)
+                productJson.put("merchantId",viewModel.methodRepo.dataStore.getUserId())
+                productJson.put("stockCount", qaunt)
+                productJson.put("taxId", taxId)
 
-            val productJson=JSONObject()
-            productJson.put("productId","")
-            productJson.put("name","name")
-            productJson.put("description",desc)
-            productJson.put("categoryId","1")
-            productJson.put("subCategoryId","2")
-            productJson.put("actualPrice",price)
-            productJson.put("dealPrice",dealPrice)
-            productJson.put("productPictureUrl","String")
-            productJson.put("merchantId",0)
+                homeviewmodel.addProduct(productJson.toString(), prodImage!!)
 
-            homeviewmodel.addProduct(productJson.toString(),prodImage!!)
+            }
 
         }
 
@@ -253,7 +294,7 @@ class AddNewProduct : BaseActivity() {
                 if (data != null) {
                     val resultUri = UCrop.getOutput(data)
 
-                    prodImage=resultUri?.toFile()
+                    prodImage = resultUri?.toFile()
 
                     binding.image.visibility = View.VISIBLE
                     binding.uploadImage.text = getString(R.string.edit_image)
@@ -282,14 +323,15 @@ class AddNewProduct : BaseActivity() {
 
 
     private fun apiResponse() {
+
         lifecycleScope.launch {
 
-            homeviewmodel.homeResponseLive.collect {
+            homeviewmodel.addProductByIDLive.collect {
                 when (it) {
-                    is HomeViewModel.ResponseHomeSealed.loading -> {
+                    is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
                         homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
                     }
-                    is HomeViewModel.ResponseHomeSealed.Success -> {
+                    is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                             CommonDialogsUtils.showCommonDialog(
@@ -325,7 +367,125 @@ class AddNewProduct : BaseActivity() {
                         }
 
                     }
-                    is HomeViewModel.ResponseHomeSealed.ErrorOnResponse -> {
+                    is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                    }
+                }
+
+            }
+        }
+
+        //Category Loded
+        lifecycleScope.launch {
+            homeviewmodel.CatogryLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.CatogrySealed.loading -> {
+                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                    }
+                    is HomeSealedClasses.Companion.CatogrySealed.Success -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        if (it.response is GetAllCategoriesDetails) {
+                            if (it.response.data.size > 0) {
+                                catAdapter.setItems(itemList = it.response.data)
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.category_not_found),
+                                    binding.root
+                                )
+                            }
+
+
+                        } else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                    }
+                }
+
+            }
+        }
+
+        //SubCategory Loded
+        lifecycleScope.launch {
+            homeviewmodel.subCatLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.SubCatSealed.loading -> {
+                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                    }
+                    is HomeSealedClasses.Companion.SubCatSealed.Success -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        if (it.response is GetSubCatDataDetails) {
+                            if (it.response.data.items.size > 0) {
+                                subCategoryAdapter.setItems(itemList = it.response.data.items)
+                            } else showCustomAlert(
+                                getString(R.string.sub_category_not_found),
+                                binding.root
+                            )
+                        } else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                    }
+                }
+
+            }
+        }
+
+        //tax Loded
+        lifecycleScope.launch {
+            homeviewmodel.taxListLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.TaxationSealed.loading -> {
+                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                    }
+                    is HomeSealedClasses.Companion.TaxationSealed.Success -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        if (it.response is GetCurrentTaxDetail) {
+                            if (it.response.data.size > 0) {
+                                taxAdapter.setItems(itemList = it.response.data)
+                            } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
+                        } else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,

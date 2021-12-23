@@ -20,26 +20,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
-import com.actorpay.merchant.databinding.ActivityAddNewProductBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.login.LoginActivity
-import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.bumptech.glide.Glide
-import com.octal.actorpay.repositories.AppConstance.AppConstance
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GALLERY
 import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
-import android.content.Intent.getIntent
 import androidx.core.net.toFile
 import com.actorpay.merchant.databinding.ActivityEditProductBinding
-import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
+import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import org.json.JSONObject
 
@@ -49,15 +45,19 @@ class UpdateProduct : BaseActivity() {
     private val homeviewmodel: HomeViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage:File?=null
+    var productId=""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_product)
+        productId= intent.getStringExtra(AppConstanceData.PRODUCT_ID).toString()
         Installation()
     }
 
     private fun Installation() {
-        homeviewmodel.getProduct("dfsdf")
+
+        homeviewmodel.getProduct(productId)
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.updateProduct)
         ClickListners()
@@ -162,10 +162,10 @@ class UpdateProduct : BaseActivity() {
 
             val productJson=JSONObject()
             productJson.put("productId","")
-            productJson.put("name","name")
+            productJson.put("name",name)
             productJson.put("description",desc)
-            productJson.put("categoryId","1")
-            productJson.put("subCategoryId","2")
+            productJson.put("categoryId",cat)
+            productJson.put("subCategoryId",subCat)
             productJson.put("actualPrice",price)
             productJson.put("dealPrice",dealPrice)
             productJson.put("productPictureUrl","String")
@@ -287,39 +287,15 @@ class UpdateProduct : BaseActivity() {
     private fun apiResponse() {
         lifecycleScope.launch {
 
-            homeviewmodel.homeResponseLive.collect {
+            homeviewmodel.editProductByIDLive.collect {
                 when (it) {
-                    is HomeViewModel.ResponseHomeSealed.loading -> {
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.loading -> {
                         homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
                     }
-                    is HomeViewModel.ResponseHomeSealed.Success -> {
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is SuccessResponse) {
-                            CommonDialogsUtils.showCommonDialog(
-                                this@UpdateProduct,
-                                homeviewmodel.methodRepo,
-                                "Signed Up",
-                                it.response.message,
-                                autoCancelable = false,
-                                isCancelAvailable = false,
-                                isOKAvailable = true,
-                                showClickable = false,
-                                callback = object : CommonDialogsUtils.DialogClick {
-                                    override fun onClick() {
-                                        startActivity(
-                                            Intent(
-                                                this@UpdateProduct,
-                                                LoginActivity::class.java
-                                            )
-                                        )
-                                        finishAffinity()
-                                    }
+                        if (it.response is GetProductDataById) {
 
-                                    override fun onCancel() {
-
-                                    }
-                                }
-                            )
                         }
                         else if(it.response is ProductResponse){
                             CommonDialogsUtils.showCommonDialog(
@@ -349,7 +325,7 @@ class UpdateProduct : BaseActivity() {
                         }
 
                     }
-                    is HomeViewModel.ResponseHomeSealed.ErrorOnResponse -> {
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,

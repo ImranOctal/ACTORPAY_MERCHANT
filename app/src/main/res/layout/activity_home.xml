@@ -10,13 +10,14 @@
         android:soundEffectsEnabled="true"
         tools:openDrawer="left">
 
-<!--manage Products -->
+        <!--manage Products -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg">
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -57,14 +58,21 @@
 
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/manageProduct"
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/swipeLoad"
                         style="@style/parentConstraintMatchHeight"
-                        android:layout_weight=".88"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/manage_product_item" />
+                        android:layout_weight=".88">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/manageProduct"
+                            style="@style/parentFull"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/manage_product_item" />
+
+
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -86,6 +94,17 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_product_data_found"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,10 +141,10 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/user"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -139,12 +158,14 @@
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
                         app:layout_constraintTop_toTopOf="@+id/imageView3" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/reportsLay"
                     android:layout_width="match_parent"
@@ -162,10 +183,10 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/report"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         style="@style/viewParent"
@@ -177,12 +198,14 @@
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="@+id/imageView2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/contactusLay"
                     android:layout_width="match_parent"
@@ -200,10 +223,10 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight=".1"
                         android:src="@drawable/cancel"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         style="@style/viewParent"
@@ -215,12 +238,14 @@
                         app:layout_constraintStart_toEndOf="@+id/imageView"
                         app:layout_constraintTop_toTopOf="@+id/imageView" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/myOrderLay"
                     android:layout_width="match_parent"
@@ -237,10 +262,10 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@drawable/doller"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         style="@style/viewParent"
@@ -252,12 +277,14 @@
                         app:layout_constraintStart_toEndOf="@+id/orderIco"
                         app:layout_constraintTop_toTopOf="@+id/orderIco" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/merchatLay"
                     android:layout_width="match_parent"
@@ -274,10 +301,10 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@drawable/user_group"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         style="@style/viewParent"
@@ -289,12 +316,13 @@
                         app:layout_constraintStart_toEndOf="@+id/imageView4"
                         app:layout_constraintTop_toTopOf="@+id/imageView4" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/change_password_lay"
@@ -312,10 +340,10 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@drawable/user_group"
-                        app:tint="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         style="@style/viewParent"
@@ -333,7 +361,7 @@
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

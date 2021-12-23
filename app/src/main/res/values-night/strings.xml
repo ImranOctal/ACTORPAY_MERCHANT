@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_not_found">Categories Not Found Please try again</string>
+    <string name="error_on_tax">Please Choose Tax Details</string>
+</resources>

@@ -15,14 +15,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.actorpay.merchant.R
+import com.actorpay.merchant.database.prefrence.SharedPre
 import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.ui.login.LoginActivity
+import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.viewmodel.ActorPayViewModel
+import kotlinx.coroutines.delay
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
      val viewModel: ActorPayViewModel by  inject()
+     val sharedPre: SharedPre by  inject()
      val methods by inject<MethodsRepo>()
     val CLICK_TIME = 1000L
     private lateinit var snackBar: Snackbar
@@ -99,7 +105,35 @@ abstract class BaseActivity : AppCompatActivity() {
         textView.setTextColor(Color.WHITE)
         snackBar.show()
     }
+    fun logOut(){
+        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, getString(R.string.log_out),
+            getString(R.string.are_you_sure),
+            autoCancelable = true,
+            isCancelAvailable = true,
+            isOKAvailable = true,
+            showClickable = false,
+            callback = object : CommonDialogsUtils.DialogClick {
+                override fun onClick() {
+                    lifecycleScope.launchWhenCreated {
+                        delay(2000)
+                        viewModel.methodRepo.dataStore.logOut()
+                        startActivity(Intent(this@BaseActivity, LoginActivity::class.java))
+                        finishAffinity()
+                    }
+                }
 
+                override fun onCancel() {
+                }
+            })
+    }
+    fun logOutDirect(){
+        lifecycleScope.launchWhenCreated {
+            delay(2000)
+            viewModel.methodRepo.dataStore.logOut()
+            startActivity(Intent(this@BaseActivity, LoginActivity::class.java))
+            finishAffinity()
+        }
+    }
     fun showCustomToast(msg: String) {
         val myToast = Toast.makeText(
             this,

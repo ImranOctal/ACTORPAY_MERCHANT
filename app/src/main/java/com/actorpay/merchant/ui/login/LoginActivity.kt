@@ -135,6 +135,7 @@ class LoginActivity : BaseActivity() {
                             viewModel.methodRepo.dataStore.setIsLoggedIn(true)
                             viewModel.methodRepo.dataStore.setEmail(it.response.data.email)
                             viewModel.methodRepo.dataStore.setAccessToken(it.response.data.access_token)
+                            viewModel.methodRepo.dataStore.setRefreshToken(it.response.data.refresh_token)
                             viewModel.methodRepo.dataStore.setBussinessName(it.response.data.businessName)
 
 

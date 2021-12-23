@@ -72,6 +72,10 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
         context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.ACCESS_TOKEN,value) }
     }
 
+    override suspend fun setRefreshToken(value: String) {
+        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.REFRESH_TOKEN,value) }
+    }
+
     override suspend fun setBussinessName(value: String) {
 
         context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.BUSSINESS_NAME,value) }
@@ -195,6 +199,10 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
 
     override fun getBussinessName(): Flow<String> {
         return getString(PreferenceKeys.BUSSINESS_NAME)
+    }
+
+    override fun getRefreshToken(): Flow<String> {
+        return getString(PreferenceKeys.REFRESH_TOKEN)
     }
 
 }

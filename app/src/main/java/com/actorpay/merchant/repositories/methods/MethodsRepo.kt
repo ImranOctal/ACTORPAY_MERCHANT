@@ -193,18 +193,10 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
     }
 
     fun checkPermission(activity: Activity,permission:String):Boolean {
-        if (ContextCompat.checkSelfPermission(
-                activity,
-                permission
-            ) == PackageManager.PERMISSION_DENIED
-        ) {
-
-            return false
-        } else {
-
-          return true
-
-        }
+        return ContextCompat.checkSelfPermission(
+            activity,
+            permission
+        ) != PackageManager.PERMISSION_DENIED
     }
 
 }

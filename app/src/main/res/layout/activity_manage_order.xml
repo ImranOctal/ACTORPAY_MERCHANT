@@ -1,50 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/parentFull"
-    android:orientation="vertical"
-    android:background="@color/primary"
-    tools:context=".ui.manageOrder.ManageOrderActivity">
-    <include
-       layout="@layout/toolbar2"
-        android:id="@+id/toolbar"/>
-    <LinearLayout
-       android:background="@drawable/top_round_drawble_white"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout style="@style/parentFull">
 
-        android:orientation="vertical"
-        style="@style/parentFull">
+
+
         <LinearLayout
-            android:id="@+id/businessLay"
-            style="@style/TxtOutline2"
-            android:elevation="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:orientation="horizontal">
+            style="@style/parentFull"
+            android:background="@color/primary"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.manageOrder.ManageOrderActivity">
 
-            <EditText
-                android:id="@+id/searchEdit"
-                style="@style/regular1Full"
-                android:autofillHints="name"
-                android:background="@color/transparent"
-                android:hint="@string/search_hint"
-                android:inputType="textAutoComplete"
-                android:drawableEnd="@drawable/search_ico"
-                android:singleLine="true" />
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar2" />
 
+            <LinearLayout
+                style="@style/parentFull"
+
+                android:background="@drawable/top_round_drawble_white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/businessLay"
+                    style="@style/TxtOutline2"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:elevation="@dimen/_5sdp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/searchEdit"
+                        style="@style/regular1Full"
+                        android:autofillHints="name"
+                        android:background="@color/transparent"
+                        android:drawableEnd="@drawable/search_ico"
+                        android:hint="@string/search_hint"
+                        android:inputType="textAutoComplete"
+                        android:singleLine="true" />
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manageOrder"
+
+                    style="@style/parentFull"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/manage_order_layout_item" />
+
+            </LinearLayout>
 
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-           style="@style/parentFull"
 
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            tools:itemCount="5"
-            tools:listitem="@layout/manage_order_layout_item"
-            android:id="@+id/manageOrder"/>
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="No Order Available"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

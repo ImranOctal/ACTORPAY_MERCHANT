@@ -11,8 +11,15 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.octal.actorpay.repositories.AppConstance.AppConstance
@@ -21,6 +28,7 @@ import com.octal.actorpay.repositories.retrofitrepository.models.content.Product
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
+import retrofit2.Response
 
 class RetrofitMainRepository constructor(var context: Context, private var apiClient: ApiClient) :
     RetrofitRepository {
@@ -186,7 +194,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         token: String,
         product: RequestBody,
         poduct_pic: MultipartBody.Part
-    ): RetrofitResource<ProductResponse> {
+    ): RetrofitResource<AddNewProductResponse> {
         try {
 
             val data = apiClient.addProduct(AppConstance.B_Token +token,product,poduct_pic)
@@ -235,7 +243,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
     override suspend fun getProduct(
         token: String,
         productId: String,
-    ): RetrofitResource<ProductResponse> {
+    ): RetrofitResource<GetProductDataById> {
         try {
 
             val data = apiClient.getProduct(AppConstance.B_Token +token,productId)
@@ -256,16 +264,112 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun deleteProduct(
-        token: String,
-        productId: String,
-    ): RetrofitResource<ProductResponse> {
+    override suspend fun deleteProduct(token: String, productId: String, ): RetrofitResource<DeleteProductResponse> {
         try {
-
             val data = apiClient.deleteProduct(AppConstance.B_Token +token,productId)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun getAllTaxDetail(token: String): RetrofitResource<GetCurrentTaxDetail> {
+        try {
+            val data = apiClient.getAllTaxDataApi(AppConstance.B_Token +token)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun getAllCategoriesDetail(token: String): RetrofitResource<GetAllCategoriesDetails> {
+        try {
+            val data = apiClient.getAllCategoriesDataApi(AppConstance.B_Token +token)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun getProductList(
+        token: String,
+        pageNo: String,
+        pageSize: String,
+        sortBy: String,
+        asc: Boolean,
+        data:JSONObject
+    ): RetrofitResource<GetProductListResponse> {
+        try {
+            val data = apiClient.getProductList(AppConstance.B_Token +token,pageNo,pageSize, sortBy, asc, data = data)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                if(result.data!=null && result.data.items.size>0){
+                    return RetrofitResource.Success(result)
+                }else{
+                    return RetrofitResource.Error(FailResponse(context.getString(R.string.data_not_available),""))
+                }
+
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
+        }
+    }
+
+    override suspend fun getSubCatDataDetailsList(
+        token: String,
+        pageNo: String
+    ): RetrofitResource<GetSubCatDataDetails> {
+        try {
+            val data = apiClient.getSubCategoryList(AppConstance.B_Token +token,pageNo)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                if(result.data!=null && result.data.items.size>0){
+                    return RetrofitResource.Success(result)
+                }else{
+                    return RetrofitResource.Error(FailResponse(context.getString(R.string.data_not_available),""))
+                }
+
             } else {
                 if(data.errorBody()!=null) {
                     val json=JSONObject(data.errorBody()!!.string())

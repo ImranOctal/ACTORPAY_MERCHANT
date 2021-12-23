@@ -46,24 +46,19 @@
                             tools:layout_editor_absoluteX="0dp"
                             tools:layout_editor_absoluteY="0dp">
                             <!--Email -->
-                            <LinearLayout
-                                android:id="@+id/emailLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
+
 
 
                                 <EditText
                                     android:id="@+id/emailEdit"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:autofillHints="emailAddress"
-                                    android:background="@color/transparent"
                                     android:hint="@string/your_email"
                                     android:maxLength="100"
                                     android:inputType="textEmailAddress"
                                     android:singleLine="true" />
 
-                            </LinearLayout>
+
 
                             <TextView
                                 android:id="@+id/errorOnEmail"
@@ -105,23 +100,17 @@
                                 android:text="@string/oops_your_password_is_not_valid"
                                 android:visibility="gone" />
                             <!--Business Name-->
-                            <LinearLayout
-                                android:id="@+id/businessLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal">
+
 
                                 <EditText
                                     android:id="@+id/businessName"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:autofillHints="name"
-                                    android:background="@color/transparent"
                                     android:hint="@string/business"
                                     android:inputType="textAutoComplete"
                                     android:maxLength="50"
                                     android:singleLine="true" />
 
-
-                            </LinearLayout>
 
 
                             <TextView
@@ -162,8 +151,7 @@
                                     app:ccp_autoFormatNumber="false"
                                     app:ccp_clickable="true"
                                     app:ccp_contentColor="@color/black"
-                                    app:ccp_countryAutoDetectionPref="SIM_ONLY"
-                                    app:ccp_countryPreference="US,IN"
+                                    app:ccp_countryPreference="IN"
                                     app:ccp_defaultLanguage="ENGLISH"
                                     app:ccp_defaultNameCode="IN"
                                     app:ccp_flagBorderColor="@color/transparent"
@@ -209,23 +197,15 @@
 
                             <!--Shop Address -->
 
-                            <LinearLayout
-                                android:id="@+id/shopLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal">
+
 
                                 <EditText
                                     android:id="@+id/shopAddress"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:autofillHints="postalAddress"
-                                    android:background="@color/transparent"
                                     android:hint="@string/shopAddress"
                                     android:inputType="textAutoComplete"
                                     android:singleLine="true" />
-
-
-                            </LinearLayout>
-
 
                             <TextView
                                 android:id="@+id/errorOnShopAddress"
@@ -235,23 +215,14 @@
 
                             <!--Full Address-->
 
-                            <LinearLayout
-                                android:id="@+id/addressLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal">
 
                                 <EditText
                                     android:id="@+id/address"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:autofillHints="postalAddress"
-                                    android:background="@color/transparent"
                                     android:hint="@string/address"
                                     android:inputType="textAutoComplete"
                                     android:singleLine="true" />
-
-
-                            </LinearLayout>
-
 
                             <TextView
                                 android:id="@+id/errorOnfullAddress"
@@ -260,22 +231,16 @@
                                 android:visibility="gone" />
 
                             <!--Shop Act or licence number-->
-                            <LinearLayout
-                                android:id="@+id/ShopActLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal">
+
 
                                 <EditText
                                     android:id="@+id/shopAct"
-                                    style="@style/regular1Full"
+                                    style="@style/TxtOutlineCustom"
                                     android:autofillHints="creditCardSecurityCode"
-                                    android:background="@color/transparent"
                                     android:hint="@string/shopact"
                                     android:inputType="textAutoComplete"
                                     android:singleLine="true" />
 
-
-                            </LinearLayout>
 
 
                             <TextView

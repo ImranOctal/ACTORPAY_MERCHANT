@@ -5,6 +5,7 @@ import com.actorpay.merchant.viewmodel.ActorPayViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.actorpay.merchant.database.datastore.*
+import com.actorpay.merchant.database.prefrence.SharedPre
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitMainRepository
@@ -17,7 +18,7 @@ import com.actorpay.merchant.viewmodel.AuthViewModel
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BASE_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BEARER
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATRIBUTE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -40,7 +41,9 @@ private val appKoinModule = module {
     single{
         MethodsRepo(context = androidContext(),dataStore = get())
     }
-
+    single{
+        SharedPre.getInstance(context = androidContext())
+    }
     single<OkHttpClient>{
         OkHttpClient.Builder()
             /* .addInterceptor(okhttp3.Interceptor {chain ->
@@ -55,7 +58,7 @@ private val appKoinModule = module {
     }
     single<okhttp3.Interceptor>{
         okhttp3.Interceptor {chain ->
-            val request: Request =chain.request().newBuilder().addHeader(AUTH, BEARER + TOKEN_ATRIBUTE).build()
+            val request: Request =chain.request().newBuilder().addHeader(AUTH, BEARER + TOKEN_ATTRIBUTE).build()
             chain.proceed(request)
         }
     }

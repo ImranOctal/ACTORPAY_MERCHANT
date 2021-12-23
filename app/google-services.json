@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "535220204532",
+    "project_id": "actorpay-merchant",
+    "storage_bucket": "actorpay-merchant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535220204532:android:663c4f1877113d7e30ffa1",
+        "android_client_info": {
+          "package_name": "com.actorpay.merchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535220204532-hct2mf8l22r91ma8g4h1uq4dpq31gcmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.actorpay.merchant",
+            "certificate_hash": "e59aa989b178f57b27f2b50c967e0681c93afa12"
+          }
+        },
+        {
+          "client_id": "535220204532-ol7p3mgt3u2ogkug3rm5apiav7v06u4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlxpgKo96vL04Mb2CEX-D23DPM5Yt3zTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535220204532-ol7p3mgt3u2ogkug3rm5apiav7v06u4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

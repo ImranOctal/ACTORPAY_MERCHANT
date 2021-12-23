@@ -32,6 +32,9 @@ interface DataStoreBase {
 
     suspend fun setAccessToken(value:String)
 
+    suspend fun setRefreshToken(value:String)
+
+
     suspend fun setBussinessName(value:String)
 
     fun getBoolean(): Flow<Boolean>
@@ -55,4 +58,6 @@ interface DataStoreBase {
     fun getAccessToken(): Flow<String>
 
     fun getBussinessName(): Flow<String>
+
+    fun getRefreshToken(): Flow<String>
 }

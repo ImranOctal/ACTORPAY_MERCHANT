@@ -3,18 +3,34 @@ package com.actorpay.merchant.retrofitrepository.apiclient
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.FILE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -39,8 +55,11 @@ interface ApiClient {
     @GET(AppConstance.GET_PROFILE + IDS)
     suspend fun getProfile(
         @Header(AUTH) token: String,
-        @Path("id") id: String
+        @Path(ID_VAR) id: String
     ): Response<ProfileReesponse>
+
+    @GET(AppConstance.GENRATE_TOKEN_AGAIN)
+    suspend fun getGenratedToken(@Query(TOKEN_ATTRIBUTE) token:String): Response<ProfileReesponse>
 
     @PUT(AppConstance.UPDATE_PROFILE)
     suspend fun saveProfile(
@@ -58,28 +77,58 @@ interface ApiClient {
     @POST(ADD_PRODUCT)
     suspend fun addProduct(
         @Header(AUTH) token: String,
-        @Part("product") product: RequestBody,
+        @Part(PRODUCT) product: RequestBody,
         @Part file: MultipartBody.Part
-    ): Response<ProductResponse>
+    ): Response<AddNewProductResponse>
 
     @Multipart
     @PUT(ADD_PRODUCT+ IDS)
     suspend fun updateProduct(
         @Header(AUTH) token: String,
-        @Part("product") product: RequestBody,
+        @Part(PRODUCT) product: RequestBody,
         @Part file: MultipartBody.Part,
-        @Path("id") id: String
+        @Path(ID_VAR) id: String
     ): Response<ProductResponse>
 
     @GET(ADD_PRODUCT + IDS)
     suspend fun getProduct(
         @Header(AUTH) token: String,
-        @Path("id") id: String
-    ): Response<ProductResponse>
+        @Path(ID_VAR) id: String
+    ): Response<GetProductDataById>
+
+    @POST(PRODUCT_LIST)
+
+    suspend fun getProductList(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: String,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String,
+        @Query(AppConstance.SORT_BY) sortBy: String,
+        @Query(AppConstance.ASCECNDING) asc: Boolean,
+        @Body data:JSONObject
+    ): Response<GetProductListResponse>
 
     @DELETE(ADD_PRODUCT + IDS)
     suspend fun deleteProduct(
         @Header(AUTH) token: String,
-        @Path("id") id: String
-    ): Response<ProductResponse>
+        @Path(ID_VAR) id: String
+    ): Response<DeleteProductResponse>
+
+    @GET(TAX_URL)
+    suspend fun getAllTaxDataApi(
+        @Header(AUTH) token: String
+    ): Response<GetCurrentTaxDetail>
+
+    @GET(CATEGORIES_URL)
+    suspend fun getAllCategoriesDataApi(
+        @Header(AUTH) token: String
+    ): Response<GetAllCategoriesDetails>
+
+    @GET(SUB_CAT_URL)
+    suspend fun getSubCategoryList(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: String,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String="5",
+        @Query(AppConstance.SORT_BY) sortBy: String="createdAt",
+        @Query(AppConstance.ASCECNDING) asc: Boolean=true
+    ): Response<GetSubCatDataDetails>
 }
