@@ -15,6 +15,7 @@ class AppConstance {
         private const val BY:String="by/"
         private const val ID:String="id/"
         const val ID_VAR:String="id"
+        const val PRODUCT_ID:String="productId"
         const val PAGE_NO:String="pageNo"
         const val SORT_BY:String="sortBy"
         const val ASCECNDING:String="asc"
@@ -43,7 +44,8 @@ class AppConstance {
         const val UPDATE_PROFILE: String = SUB_DOMAIN+SUB_DOMAIN2+ SUB_DOMAIN_MERCHANT+ UPDATE
         const val CHANGE_PASSWORD: String = SUB_DOMAIN+SUB_DOMAIN2+ SUB_DOMAIN_MERCHANT+USER+CHANGE+PASSWORD
         const val GET_CONTENT: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+GET_STATIC_CMS
-        const val ADD_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+ PRODUCTS
+        const val ADD_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+ PRODUCTS+"/"
+        const val DELET_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+ PRODUCTS+"/remove"
         const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/active"
         const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/active/categories"
         const val PRODUCT_LIST: String = SUB_DOMAIN+SUB_DOMAIN2+PRODUCTS+"/list/paged"

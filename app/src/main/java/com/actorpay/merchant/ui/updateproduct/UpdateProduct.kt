@@ -56,9 +56,10 @@ class UpdateProduct : BaseActivity() {
     private lateinit var taxAdapter: TaxAdapter
     private lateinit var subCategoryAdapter: SubCategoryAdapter
     private val homeviewmodel: HomeViewModel by inject()
-    private lateinit var categoryList: List<Data>
-    private lateinit var subCategoryList: List<Item>
-    private lateinit var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>
+    private  var categoryList: List<Data>?=null
+    private  var subCategoryList: List<Item>?=null
+    private  var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>?=null
+    private var response:GetProductDataById?=null
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
     var taxId:String=""
@@ -327,36 +328,37 @@ class UpdateProduct : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launch {
-            homeviewmodel.editProductByIDLive.collect {
+            homeviewmodel.getProductByIDLive.collect {
                 when (it) {
-                    is HomeSealedClasses.Companion.ResponseEditProductSealed.loading -> {
+                    is HomeSealedClasses.Companion.ResponseGetProductSealed.loading -> {
                         homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
                     }
-                    is HomeSealedClasses.Companion.ResponseEditProductSealed.Success -> {
+                    is HomeSealedClasses.Companion.ResponseGetProductSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (it.response is GetProductDataById) {
+                            response=it.response
                             Glide.with(binding.root).load(it.response.data.image).placeholder(R.drawable.demo).into(binding.image)
                             binding.actualPrice.setText(it.response.data.actualPrice.toString())
                             binding.dealPrice.setText(it.response.data.dealPrice.toString())
                             binding.description.setText(it.response.data.description.toString())
                             binding.quantity.setText(it.response.data.quantity.toString())
                             binding.productNameEdit.setText(it.response.data.name.toString())
-                            if(categoryList!=null && categoryList.size>0){
-                                for((index, value) in categoryList.withIndex()){
+                            if(categoryList!=null && categoryList!!.size>0){
+                                for((index, value) in categoryList!!.withIndex()){
                                     if(value.id.equals(it.response.data.categoryId)){
                                         binding.chooseCategory.notifyItemSelected(index,value.name)
                                     }
                                 }
                             }
-                            if(subCategoryList!=null && subCategoryList.size>0){
-                                for((index, value) in subCategoryList.withIndex()){
+                            if(subCategoryList!=null && subCategoryList!!.size>0){
+                                for((index, value) in subCategoryList!!.withIndex()){
                                     if(value.id.equals(it.response.data.categoryId)){
                                         binding.chooseSubCategory.notifyItemSelected(index,value.name)
                                     }
                                 }
                             }
-                            if(taxList!=null && taxList.size>0){
-                                for((index, value) in taxList.withIndex()){
+                            if(taxList!=null && taxList!!.size>0){
+                                for((index, value) in taxList!!.withIndex()){
                                     if(value.id.equals(it.response.data.categoryId)){
                                         binding.chooseSubCategory.notifyItemSelected(index,value.taxPercentage.toString())
                                     }
@@ -392,7 +394,7 @@ class UpdateProduct : BaseActivity() {
                         }
 
                     }
-                    is HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse -> {
+                    is HomeSealedClasses.Companion.ResponseGetProductSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
@@ -418,7 +420,17 @@ class UpdateProduct : BaseActivity() {
                         if (it.response is GetAllCategoriesDetails) {
                             if (it.response.data.size > 0) {
                                 categoryList=it.response.data
+                                if(response!=null){
+                                    if(categoryList!=null && categoryList!!.size>0){
+                                        for((index, value) in categoryList!!.withIndex()){
+                                            if(value.id.equals(response!!.data.categoryId)){
+                                                binding.chooseCategory.setText(value.name)
+                                            }
+                                        }
+                                    }
+                                }
                                 catAdapter.setItems(itemList = it.response.data)
+
                             } else {
                                 showCustomAlert(
                                     getString(R.string.category_not_found),
@@ -462,6 +474,15 @@ class UpdateProduct : BaseActivity() {
                         if (it.response is GetSubCatDataDetails) {
                             if (it.response.data.items.size > 0) {
                                 subCategoryList=it.response.data.items
+                                if(response!=null){
+                                    if(subCategoryList!=null && subCategoryList!!.size>0){
+                                        for((index, value) in subCategoryList!!.withIndex()){
+                                            if(value.id.equals(response!!.data.categoryId)){
+                                                binding.chooseSubCategory.setText(value.name)
+                                            }
+                                        }
+                                    }
+                                }
                                 subCategoryAdapter.setItems(itemList = it.response.data.items)
                             } else showCustomAlert(
                                 getString(R.string.sub_category_not_found),
@@ -503,6 +524,13 @@ class UpdateProduct : BaseActivity() {
                             if (it.response.data.size > 0) {
                                 taxList=it.response.data
                                 taxAdapter.setItems(itemList = it.response.data)
+                                if(response!=null && taxList!=null && taxList!!.size>0){
+                                    for((index, value) in taxList!!.withIndex()){
+                                        if(value.id.equals(response!!.data.categoryId)){
+                                            binding.chooseSubCategory.setText(value.taxPercentage.toString())
+                                        }
+                                    }
+                                }
                             } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         } else {
                             showCustomAlert(

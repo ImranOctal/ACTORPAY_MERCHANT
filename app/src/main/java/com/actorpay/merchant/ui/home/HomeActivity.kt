@@ -228,6 +228,9 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
             }
         }
+
+        //productListLivedata
+
         lifecycleScope.launchWhenStarted {
             homeviewmodel.productListLive.collect { action ->
                 when (action) {
@@ -262,6 +265,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
         }
+        //Delete Product
         lifecycleScope.launchWhenStarted {
             homeviewmodel.deleteproductLive.collect { action ->
                 when (action) {
@@ -283,9 +287,9 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         showCustomAlert(action.failResponse!!.message, binding.root)
-                        if (action.failResponse.message.contains("End of input at")) {
+                       /* if (action.failResponse.message.contains("End of input at")) {
                             logOutDirect()
-                        }
+                        }*/
                     }
                     else -> homeviewmodel.methodRepo.hideLoadingDialog()
                 }

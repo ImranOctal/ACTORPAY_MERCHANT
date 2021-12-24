@@ -16,11 +16,13 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.FILE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
@@ -97,7 +99,6 @@ interface ApiClient {
     ): Response<GetProductDataById>
 
     @POST(PRODUCT_LIST)
-
     suspend fun getProductList(
         @Header(AUTH) token: String,
         @Query(AppConstance.PAGE_NO) pageNo: String,
@@ -107,10 +108,10 @@ interface ApiClient {
         @Body data:JSONObject
     ): Response<GetProductListResponse>
 
-    @DELETE(ADD_PRODUCT + IDS)
+    @DELETE(DELET_PRODUCT)
     suspend fun deleteProduct(
         @Header(AUTH) token: String,
-        @Path(ID_VAR) id: String
+        @Query(PRODUCT_ID) id: String
     ): Response<DeleteProductResponse>
 
     @GET(TAX_URL)
