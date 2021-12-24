@@ -194,7 +194,7 @@ class AddNewProduct : BaseActivity() {
                 val qaunt = binding.quantity.text.toString().trim()
 
                 val productJson = JSONObject()
-                productJson.put("productId", "")
+//                productJson.put("productId", "")
                 productJson.put("name", name)
                 productJson.put("description", desc)
                 productJson.put("categoryId", catId)
