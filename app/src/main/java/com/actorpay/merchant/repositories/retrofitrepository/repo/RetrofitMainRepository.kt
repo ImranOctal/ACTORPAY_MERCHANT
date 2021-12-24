@@ -240,6 +240,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
             return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
         }
     }
+
     override suspend fun getProduct(
         token: String,
         productId: String,

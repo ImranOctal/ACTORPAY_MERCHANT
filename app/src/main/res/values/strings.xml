@@ -113,6 +113,7 @@
     <string name="sub_category_not_found">SubCategories Not Found Please try again</string>
     <string name="tax_not_found">Tax details Not Found Please try again</string>
     <string name="error_on_tax">Please Choose Tax Details</string>
+    <string name="updated_product">Update Product</string>
 
     <string-array name="productCat">
         <item>Home</item>
