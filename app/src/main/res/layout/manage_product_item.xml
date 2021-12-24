@@ -49,18 +49,17 @@
                         android:id="@+id/orderStatusSpinner"/>
                 </LinearLayout>
                 <LinearLayout
-                    style="@style/parentConstraintMatch"
                     android:layout_weight=".2"
-                    android:weightSum="2">
+                    style="@style/parentConstraint">
                     <ImageView
-                        style="@style/parentConstraintMatch"
-                        android:layout_weight="@integer/one"
+                       android:layout_height="@dimen/_20sdp"
+                        android:layout_width="@dimen/_20sdp"
                         android:padding="@dimen/_5sdp"
                         android:src="@drawable/edit"
                         android:id="@+id/edit"/>
                     <ImageView
-                        style="@style/parentConstraintMatch"
-                        android:layout_weight="@integer/one"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="@dimen/_20sdp"
                         android:padding="@dimen/_5sdp"
                         android:src="@drawable/delete"
                         android:id="@+id/delete"/>
