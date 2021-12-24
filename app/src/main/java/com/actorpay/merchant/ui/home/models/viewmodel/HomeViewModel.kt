@@ -13,6 +13,7 @@ import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,6 +21,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
+
+
+
 
 class HomeViewModel(
     val dispatcherProvider: CoroutineContextProvider,
@@ -70,7 +74,8 @@ class HomeViewModel(
                 "${System.currentTimeMillis()}.jpg",
                 r1
             )
-        val prod = product.toRequestBody()
+        val prod = product.toRequestBody("application/json".toMediaTypeOrNull())
+
         viewModelScope.launch(dispatcherProvider.IO) {
             addProductByIDLive.value = HomeSealedClasses.Companion.ResponseAddProductSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
