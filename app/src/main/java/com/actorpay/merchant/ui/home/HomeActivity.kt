@@ -273,6 +273,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (action.response is DeleteProductResponse) {
+                            showCustomAlert(action.response.message, binding.root)
                             homeviewmodel.getProductList("0", data = JSONObject())
                         } else {
                             binding.emptyText.visibility = View.VISIBLE
