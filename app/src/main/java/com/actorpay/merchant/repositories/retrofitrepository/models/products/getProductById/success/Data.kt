@@ -13,5 +13,6 @@ data class Data(
     val quantity: Int,
     val status: Boolean,
     val subCategoryId: String,
+    val taxId: String,
     val updatedAt: Any
 )
