@@ -3,6 +3,7 @@ package com.actorpay.merchant.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.actorpay.merchant.database.prefrence.SharedPre
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     val dispatcherProvider: CoroutineContextProvider,
     val methodRepo: MethodsRepo,
-    val apiRepo: RetrofitRepository
+    val apiRepo: RetrofitRepository,
+    val sharedPre:SharedPre
 ) : AndroidViewModel(
     Application()
 ) {
@@ -75,7 +77,7 @@ class AuthViewModel(
             shopAddress,
             fullAddress,
             businessName,
-            licenceNumber
+            licenceNumber,sharedPre.firebaseDeviceToken!!
         )
         viewModelScope.launch(dispatcherProvider.IO) {
             loginResponseLive.value = ResponseLoginSealed.loading()

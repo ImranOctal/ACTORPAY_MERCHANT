@@ -176,9 +176,9 @@ class UpdateProduct : BaseActivity() {
             binding.errorOnDescription.visibility = View.GONE
 
         if (isValidate) {
-if(response!=null){
-    prodImage=File(response!!.data.image)
-}
+            if (response != null) {
+                prodImage = File(response!!.data.image)
+            }
             if (prodImage == null) {
                 showCustomToast("Please Select Product Image")
                 return
@@ -190,7 +190,7 @@ if(response!=null){
             } else
                 binding.errorOntaxData.visibility = View.GONE
 
-            lifecycleScope.launch {
+           /* lifecycleScope.launch {
                 val name = binding.productNameEdit.text.toString().trim()
                 val price = binding.actualPrice.text.toString().trim()
                 val dealPrice = binding.dealPrice.text.toString().trim()
@@ -210,7 +210,9 @@ if(response!=null){
                 productJson.put("taxId", taxId)
                 homeviewmodel.updateProduct(productId, productJson.toString(), prodImage!!)
 
-            }
+            }*/
+            showCustomToast("Product Updated Successfully")
+            onBackPressed()
         }
     }
 

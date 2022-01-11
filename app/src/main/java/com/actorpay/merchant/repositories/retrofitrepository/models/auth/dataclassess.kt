@@ -29,6 +29,7 @@ data class SignUpParams(val email:String,
                         val fullAddress:String,
                         val businessName:String,
                         val licenceNumber:String,
+                        val fcmToken:String
 )
 
 data class ForgetPasswordResponses(

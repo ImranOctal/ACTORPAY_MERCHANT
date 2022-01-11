@@ -76,7 +76,7 @@ private val appKoinModule = module {
         ActorPayViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
     viewModel {
-        AuthViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+        AuthViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get(), sharedPre = get())
     }
     viewModel {
         HomeViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())

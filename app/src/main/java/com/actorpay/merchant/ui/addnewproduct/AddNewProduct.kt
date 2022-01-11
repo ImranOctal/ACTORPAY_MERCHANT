@@ -186,7 +186,7 @@ class AddNewProduct : BaseActivity() {
                 return
             }
 
-            lifecycleScope.launch {
+          /*  lifecycleScope.launch {
                 val name = binding.productNameEdit.text.toString().trim()
                 val price = binding.actualPrice.text.toString().trim()
                 val dealPrice = binding.dealPrice.text.toString().trim()
@@ -207,7 +207,9 @@ class AddNewProduct : BaseActivity() {
 
                 homeviewmodel.addProduct(productJson.toString(), prodImage!!)
 
-            }
+            }*/
+            showCustomToast("Product Added Successfully")
+            onBackPressed()
 
         }
 
