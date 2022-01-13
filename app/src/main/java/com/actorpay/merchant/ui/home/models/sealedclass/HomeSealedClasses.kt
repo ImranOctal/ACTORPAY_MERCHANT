@@ -73,5 +73,13 @@ class HomeSealedClasses {
             class loading : TaxationSealed()
             object Empty : TaxationSealed()
         }
+
+        sealed class ResponseSealed {
+            class Success(val response: Any) : ResponseSealed()
+            class ErrorOnResponse(val failResponse: FailResponse?) : ResponseSealed()
+            class loading : ResponseSealed()
+            object Empty : ResponseSealed()
+        }
+
     }
 }

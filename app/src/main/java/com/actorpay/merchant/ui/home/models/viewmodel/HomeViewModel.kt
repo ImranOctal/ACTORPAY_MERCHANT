@@ -5,15 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
-import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -38,15 +37,15 @@ class HomeViewModel(
     val editProductByIDLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseEditProductSealed>(HomeSealedClasses.Companion.ResponseEditProductSealed.Empty)
     val addProductByIDLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseAddProductSealed>(HomeSealedClasses.Companion.ResponseAddProductSealed.Empty)
     val productListLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseProductListSealed>(HomeSealedClasses.Companion.ResponseProductListSealed.Empty)
+    val getById = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
+    val updateStatus = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
     val deleteproductLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseDeleteSealed>(HomeSealedClasses.Companion.ResponseDeleteSealed.Empty)
     val changePasswordLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseChangePasswordSealed>(HomeSealedClasses.Companion.ResponseChangePasswordSealed.Empty)
     val genrateNewTokenLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseGenrateNewTokenSealed>(HomeSealedClasses.Companion.ResponseGenrateNewTokenSealed.Empty)
     val CatogryLive = MutableStateFlow<HomeSealedClasses.Companion.CatogrySealed>(HomeSealedClasses.Companion.CatogrySealed.Empty)
     val subCatLive = MutableStateFlow<HomeSealedClasses.Companion.SubCatSealed>(HomeSealedClasses.Companion.SubCatSealed.Empty)
     val taxListLive = MutableStateFlow<HomeSealedClasses.Companion.TaxationSealed>(HomeSealedClasses.Companion.TaxationSealed.Empty)
-
-
-
+    val getAllOrder = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
 
     fun changePassword(oldPassword: String, newPassword: String) {
         val body = ChangePasswordParams(oldPassword, newPassword, newPassword)
@@ -68,14 +67,8 @@ class HomeViewModel(
         var r1: RequestBody? = null
         var f1: MultipartBody.Part? = null
         r1 = file.asRequestBody("/*".toMediaTypeOrNull())
-        f1 =
-            MultipartBody.Part.createFormData(
-                "file",
-                "${System.currentTimeMillis()}.jpg",
-                r1
-            )
+        f1 = MultipartBody.Part.createFormData("file", "${System.currentTimeMillis()}.jpg", r1)
         val prod = product.toRequestBody("application/json".toMediaTypeOrNull())
-
         viewModelScope.launch(dispatcherProvider.IO) {
             addProductByIDLive.value = HomeSealedClasses.Companion.ResponseAddProductSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
@@ -86,29 +79,29 @@ class HomeViewModel(
                         HomeSealedClasses.Companion.ResponseAddProductSealed.Success(response.data!!)
                 }
             }
-
         }
     }
 
-    fun updateProduct(productId: String, product: String, file: File) {
+    fun updateProduct(product: String, file: File, isSelect: String) {
         var r1: RequestBody? = null
         var f1: MultipartBody.Part? = null
+
         r1 = file.asRequestBody("/*".toMediaTypeOrNull())
-        f1 =
-            MultipartBody.Part.createFormData(
-                "profile_img",
-                "${System.currentTimeMillis()}.jpg",
-                r1
-            )
-        val prod = product.toRequestBody()
+        val prod = product.toRequestBody("application/json".toMediaTypeOrNull())
+        f1 = MultipartBody.Part.createFormData("file", "${System.currentTimeMillis()}.jpg", r1!!)
+
         viewModelScope.launch(dispatcherProvider.IO) {
             editProductByIDLive.value = HomeSealedClasses.Companion.ResponseEditProductSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.updateProduct(token, productId, prod, f1)) {
-                    is RetrofitResource.Error -> editProductByIDLive.value =
-                        HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse(response.failResponse)
-                    is RetrofitResource.Success -> editProductByIDLive.value =
-                        HomeSealedClasses.Companion.ResponseEditProductSealed.Success(response.data!!)
+             methodRepo.dataStore.getUserId().collect { userId ->
+                    when (val response = apiRepo.updateProduct(token,userId, prod, f1)) {
+                        is RetrofitResource.Error -> editProductByIDLive.value =
+                            HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse(
+                                response.failResponse
+                            )
+                        is RetrofitResource.Success -> editProductByIDLive.value =
+                            HomeSealedClasses.Companion.ResponseEditProductSealed.Success(response.data!!)
+                    }
                 }
             }
 
@@ -116,7 +109,6 @@ class HomeViewModel(
     }
 
     fun getProduct(productId: String) {
-
         viewModelScope.launch(dispatcherProvider.IO) {
             getProductByIDLive.value = HomeSealedClasses.Companion.ResponseGetProductSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
@@ -153,7 +145,7 @@ class HomeViewModel(
             methodRepo.dataStore.getAccessToken().collect { token ->
                 when (val response = apiRepo.getProductList(token, pageno,"100","createdAt",asc = true,data)) {
                     is RetrofitResource.Error -> productListLive.value =
-                       HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse(response.failResponse)
+                        HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> productListLive.value =
                         HomeSealedClasses.Companion.ResponseProductListSealed.Success(response.data!!)
                 }
@@ -166,10 +158,8 @@ class HomeViewModel(
             CatogryLive.value = HomeSealedClasses.Companion.CatogrySealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
                 when (val response = apiRepo.getAllCategoriesDetail(token)) {
-                    is RetrofitResource.Error -> CatogryLive.value =
-                        HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse(response.failResponse)
-                    is RetrofitResource.Success -> CatogryLive.value =
-                        HomeSealedClasses.Companion.CatogrySealed.Success(response.data!!)
+                    is RetrofitResource.Error -> CatogryLive.value = HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> CatogryLive.value = HomeSealedClasses.Companion.CatogrySealed.Success(response.data!!)
                 }
             }
 
@@ -208,5 +198,55 @@ class HomeViewModel(
         }
 
     }
+
+    fun getById() {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            getById.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                methodRepo.dataStore.getUserId().collect { userId ->
+                    when (val response = apiRepo.getById(token, userId)) {
+                        is RetrofitResource.Error -> getById.value = HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
+                        is RetrofitResource.Success -> getById.value =
+                            HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                    }
+                }
+
+            }
+
+        }
+    }
+
+
+    fun getAllOrder(startDate: String, endDate: String, merchantIid: String, status: String, customerEmail: String, orderNo: String) {
+        val body=OrderParams(startDate,endDate,merchantIid,status,customerEmail,orderNo)
+        viewModelScope.launch(dispatcherProvider.IO) {
+            getAllOrder.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                when (val response = apiRepo.getAllOrder(token,body,"0","100",)) {
+                    is RetrofitResource.Error -> getAllOrder.value =
+                        HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> getAllOrder.value =
+                        HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                }
+            }
+        }
+    }
+
+    fun updateStatus(orderNo: String, status: String) {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            updateStatus.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                when (val response = apiRepo.updateStatus(token,orderNo,status)) {
+                    is RetrofitResource.Error -> updateStatus.value = HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> updateStatus.value =
+                        HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                }
+
+            }
+
+        }
+    }
+
+
 
 }

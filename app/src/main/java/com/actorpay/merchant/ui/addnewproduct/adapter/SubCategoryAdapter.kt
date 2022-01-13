@@ -47,7 +47,7 @@ class SubCategoryAdapter(powerSpinnerView: PowerSpinnerView
 
     override fun setItems(itemList: List<Item>) {
         this.spinnerItems.clear()
-       this.spinnerItems= itemList.toMutableList()
+         this.spinnerItems= itemList.toMutableList()
         notifyDataSetChanged()
     }
 

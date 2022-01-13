@@ -4,8 +4,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
-
 /**
  * @Details used for pagination in recylerview
  * @author Iftekhar Ahmed
@@ -82,7 +80,7 @@ public abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollL
             val lastVisibleItemPositions =
                 (mLayoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null);
             // get maximum element within the list
-            lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
+                lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
         }
         if (totalItemCount < previousTotalItemCount) {
             this.currentPage = this.startingPageIndex

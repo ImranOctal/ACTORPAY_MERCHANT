@@ -73,6 +73,7 @@ class SignupActivity : BaseActivity() {
             binding.errorOnEmail.visibility = View.VISIBLE
         }
         else{
+
             binding.errorOnEmail.visibility = View.GONE
 
         }
@@ -99,8 +100,7 @@ class SignupActivity : BaseActivity() {
             binding.errorOnMobile.text=getString(R.string.error_phone)
             signUpViewModel.methodRepo.setBackGround(this, binding.mobileLay, R.drawable.btn_search_outline)
         }
-        else
-        {
+        else {
             if(binding.mobileNumber.text.toString().trim()[0].toString() == "0")
             {
                 isValidate=false
@@ -114,11 +114,11 @@ class SignupActivity : BaseActivity() {
             }
         }
 
-        if(binding.shopAddress.text.toString().trim().length<3)
-        {
+        if(binding.shopAddress.text.toString().trim().length<3) {
             isValidate=false
             binding.errorOnShopAddress.visibility = View.VISIBLE
         }
+
         else{
             binding.errorOnShopAddress.visibility = View.GONE
         }
@@ -210,10 +210,8 @@ class SignupActivity : BaseActivity() {
 
     private fun signUp(){
         val countryCode=binding.singupCcp.selectedCountryCodeWithPlus
-
         signUpViewModel.methodRepo.hideSoftKeypad(this)
-        signUpViewModel.signUp(binding.emailEdit.text.toString().trim(),
-            countryCode,
+        signUpViewModel.signUp(binding.emailEdit.text.toString().trim(), countryCode,
             binding.mobileNumber.text.toString().trim(),
             binding.password.text.toString().trim(),
             binding.shopAddress.text.toString().trim(),

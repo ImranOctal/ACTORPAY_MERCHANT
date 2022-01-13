@@ -46,10 +46,8 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
 ) {
     private var  progressDialog:Dialog?=null
 
-
     fun isValidEmail(email: String): Boolean {
-        val EMAIL_PATTERN =
-            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+        val EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
         return Pattern.compile(EMAIL_PATTERN).matcher(email).matches()
     }
 
@@ -57,6 +55,7 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
         val mobilePattern = "[0-9]{10}"
         return Pattern.matches(mobilePattern, phone)
     }
+
     fun isValidName(name: String):Boolean{
         val pattern = Pattern.compile("^[a-zA-Z\\s]*$")
         val matcher: Matcher = pattern.matcher(name)

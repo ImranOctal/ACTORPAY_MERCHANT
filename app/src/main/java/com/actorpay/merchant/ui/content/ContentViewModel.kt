@@ -30,7 +30,6 @@ class ContentViewModel(val dispatcherProvider: CoroutineContextProvider, val met
 
 
     fun getContent(type: String) {
-
         viewModelScope.launch(dispatcherProvider.IO) {
             contentResponseLive.value = ResponseContentSealed.loading()
             when (val response = apiRepo.getContent(type)) {

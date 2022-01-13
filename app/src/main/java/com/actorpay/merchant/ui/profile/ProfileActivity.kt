@@ -9,7 +9,9 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityProfileBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,10 +28,12 @@ class ProfileActivity : BaseActivity() {
         initialisation()
     }
 
-    private fun initialisation() {
 
+
+    private fun initialisation() {
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.my_profile)
+
         clickListeners()
         getProfile()
         apiResponse()
@@ -39,25 +43,25 @@ class ProfileActivity : BaseActivity() {
 
     fun apiResponse() {
         lifecycleScope.launch {
-
             profileViewModel.profileResponseLive.collect {
                 when (it) {
-
-                    is ProfileViewModel.ResponseProfileSealed.loading -> {
+                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
                         profileViewModel.methodRepo.showLoadingDialog(this@ProfileActivity)
                     }
-                    is ProfileViewModel.ResponseProfileSealed.Success -> {
+                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
                         profileViewModel.methodRepo.hideLoadingDialog()
-                        if (it.response is ProfileReesponse) {
+                        if (it.response is GetUserById) {
                             val reesponse2=it.response
-                            binding.emailEdit.setText(reesponse2.email)
-                            binding.businessName.setText(reesponse2.businessName)
-                            binding.shopAddress.setText(reesponse2.shopAddress)
-                            binding.address.setText(reesponse2.fullAddress)
-                            binding.shopAct.setText(reesponse2.licenceNumber)
-                            binding.mobileNumber.setText(reesponse2.contactNumber)
+                            binding.emailEdit.setText(reesponse2.data.email)
+                            binding.businessName.setText(reesponse2.data.businessName)
+                            binding.shopAddress.setText(reesponse2.data.shopAddress)
+                            binding.address.setText(reesponse2.data.fullAddress)
+                            binding.shopAct.setText(reesponse2.data.licenceNumber)
+                            binding.mobileNumber.setText(reesponse2.data.contactNumber)
+                            binding.textView.text = reesponse2.data.businessName
+
                             try {
-                                var extContact = reesponse2.extensionNumber
+                                var extContact = reesponse2.data.extensionNumber
                                 if (extContact.isNotEmpty()) {
                                     extContact = extContact.replace("+", "")
                                     binding.profileCcp.setCountryForPhoneCode(extContact.toInt())
@@ -68,9 +72,8 @@ class ProfileActivity : BaseActivity() {
                         }
                         else if(it.response is SuccessResponse){
                             CommonDialogsUtils.showCommonDialog(this@ProfileActivity,profileViewModel.methodRepo,getString(
-                                                            R.string.profile_update),it.response.message)
+                                R.string.profile_update),it.response.message)
                         }
-
                         else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
@@ -78,17 +81,16 @@ class ProfileActivity : BaseActivity() {
                             )
                         }
                     }
-                    is ProfileViewModel.ResponseProfileSealed.ErrorOnResponse -> {
+                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
                         profileViewModel.methodRepo.hideLoadingDialog()
                       showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
-                    is ProfileViewModel.ResponseProfileSealed.Empty -> {
+                    is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
                         profileViewModel.methodRepo.hideLoadingDialog()
                     }
-
                 }
             }
         }

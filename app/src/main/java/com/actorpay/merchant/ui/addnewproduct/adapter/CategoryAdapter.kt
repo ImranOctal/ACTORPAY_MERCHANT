@@ -77,7 +77,6 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerView.textSize)
                 setTextColor(spinnerView.currentTextColor)
             }
-
             binding.root.setPadding(
                 spinnerView.paddingLeft,
                 spinnerView.paddingTop,

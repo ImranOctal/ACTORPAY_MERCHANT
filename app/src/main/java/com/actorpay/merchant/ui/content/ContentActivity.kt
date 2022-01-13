@@ -36,7 +36,6 @@ class ContentActivity : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launch {
-
             contentViewModel.contentResponseLive.collect{
                 when(it){
                     is ContentViewModel.ResponseContentSealed.loading->{

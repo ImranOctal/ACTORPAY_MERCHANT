@@ -7,7 +7,6 @@ package com.actorpay.merchant.database.datastore
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreBase {
-
     fun giveRepository(): String
 
     suspend fun logOut(): Unit
@@ -25,6 +24,8 @@ interface DataStoreBase {
     suspend fun update(longKey: Long)
 
     suspend fun setUserId(userId:String)
+
+    suspend fun setMerchantId(merchantId:String)
 
     suspend fun setIsLoggedIn(value:Boolean)
 
@@ -44,6 +45,8 @@ interface DataStoreBase {
     fun getString(): Flow<String>
 
     fun getUserId(): Flow<String>
+
+    fun getMerchantId(): Flow<String>
 
     fun getAppName(): Flow<String>
 

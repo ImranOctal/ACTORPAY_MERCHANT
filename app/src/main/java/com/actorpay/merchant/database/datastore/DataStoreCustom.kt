@@ -18,36 +18,38 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
-class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Preferences>*/) :DataStoreBase {
-    private  val USER_PREFERENCES_NAME = context.getString(R.string.app_name)
+class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Preferences>*/) :
+    DataStoreBase {
+    private val USER_PREFERENCES_NAME = context.getString(R.string.app_name)
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
 
-    override fun giveRepository() : String {
+    override fun giveRepository(): String {
         return this.toString()
     }
 
     override suspend fun logOut() {
-        context.dataStore.edit {preference ->
+        context.dataStore.edit { preference ->
             preference.clear()
         }
     }
 
     //region CRUD Operation
-    override suspend fun update(booleanKey : Boolean) {
+    override suspend fun update(booleanKey: Boolean) {
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.BOOLEAN_KEY] = booleanKey
         }
     }
 
-    override suspend fun update(stringKey : String) {
+    override suspend fun update(stringKey: String) {
 
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.STRING_KEY] = stringKey
         }
     }
-    override suspend fun updateAppname(appName : String) {
+
+    override suspend fun updateAppname(appName: String) {
 
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.APP_NAME] = appName
@@ -56,51 +58,76 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
 
 
     override suspend fun setUserId(userId: String) {
-       context.dataStore.edit { preferences -> preferences[PreferenceKeys.USERID] = userId }
+        context.dataStore.edit { preferences -> preferences[PreferenceKeys.USERID] = userId }
+    }
+
+    override suspend fun setMerchantId(merchantId: String) {
+
+        context.dataStore.edit {
+                preferences -> preferences[PreferenceKeys.MERCHANTID] = merchantId
+
+        }
     }
 
     override suspend fun setIsLoggedIn(value: Boolean) {
-      context.dataStore.edit { mutablePreferences: MutablePreferences -> mutablePreferences.set(IS_APP_LOGGED_IN,value) }
+        context.dataStore.edit { mutablePreferences: MutablePreferences ->
+            mutablePreferences[IS_APP_LOGGED_IN] = value
+        }
     }
 
     override suspend fun setEmail(email: String) {
-        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.EMAIL,email) }
+        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.EMAIL, email) }
     }
 
     override suspend fun setAccessToken(value: String) {
 
-        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.ACCESS_TOKEN,value) }
+        context.dataStore.edit { preferences ->
+            preferences.set(
+                PreferenceKeys.ACCESS_TOKEN,
+                value
+            )
+        }
     }
 
     override suspend fun setRefreshToken(value: String) {
-        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.REFRESH_TOKEN,value) }
+        context.dataStore.edit { preferences ->
+            preferences.set(
+                PreferenceKeys.REFRESH_TOKEN,
+                value
+            )
+        }
     }
 
     override suspend fun setBussinessName(value: String) {
 
-        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.BUSSINESS_NAME,value) }
+        context.dataStore.edit { preferences ->
+            preferences.set(
+                PreferenceKeys.BUSSINESS_NAME,
+                value
+            )
+        }
     }
 
 
-    override suspend fun update(integerKey : Int) {
+    override suspend fun update(integerKey: Int) {
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.INTEGER_KEY] = integerKey
         }
     }
 
-    override suspend fun update(doubleKey : Double) {
+    override suspend fun update(doubleKey: Double) {
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.DOUBLE_KEY] = doubleKey
         }
     }
 
-    override suspend fun update(longKey : Long) {
+    override suspend fun update(longKey: Long) {
         context.dataStore.edit { preference ->
             preference[PreferenceKeys.LONG_KEY] = longKey
         }
     }
 
-    override fun getBoolean() : Flow<Boolean> {
+    override fun getBoolean(): Flow<Boolean> {
         return getBooleanData(PreferenceKeys.BOOLEAN_KEY)
     }
 
@@ -108,7 +135,7 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
         return getBooleanData(IS_APP_LOGGED_IN)
     }
 
-    override fun getString() : Flow<String> {
+    override fun getString(): Flow<String> {
         return getString(PreferenceKeys.STRING_KEY)
     }
 
@@ -116,24 +143,29 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
         return getString(PreferenceKeys.USERID)
     }
 
-    override fun getAppName() : Flow<String> {
+    override fun getMerchantId(): Flow<String> {
+        return getString(PreferenceKeys.MERCHANTID)
+    }
+
+    override fun getAppName(): Flow<String> {
         return getString(PreferenceKeys.APP_NAME)
     }
 
 
-    override fun getLong() : Flow<Long> {
+    override fun getLong(): Flow<Long> {
         return getLong(PreferenceKeys.LONG_KEY)
     }
-    override fun getDouble() : Flow<Double> {
+
+    override fun getDouble(): Flow<Double> {
         return getDouble(PreferenceKeys.DOUBLE_KEY)
     }
 
-    override fun getInteger() : Flow<Int> {
+    override fun getInteger(): Flow<Int> {
         return getIntegerData(PreferenceKeys.INTEGER_KEY)
     }
 
     //Predefine Function to get Data Using Keys
-    fun getString(key:Preferences.Key<String> ):Flow<String>{
+    fun getString(key: Preferences.Key<String>): Flow<String> {
         return context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -144,7 +176,8 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
             preference[key] ?: "Null"
         }
     }
-     fun getLong(key:Preferences.Key<Long>) : Flow<Long> {
+
+    fun getLong(key: Preferences.Key<Long>): Flow<Long> {
         return context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -155,7 +188,8 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
             preference[key] ?: 0L
         }
     }
-     fun getDouble(key:Preferences.Key<Double>) : Flow<Double> {
+
+    fun getDouble(key: Preferences.Key<Double>): Flow<Double> {
         return context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -166,7 +200,8 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
             preference[key] ?: 0.00
         }
     }
-     fun getBooleanData(key:Preferences.Key<Boolean>) : Flow<Boolean> {
+
+    fun getBooleanData(key: Preferences.Key<Boolean>): Flow<Boolean> {
         return context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -177,7 +212,8 @@ class DataStoreCustom(val context:Context/*private val dataStore: DataStore<Pref
             preference.get(key) ?: false
         }
     }
-     fun getIntegerData(key:Preferences.Key<Int>) : Flow<Int> {
+
+    fun getIntegerData(key: Preferences.Key<Int>): Flow<Int> {
         return context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())

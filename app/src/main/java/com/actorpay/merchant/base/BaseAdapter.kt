@@ -21,7 +21,7 @@ abstract class BaseAdapter<N,Y:ViewBinding>(val context: Context, private val la
 
     override fun onBindViewHolder(viewHolder: BaseViewHolder<Y>, position: Int) {
         if(list!=null && list!!.size>0){
-            onViewHolderBind(viewHolder,viewHolder.binding, position, list!!.get(position%2))
+            onViewHolderBind(viewHolder,viewHolder.binding, position, list!![position%2])
         }
     }
 

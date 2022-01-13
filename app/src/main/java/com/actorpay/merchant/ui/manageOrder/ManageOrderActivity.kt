@@ -1,38 +1,170 @@
 package com.actorpay.merchant.ui.manageOrder
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+
+import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.actorpay.merchant.DataBinderMapperImpl
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ActivityManageOrderBinding
-import com.actorpay.merchant.ui.login.LoginActivity
+import com.actorpay.merchant.databinding.DialogFilterBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
+import com.actorpay.merchant.ui.home.HomeViewModel
+import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
-import java.util.ArrayList
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.flow.collect
+import org.koin.android.ext.android.inject
+import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ManageOrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManageOrderBinding
-    private lateinit var adapter: OrderAdapter
+    private val homeviewmodel: HomeViewModel by inject()
+    var startDate=""
+    var endDate=""
+    var merchantIid=""
+    var status=""
+    var orderStatus=""
+    var customerEmail=""
+    var orderNo=""
+    private var list=ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_order)
         Installation()
+        homeviewmodel.getAllOrder(startDate,endDate,merchantIid,status,customerEmail,orderNo)
     }
 
     private fun Installation() {
-        adapter = OrderAdapter(this)
-        adapter.UpdateList(ArrayList<String>())
-        binding.manageOrder.adapter = adapter
-        binding.toolbar.back.visibility = View.VISIBLE
-        binding.toolbar.ToolbarTitle.text = getString(R.string.manage_order)
-        ClickListners()
+        binding.back.setOnClickListener {
+            finish()
+        }
+        binding.ivFilter.setOnClickListener {
+            filterBottomsheet()
+        }
+        apiResponse()
     }
 
-    private fun ClickListners() {
-        binding.toolbar.back.setOnClickListener {
-            onBackPressed()
+    private fun filterBottomsheet() {
+        val binding: DialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter, null, false)
+        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
+        binding.applyFilter.setOnClickListener {
+            if(orderNo.isEmpty()){
+                orderNo= binding.orderNumber.text.toString()
+            }else{
+                orderNo=""
+            }
+            if(startDate.isEmpty()){
+                startDate=""
+            }
+            if(endDate.isEmpty()){
+                endDate=""
+            }
+            if(merchantIid.isNotEmpty()){
+                merchantIid=  binding.merchant.text.toString()
+            }else{
+                merchantIid=""
+            }
+            status=""
+            homeviewmodel.getAllOrder(startDate,endDate,merchantIid,status,customerEmail,orderNo)
+            dialog.dismiss()
         }
+        binding.cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.startDate.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val dpd = DatePickerDialog(this,  { view, yearR, monthOfYear, dayOfMonth ->
+                // Display Selected date in textbox
+                val f =  DecimalFormat("00");
+                val dayMonth=f.format(dayOfMonth)
+                val monthYear=f.format(monthOfYear+1)
+                binding.startDate.setText("$yearR-$monthYear-$dayMonth")
+                startDate= "$year-$monthYear-$dayMonth"
+
+            }, year, month, day)
+            dpd.show()
+            dpd.getDatePicker().setMaxDate(Date().time)
+            dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+            dpd.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        }
+
+        binding.endDate.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val dpd = DatePickerDialog(this,  { view, yearR, monthOfYear, dayOfMonth ->
+
+                // Display Selected date in textbox
+                val f =  DecimalFormat("00");
+                val dayMonth=f.format(dayOfMonth)
+                val monthYear=f.format(monthOfYear+1)
+
+                binding.endDate.setText("$yearR-$monthYear-$dayMonth")
+                endDate= "$year-$monthYear-$dayMonth"
+            }, year, month, day)
+
+            dpd.show()
+            dpd.datePicker.maxDate = Date().time
+            dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+            dpd.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        }
+
+        binding.reset.setOnClickListener {
+            binding.orderNumber.setText("")
+            binding.merchant.setText("")
+            binding.startDate.setText("")
+            binding.endDate.setText("")
+        }
+
+        dialog.setContentView(binding.root)
+        dialog.show()
+    }
+
+    private fun apiResponse() {
+        lifecycleScope.launchWhenStarted {
+            homeviewmodel.getAllOrder.collect { action ->
+                when (action) {
+                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
+                        homeviewmodel.methodRepo.showLoadingDialog(this@ManageOrderActivity)
+                    }
+                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        if (action.response is BeanViewAllOrder) {
+                            if(action.response.data.items.size>0){
+                                binding.manageOrder.layoutManager=LinearLayoutManager(this@ManageOrderActivity,LinearLayoutManager.VERTICAL,false)
+                                binding.manageOrder.adapter=OrderAdapter(this@ManageOrderActivity,action.response.data.items){
+                                    position,status ->
+
+                                    updateStatus(position,action.response.data.items,status)
+
+
+                                }
+                                binding.emptyText.visibility = View.GONE
+                            }
+                        }
+                    }
+                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                    }
+                    else -> homeviewmodel.methodRepo.hideLoadingDialog()
+                }
+            }
+        }
+    }
+    private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
+        homeviewmodel.updateStatus(items[position].orderNo,status)
     }
 }

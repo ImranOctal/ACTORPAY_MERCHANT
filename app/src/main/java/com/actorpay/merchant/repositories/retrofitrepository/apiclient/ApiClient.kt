@@ -3,11 +3,16 @@ package com.actorpay.merchant.retrofitrepository.apiclient
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
+
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
@@ -17,7 +22,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_P
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.FILE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
@@ -28,6 +33,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_C
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
@@ -58,7 +64,14 @@ interface ApiClient {
     suspend fun getProfile(
         @Header(AUTH) token: String,
         @Path(ID_VAR) id: String
-    ): Response<ProfileReesponse>
+    ): Response<GetUserById>
+
+
+    @GET(AppConstance.GET_BY_ID + IDS)
+    suspend fun getById(
+        @Header(AUTH) token: String,
+        @Path(ID_VAR) id: String
+    ): Response<GetUserById>
 
     @GET(AppConstance.GENRATE_TOKEN_AGAIN)
     suspend fun getGenratedToken(@Query(TOKEN_ATTRIBUTE) token:String): Response<ProfileReesponse>
@@ -83,13 +96,16 @@ interface ApiClient {
         @Part file: MultipartBody.Part
     ): Response<AddNewProductResponse>
 
+
+
+
     @Multipart
     @PUT(ADD_PRODUCT+ IDS)
     suspend fun updateProduct(
         @Header(AUTH) token: String,
+        @Path(ID_VAR) id: String,
         @Part(PRODUCT) product: RequestBody,
-        @Part file: MultipartBody.Part,
-        @Path(ID_VAR) id: String
+        @Part file: MultipartBody.Part
     ): Response<ProductResponse>
 
     @GET(ADD_PRODUCT + IDS)
@@ -132,4 +148,20 @@ interface ApiClient {
         @Query(AppConstance.SORT_BY) sortBy: String="createdAt",
         @Query(AppConstance.ASCECNDING) asc: Boolean=true
     ): Response<GetSubCatDataDetails>
+
+
+    @POST(GET_ALL_ORDER)
+    suspend fun getAllOrders(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: String,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String="10",
+        @Body orderParam: OrderParams
+    ): Response<BeanViewAllOrder>
+
+    @PUT(UPDATE_STATUS)
+    suspend fun updateStatus(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.STATUS) status: String,
+        @Query(AppConstance.ORDERNO) orderNo: String,
+    ): Response<UpdateOrderStatus>
 }

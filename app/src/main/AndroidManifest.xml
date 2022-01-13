@@ -3,7 +3,7 @@
     package="com.actorpay.merchant">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.MyApplication"
@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.manageOrder.OrderDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.content.ContentActivity"
             android:exported="false" />
@@ -31,7 +34,8 @@
         <activity
             android:name=".ui.manageOrder.ManageOrderActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.addnewproduct.AddNewProduct"
             android:exported="false"
@@ -51,7 +55,8 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -66,15 +71,15 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait" />
 
-
         <service
             android:name=".notification.NotificationManager"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="true" />
@@ -84,10 +89,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo" />
+
         <service
             android:name="com.google.firebase.components.ComponentDiscoveryService"
             android:directBootAware="true"
-
             android:exported="false">
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
@@ -108,7 +113,6 @@
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
-
         </service>
 
         <provider
@@ -117,6 +121,7 @@
             android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />
+
         <receiver
             android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
             android:exported="true"

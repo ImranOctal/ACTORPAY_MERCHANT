@@ -15,8 +15,12 @@ class AppConstance {
         private const val BY:String="by/"
         private const val ID:String="id/"
         const val ID_VAR:String="id"
+        const val dollar:String="$"
+        const val rupee:String="₹"
         const val PRODUCT_ID:String="productId"
         const val PAGE_NO:String="pageNo"
+        const val STATUS:String="status"
+        const val ORDERNO:String="orderNo"
         const val SORT_BY:String="sortBy"
         const val ASCECNDING:String="asc"
         const val PAGE_SIZE:String="pageSize"
@@ -34,6 +38,7 @@ class AppConstance {
         private const val PASSWORD:String="password"
         private const val LOGIN_VAR:String="login"
         private const val USER:String="user"
+        private const val ORDER:String="orders/"
         private const val CHANGE:String="/change/"
         const val GET_STATIC_CMS:String="get/static/data/by/cms"
         private const val SIGNUP_VAR:String="signup"
@@ -49,12 +54,11 @@ class AppConstance {
         const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/active"
         const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/active/categories"
         const val PRODUCT_LIST: String = SUB_DOMAIN+SUB_DOMAIN2+PRODUCTS+"/list/paged"
+        const val GET_BY_ID: String = SUB_DOMAIN+SUB_DOMAIN2+SUB_DOMAIN_MERCHANT+ BY+ ID
         const val SUB_CAT_URL: String = SUB_DOMAIN+SUB_DOMAIN2+"get/all/subcategories/paged"
         const val GENRATE_TOKEN_AGAIN: String = SUB_DOMAIN+USER_SERVICE+SUB_DOMAIN3+SLASH_TOKEN+REFRESH
-
-
-
-
+        const val GET_ALL_ORDER:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"list/paged"
+        const val UPDATE_STATUS:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"status"
 
 
     }

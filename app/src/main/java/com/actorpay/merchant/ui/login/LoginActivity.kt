@@ -26,8 +26,6 @@ class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var disposable: Disposable
     private val loginViewModel: AuthViewModel by inject()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -41,20 +39,19 @@ class LoginActivity : BaseActivity() {
            }*/
         clickListeners()
     }
-
     private fun clickListeners() {
         disposable = binding.signinBtn.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                validate()
+             validate()
             }
         disposable = binding.forgetPassword.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread()).subscribe {
-                forgetPassword()
-            }
-    }
+                .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                    forgetPassword()
+                }
+      }
 
-    private fun validate() {
+      private fun validate() {
         if (binding.emailEdit.text == null || binding.emailEdit.text.isEmpty()) {
             binding.errorOnEmail.visibility = View.VISIBLE
             binding.errorOnEmail.text = getString(R.string.email_empty)
@@ -68,11 +65,7 @@ class LoginActivity : BaseActivity() {
             binding.errorOnEmail.visibility = View.VISIBLE
             binding.errorOnEmail.text = getString(R.string.invalid_email)
             binding.errorOnPassword.visibility = View.GONE
-            methods.setBackGround(
-                baseContext(),
-                binding.emailLay,
-                R.drawable.btn_search_outline
-            )
+            methods.setBackGround(baseContext(), binding.emailLay, R.drawable.btn_search_outline)
         } else if (binding.password.text == null || binding.password.text.isEmpty()) {
             binding.errorOnPassword.visibility = View.VISIBLE
             binding.errorOnPassword.text = getString(R.string.oops_your_password_is_empty)
@@ -85,10 +78,9 @@ class LoginActivity : BaseActivity() {
             methods.setBackGround(
                 baseContext(),
                 binding.passLay,
-                R.drawable.btn_search_outline
-            )
-        } else if (!binding.rememberMe.isChecked) {
-//                    showCustomAlert(getString(R.string.remember_me), binding.root)
+                R.drawable.btn_search_outline)
+        }else if (!binding.rememberMe.isChecked) {
+          // showCustomAlert(getString(R.string.remember_me), binding.root)
             binding.errorOnEmail.visibility = View.GONE
             binding.errorOnPassword.visibility = View.GONE
             methods.setBackGround(
@@ -121,7 +113,6 @@ class LoginActivity : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launch {
-
             loginViewModel.loginResponseLive.collect {
                 when (it) {
                     is AuthViewModel.ResponseLoginSealed.loading -> {
@@ -130,15 +121,12 @@ class LoginActivity : BaseActivity() {
                     is AuthViewModel.ResponseLoginSealed.Success -> {
                         loginViewModel.methodRepo.hideLoadingDialog()
                         if (it.response is LoginResponses) {
-
                             viewModel.methodRepo.dataStore.setUserId(it.response.data.id)
                             viewModel.methodRepo.dataStore.setIsLoggedIn(true)
                             viewModel.methodRepo.dataStore.setEmail(it.response.data.email)
                             viewModel.methodRepo.dataStore.setAccessToken(it.response.data.access_token)
                             viewModel.methodRepo.dataStore.setRefreshToken(it.response.data.refresh_token)
                             viewModel.methodRepo.dataStore.setBussinessName(it.response.data.businessName)
-
-
                             showCustomAlert(
                                 "Logged in Successfully",
                                 binding.root
@@ -159,7 +147,6 @@ class LoginActivity : BaseActivity() {
                                 binding.root
                             )
                         }
-
                     }
                     is AuthViewModel.ResponseLoginSealed.ErrorOnResponse -> {
                         loginViewModel.methodRepo.hideLoadingDialog()
@@ -172,11 +159,9 @@ class LoginActivity : BaseActivity() {
                         loginViewModel.methodRepo.hideLoadingDialog()
                     }
                 }
-
             }
         }
     }
-
     fun login() {
         loginViewModel.methodRepo.hideSoftKeypad(this)
         loginViewModel.login(
@@ -184,6 +169,7 @@ class LoginActivity : BaseActivity() {
             binding.password.text.toString().trim()
         )
     }
+
 
     fun forgetPassword() {
         ForgetPasswordDialog().show(this, loginViewModel.methodRepo) { email ->

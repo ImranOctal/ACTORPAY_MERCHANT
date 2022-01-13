@@ -9,7 +9,7 @@
     android:background="@color/primary"
     tools:context=".ui.login.LoginActivity">
     <include layout="@layout/toolbar2"
-    android:id="@+id/toolbar"/>
+     android:id="@+id/toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@drawable/top_round_drawble_white"
@@ -118,7 +118,6 @@
                 </LinearLayout>
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,6 +130,9 @@
                         android:paddingLeft="@dimen/_50sdp"
                         android:paddingRight="@dimen/_50sdp"
                         android:text="@string/login" />
+
+
+
                 </LinearLayout>
 
                 <TextView
@@ -140,8 +142,6 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:text="@string/loginwithFacial"
                     />
-
-
 
             </LinearLayout>
         </LinearLayout>

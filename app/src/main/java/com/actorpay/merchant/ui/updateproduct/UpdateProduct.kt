@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,7 +34,6 @@ import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
-import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.bumptech.glide.Glide
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
@@ -54,8 +54,7 @@ class UpdateProduct : BaseActivity() {
     private val homeviewmodel: HomeViewModel by inject()
     private var categoryList: List<Data>? = null
     private var subCategoryList: List<Item>? = null
-    private var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>? =
-        null
+    private var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>? = null
     private var response: GetProductDataById? = null
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
@@ -63,6 +62,8 @@ class UpdateProduct : BaseActivity() {
     var catId = ""
     var SubCatId = ""
     var productId = ""
+    var isSelect=""
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,9 +177,6 @@ class UpdateProduct : BaseActivity() {
             binding.errorOnDescription.visibility = View.GONE
 
         if (isValidate) {
-if(response!=null){
-    prodImage=File(response!!.data.image)
-}
             if (prodImage == null) {
                 showCustomToast("Please Select Product Image")
                 return
@@ -191,41 +189,36 @@ if(response!=null){
                 binding.errorOntaxData.visibility = View.GONE
 
             lifecycleScope.launch {
-                val name = binding.productNameEdit.text.toString().trim()
-                val price = binding.actualPrice.text.toString().trim()
-                val dealPrice = binding.dealPrice.text.toString().trim()
-                val desc = binding.description.text.toString().trim()
-                val qaunt = binding.quantity.text.toString().trim()
-
-                val productJson = JSONObject()
-                productJson.put("productId", "")
-                productJson.put("name", name)
-                productJson.put("description", desc)
-                productJson.put("categoryId", catId)
-                productJson.put("subCategoryId", SubCatId)
-                productJson.put("actualPrice", price)
-                productJson.put("dealPrice", dealPrice)
-                productJson.put("merchantId", viewModel.methodRepo.dataStore.getUserId())
-                productJson.put("stockCount", qaunt)
-                productJson.put("taxId", taxId)
-                homeviewmodel.updateProduct(productId, productJson.toString(), prodImage!!)
+                viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
+                    val name = binding.productNameEdit.text.toString().trim()
+                    val price = binding.actualPrice.text.toString().trim()
+                    val dealPrice = binding.dealPrice.text.toString().trim()
+                    val desc = binding.description.text.toString().trim()
+                    val qaunt = binding.quantity.text.toString().trim()
+                    val productJson = JSONObject()
+                    productJson.put("productId", intent.getStringExtra(AppConstanceData.PRODUCT_ID))
+                    productJson.put("name", name)
+                    productJson.put("description", desc)
+                    productJson.put("categoryId", catId)
+                    productJson.put("subCategoryId", SubCatId)
+                    productJson.put("actualPrice", price)
+                    productJson.put("dealPrice", dealPrice)
+                    productJson.put("merchantId", merchantId)
+                    productJson.put("stockCount", qaunt)
+                    productJson.put("taxId", taxId)
+                    homeviewmodel.updateProduct(productJson.toString(), prodImage!!,isSelect)
+                    Log.e("json>>", productJson.toString())
+                }
 
             }
         }
     }
 
     fun fetchImage() {
-
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryForResult.launch(galleryIntent)
     }
-
-    private val permReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+    private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
 
             if (permission) {
                 fetchImage()
@@ -238,12 +231,9 @@ if(response!=null){
                 } else {
                     showCustomToast("Permission Denied")
                 }
-
             }
         }
-
-    val galleryForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+     val galleryForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 if (data != null) {
@@ -255,7 +245,6 @@ if(response!=null){
                         e.printStackTrace()
 
                     }
-
                 }
 
             }
@@ -263,63 +252,46 @@ if(response!=null){
 
     private fun cropImage(sourceUri: Uri) {
         val destinationUri: Uri = Uri.fromFile(
-            File(
-                cacheDir,
-                queryName(contentResolver, sourceUri)
-            )
+            File(getCacheDir(), queryName(getContentResolver(), sourceUri))
         )
-        val options: UCrop.Options = UCrop.Options()
-        options.setCompressionQuality(80)
-        options.setToolbarColor(ContextCompat.getColor(this, R.color.black))
-        options.setStatusBarColor(ContextCompat.getColor(this, R.color.black))
-        options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white))
-
-        options.withAspectRatio(1f, 1f)
-
-        val uCrop = UCrop.of(sourceUri, destinationUri)
-            .withOptions(options)
-
+        val options: UCrop.Options = UCrop.Options();
+        options.setCompressionQuality(80);
+        options.setToolbarColor(ContextCompat.getColor(this, R.color.black));
+        options.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white));
+        options.withAspectRatio(1f, 1f);
+        val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
         val intent = uCrop.getIntent(this)
-        cropResult.launch(intent)
-
-
+        croporResult.launch(intent)
     }
+    val croporResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
 
-    val cropResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-
-                if (data != null) {
-                    val resultUri = UCrop.getOutput(data)
-
-                    prodImage = resultUri?.toFile()
-
-                    binding.image.visibility = View.VISIBLE
-                    binding.uploadImage.text = getString(R.string.edit_image)
-                    Glide.with(this).load(resultUri).error(R.drawable.logo)
-                        .into(binding.image)
+            if (data != null) {
+                val resultUri = UCrop.getOutput(data)
+                prodImage = resultUri?.toFile()
+                isSelect="isSelect"
+                binding.image.visibility = View.VISIBLE
+                binding.uploadImage.text = getString(R.string.edit_image)
+                Glide.with(this).load(resultUri).error(R.drawable.logo).into(binding.image)
 //                val bitmap = (mBinding.profilePic.getDrawable() as BitmapDrawable).bitmap
 //                val file = UtilityHelper.createFile(this, bitmap)
 
-                }
             }
-        }
-
-    private fun queryName(resolver: ContentResolver, uri: Uri): String {
-        val returnCursor: Cursor? =
-            resolver.query(uri, null, null, null, null)
-
-        returnCursor.let {
-
-            val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            returnCursor.moveToFirst()
-            val name: String = returnCursor.getString(nameIndex)
-            returnCursor.close()
-            return name
         }
     }
 
+    private fun queryName(resolver: ContentResolver, uri: Uri): String {
+        val returnCursor: Cursor? = resolver.query(uri, null, null, null, null)
+        returnCursor.let {
+            val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            val name: String = returnCursor.getString(nameIndex);
+            returnCursor.close();
+            return name;
+        }
+    }
 
     private fun apiResponse() {
         // load data order
@@ -333,9 +305,7 @@ if(response!=null){
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (it.response is GetProductDataById) {
                             response = it.response
-                            Glide.with(binding.root).load(it.response.data.image)
-                                .placeholder(R.drawable.demo).into(binding.image)
-
+                            Glide.with(binding.root).load(it.response.data.image).placeholder(R.drawable.demo).into(binding.image)
                             binding.actualPrice.setText(it.response.data.actualPrice.toString())
                             binding.dealPrice.setText(it.response.data.dealPrice.toString())
                             binding.description.setText(it.response.data.description.toString())
@@ -368,27 +338,7 @@ if(response!=null){
                                     }
                                 }
                             }
-
-                        } else if (it.response is ProductResponse) {
-                            CommonDialogsUtils.showCommonDialog(
-                                this@UpdateProduct,
-                                homeviewmodel.methodRepo,
-                                "Get Prododuct",
-                                it.response.message,
-                                autoCancelable = false,
-                                isCancelAvailable = false,
-                                isOKAvailable = true,
-                                showClickable = false,
-                                callback = object : CommonDialogsUtils.DialogClick {
-                                    override fun onClick() {
-
-                                    }
-
-                                    override fun onCancel() {
-
-                                    }
-                                })
-                        } else {
+                        }  else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root
@@ -460,6 +410,7 @@ if(response!=null){
         lifecycleScope.launch {
             homeviewmodel.subCatLive.collect {
                 when (it) {
+
                     is HomeSealedClasses.Companion.SubCatSealed.loading -> {
                         homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
                     }
@@ -480,7 +431,6 @@ if(response!=null){
                                 binding.root
                             )
                         }
-
                     }
                     is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
@@ -522,6 +472,39 @@ if(response!=null){
 
                     }
                     is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                    }
+                }
+
+            }
+        }
+
+        //updateProduct
+        lifecycleScope.launch {
+            homeviewmodel.editProductByIDLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.loading -> {
+                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                    }
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.Success -> {
+                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        if (it.response is ProductResponse) {
+
+                            setResult(Activity.RESULT_OK)
+                            finish()
+
+                        }
+
+
+                    }
+                    is HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,

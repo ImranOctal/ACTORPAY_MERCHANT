@@ -5,36 +5,24 @@ import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toFile
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityAddNewProductBinding
-import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.login.LoginActivity
-import com.actorpay.merchant.utils.CommonDialogsUtils
-import com.bumptech.glide.Glide
-import com.yalantis.ucrop.UCrop
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import java.io.File
-import java.io.IOException
-import java.util.ArrayList
-import android.content.Intent.getIntent
-import androidx.core.net.toFile
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
@@ -43,9 +31,19 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Get
 import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
 import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
+import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+import com.actorpay.merchant.ui.login.LoginActivity
+import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.bumptech.glide.Glide
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
+import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import org.koin.android.ext.android.inject
+import java.io.File
+import java.io.IOException
 
 
 class AddNewProduct : BaseActivity() {
@@ -56,14 +54,15 @@ class AddNewProduct : BaseActivity() {
     private val homeviewmodel: HomeViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
-    var taxId:String=""
-    var catId=""
-    var SubCatId=""
+    var taxId: String = ""
+    var catId = ""
+    var SubCatId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
         Installation()
+
     }
 
     private fun Installation() {
@@ -76,15 +75,15 @@ class AddNewProduct : BaseActivity() {
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
         catAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
-                catId=newItem.id
+                catId = newItem.id
             }
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
-                taxId=newItem.id
+                taxId = newItem.id
             }
         subCategoryAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<Item>() { oldIndex: Int, oldItem: Item?, newIndex: Int, newItem: Item ->
-                SubCatId=newItem.id
+                SubCatId = newItem.id
             }
 
         binding.chooseCategory.setSpinnerAdapter(catAdapter)
@@ -93,7 +92,10 @@ class AddNewProduct : BaseActivity() {
         binding.toolbar.ToolbarTitle.text = getString(R.string.addNewProduct)
         ClickListners()
         apiResponse()
+
+
     }
+
 
     private fun ClickListners() {
         binding.toolbar.back.setOnClickListener {
@@ -114,9 +116,7 @@ class AddNewProduct : BaseActivity() {
                 fetchImage()
             }
         }
-
     }
-
 
     fun validate() {
         var isValidate = true
@@ -127,13 +127,13 @@ class AddNewProduct : BaseActivity() {
         } else
             binding.errorOnName.visibility = View.GONE
 
-        if (catId=="") {
+        if (catId == "") {
             isValidate = false
             binding.errorOnCat.visibility = View.VISIBLE
         } else
             binding.errorOnCat.visibility = View.GONE
 
-        if (SubCatId=="") {
+        if (SubCatId == "") {
             isValidate = false
             binding.errorOnSubcat.visibility = View.VISIBLE
         } else
@@ -172,50 +172,39 @@ class AddNewProduct : BaseActivity() {
         if (taxId == "") {
             isValidate = false
             binding.errorOntaxData.visibility = View.VISIBLE
-            binding.errorOntaxData.text=getString(R.string.error_on_tax)
+            binding.errorOntaxData.text = getString(R.string.error_on_tax)
         } else
             binding.errorOntaxData.visibility = View.GONE
-
-
-
-
         if (isValidate) {
-
             if (prodImage == null) {
                 showCustomToast("Please Select Product Image")
                 return
             }
-
             lifecycleScope.launch {
-                val name = binding.productNameEdit.text.toString().trim()
-                val price = binding.actualPrice.text.toString().trim()
-                val dealPrice = binding.dealPrice.text.toString().trim()
-                val desc = binding.description.text.toString().trim()
-                val qaunt = binding.quantity.text.toString().trim()
-
-                val productJson = JSONObject()
-//                productJson.put("productId", "")
-                productJson.put("name", name)
-                productJson.put("description", desc)
-                productJson.put("categoryId", catId)
-                productJson.put("subCategoryId", SubCatId)
-                productJson.put("actualPrice", price)
-                productJson.put("dealPrice", dealPrice)
-                productJson.put("merchantId",viewModel.methodRepo.dataStore.getUserId())
-                productJson.put("stockCount", qaunt)
-                productJson.put("taxId", taxId)
-
-                homeviewmodel.addProduct(productJson.toString(), prodImage!!)
-
+                viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
+                    val name = binding.productNameEdit.text.toString().trim()
+                    val price = binding.actualPrice.text.toString().trim()
+                    val dealPrice = binding.dealPrice.text.toString().trim()
+                    val desc = binding.description.text.toString().trim()
+                    val qaunt = binding.quantity.text.toString().trim()
+                    val productJson = JSONObject()
+//                  productJson.put("productId", "")
+                    productJson.put("name", name)
+                    productJson.put("description", desc)
+                    productJson.put("categoryId", catId)
+                    productJson.put("subCategoryId", SubCatId)
+                    productJson.put("actualPrice", price)
+                    productJson.put("dealPrice", dealPrice)
+                    productJson.put("merchantId", merchantId)
+                    productJson.put("stockCount", qaunt)
+                    productJson.put("taxId", taxId)
+                    homeviewmodel.addProduct(productJson.toString(), prodImage!!)
+                    Log.e("merchantId>>",merchantId)
+                }
             }
-
         }
-
     }
-
     fun fetchImage() {
-
-
         val galleryIntent = Intent(
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -224,26 +213,18 @@ class AddNewProduct : BaseActivity() {
         galleryForResult.launch(galleryIntent)
     }
 
-    private val permReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
-
+    private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
             if (permission) {
                 fetchImage()
             } else {
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                        this, PERMISSIONS
-                    )
-                ) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSIONS)) {
                     showCustomToast("Permission Denied, Go to setting to give access")
                 } else {
                     showCustomToast("Permission Denied")
                 }
-
             }
         }
-
-    val galleryForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+    val galleryForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 if (data != null) {
@@ -252,7 +233,7 @@ class AddNewProduct : BaseActivity() {
                         cropImage(contentURI!!)
 
                     } catch (e: IOException) {
-                        e.printStackTrace()
+                             e.printStackTrace()
 
                     }
 
@@ -263,38 +244,25 @@ class AddNewProduct : BaseActivity() {
 
     private fun cropImage(sourceUri: Uri) {
         val destinationUri: Uri = Uri.fromFile(
-            File(
-                getCacheDir(),
-                queryName(getContentResolver(), sourceUri)
-            )
+            File(getCacheDir(), queryName(getContentResolver(), sourceUri))
         )
         val options: UCrop.Options = UCrop.Options();
         options.setCompressionQuality(80);
         options.setToolbarColor(ContextCompat.getColor(this, R.color.black));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white));
-
         options.withAspectRatio(1f, 1f);
-
-        val uCrop = UCrop.of(sourceUri, destinationUri)
-            .withOptions(options)
-
+        val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
         val intent = uCrop.getIntent(this)
         croporResult.launch(intent)
-
-
     }
-
-    val croporResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+    val croporResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
 
                 if (data != null) {
                     val resultUri = UCrop.getOutput(data)
-
                     prodImage = resultUri?.toFile()
-
                     binding.image.visibility = View.VISIBLE
                     binding.uploadImage.text = getString(R.string.edit_image)
                     Glide.with(this).load(resultUri).error(R.drawable.logo)
@@ -307,11 +275,8 @@ class AddNewProduct : BaseActivity() {
         }
 
     private fun queryName(resolver: ContentResolver, uri: Uri): String {
-        val returnCursor: Cursor? =
-            resolver.query(uri, null, null, null, null);
-
+        val returnCursor: Cursor? = resolver.query(uri, null, null, null, null)
         returnCursor.let {
-
             val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             returnCursor.moveToFirst();
             val name: String = returnCursor.getString(nameIndex);
@@ -322,9 +287,7 @@ class AddNewProduct : BaseActivity() {
 
 
     private fun apiResponse() {
-
         lifecycleScope.launch {
-
             homeviewmodel.addProductByIDLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
@@ -332,11 +295,11 @@ class AddNewProduct : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is SuccessResponse) {
+                        if (it.response is AddNewProductResponse) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@AddNewProduct,
                                 homeviewmodel.methodRepo,
-                                "Signed Up",
+                                "Add New Product",
                                 it.response.message,
                                 autoCancelable = false,
                                 isCancelAvailable = false,
@@ -344,13 +307,8 @@ class AddNewProduct : BaseActivity() {
                                 showClickable = false,
                                 callback = object : CommonDialogsUtils.DialogClick {
                                     override fun onClick() {
-                                        startActivity(
-                                            Intent(
-                                                this@AddNewProduct,
-                                                LoginActivity::class.java
-                                            )
-                                        )
-                                        finishAffinity()
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
                                     }
 
                                     override fun onCancel() {
@@ -463,6 +421,7 @@ class AddNewProduct : BaseActivity() {
             }
         }
 
+
         //tax Loded
         lifecycleScope.launch {
             homeviewmodel.taxListLive.collect {
@@ -475,8 +434,13 @@ class AddNewProduct : BaseActivity() {
                         if (it.response is GetCurrentTaxDetail) {
                             if (it.response.data.size > 0) {
                                 taxAdapter.setItems(itemList = it.response.data)
-                            } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
-                        } else {
+                            }
+
+
+                          else showCustomAlert(getString(R.string.tax_not_found), binding.root)
+
+
+                        }else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root

@@ -12,36 +12,30 @@ import com.actorpay.merchant.databinding.ChangePasswordDialogBinding
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 
 class ChangePasswordDialog {
-
-
-    fun show(activity: Activity, methodsRepo: MethodsRepo, onClick:(oldPassword:String, newPassword:String)->Unit){
+    fun show(
+        activity: Activity,
+        methodsRepo: MethodsRepo,
+        onClick: (oldPassword: String, newPassword: String) -> Unit) {
         val alertDialog = Dialog(activity)
-
         val binding = DataBindingUtil.inflate<ChangePasswordDialogBinding>(
             activity.layoutInflater,
             R.layout.change_password_dialog,
             null,
             false
         )
-
         binding.tvOk.setOnClickListener {
-            val oldPassword=binding.editChangePasswordOld.text.toString().trim()
-            val newPassword=binding.editChangePasswordNew.text.toString().trim()
-            val confirmPassword=binding.editChangePasswordConfirm.text.toString().trim()
-            if(oldPassword.isEmpty()){
+            val oldPassword = binding.editChangePasswordOld.text.toString().trim()
+            val newPassword = binding.editChangePasswordNew.text.toString().trim()
+            val confirmPassword = binding.editChangePasswordConfirm.text.toString().trim()
+            if (oldPassword.isEmpty()) {
                 binding.editChangePasswordOld.error = activity.getString(R.string.oops_your_password_is_empty)
-            }
-            else if(newPassword.length<8 || !methodsRepo.isValidPassword(newPassword))
-            {
+            } else if (newPassword.length < 8 || !methodsRepo.isValidPassword(newPassword)) {
                 binding.editChangePasswordNew.error = activity.getString(R.string.oops_your_password_is_not_valid)
-            }
-            else if(confirmPassword != newPassword)
-            {
+            } else if (confirmPassword != newPassword) {
                 binding.editChangePasswordConfirm.error = (activity.getString(R.string.cpass_and_pass_not_match))
-            }
-            else{
+            } else {
                 alertDialog.dismiss()
-                onClick(oldPassword,newPassword)
+                onClick(oldPassword, newPassword)
             }
         }
         binding.tvCancel.setOnClickListener {

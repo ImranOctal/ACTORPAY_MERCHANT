@@ -129,8 +129,18 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
 
-
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/_11sdp</item>
+    </style>
 
     <style name="Heading1_bold" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">match_parent</item>
@@ -400,8 +410,8 @@
     </style>
     <style name="spinner">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:visibility">invisible</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:visibility">visible</item>
     </style>
 
     <style name="parentFull">
