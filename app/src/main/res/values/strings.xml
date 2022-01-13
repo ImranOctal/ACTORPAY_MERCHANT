@@ -12,7 +12,7 @@
     <string name="prod_choose_subcat">Please Select Subcategory</string>
     <string name="prod_price_empty">Oops! Product Price is Empty or less than 1</string>
     <string name="prod_quant_empty">Oops! Product Quantity is Empty or 0</string>
-    <string name="prod_desc_empty">Oops! Product Quantityis Empty</string>
+    <string name="prod_desc_empty">Oops! Product Description  Empty</string>
     <string name="product_list">Product List</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -58,7 +58,7 @@
     <string name="dealPrice">Enter Deal Price</string>
     <string name="dealPrice1">Deal Price</string>
     <string name="quantity">Enter Quantity</string>
-    <string name="discription">Discription</string>
+    <string name="discription">Description</string>
     <string name="Upload">+Upload Image</string>
     <string name="edit_image">Edit Image</string>
     <string name="addProduct">Add Product</string>
@@ -94,7 +94,7 @@
     <string name="cancel1">Cancel</string>
     <string name="change_password">Change Password</string>
     <string name="field_should_not_be_empty">Field should not be empty</string>
-    <string name="forget_password">Forget Password?</string>
+    <string name="forget_password">Forgot Password?</string>
     <string name="enter_your_current_password">Enter Your Current Password</string>
     <string name="enter_your_new_password">Enter Your New Password</string>
     <string name="confirm_your_new_password">Confirm Your New Password</string>
