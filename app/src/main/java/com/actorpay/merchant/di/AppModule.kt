@@ -13,6 +13,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitReposi
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
+import com.actorpay.merchant.ui.more.MoreViewModel
 import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.viewmodel.AuthViewModel
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
@@ -27,8 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 private val appKoinModule = module {
-
-
     single { CoroutineContextProvider() }
 
     single { DataStoreCoroutinesHandler }
@@ -76,7 +75,7 @@ private val appKoinModule = module {
         ActorPayViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
     viewModel {
-        AuthViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get(), sharedPre = get())
+        AuthViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
     viewModel {
         HomeViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
@@ -86,6 +85,9 @@ private val appKoinModule = module {
     }
     viewModel {
         ContentViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        MoreViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
 
    /* factory<ScreenNavigator> {

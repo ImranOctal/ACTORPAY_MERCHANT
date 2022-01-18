@@ -17,6 +17,8 @@
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="faq">FAQ</string>
+    <string name="about_us">About Us</string>
+    <string name="contact_us">Contact Us</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="user_type">User Type</string>
 
@@ -31,7 +33,7 @@
     <string name="my_orders">My Orders</string>
     <string name="change_payment_option">Change Payment Option</string>
     <string name="settings">Settings</string>
-    <string name="more">More</string>
+
     <string name="home">Home</string>
     <string name="rewards">Rewards</string>
     <string name="name">Name</string>
@@ -120,14 +122,25 @@
     <string name="order_summary">Order Summary</string>
     <string name="delivery_address_and_time">Delivery Address and Time</string>
     <string name="cancel_order">Cancel Order</string>
->
+    <string name="add_note">Add Note</string>
+    <string name="more">More</string>
+    >
 
     <string-array name="status_array">
         <item>Select Status</item>
         <item>SUCCESS</item>
+        <item>READY</item>
         <item>CANCELLED</item>
+        <item>PARTIALLY_CANCELLED</item>
+        <item>DISPATCHED</item>
+        <item>RETURNING</item>
+        <item>PARTIALLY_RETURNING</item>
+        <item>RETURNED</item>
+        <item>PARTIALLY_RETURNED</item>
+        <item>DELIVERED</item>
         <item>PENDING</item>
-        <item>FAILURE</item>
+        <item>FAILED</item>
+
     </string-array>
 
     <string-array name="productCat">

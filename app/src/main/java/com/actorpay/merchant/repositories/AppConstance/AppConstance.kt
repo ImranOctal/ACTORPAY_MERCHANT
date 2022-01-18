@@ -59,7 +59,7 @@ class AppConstance {
         const val GENRATE_TOKEN_AGAIN: String = SUB_DOMAIN+USER_SERVICE+SUB_DOMAIN3+SLASH_TOKEN+REFRESH
         const val GET_ALL_ORDER:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"list/paged"
         const val UPDATE_STATUS:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"status"
-
+        const val GET_FAQ: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "faq/all"
 
     }
 }

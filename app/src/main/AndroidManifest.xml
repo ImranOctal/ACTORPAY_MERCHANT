@@ -15,14 +15,30 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.more.FaqActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.more.MoreActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.manageOrder.OrderDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.content.ContentActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.profile.ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.subAdmin.CreateSubAdminActivity"
             android:exported="false"

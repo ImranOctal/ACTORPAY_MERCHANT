@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,7 +54,7 @@
                 android:background="@color/primary"
                 app:layout_constraintTop_toBottomOf="@+id/cart_toolbar" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:id="@+id/cart_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,6 +71,48 @@
                     android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <RelativeLayout
+                        android:id="@+id/rltRoot"
+                        style="@style/parentConstraint"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_6ssp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <TextView
+                            android:id="@+id/OrderType"
+                            style="@style/TxtOutlineGreen"
+                            android:text="@string/accept"
+                            android:textColor="#2E7D32"
+                            android:textSize="@dimen/_8ssp" />
+
+
+                        <ImageView
+                            android:id="@+id/ivNext"
+                            android:layout_width="@dimen/_8ssp"
+                            android:layout_height="@dimen/_8ssp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_6ssp"
+                            android:src="@drawable/ic_next" />
+
+                        <ImageView
+                            android:id="@+id/ivDropDown"
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_6ssp"
+                            android:src="@drawable/ic_dropdown"
+                            android:visibility="invisible" />
+
+
+                    </RelativeLayout>
+
                     <TextView
                         android:id="@+id/order_summary_text"
                         android:layout_width="wrap_content"
@@ -85,6 +126,7 @@
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
 
                     <TextView
                         android:id="@+id/merchant_name"
@@ -102,6 +144,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/order_summary_text"
                         tools:text="Merchant Name" />
 
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/order_recycler_view"
                         android:layout_width="match_parent"
@@ -110,19 +153,35 @@
                         app:layout_constraintTop_toBottomOf="@+id/merchant_name"
                         tools:itemCount="0" />
 
+
+                    <TextView
+                        android:id="@+id/orderDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:gravity="center"
+                        android:text='Order Detail:'
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/order_recycler_view" />
+
+
                     <TextView
                         android:id="@+id/order_date_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5ssp"
                         android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text='20220-01'
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_recycler_view"
+                        app:layout_constraintTop_toBottomOf="@+id/orderDetail"
                         tools:text="Order Date &amp; Time:" />
 
 
@@ -132,9 +191,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text='ORD28140'
+
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -142,19 +202,106 @@
                         tools:text="Order Number: " />
 
                     <TextView
+                        android:id="@+id/orderStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:text='Order Status'
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/order_number" />
+
+                    <TextView
                         android:id="@+id/order_amount_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
-                        android:text="Order Price:"
+                        android:text="Order Total Price:"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_number"
-                        tools:text="Order Number: " />
+                        app:layout_constraintTop_toBottomOf="@+id/orderStatus" />
+
+
+                    <LinearLayout
+                        android:id="@+id/llCustomerDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/order_amount_text">
+
+
+                        <TextView
+                            android:id="@+id/tvCusDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:gravity="center"
+                            android:text="Customer Details:"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_14ssp" />
+
+                        <TextView
+                            android:id="@+id/tvFirstName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="First Name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvLastName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="Last Name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="Email"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12ssp" />
+
+
+                        <TextView
+                            android:id="@+id/tvContact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="Contact NO."
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12ssp" />
+
+
+                    </LinearLayout>
+
 
                     <ImageView
                         android:id="@+id/delivery_address_location"
@@ -165,7 +312,7 @@
                         android:contentDescription="@string/delivery_address_and_time"
                         android:src="@drawable/ic_address"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_amount_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/llCustomerDetail" />
 
                     <TextView
                         android:id="@+id/delivery_address_text"
@@ -232,15 +379,42 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="₹1000"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_number"
+                        app:layout_constraintTop_toBottomOf="@+id/orderStatus"
                         tools:text="Order Price" />
 
+                    <EditText
+                        android:id="@+id/etNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_150sdp"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:background="@drawable/btn_outline_gray"
+                        android:gravity="start"
+                        android:hint="Note"
+                        android:padding="@dimen/_16sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_address_city" />
+
+                    <Button
+                        android:id="@+id/btnNote"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/btn_bg"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:text="@string/add_note"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etNote" />
 
                     <Button
                         android:id="@+id/done"
@@ -254,13 +428,28 @@
                         android:text="@string/cancel_order"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_14ssp"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_address_city" />
+                        app:layout_constraintTop_toBottomOf="@+id/btnNote" />
 
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardDropDown"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="wrap_content"
+                        android:elevation="@dimen/_5ssp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rltRoot">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/orderStatusSpinner"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="wrap_content" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

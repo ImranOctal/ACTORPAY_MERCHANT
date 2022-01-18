@@ -22,27 +22,29 @@ data class Customer(
 
 
  data class OrderItemDto (
-    val active: Boolean,
-    val categoryId: String,
-    val createdAt: String,
-    val deleted: Boolean,
-    val image: String,
-    val merchantId: String,
-    val merchantName: String,
-    val productCgst: Double,
-    val productId: String,
-    val productName: String,
-    val productPrice: Double,
-    val productQty: Int,
-    val productSgst: Double,
-    val shippingCharge: Int,
-    val subcategoryId: String,
-    val taxPercentage: Double,
-    val taxableValue: Double,
-    val totalPrice: Double,
-    val updatedAt: String
+     val active: Boolean,
+     val categoryId: String,
+     val createdAt: String,
+     val image: String,
+     val merchantId: String,
+     val merchantName: String,
+     val orderItemId: String,
+     val orderItemStatus: String,
+     val productCgst: Double,
+     val productId: String,
+     val productName: String,
+     val productPrice: Double,
+     val productQty: Int,
+     val productSgst: Double,
+     val shippingCharge: Int,
+     val subcategoryId: String,
+     val taxPercentage: Double,
+     val taxableValue: Double,
+     val totalPrice: Double
+
+
 ):Serializable
-data class OrderParams(val startDate: String,val endDate: String,val merchantId: String,val status: String,val customerEmail: String,val orderNo: String)
+data class OrderParams(val startDate: String,val endDate: String,val merchantId: String,val orderStatus: String,val customerEmail: String,val orderNo: String)
 
 data class ShippingAddressDTO(
     val addressLine1: String,

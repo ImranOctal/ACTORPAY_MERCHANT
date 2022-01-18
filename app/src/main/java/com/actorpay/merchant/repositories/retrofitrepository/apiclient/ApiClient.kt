@@ -24,6 +24,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEG
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
@@ -35,6 +36,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
+import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -74,7 +76,7 @@ interface ApiClient {
     ): Response<GetUserById>
 
     @GET(AppConstance.GENRATE_TOKEN_AGAIN)
-    suspend fun getGenratedToken(@Query(TOKEN_ATTRIBUTE) token:String): Response<ProfileReesponse>
+    suspend fun getGenratedToken(@Query(TOKEN_ATTRIBUTE) token: String): Response<ProfileReesponse>
 
     @PUT(AppConstance.UPDATE_PROFILE)
     suspend fun saveProfile(
@@ -97,10 +99,8 @@ interface ApiClient {
     ): Response<AddNewProductResponse>
 
 
-
-
     @Multipart
-    @PUT(ADD_PRODUCT+ IDS)
+    @PUT(ADD_PRODUCT + IDS)
     suspend fun updateProduct(
         @Header(AUTH) token: String,
         @Path(ID_VAR) id: String,
@@ -121,7 +121,7 @@ interface ApiClient {
         @Query(AppConstance.PAGE_SIZE) pageSize: String,
         @Query(AppConstance.SORT_BY) sortBy: String,
         @Query(AppConstance.ASCECNDING) asc: Boolean,
-        @Body data:JSONObject
+        @Body data: JSONObject
     ): Response<GetProductListResponse>
 
     @DELETE(DELET_PRODUCT)
@@ -140,13 +140,14 @@ interface ApiClient {
         @Header(AUTH) token: String
     ): Response<GetAllCategoriesDetails>
 
+
     @GET(SUB_CAT_URL)
     suspend fun getSubCategoryList(
         @Header(AUTH) token: String,
         @Query(AppConstance.PAGE_NO) pageNo: String,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String="5",
-        @Query(AppConstance.SORT_BY) sortBy: String="createdAt",
-        @Query(AppConstance.ASCECNDING) asc: Boolean=true
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "6",
+        @Query(AppConstance.SORT_BY) sortBy: String = "createdAt",
+        @Query(AppConstance.ASCECNDING) asc: Boolean = true
     ): Response<GetSubCatDataDetails>
 
 
@@ -154,7 +155,7 @@ interface ApiClient {
     suspend fun getAllOrders(
         @Header(AUTH) token: String,
         @Query(AppConstance.PAGE_NO) pageNo: String,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String="10",
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
         @Body orderParam: OrderParams
     ): Response<BeanViewAllOrder>
 
@@ -164,4 +165,9 @@ interface ApiClient {
         @Query(AppConstance.STATUS) status: String,
         @Query(AppConstance.ORDERNO) orderNo: String,
     ): Response<UpdateOrderStatus>
+
+    @GET(GET_FAQ)
+    suspend fun getFAQ(
+
+    ): Response<FAQResponse>
 }

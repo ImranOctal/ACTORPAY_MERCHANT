@@ -204,6 +204,7 @@
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/merchatLay"
                     android:layout_width="match_parent"
@@ -242,6 +243,7 @@
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/myOrderLay"
                     android:layout_width="match_parent"
@@ -363,7 +365,46 @@
                     android:background="@color/gray" />
 
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:weightSum="1">
 
+                    <ImageView
+                        android:id="@+id/ivMore"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight=".1"
+                        android:src="@drawable/more"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
+
+                    <TextView
+                        style="@style/viewParent"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/more"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivMore"
+                        app:layout_constraintStart_toEndOf="@+id/ivMore"
+                        app:layout_constraintTop_toTopOf="@+id/ivMore" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/gray" />
 
 
                 <LinearLayout
@@ -371,6 +412,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/_30sdp"
                     android:gravity="bottom"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:orientation="vertical">
 
                     <include

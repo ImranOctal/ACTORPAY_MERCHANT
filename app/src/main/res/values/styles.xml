@@ -136,6 +136,7 @@
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
     <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:fontFamily">@font/poppins_regular</item>

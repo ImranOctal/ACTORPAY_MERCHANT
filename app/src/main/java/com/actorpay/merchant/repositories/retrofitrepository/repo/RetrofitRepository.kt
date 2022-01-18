@@ -17,6 +17,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.sub
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
+import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -68,4 +69,6 @@ interface RetrofitRepository {
     suspend fun updateStatus(token: String,orderNo:String,status: String,): RetrofitResource<UpdateOrderStatus>
 
     suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String):RetrofitResource<BeanViewAllOrder>
+
+    suspend fun getFAQ():RetrofitResource<FAQResponse>
 }

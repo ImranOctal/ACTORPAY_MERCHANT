@@ -29,6 +29,7 @@ import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
+import com.actorpay.merchant.ui.more.MoreActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.profile.ProfileViewModel
@@ -160,6 +161,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
             switchActivity(Intent(baseContext(), CreateSubAdminActivity::class.java))
         }
+
+        binding.constMore.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), MoreActivity::class.java))
+        }
+
         binding.changePasswordLay.setOnClickListener {
             changePasswordUi()
         }

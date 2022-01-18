@@ -57,7 +57,7 @@ class AuthViewModel(
     }
 
     fun signUp(email: String, extensionNumber: String, contactNumber: String, password: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String) {
-        val body = SignUpParams(email, extensionNumber, contactNumber, password, shopAddress, fullAddress, businessName, licenceNumber)
+        val body = SignUpParams(email, extensionNumber, contactNumber, password, shopAddress, fullAddress, businessName, licenceNumber,"")
         viewModelScope.launch(dispatcherProvider.IO) {
             loginResponseLive.value = ResponseLoginSealed.loading()
             when (val response = apiRepo.SignUpNow(body)) {

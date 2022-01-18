@@ -2,6 +2,7 @@ package com.actorpay.merchant.ui.manageOrder.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
@@ -19,11 +20,9 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
         val orderDetailBinding = ItemOrderDetailBinding.bind(view)
         return ItemHolder(orderDetailBinding)
     }
-
     override fun getItemCount(): Int {
         return data.size
     }
-
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         holder.bind(position)
     }
@@ -35,6 +34,16 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
                 productTitle.text=data[position].productName
                 actualPriceText.text=AppConstance.rupee+data[position].productPrice.toString()
                 actualQuantityText.text="Quantity: "+data[position].productQty.toString()
+
+                if(data[position].orderItemStatus=="SUCCESS"||data[position].orderItemStatus=="READY"){
+                    orderItemStatus.visibility=View.VISIBLE
+
+                }else{
+
+                    orderItemStatus.visibility=View.VISIBLE
+                    orderItemStatus.text="RETURNED"
+                }
+
             }
         }
     }

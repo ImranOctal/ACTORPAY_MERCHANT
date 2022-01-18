@@ -7,9 +7,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOrderStatusBinding
+//val onClick:(pos:Int,status:String)->Unit
 
-
-class OrderStatusAdapter(val context: Context, private var list: List<String>,val onClick:(pos:Int,status:String)->Unit) :
+class OrderStatusAdapter(val context: Context, private var list: List<String>) :
     RecyclerView.Adapter<OrderStatusAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
@@ -33,8 +33,8 @@ class OrderStatusAdapter(val context: Context, private var list: List<String>,va
                 tvStatus.text=list[position]
 
                 tvStatus.setOnClickListener {
-                    var status=list[position]
-                    onClick(position,status);
+//                    var status=list[position]
+//                    onClick(position,status);
                 }
 
             }

@@ -6,6 +6,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +34,7 @@ class ManageOrderActivity : AppCompatActivity() {
     var startDate=""
     var endDate=""
     var merchantIid=""
-    var status=""
+    var deliveryStatus=""
     var orderStatus=""
     var customerEmail=""
     var orderNo=""
@@ -40,7 +43,7 @@ class ManageOrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_order)
         Installation()
-        homeviewmodel.getAllOrder(startDate,endDate,merchantIid,status,customerEmail,orderNo)
+        homeviewmodel.getAllOrder(startDate,endDate,merchantIid,deliveryStatus,customerEmail,orderNo)
     }
 
     private fun Installation() {
@@ -54,29 +57,47 @@ class ManageOrderActivity : AppCompatActivity() {
     }
 
     private fun filterBottomsheet() {
-        val binding: DialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter, null, false)
+        val binding: DialogFilterBinding =
+            DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter, null, false)
         val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
         binding.applyFilter.setOnClickListener {
-            if(orderNo.isEmpty()){
-                orderNo= binding.orderNumber.text.toString()
-            }else{
-                orderNo=""
+            if (orderNo.isEmpty()) {
+                orderNo = binding.orderNumber.text.toString()
+            } else {
+                orderNo = ""
             }
-            if(startDate.isEmpty()){
-                startDate=""
+            if (startDate.isEmpty()) {
+                startDate = ""
             }
-            if(endDate.isEmpty()){
-                endDate=""
+            if (endDate.isEmpty()) {
+                endDate = ""
             }
-            if(merchantIid.isNotEmpty()){
-                merchantIid=  binding.merchant.text.toString()
-            }else{
-                merchantIid=""
+            if (merchantIid.isNotEmpty()) {
+                merchantIid = binding.merchant.text.toString()
+            } else {
+                merchantIid = ""
             }
-            status=""
-            homeviewmodel.getAllOrder(startDate,endDate,merchantIid,status,customerEmail,orderNo)
+            homeviewmodel.getAllOrder(startDate, endDate, merchantIid, deliveryStatus, customerEmail, orderNo
+            )
             dialog.dismiss()
         }
+        ArrayAdapter.createFromResource(this, R.array.status_array, android.R.layout.simple_spinner_item).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerStatus.adapter = adapter
+        }
+        binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                 deliveryStatus = binding.spinnerStatus.selectedItem.toString()
+                if (position == 0) {
+                    (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
+
+                }
+            }
+         }
         binding.cancel.setOnClickListener {
             dialog.dismiss()
         }
@@ -106,16 +127,13 @@ class ManageOrderActivity : AppCompatActivity() {
             val month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
             val dpd = DatePickerDialog(this,  { view, yearR, monthOfYear, dayOfMonth ->
-
                 // Display Selected date in textbox
                 val f =  DecimalFormat("00");
                 val dayMonth=f.format(dayOfMonth)
                 val monthYear=f.format(monthOfYear+1)
-
                 binding.endDate.setText("$yearR-$monthYear-$dayMonth")
                 endDate= "$year-$monthYear-$dayMonth"
             }, year, month, day)
-
             dpd.show()
             dpd.datePicker.maxDate = Date().time
             dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
@@ -128,11 +146,9 @@ class ManageOrderActivity : AppCompatActivity() {
             binding.startDate.setText("")
             binding.endDate.setText("")
         }
-
         dialog.setContentView(binding.root)
         dialog.show()
     }
-
     private fun apiResponse() {
         lifecycleScope.launchWhenStarted {
             homeviewmodel.getAllOrder.collect { action ->
@@ -147,10 +163,7 @@ class ManageOrderActivity : AppCompatActivity() {
                                 binding.manageOrder.layoutManager=LinearLayoutManager(this@ManageOrderActivity,LinearLayoutManager.VERTICAL,false)
                                 binding.manageOrder.adapter=OrderAdapter(this@ManageOrderActivity,action.response.data.items){
                                     position,status ->
-
                                     updateStatus(position,action.response.data.items,status)
-
-
                                 }
                                 binding.emptyText.visibility = View.GONE
                             }
@@ -165,6 +178,6 @@ class ManageOrderActivity : AppCompatActivity() {
         }
     }
     private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
-        homeviewmodel.updateStatus(items[position].orderNo,status)
+//        homeviewmodel.updateStatus(items[position].orderNo,status)
     }
 }

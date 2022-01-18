@@ -16,3 +16,17 @@ data class ContentResponseData(
     val metaData: String,
     val updatedAt: String
 )
+
+data class FAQResponseData (
+    val id        : String,
+    val question  : String,
+    val answer    : String,
+    val updatedAt : String
+)
+
+data class FAQResponse (
+    val message    : String,
+    val data       : List<FAQResponseData> = arrayListOf(),
+    val status     : String,
+    val httpStatus : String
+)
