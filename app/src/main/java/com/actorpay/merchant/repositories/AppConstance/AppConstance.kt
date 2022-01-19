@@ -1,5 +1,8 @@
 package com.octal.actorpay.repositories.AppConstance
 
+import java.text.SimpleDateFormat
+import java.util.*
+
 class AppConstance {
     companion object{
         const val BASE_URL: String = "http://192.168.1.171:8765/"
@@ -7,6 +10,7 @@ class AppConstance {
         const val SUB_DOMAIN2: String = "merchant-service/"
         const val USER_SERVICE: String = "user-service"
         const val SUB_DOMAIN3: String = "auth/"
+        const val SUB_DOMAIN_GLOBAL: String = "global-service/"
         const val SUB_DOMAIN_MERCHANT: String = "merchant/"
         const val SUB_DOMAIN_FORGET: String = "forget/"
         const val SUB_DOMAIN_CMS: String = "cms-service/"
@@ -60,6 +64,8 @@ class AppConstance {
         const val GET_ALL_ORDER:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"list/paged"
         const val UPDATE_STATUS:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"status"
         const val GET_FAQ: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "faq/all"
-
+        const val GET_COUNTRIES: String = SUB_DOMAIN+ SUB_DOMAIN_GLOBAL+"v1/country/get/all"
+        val dateFormate3= SimpleDateFormat("yyyy-MM-dd HH:MM", Locale.ENGLISH)
+        val dateFormate4= SimpleDateFormat("dd MMM yyyy HH:MM", Locale.ENGLISH)
     }
 }

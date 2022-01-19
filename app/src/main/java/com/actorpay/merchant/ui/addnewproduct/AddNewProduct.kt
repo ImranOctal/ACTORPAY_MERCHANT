@@ -33,7 +33,6 @@ import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
-import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.bumptech.glide.Glide
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
@@ -66,6 +65,7 @@ class AddNewProduct : BaseActivity() {
     }
 
     private fun Installation() {
+
         binding.toolbar.back.visibility = View.VISIBLE
         homeviewmodel.getCatogrys()
         homeviewmodel.getSubCatDetalis()
@@ -119,348 +119,323 @@ class AddNewProduct : BaseActivity() {
     }
 
     fun validate() {
-        var isValidate = true
+        if (prodImage == null) {
+            showCustomToast("Please Select Product Image")
+        } else if (binding.productNameEdit.text.toString().trim().isEmpty()) {
 
-        if (binding.productNameEdit.text.toString().trim().length < 3) {
-            isValidate = false
-            binding.errorOnName.visibility = View.VISIBLE
-        } else
-            binding.errorOnName.visibility = View.GONE
+            binding.productNameEdit.error = getString(R.string.product_empty)
+            binding.productNameEdit.requestFocus()
 
-        if (catId == "") {
-            isValidate = false
-            binding.errorOnCat.visibility = View.VISIBLE
-        } else
-            binding.errorOnCat.visibility = View.GONE
+        } else if (binding.productNameEdit.text.toString().trim().length < 3) {
+            binding.productNameEdit.error = getString(R.string.prod_name_empty)
+            binding.productNameEdit.requestFocus()
 
-        if (SubCatId == "") {
-            isValidate = false
-            binding.errorOnSubcat.visibility = View.VISIBLE
-        } else
-            binding.errorOnSubcat.visibility = View.GONE
+        } else if (catId == "") {
+            showCustomToast("Please Select Category")
+        } else if (SubCatId == "") {
+            showCustomToast("Please Select SubCategory")
+        } else if (binding.actualPrice.text.toString().trim().isEmpty()) {
+            binding.actualPrice.error = getString(R.string.price_empty)
+            binding.actualPrice.requestFocus()
 
-        if (binding.actualPrice.text.toString().trim() == "" || binding.actualPrice.text.toString()
-                .trim().toFloat() < 1
-        ) {
-            isValidate = false
-            binding.errorOnActualPrice.visibility = View.VISIBLE
-        } else
-            binding.errorOnActualPrice.visibility = View.GONE
+        } else if (binding.actualPrice.text.toString().trim().toFloat() < 1) {
+            binding.actualPrice.error = getString(R.string.prod_price_empty)
+            binding.actualPrice.requestFocus()
+        } else if (binding.dealPrice.text.toString().trim().isEmpty()) {
+            binding.dealPrice.error = getString(R.string.deal_price_empty)
+            binding.dealPrice.requestFocus()
+        } else if (binding.dealPrice.text.toString().trim().toFloat() < 1) {
+            binding.dealPrice.error = getString(R.string.deal_price_length)
+            binding.dealPrice.requestFocus()
+        } else if (binding.quantity.text.toString().trim().isEmpty()) {
+            binding.quantity.error = getString(R.string.prod_quant_empty)
+            binding.quantity.requestFocus()
 
-        if (binding.dealPrice.text.toString().trim() == "" || binding.dealPrice.text.toString()
-                .trim().toFloat() < 1
-        ) {
-            isValidate = false
-            binding.errorOndealPrice.visibility = View.VISIBLE
-        } else
-            binding.errorOndealPrice.visibility = View.GONE
-
-        if (binding.quantity.text.toString().trim() == "" || binding.quantity.text.toString().trim()
-                .toInt() < 1
-        ) {
-            isValidate = false
-            binding.errorOnquantity.visibility = View.VISIBLE
-        } else
-            binding.errorOnquantity.visibility = View.GONE
-
-        if (binding.description.text.toString().trim() == "") {
-            isValidate = false
-            binding.errorOnDescription.visibility = View.VISIBLE
-        } else
-            binding.errorOnDescription.visibility = View.GONE
-
-        if (taxId == "") {
-            isValidate = false
-            binding.errorOntaxData.visibility = View.VISIBLE
-            binding.errorOntaxData.text = getString(R.string.error_on_tax)
-        } else
-            binding.errorOntaxData.visibility = View.GONE
-        if (isValidate) {
-            if (prodImage == null) {
-                showCustomToast("Please Select Product Image")
-                return
-            }
-            lifecycleScope.launch {
-                viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
-                    val name = binding.productNameEdit.text.toString().trim()
-                    val price = binding.actualPrice.text.toString().trim()
-                    val dealPrice = binding.dealPrice.text.toString().trim()
-                    val desc = binding.description.text.toString().trim()
-                    val qaunt = binding.quantity.text.toString().trim()
-                    val productJson = JSONObject()
+        } else if (binding.quantity.text.toString().trim().toInt() < 1) {
+            binding.quantity.error = getString(R.string.prod_quant_length)
+            binding.quantity.requestFocus()
+        } else if (binding.description.text.toString().trim().isEmpty()) {
+            binding.description.error = getString(R.string.prod_desc_empty)
+            binding.description.requestFocus()
+        }else{
+                lifecycleScope.launch {
+                    viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
+                        val name = binding.productNameEdit.text.toString().trim()
+                        val price = binding.actualPrice.text.toString().trim()
+                        val dealPrice = binding.dealPrice.text.toString().trim()
+                        val desc = binding.description.text.toString().trim()
+                        val qaunt = binding.quantity.text.toString().trim()
+                        val productJson = JSONObject()
 //                  productJson.put("productId", "")
-                    productJson.put("name", name)
-                    productJson.put("description", desc)
-                    productJson.put("categoryId", catId)
-                    productJson.put("subCategoryId", SubCatId)
-                    productJson.put("actualPrice", price)
-                    productJson.put("dealPrice", dealPrice)
-                    productJson.put("merchantId", merchantId)
-                    productJson.put("stockCount", qaunt)
-                    productJson.put("taxId", taxId)
-                    homeviewmodel.addProduct(productJson.toString(), prodImage!!)
-                    Log.e("merchantId>>",merchantId)
+                        productJson.put("name", name)
+                        productJson.put("description", desc)
+                        productJson.put("categoryId", catId)
+                        productJson.put("subCategoryId", SubCatId)
+                        productJson.put("actualPrice", price)
+                        productJson.put("dealPrice", dealPrice)
+                        productJson.put("merchantId", merchantId)
+                        productJson.put("stockCount", qaunt)
+                        productJson.put("taxId", "16111609-bff3-477a-b4cf-603592597721")
+                        homeviewmodel.addProduct(productJson.toString(), prodImage!!)
+                        Log.e("merchantId>>", merchantId)
+                    }
                 }
-            }
         }
     }
-    fun fetchImage() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
 
-        galleryForResult.launch(galleryIntent)
-    }
+        fun fetchImage() {
+            val galleryIntent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
 
-    private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
-            if (permission) {
-                fetchImage()
-            } else {
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSIONS)) {
-                    showCustomToast("Permission Denied, Go to setting to give access")
+            galleryForResult.launch(galleryIntent)
+        }
+
+        private val permReqLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+                if (permission) {
+                    fetchImage()
                 } else {
-                    showCustomToast("Permission Denied")
-                }
-            }
-        }
-    val galleryForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                if (data != null) {
-                    try {
-                        val contentURI = data.data
-                        cropImage(contentURI!!)
-
-                    } catch (e: IOException) {
-                             e.printStackTrace()
-
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSIONS)) {
+                        showCustomToast("Permission Denied, Go to setting to give access")
+                    } else {
+                        showCustomToast("Permission Denied")
                     }
-
-                }
-
-            }
-        }
-
-    private fun cropImage(sourceUri: Uri) {
-        val destinationUri: Uri = Uri.fromFile(
-            File(getCacheDir(), queryName(getContentResolver(), sourceUri))
-        )
-        val options: UCrop.Options = UCrop.Options();
-        options.setCompressionQuality(80);
-        options.setToolbarColor(ContextCompat.getColor(this, R.color.black));
-        options.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
-        options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white));
-        options.withAspectRatio(1f, 1f);
-        val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
-        val intent = uCrop.getIntent(this)
-        croporResult.launch(intent)
-    }
-    val croporResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-
-                if (data != null) {
-                    val resultUri = UCrop.getOutput(data)
-                    prodImage = resultUri?.toFile()
-                    binding.image.visibility = View.VISIBLE
-                    binding.uploadImage.text = getString(R.string.edit_image)
-                    Glide.with(this).load(resultUri).error(R.drawable.logo)
-                        .into(binding.image)
-//                val bitmap = (mBinding.profilePic.getDrawable() as BitmapDrawable).bitmap
-//                val file = UtilityHelper.createFile(this, bitmap)
-
                 }
             }
-        }
+        val galleryForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
+                    if (data != null) {
+                        try {
+                            val contentURI = data.data
+                            cropImage(contentURI!!)
 
-    private fun queryName(resolver: ContentResolver, uri: Uri): String {
-        val returnCursor: Cursor? = resolver.query(uri, null, null, null, null)
-        returnCursor.let {
-            val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            returnCursor.moveToFirst();
-            val name: String = returnCursor.getString(nameIndex);
-            returnCursor.close();
-            return name;
-        }
-    }
+                        } catch (e: IOException) {
+                            e.printStackTrace()
 
-
-    private fun apiResponse() {
-        lifecycleScope.launch {
-            homeviewmodel.addProductByIDLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
-                    }
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is AddNewProductResponse) {
-                            CommonDialogsUtils.showCommonDialog(
-                                this@AddNewProduct,
-                                homeviewmodel.methodRepo,
-                                "Add New Product",
-                                it.response.message,
-                                autoCancelable = false,
-                                isCancelAvailable = false,
-                                isOKAvailable = true,
-                                showClickable = false,
-                                callback = object : CommonDialogsUtils.DialogClick {
-                                    override fun onClick() {
-                                        setResult(Activity.RESULT_OK)
-                                        finish()
-                                    }
-
-                                    override fun onCancel() {
-
-                                    }
-                                }
-                            )
-                        } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
                         }
 
                     }
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+
+                }
+            }
+
+        private fun cropImage(sourceUri: Uri) {
+            val destinationUri: Uri = Uri.fromFile(
+                File(getCacheDir(), queryName(getContentResolver(), sourceUri))
+            )
+            val options: UCrop.Options = UCrop.Options();
+            options.setCompressionQuality(80);
+            options.setToolbarColor(ContextCompat.getColor(this, R.color.black));
+            options.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+            options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white));
+            options.withAspectRatio(1f, 1f);
+            val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
+            val intent = uCrop.getIntent(this)
+            croporResult.launch(intent)
+        }
+
+        val croporResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
+
+                    if (data != null) {
+                        val resultUri = UCrop.getOutput(data)
+                        prodImage = resultUri?.toFile()
+                        binding.image.visibility = View.VISIBLE
+                        binding.uploadImage.text = getString(R.string.edit_image)
+                        Glide.with(this).load(resultUri).error(R.drawable.logo)
+                            .into(binding.image)
+//                val bitmap = (mBinding.profilePic.getDrawable() as BitmapDrawable).bitmap
+//                val file = UtilityHelper.createFile(this, bitmap)
+
                     }
                 }
+            }
 
+        private fun queryName(resolver: ContentResolver, uri: Uri): String {
+            val returnCursor: Cursor? = resolver.query(uri, null, null, null, null)
+            returnCursor.let {
+                val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                returnCursor.moveToFirst();
+                val name: String = returnCursor.getString(nameIndex);
+                returnCursor.close();
+                return name;
             }
         }
 
-        //Category Loded
-        lifecycleScope.launch {
-            homeviewmodel.CatogryLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.CatogrySealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
-                    }
-                    is HomeSealedClasses.Companion.CatogrySealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is GetAllCategoriesDetails) {
-                            if (it.response.data.size > 0) {
-                                catAdapter.setItems(itemList = it.response.data)
+
+        private fun apiResponse() {
+            lifecycleScope.launch {
+                homeviewmodel.addProductByIDLive.collect {
+                    when (it) {
+                        is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
+                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                        }
+                        is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            if (it.response is AddNewProductResponse) {
+                                CommonDialogsUtils.showCommonDialog(
+                                    this@AddNewProduct,
+                                    homeviewmodel.methodRepo,
+                                    "Add New Product",
+                                    it.response.message,
+                                    autoCancelable = false,
+                                    isCancelAvailable = false,
+                                    isOKAvailable = true,
+                                    showClickable = false,
+                                    callback = object : CommonDialogsUtils.DialogClick {
+                                        override fun onClick() {
+                                            setResult(Activity.RESULT_OK)
+                                            finish()
+                                        }
+
+                                        override fun onCancel() {
+
+                                        }
+                                    }
+                                )
                             } else {
                                 showCustomAlert(
-                                    getString(R.string.category_not_found),
+                                    getString(R.string.please_try_after_sometime),
                                     binding.root
                                 )
                             }
 
-
-                        } else {
+                        }
+                        is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
                             showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
+                                it.failResponse!!.message,
                                 binding.root
                             )
                         }
-
-                    }
-                    is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                    }
-                }
-
-            }
-        }
-
-        //SubCategory Loded
-        lifecycleScope.launch {
-            homeviewmodel.subCatLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.SubCatSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
-                    }
-                    is HomeSealedClasses.Companion.SubCatSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is GetSubCatDataDetails) {
-                            if (it.response.data.items.size > 0) {
-                                subCategoryAdapter.setItems(itemList = it.response.data.items)
-                            } else showCustomAlert(
-                                getString(R.string.sub_category_not_found),
-                                binding.root
-                            )
-                        } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
+                        else -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
                         }
+                    }
 
-                    }
-                    is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                    }
                 }
-
             }
-        }
+
+            //Category Loded
+            lifecycleScope.launch {
+                homeviewmodel.CatogryLive.collect {
+                    when (it) {
+                        is HomeSealedClasses.Companion.CatogrySealed.loading -> {
+                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                        }
+                        is HomeSealedClasses.Companion.CatogrySealed.Success -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            if (it.response is GetAllCategoriesDetails) {
+                                if (it.response.data.size > 0) {
+                                    catAdapter.setItems(itemList = it.response.data)
+                                } else {
+                                    showCustomAlert(
+                                        getString(R.string.category_not_found),
+                                        binding.root
+                                    )
+                                }
 
 
-        //tax Loded
-        lifecycleScope.launch {
-            homeviewmodel.taxListLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.TaxationSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
-                    }
-                    is HomeSealedClasses.Companion.TaxationSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        if (it.response is GetCurrentTaxDetail) {
-                            if (it.response.data.size > 0) {
-                                taxAdapter.setItems(itemList = it.response.data)
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.please_try_after_sometime),
+                                    binding.root
+                                )
                             }
 
-
-                          else showCustomAlert(getString(R.string.tax_not_found), binding.root)
-
-
-                        }else {
+                        }
+                        is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
                             showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
+                                it.failResponse!!.message,
                                 binding.root
                             )
                         }
+                        else -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                        }
+                    }
 
-                    }
-                    is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
-                    }
                 }
+            }
 
+            //SubCategory Loded
+            lifecycleScope.launch {
+                homeviewmodel.subCatLive.collect {
+                    when (it) {
+                        is HomeSealedClasses.Companion.SubCatSealed.loading -> {
+                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                        }
+                        is HomeSealedClasses.Companion.SubCatSealed.Success -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            if (it.response is GetSubCatDataDetails) {
+                                if (it.response.data.items.size > 0) {
+                                    subCategoryAdapter.setItems(itemList = it.response.data.items)
+                                } else showCustomAlert(
+                                    getString(R.string.sub_category_not_found),
+                                    binding.root
+                                )
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.please_try_after_sometime),
+                                    binding.root
+                                )
+                            }
+
+                        }
+                        is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            showCustomAlert(
+                                it.failResponse!!.message,
+                                binding.root
+                            )
+                        }
+                        else -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                        }
+                    }
+
+                }
+            }
+
+
+            //tax Loded
+            lifecycleScope.launch {
+                homeviewmodel.taxListLive.collect {
+                    when (it) {
+                        is HomeSealedClasses.Companion.TaxationSealed.loading -> {
+                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                        }
+                        is HomeSealedClasses.Companion.TaxationSealed.Success -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            if (it.response is GetCurrentTaxDetail) {
+                                if (it.response.data.size > 0) {
+                                    taxAdapter.setItems(itemList = it.response.data)
+                                } else
+                                    showCustomAlert(getString(R.string.tax_not_found), binding.root)
+
+
+                            } else {
+//                            showCustomAlert(getString(R.string.please_try_after_sometime), binding.root)
+                            }
+
+                        }
+                        is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+//                        showCustomAlert(it.failResponse!!.message, binding.root)
+                        }
+                        else -> {
+                            homeviewmodel.methodRepo.hideLoadingDialog()
+                        }
+                    }
+
+                }
             }
         }
     }
-}

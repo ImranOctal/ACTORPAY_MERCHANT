@@ -28,13 +28,12 @@
 
                 <LinearLayout
                     style="@style/parent"
-                    android:gravity="center"
-                    android:weightSum="1">
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/titleOfOrder"
                         style="@style/Heading1_bold_weight"
-                        android:layout_weight=".5"
+                        android:layout_weight=".7"
                         android:ellipsize="end"
                         android:text="@string/demo_text" />
 
@@ -77,12 +76,10 @@
                             android:padding="@dimen/_5sdp"
                             android:src="@drawable/delete" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center|left">
 
                     <LinearLayout

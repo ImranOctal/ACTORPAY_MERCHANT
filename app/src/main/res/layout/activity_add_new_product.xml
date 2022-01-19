@@ -99,11 +99,6 @@
                                     app:spinner_popup_elevation="14dp" />
 
 
-                            <TextView
-                                android:id="@+id/error_on_cat"
-                                style="@style/errotextViewStyle"
-                                android:text="@string/prod_choose_cat"
-                                android:visibility="gone" />
 
 
 

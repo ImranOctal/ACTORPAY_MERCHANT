@@ -26,14 +26,14 @@ class AuthViewModel(
     sealed class ResponseLoginSealed {
         class Success(val response: Any) : ResponseLoginSealed()
         class ErrorOnResponse(val failResponse: FailResponse?) : ResponseLoginSealed()
-        class loading : ResponseLoginSealed()
+        class loading(val isLoading: Boolean?) : ResponseLoginSealed()
         object Empty : ResponseLoginSealed()
     }
 
     fun login(email: String, password: String) {
         val body = LoginParams(email, password)
         viewModelScope.launch(dispatcherProvider.IO) {
-            loginResponseLive.value = ResponseLoginSealed.loading()
+            loginResponseLive.value = ResponseLoginSealed.loading(true)
             when (val response = apiRepo.LoginNow(body)) {
                 is RetrofitResource.Error -> loginResponseLive.value =
                     ResponseLoginSealed.ErrorOnResponse(response.failResponse)
@@ -46,7 +46,7 @@ class AuthViewModel(
     fun forgetPassword(email: String){
         val body= ForgetPasswordParams(email)
         viewModelScope.launch(dispatcherProvider.IO){
-            loginResponseLive.value=ResponseLoginSealed.loading()
+            loginResponseLive.value = ResponseLoginSealed.loading(true)
             when(val response=apiRepo.ForgetPassword(body)){
                 is RetrofitResource.Error -> loginResponseLive.value =
                     ResponseLoginSealed.ErrorOnResponse(response.failResponse)
@@ -59,7 +59,7 @@ class AuthViewModel(
     fun signUp(email: String, extensionNumber: String, contactNumber: String, password: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String) {
         val body = SignUpParams(email, extensionNumber, contactNumber, password, shopAddress, fullAddress, businessName, licenceNumber,"")
         viewModelScope.launch(dispatcherProvider.IO) {
-            loginResponseLive.value = ResponseLoginSealed.loading()
+            loginResponseLive.value = ResponseLoginSealed.loading(true)
             when (val response = apiRepo.SignUpNow(body)) {
                 is RetrofitResource.Error -> loginResponseLive.value = ResponseLoginSealed.ErrorOnResponse(response.failResponse)
                 is RetrofitResource.Success -> loginResponseLive.value = ResponseLoginSealed.Success(response.data!!)

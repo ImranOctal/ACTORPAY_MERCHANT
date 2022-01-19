@@ -60,7 +60,7 @@ interface RetrofitRepository {
 
     suspend fun getAllCategoriesDetail(token:String):RetrofitResource<GetAllCategoriesDetails>
 
-    suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean,data:JSONObject): RetrofitResource<GetProductListResponse>
+    suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse>
 
     suspend fun getSubCatDataDetailsList(token: String, pageNo: String): RetrofitResource<GetSubCatDataDetails>
 
@@ -69,6 +69,6 @@ interface RetrofitRepository {
     suspend fun updateStatus(token: String,orderNo:String,status: String,): RetrofitResource<UpdateOrderStatus>
 
     suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String):RetrofitResource<BeanViewAllOrder>
-
+    suspend fun getAllCountries():RetrofitResource<CountryResponse>
     suspend fun getFAQ():RetrofitResource<FAQResponse>
 }

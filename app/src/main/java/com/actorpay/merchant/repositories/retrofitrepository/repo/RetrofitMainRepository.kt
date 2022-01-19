@@ -298,8 +298,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         poduct_pic: MultipartBody.Part
     ): RetrofitResource<ProductResponse> {
         try {
-            val data =
-                apiClient.updateProduct(AppConstance.B_Token + token, id, product, poduct_pic)
+            val data = apiClient.updateProduct(AppConstance.B_Token + token, id, product, poduct_pic)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)
@@ -446,23 +445,9 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getProductList(
-        token: String,
-        pageNo: String,
-        pageSize: String,
-        sortBy: String,
-        asc: Boolean,
-        data: JSONObject
-    ): RetrofitResource<GetProductListResponse> {
+    override suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse> {
         try {
-            val data = apiClient.getProductList(
-                AppConstance.B_Token + token,
-                pageNo,
-                pageSize,
-                sortBy,
-                asc,
-                data = data
-            )
+            val data = apiClient.getProductList(AppConstance.B_Token + token, pageNo, pageSize, sortBy, asc,  data)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)
@@ -587,8 +572,6 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 )
             )
         }
-
-
     }
 
     override suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String): RetrofitResource<BeanViewAllOrder> {
@@ -623,6 +606,35 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getAllCountries(): RetrofitResource<CountryResponse> {
+        try {
+            val data = apiClient.getAllCountries()
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
                     val json=JSONObject(data.errorBody()!!.string())
                     val status=json.getString("status")
                     val message=json.getString("message")

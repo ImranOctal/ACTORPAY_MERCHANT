@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ForgetPasswordParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ProductPram
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
@@ -18,7 +20,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
 
 
@@ -139,11 +140,12 @@ class HomeViewModel(
         }
     }
 
-    fun getProductList(pageno: String,data:JSONObject) {
+    fun getProductList(pageno: String, name: String) {
+        val body= ProductPram(name)
         viewModelScope.launch(dispatcherProvider.IO) {
             productListLive.value = HomeSealedClasses.Companion.ResponseProductListSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.getProductList(token, pageno,"100","createdAt",asc = true,data)) {
+                when (val response = apiRepo.getProductList(token, pageno,"100","createdAt",asc = true,body)) {
                     is RetrofitResource.Error -> productListLive.value =
                         HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> productListLive.value =

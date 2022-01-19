@@ -38,3 +38,17 @@ data class ForgetPasswordResponses(
     val message: String,
     val status: String
 )
+data class CountryResponse (
+    val message    : String,
+    val data       : List<CountryItem> = arrayListOf(),
+    val status     : String,
+    val httpStatus : String
+)
+
+data class CountryItem(
+    val country:String,
+    val countryCode:String,
+    val countryFlag:String?,
+)
+
+data class ProductPram(val name: String)

@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
+import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityOrderDetailBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderDetailAdapter
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 
-class OrderDetailActivity : AppCompatActivity() {
+class OrderDetailActivity : BaseActivity() {
     lateinit var list: Item
     var bean = ArrayList<String>()
 
@@ -73,13 +74,12 @@ class OrderDetailActivity : AppCompatActivity() {
         binding.orderRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.orderRecyclerView.adapter = OrderDetailAdapter(this, list.orderItemDtos)
         binding.merchantName.text = list.orderItemDtos[0].merchantName
-        binding.orderDateText.text = "Order Date & Time: " + list.createdAt
+        binding.orderDateText.text="Order Date & Time: "+methods.getFormattedOrderDate(list.createdAt)
+
         binding.orderNumber.text = "Order Number: " + list.orderNo
         binding.orderAmount.text = AppConstance.rupee + list.totalPrice
-        binding.orderStatus.text = "Order Status: " + list.orderStatus
         binding.deliveryAddressAddress1.text = list.shippingAddressDTO.addressLine1
         binding.deliveryAddressAddress2.text = list.shippingAddressDTO.addressLine2
-        binding.deliveryAddressCity.text = list.shippingAddressDTO.city + "," + list.shippingAddressDTO.state
         binding.tvFirstName.text = "First Name: " + list.customer.firstName
         binding.tvLastName.text = "Last Name: " + list.customer.lastName
         binding.tvEmail.text = "Email: " + list.customer.email

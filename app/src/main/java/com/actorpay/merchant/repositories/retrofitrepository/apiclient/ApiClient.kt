@@ -24,6 +24,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEG
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
@@ -121,7 +122,7 @@ interface ApiClient {
         @Query(AppConstance.PAGE_SIZE) pageSize: String,
         @Query(AppConstance.SORT_BY) sortBy: String,
         @Query(AppConstance.ASCECNDING) asc: Boolean,
-        @Body data: JSONObject
+        @Body data: ProductPram
     ): Response<GetProductListResponse>
 
     @DELETE(DELET_PRODUCT)
@@ -168,6 +169,11 @@ interface ApiClient {
 
     @GET(GET_FAQ)
     suspend fun getFAQ(
-
     ): Response<FAQResponse>
+
+    @GET(GET_COUNTRIES)
+    suspend fun getAllCountries(
+    ): Response<CountryResponse>
+
 }
+

@@ -24,10 +24,11 @@ class FaqActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_faq)
         moreViewModel.getFAQ()
-        apiResponse()
         binding.back.setOnClickListener {
-            finish()
+            onBackPressed()
         }
+        apiResponse()
+
     }
 
     fun initExpandableList(){
@@ -72,5 +73,8 @@ class FaqActivity : BaseActivity() {
                 }
             }
         }
+    }
+    override fun onBackPressed() {
+        finish()
     }
 }

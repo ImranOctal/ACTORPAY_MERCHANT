@@ -80,8 +80,4 @@ class CustomExpandableListAdapter internal constructor(
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
         return true
     }
-
-
-
-
 }

@@ -41,11 +41,10 @@ class OrderAdapter(
                 titleOfOrder.text = items[position].orderNo
                 price.text = AppConstance.dollar + items[position].totalPrice.toString()
                 OrderType.text = items[position].orderStatus
-                date.text = items[position].createdAt
+                date.text= getFormattedOrderDate(items[position].createdAt)
 
-                titleOfOrder.setOnClickListener {
+                llRoot.setOnClickListener {
                     val intent = Intent(context, OrderDetailActivity::class.java)
-//                 OrderDetailActivity.data=items[position].orderItemDtos
                     intent.putExtra("data", items[position])
                     context.startActivity(intent)
                 }
@@ -83,6 +82,15 @@ class OrderAdapter(
             }
         }
 
+    }
+
+    fun getFormattedOrderDate(orderDate: String): String? {
+        try {
+            return  AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)
+        }
+        catch (e : Exception){
+            return orderDate
+        }
     }
 
 

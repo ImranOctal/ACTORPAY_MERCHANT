@@ -198,4 +198,13 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
         ) != PackageManager.PERMISSION_DENIED
     }
 
+    fun getFormattedOrderDate(orderDate: String): String? {
+        try {
+            return  AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)
+        }
+        catch (e : Exception){
+            return orderDate
+        }
+    }
+
 }

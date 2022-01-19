@@ -8,7 +8,7 @@
 <androidx.cardview.widget.CardView
     android:layout_width="@dimen/_80sdp"
     android:layout_marginTop="@dimen/_40sdp"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_70sdp"
     android:layout_marginBottom="@dimen/_5sdp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:orientation="vertical">
         <ImageView
             android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="wrap_content"
             android:src="@drawable/demo"
             android:scaleType="centerCrop"
             android:id="@+id/userProfileImage"/>

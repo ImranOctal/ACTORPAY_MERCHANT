@@ -16,6 +16,7 @@
 
             <LinearLayout
                 style="@style/parent"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:gravity="center">
 
                 <TextView
@@ -46,9 +47,9 @@
                         android:layout_height="@dimen/_8ssp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:visibility="gone"
                         android:layout_marginEnd="@dimen/_6ssp"
-                        android:src="@drawable/ic_next" />
+                        android:src="@drawable/ic_next"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/ivDropDown"
@@ -89,7 +90,7 @@
 
             <LinearLayout
                 style="@style/parent"
-                android:layout_marginTop="@dimen/_5sdp"
+
                 android:gravity="center|left">
 
                 <LinearLayout

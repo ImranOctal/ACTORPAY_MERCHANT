@@ -76,14 +76,32 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     startActivityForResult(i,102)
                 }
                 AppConstanceData.DELETE -> {
-                    homeviewmodel.deleteProduct(productListData[position].productId)
+                    CommonDialogsUtils.showCommonDialog(this@HomeActivity,
+                        homeviewmodel.methodRepo, "Delete", "Are you sure you want to delete",
+                        autoCancelable = false,
+                        isCancelAvailable = true,
+                        isOKAvailable = true,
+                        showClickable = false,
+                        callback = object : CommonDialogsUtils.DialogClick {
+                            override fun onClick() {
+                                homeviewmodel.deleteProduct(productListData[position].productId)
+                            }
+
+                            override fun onCancel() {
+
+                            }
+                        }
+                    )
+
+
                 }
                 AppConstanceData.ROOT -> {
                 }
             }
         }
         binding.manageProduct.adapter = adapter
-        homeviewmodel.getProductList("0", data = JSONObject())
+        homeviewmodel.getProductList("0", "")
+
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -91,9 +109,9 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             override fun afterTextChanged(s: Editable) {
                 if (s.toString().length > 2) {
                     searchRunnable = Runnable {
-                        data = JSONObject()
-                        data.put("name", s.toString())
-                        homeviewmodel.getProductList("0", data = data)
+//                        data = JSONObject()
+//                        data.put("name", s.toString())
+                        homeviewmodel.getProductList("0", binding.searchEdit.text.toString())
                     }
                     handler!!.removeCallbacks(searchRunnable!!)
                     handler!!.postDelayed(searchRunnable!!, 1000)
@@ -104,7 +122,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
-                    homeviewmodel.getProductList(page.toString(), data = JSONObject())
+                    homeviewmodel.getProductList(page.toString(),"")
          }
         }
 
@@ -252,7 +270,11 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                             adapter.UpdateList(action.response.data.items)
                             if (action.response.data.items.size > 0) {
                                 productListData = action.response.data.items
+                                binding.manageProduct.visibility=View.VISIBLE
+                                binding.emptyText.visibility = View.GONE
+
                             } else {
+                                binding.manageProduct.visibility=View.GONE
                                 binding.emptyText.visibility = View.VISIBLE
                             }
                         }
@@ -270,7 +292,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
         }
-
         //Delete Product
         lifecycleScope.launchWhenStarted {
             homeviewmodel.deleteproductLive.collect { action ->
@@ -283,7 +304,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (action.response is DeleteProductResponse) {
                             showCustomAlert("Product Deleted Successfully", binding.root)
-                            homeviewmodel.getProductList("0", data = JSONObject())
+                            homeviewmodel.getProductList("0", "")
                         } else {
                             binding.emptyText.visibility = View.VISIBLE
                             showCustomAlert(
@@ -317,6 +338,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                                 val data = it.response
                                 Log.e("merchantId>>>", data.data.merchantId)
                                 viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
+                                binding.headerTitle.userProfileName.text = data.data.businessName
                             }
                             is SuccessResponse -> {
                                 CommonDialogsUtils.showCommonDialog(
@@ -362,13 +384,18 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         binding.swipeLoad.isRefreshing = true
-        homeviewmodel.getProductList("0", data = JSONObject())
+        homeviewmodel.getProductList("0", "")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 102&&resultCode== Activity.RESULT_OK) {
-            homeviewmodel.getProductList("0", data = JSONObject())
+            homeviewmodel.getProductList("0","")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeviewmodel.getById()
     }
 }

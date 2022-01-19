@@ -140,7 +140,7 @@ abstract class BaseActivity : AppCompatActivity() {
             msg,
             Toast.LENGTH_SHORT
         )
-        myToast.setGravity(Gravity.CENTER, 0, 0)
+        myToast.setGravity(Gravity.BOTTOM, 0, 0)
         myToast.show()
     }
 

@@ -66,7 +66,10 @@
                     android:id="@+id/order_summary_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6ssp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@color/white"
                     android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintTop_toTopOf="parent">
@@ -75,6 +78,7 @@
                         android:id="@+id/rltRoot"
                         style="@style/parentConstraint"
                         android:layout_width="@dimen/_80sdp"
+                        android:visibility="gone"
                         android:layout_height="@dimen/_25sdp"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginEnd="@dimen/_6ssp"
@@ -113,21 +117,18 @@
 
                     </RelativeLayout>
 
+
                     <TextView
-                        android:id="@+id/order_summary_text"
+                        android:id="@+id/tvTitle"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:text="@string/order_details"
+                        android:textColor="@color/black"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:fontFamily="@font/poppins_regular"
-                        android:gravity="center"
-                        android:text="@string/order_summary"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
+                        android:textSize="@dimen/_12ssp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:layout_height="wrap_content"/>
                     <TextView
                         android:id="@+id/merchant_name"
                         android:layout_width="match_parent"
@@ -135,55 +136,29 @@
                         android:layout_marginHorizontal="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:ellipsize="end"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:maxLines="1"
                         android:text='test test'
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_summary_text"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                         tools:text="Merchant Name" />
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/order_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_10sdp"
-                        app:layout_constraintTop_toBottomOf="@+id/merchant_name"
-                        tools:itemCount="0" />
-
-
-                    <TextView
-                        android:id="@+id/orderDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:fontFamily="@font/poppins_bold"
-                        android:gravity="center"
-                        android:text='Order Detail:'
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_recycler_view" />
-
 
                     <TextView
                         android:id="@+id/order_date_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5ssp"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
                         android:text='20220-01'
+                        android:layout_marginTop="@dimen/_5ssp"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/orderDetail"
+                        app:layout_constraintTop_toBottomOf="@+id/merchant_name"
                         tools:text="Order Date &amp; Time:" />
-
 
                     <TextView
                         android:id="@+id/order_number"
@@ -191,29 +166,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
                         android:text='ORD28140'
-
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/order_date_text"
                         tools:text="Order Number: " />
 
-                    <TextView
-                        android:id="@+id/orderStatus"
-                        android:layout_width="wrap_content"
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/order_recycler_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_medium"
-                        android:gravity="center"
-                        android:text='Order Status'
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_number" />
+                        android:layout_marginTop="@dimen/_5ssp"
+                        app:layout_constraintTop_toBottomOf="@+id/order_amount_text"
+                        tools:itemCount="0" />
+
 
                     <TextView
                         android:id="@+id/order_amount_text"
@@ -221,13 +194,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
-                        android:text="Order Total Price:"
+                        android:text="Order Total:"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/orderStatus" />
+                        app:layout_constraintTop_toBottomOf="@+id/order_number" />
 
 
                     <LinearLayout
@@ -237,7 +210,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="vertical"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/order_amount_text">
+                        app:layout_constraintTop_toBottomOf="@+id/order_recycler_view">
 
 
                         <TextView
@@ -247,7 +220,7 @@
                             android:layout_marginHorizontal="@dimen/_10sdp"
                             android:fontFamily="@font/poppins_bold"
                             android:gravity="center"
-                            android:text="Customer Details:"
+                            android:text="@string/customer_details"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/_14ssp" />
 
@@ -334,7 +307,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center_vertical"
                         android:text="Unaamed Rod jaipur"
                         android:textColor="@color/text_color"
@@ -349,7 +322,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center_vertical"
                         android:text="Unnamed Road uttar pardesh"
                         android:textColor="@color/text_color"
@@ -357,21 +330,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/delivery_address_text"
                         app:layout_constraintTop_toBottomOf="@+id/delivery_address_address1" />
-
-                    <TextView
-                        android:id="@+id/delivery_address_city"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:gravity="center_vertical"
-                        android:text=""
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/delivery_address_text"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_address_address2" />
 
                     <TextView
                         android:id="@+id/order_amount"
@@ -385,7 +343,8 @@
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/orderStatus"
+
+                        app:layout_constraintTop_toBottomOf="@+id/order_number"
                         tools:text="Order Price" />
 
                     <EditText
@@ -393,13 +352,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_marginStart="@dimen/_16sdp"
-                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_16sdp"
                         android:background="@drawable/btn_outline_gray"
                         android:gravity="start"
                         android:hint="Note"
                         android:padding="@dimen/_16sdp"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_address_city" />
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_address_address2" />
 
                     <Button
                         android:id="@+id/btnNote"

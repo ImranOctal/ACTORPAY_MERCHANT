@@ -86,7 +86,7 @@
                                     android:id="@+id/signup_password_show_hide"
                                     android:layout_width="@dimen/_25sdp"
                                     android:layout_height="@dimen/_20sdp"
-                                    android:src="@drawable/ic_baseline_remove_red_eye_24"
+                                    android:src="@drawable/hide"
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/_5sdp"
                                     />
@@ -126,46 +126,39 @@
                                 style="@style/TxtOutline2"
                                 android:orientation="horizontal">
 
-                                <com.hbb20.CountryCodePicker
-                                    android:id="@+id/singup_ccp"
+                                <LinearLayout
+                                    android:id="@+id/country_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:ccpDialog_allowSearch="true"
-                                    app:ccpDialog_backgroundColor="@color/white"
-                                    app:ccpDialog_fastScroller_bubbleColor="@color/primary"
-                                    app:ccpDialog_fastScroller_bubbleTextAppearance="@style/regular_white"
-                                    app:ccpDialog_fastScroller_handleColor="@color/colorAccent"
-                                    app:ccpDialog_initialScrollToSelection="true"
-                                    app:ccpDialog_keyboardAutoPopup="false"
-                                    app:ccpDialog_searchEditTextTint="@color/gray"
-                                    app:ccpDialog_showCloseIcon="true"
-                                    app:ccpDialog_showFastScroller="true"
-                                    app:ccpDialog_showFlag="true"
-                                    app:ccpDialog_showPhoneCode="true"
-                                    app:ccpDialog_showTitle="false"
-                                    app:ccpDialog_textColor="@color/black"
-                                    app:ccp_arrowColor="@color/colorAccent"
-                                    app:ccp_arrowSize="20dp"
-                                    app:ccp_autoDetectCountry="true"
-                                    app:ccp_autoDetectLanguage="true"
-                                    app:ccp_autoFormatNumber="false"
-                                    app:ccp_clickable="true"
-                                    app:ccp_contentColor="@color/black"
-                                    app:ccp_countryPreference="IN"
-                                    app:ccp_defaultLanguage="ENGLISH"
-                                    app:ccp_defaultNameCode="IN"
-                                    app:ccp_flagBorderColor="@color/transparent"
-                                    app:ccp_hintExampleNumber="true"
-                                    app:ccp_hintExampleNumberType="FIXED_LINE"
-                                    app:ccp_rememberLastSelection="true"
-                                    app:ccp_selectionMemoryTag="signupCCP"
-                                    app:ccp_showArrow="false"
-                                    app:ccp_showFlag="true"
-                                    app:ccp_showFullName="false"
-                                    app:ccp_showNameCode="false"
-                                    app:ccp_showPhoneCode="true"
-                                    app:ccp_textGravity="RIGHT"
-                                    app:ccp_textSize="@dimen/_12ssp" />
+                                    android:orientation="horizontal"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="@dimen/_5sdp"
+                                    >
+                                    <ImageView
+                                        android:layout_width="@dimen/_18sdp"
+                                        android:layout_height="@dimen/_18sdp"
+                                        android:src="@drawable/flag_india"
+                                        />
+                                    <TextView
+                                        android:id="@+id/code_picker"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingStart="@dimen/_5sdp"
+                                        android:paddingEnd="@dimen/_5sdp"
+                                        tools:text="+91"
+                                        android:gravity="center"
+                                        android:textSize="@dimen/_12sdp"
+                                        android:textColor="@color/text_color"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:drawableEnd="@drawable/drop_down_arrow"
+                                        android:drawablePadding="@dimen/_5sdp"
+                                        />
+
+
+                                </LinearLayout>
 
                                 <View
                                     android:layout_width="2dp"

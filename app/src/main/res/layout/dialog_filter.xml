@@ -88,7 +88,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center"
                 android:background="@android:color/transparent"
-                android:hint="Serch by Merchant Name"
+                android:hint="@string/search_by_merchant_email"
                 android:inputType="text"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
@@ -175,6 +175,8 @@
             android:paddingEnd="@dimen/_8sdp"
             app:cardBackgroundColor="#FFFFFF"
             app:cardCornerRadius="@dimen/_10sdp">
+
+
 
             <Spinner
                 android:id="@+id/spinner_status"

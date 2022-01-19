@@ -38,18 +38,28 @@ class ManageOrderActivity : AppCompatActivity() {
     var orderStatus=""
     var customerEmail=""
     var orderNo=""
+    private var order = ArrayList<Item>()
     private var list=ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_order)
         Installation()
-        homeviewmodel.getAllOrder(startDate,endDate,merchantIid,deliveryStatus,customerEmail,orderNo)
+        homeviewmodel.getAllOrder(startDate,endDate,merchantIid,orderStatus,customerEmail,orderNo)
     }
 
+    private fun setupRv(orderList: ArrayList<Item>) {
+        binding.manageOrder.layoutManager = LinearLayoutManager(this@ManageOrderActivity, LinearLayoutManager.VERTICAL, false)
+        binding.manageOrder.adapter = OrderAdapter(this@ManageOrderActivity,
+            orderList
+        ) { position, status ->
+                updateStatus(position, orderList, status)
+            }
+    }
     private fun Installation() {
         binding.back.setOnClickListener {
             finish()
         }
+
         binding.ivFilter.setOnClickListener {
             filterBottomsheet()
         }
@@ -63,25 +73,31 @@ class ManageOrderActivity : AppCompatActivity() {
         binding.applyFilter.setOnClickListener {
             if (orderNo.isEmpty()) {
                 orderNo = binding.orderNumber.text.toString()
+
             } else {
                 orderNo = ""
+
             }
             if (startDate.isEmpty()) {
                 startDate = ""
+
             }
             if (endDate.isEmpty()) {
                 endDate = ""
+
             }
-            if (merchantIid.isNotEmpty()) {
-                merchantIid = binding.merchant.text.toString()
+            if (customerEmail.isEmpty()) {
+                customerEmail = binding.merchant.text.toString()
             } else {
-                merchantIid = ""
+                customerEmail=""
+
             }
-            homeviewmodel.getAllOrder(startDate, endDate, merchantIid, deliveryStatus, customerEmail, orderNo
-            )
+
+            homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
             dialog.dismiss()
         }
         ArrayAdapter.createFromResource(this, R.array.status_array, android.R.layout.simple_spinner_item).also { adapter ->
+
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerStatus.adapter = adapter
@@ -91,7 +107,12 @@ class ManageOrderActivity : AppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                 deliveryStatus = binding.spinnerStatus.selectedItem.toString()
+
+                if(position>0){
+                    orderStatus = binding.spinnerStatus.selectedItem.toString()
+                }
+
+
                 if (position == 0) {
                     (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
 
@@ -159,13 +180,15 @@ class ManageOrderActivity : AppCompatActivity() {
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()
                         if (action.response is BeanViewAllOrder) {
+
                             if(action.response.data.items.size>0){
-                                binding.manageOrder.layoutManager=LinearLayoutManager(this@ManageOrderActivity,LinearLayoutManager.VERTICAL,false)
-                                binding.manageOrder.adapter=OrderAdapter(this@ManageOrderActivity,action.response.data.items){
-                                    position,status ->
-                                    updateStatus(position,action.response.data.items,status)
-                                }
+                                order=action.response.data.items
+                                binding.manageOrder.visibility = View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
+                                setupRv(order)
+                            }else{
+                                binding.emptyText.visibility = View.VISIBLE
+                                binding.manageOrder.visibility = View.GONE
                             }
                         }
                     }

@@ -11,6 +11,7 @@ data class Data(
     val name: String,
     val productId: String,
     val quantity: Int,
+    val stockCount: Int,
     val status: Boolean,
     val subCategoryId: String,
     val taxId: String,

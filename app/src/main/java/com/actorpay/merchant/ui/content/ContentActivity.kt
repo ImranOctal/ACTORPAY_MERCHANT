@@ -15,11 +15,9 @@ class ContentActivity : BaseActivity() {
 
     private val contentViewModel: ContentViewModel by inject()
     private lateinit var binding: ActivityContentBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_content)
-
 
         apiResponse()
         installation()
