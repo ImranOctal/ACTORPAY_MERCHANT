@@ -6,7 +6,6 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangeP
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
-
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
@@ -41,7 +40,6 @@ import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResp
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -133,12 +131,16 @@ interface ApiClient {
 
     @GET(TAX_URL)
     suspend fun getAllTaxDataApi(
-        @Header(AUTH) token: String
+        @Header(AUTH) token: String,
+        @Query(AppConstance.SORT_BY) sortBy: String = "hsnCode",
+        @Query(AppConstance.ASCECNDING) asc: Boolean = true,
+        @Query(AppConstance.isActive) isActive: Boolean = true
     ): Response<GetCurrentTaxDetail>
+
 
     @GET(CATEGORIES_URL)
     suspend fun getAllCategoriesDataApi(
-        @Header(AUTH) token: String
+        @Header(AUTH) token: String,
     ): Response<GetAllCategoriesDetails>
 
 

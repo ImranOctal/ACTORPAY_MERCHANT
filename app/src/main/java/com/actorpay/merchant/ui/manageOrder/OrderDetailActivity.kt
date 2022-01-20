@@ -74,9 +74,9 @@ class OrderDetailActivity : BaseActivity() {
         binding.orderRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.orderRecyclerView.adapter = OrderDetailAdapter(this, list.orderItemDtos)
         binding.merchantName.text = list.orderItemDtos[0].merchantName
-        binding.orderDateText.text="Order Date & Time: "+methods.getFormattedOrderDate(list.createdAt)
+        binding.orderDateText.text="Created Date: "+methods.getFormattedOrderDate(list.createdAt)
 
-        binding.orderNumber.text = "Order Number: " + list.orderNo
+        binding.orderNumber.text = list.orderNo
         binding.orderAmount.text = AppConstance.rupee + list.totalPrice
         binding.deliveryAddressAddress1.text = list.shippingAddressDTO.addressLine1
         binding.deliveryAddressAddress2.text = list.shippingAddressDTO.addressLine2

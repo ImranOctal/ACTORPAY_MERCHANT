@@ -89,20 +89,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/actualQuantityText" />
 
-                <TextView
+                <Button
                     android:id="@+id/orderItemStatus"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:paddingHorizontal="@dimen/_15sdp"
                     android:background="@drawable/btn_bg"
-                    android:fontFamily="@font/poppins_medium"
-                    android:padding="@dimen/_6ssp"
-                    android:text="CANCEL"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Cancel"
+                    android:gravity="center"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/actualQuantityText" />
+                    app:layout_constraintBottom_toBottomOf="@+id/actualPriceText" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

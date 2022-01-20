@@ -57,6 +57,7 @@
     <string name="password">Password</string>
     <string name="remember_me">Remember Me</string>
     <string name="loginwithFacial">login with facial recognition</string>
+    <string name="Signup">Don\'t have an account? Signup</string>
     <string name="business">Business Name</string>
     <string name="mobile">Mobile</string>
     <string name="shopAddress">Shop Address</string>

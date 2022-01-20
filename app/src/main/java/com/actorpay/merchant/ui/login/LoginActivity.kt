@@ -12,6 +12,7 @@ import com.actorpay.merchant.databinding.ActivityLoginBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ForgetPasswordResponses
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.LoginResponses
 import com.actorpay.merchant.ui.home.HomeActivity
+import com.actorpay.merchant.ui.signup.SignupActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.viewmodel.AuthViewModel
 import com.jakewharton.rxbinding3.view.clicks
@@ -59,33 +60,34 @@ class LoginActivity : BaseActivity() {
                 showPassword = false
                 binding.loginPasswordShowHide.setImageResource(R.drawable.hide)
                 binding.password.setSelection(binding.password.text.toString().length)
-            } else {
+            }else {
                 binding.password.transformationMethod = null
                 showPassword = true
                 binding.loginPasswordShowHide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
                 binding.password.setSelection(binding.password.text.toString().length)
             }
         }
-      }
 
+        binding.tvSignUp.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
+        }
+      }
       private fun validate() {
         if (binding.emailEdit.text.isEmpty()) {
-
             binding.emailEdit.error=getString(R.string.email_empty)
             binding.emailEdit.requestFocus()
 
-        } else if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
+        }else if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
             binding.emailEdit.error=getString(R.string.invalid_email)
             binding.emailEdit.requestFocus()
 
         } else if (binding.password.text.isEmpty()) {
             binding.password.error=getString(R.string.oops_your_password_is_empty)
             binding.password.requestFocus()
-
         }else if (!binding.rememberMe.isChecked) {
+
             showCustomToast(getString(R.string.agree_our_terms_and_condition_login))
         } else {
-
             login()
 
         }
@@ -151,7 +153,6 @@ class LoginActivity : BaseActivity() {
             binding.password.text.toString().trim()
         )
     }
-
 
     fun forgetPassword() {
         ForgetPasswordDialog().show(this, loginViewModel.methodRepo) { email ->

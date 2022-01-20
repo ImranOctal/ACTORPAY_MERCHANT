@@ -27,6 +27,7 @@ class AppConstance {
         const val ORDERNO:String="orderNo"
         const val SORT_BY:String="sortBy"
         const val ASCECNDING:String="asc"
+        const val isActive:String="isActive"
         const val PAGE_SIZE:String="pageSize"
         const val B_Token:String="Bearer "
         const val UPDATE:String="update/"
@@ -55,7 +56,9 @@ class AppConstance {
         const val GET_CONTENT: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+GET_STATIC_CMS
         const val ADD_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+ PRODUCTS+"/"
         const val DELET_PRODUCT: String = SUB_DOMAIN+ SUB_DOMAIN2+ PRODUCTS+"/remove"
-        const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/active"
+        const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/get/all"
+
+
         const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/active/categories"
         const val PRODUCT_LIST: String = SUB_DOMAIN+SUB_DOMAIN2+PRODUCTS+"/list/paged"
         const val GET_BY_ID: String = SUB_DOMAIN+SUB_DOMAIN2+SUB_DOMAIN_MERCHANT+ BY+ ID
@@ -68,4 +71,5 @@ class AppConstance {
         val dateFormate3= SimpleDateFormat("yyyy-MM-dd HH:MM", Locale.ENGLISH)
         val dateFormate4= SimpleDateFormat("dd MMM yyyy HH:MM", Locale.ENGLISH)
     }
+
 }

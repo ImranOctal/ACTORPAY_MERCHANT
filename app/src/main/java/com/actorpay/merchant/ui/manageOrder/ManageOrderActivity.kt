@@ -21,6 +21,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
+import com.actorpay.merchant.utils.SingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -31,6 +32,7 @@ import kotlin.collections.ArrayList
 class ManageOrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManageOrderBinding
     private val homeviewmodel: HomeViewModel by inject()
+
     var startDate=""
     var endDate=""
     var merchantIid=""
@@ -67,43 +69,34 @@ class ManageOrderActivity : AppCompatActivity() {
     }
 
     private fun filterBottomsheet() {
-        val binding: DialogFilterBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter, null, false)
+        val binding: DialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter, null, false)
         val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
-        binding.applyFilter.setOnClickListener {
+            binding.orderNumber.setText(orderNo)
+            binding.startDate.setText(startDate)
+            binding.endDate.setText(endDate)
+            binding.applyFilter.setOnClickListener {
             if (orderNo.isEmpty()) {
                 orderNo = binding.orderNumber.text.toString()
-
             } else {
                 orderNo = ""
-
             }
             if (startDate.isEmpty()) {
                 startDate = ""
-
             }
             if (endDate.isEmpty()) {
                 endDate = ""
-
             }
-            if (customerEmail.isEmpty()) {
-                customerEmail = binding.merchant.text.toString()
-            } else {
-                customerEmail=""
-
-            }
-
             homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
             dialog.dismiss()
         }
         ArrayAdapter.createFromResource(this, R.array.status_array, android.R.layout.simple_spinner_item).also { adapter ->
-
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerStatus.adapter = adapter
         }
         binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                orderStatus = binding.spinnerStatus.selectedItem.toString()
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -115,10 +108,14 @@ class ManageOrderActivity : AppCompatActivity() {
 
                 if (position == 0) {
                     (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
-
                 }
             }
          }
+        val array = this.resources.getStringArray(R.array.status_array).toMutableList()
+        if (array.contains(orderStatus)) {
+            val pos = array.indexOfFirst { it.equals(orderStatus) }
+            binding.spinnerStatus.setSelection(pos)
+        }
         binding.cancel.setOnClickListener {
             dialog.dismiss()
         }
@@ -163,9 +160,9 @@ class ManageOrderActivity : AppCompatActivity() {
 
         binding.reset.setOnClickListener {
             binding.orderNumber.setText("")
-            binding.merchant.setText("")
             binding.startDate.setText("")
             binding.endDate.setText("")
+            binding.spinnerStatus.setSelection(0)
         }
         dialog.setContentView(binding.root)
         dialog.show()
@@ -200,6 +197,7 @@ class ManageOrderActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
 //        homeviewmodel.updateStatus(items[position].orderNo,status)
     }

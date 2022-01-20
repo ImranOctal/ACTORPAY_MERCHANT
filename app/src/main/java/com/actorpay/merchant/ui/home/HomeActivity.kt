@@ -29,6 +29,7 @@ import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
+import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
 import com.actorpay.merchant.ui.more.MoreActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
@@ -48,7 +49,7 @@ import java.util.*
 
 class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var adapter: ManageProductAdapter
+
     private var doubleBackToExitPressedOnce = false
     private val homeviewmodel: HomeViewModel by inject()
     private var productListData = ArrayList<Item>()
@@ -68,38 +69,8 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
     private fun initialisation() {
         binding.swipeLoad.setOnRefreshListener(this)
-        adapter = ManageProductAdapter(this) { position: Int, data: String ->
-            when (data) {
-                AppConstanceData.EDIT -> {
-                    val i =Intent(baseContext(),UpdateProduct::class.java)
-                    i.putExtra(PRODUCT_ID,productListData[position].productId)
-                    startActivityForResult(i,102)
-                }
-                AppConstanceData.DELETE -> {
-                    CommonDialogsUtils.showCommonDialog(this@HomeActivity,
-                        homeviewmodel.methodRepo, "Delete", "Are you sure you want to delete",
-                        autoCancelable = false,
-                        isCancelAvailable = true,
-                        isOKAvailable = true,
-                        showClickable = false,
-                        callback = object : CommonDialogsUtils.DialogClick {
-                            override fun onClick() {
-                                homeviewmodel.deleteProduct(productListData[position].productId)
-                            }
-
-                            override fun onCancel() {
-
-                            }
-                        }
-                    )
 
 
-                }
-                AppConstanceData.ROOT -> {
-                }
-            }
-        }
-        binding.manageProduct.adapter = adapter
         homeviewmodel.getProductList("0", "")
 
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
@@ -127,7 +98,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         binding.manageProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
-        adapter.UpdateList(productListData)
+
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
         binding.toolbar.ToolbarTitle.text = getString(R.string.manage_product)
@@ -186,7 +157,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
             switchActivity(Intent(baseContext(), MoreActivity::class.java))
         }
-
         binding.changePasswordLay.setOnClickListener {
             changePasswordUi()
         }
@@ -194,11 +164,11 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             logOut()
         }
     }
-
     fun changePasswordUi() {
         ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
             homeviewmodel.changePassword(oldPassword, newPassword)
         }
+
     }
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
@@ -267,11 +237,43 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         binding.swipeLoad.isRefreshing = false
                         if (action.response is GetProductListResponse) {
                             binding.emptyText.visibility = View.GONE
-                            adapter.UpdateList(action.response.data.items)
                             if (action.response.data.items.size > 0) {
                                 productListData = action.response.data.items
                                 binding.manageProduct.visibility=View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
+                                 binding.manageProduct.layoutManager=LinearLayoutManager(this@HomeActivity,LinearLayoutManager.VERTICAL,false)
+                                 binding.manageProduct.adapter = ManageProductAdapter(this@HomeActivity,productListData) {
+                                        position: Int, data: String ->
+                                    when (data) {
+                                        AppConstanceData.EDIT -> {
+                                            val i =Intent(baseContext(),UpdateProduct::class.java)
+                                            i.putExtra(PRODUCT_ID,productListData[position].productId)
+                                            startActivityForResult(i,102)
+                                        }
+                                        AppConstanceData.DELETE -> {
+                                            CommonDialogsUtils.showCommonDialog(this@HomeActivity,
+                                                homeviewmodel.methodRepo, "Delete", "Are you sure you want to delete",
+                                                autoCancelable = false,
+                                                isCancelAvailable = true,
+                                                isOKAvailable = true,
+                                                showClickable = false,
+                                                callback = object : CommonDialogsUtils.DialogClick {
+                                                    override fun onClick() {
+                                                        homeviewmodel.deleteProduct(productListData[position].productId)
+                                                    }
+
+                                                    override fun onCancel() {
+
+                                                    }
+                                                }
+                                            )
+                                        }
+                                        AppConstanceData.ROOT -> {
+                                        }
+                                    }
+
+                                }
+
 
                             } else {
                                 binding.manageProduct.visibility=View.GONE

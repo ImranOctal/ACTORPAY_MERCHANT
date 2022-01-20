@@ -99,7 +99,7 @@ class UpdateProduct : BaseActivity() {
         binding.chooseCategory.setSpinnerAdapter(catAdapter)
         binding.taxData.setSpinnerAdapter(taxAdapter)
         binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
-        homeviewmodel.getProduct(productId)
+
         ClickListners()
         apiResponse()
     }
@@ -156,6 +156,9 @@ class UpdateProduct : BaseActivity() {
             binding.dealPrice.error=getString(R.string.deal_price_length)
             binding.dealPrice.requestFocus()
         }
+        else if (taxId=="") {
+            showCustomToast("Please Select Tax")
+        }
         else if (binding.quantity.text.toString().trim().isEmpty()) {
             binding.quantity.error=getString(R.string.prod_quant_empty)
             binding.quantity.requestFocus()
@@ -168,7 +171,6 @@ class UpdateProduct : BaseActivity() {
             binding.description.requestFocus()
         }
         else if(prodImage==null){
-
             showCustomToast("Please Select Product Image")
         }else{
          lifecycleScope.launch {
@@ -188,7 +190,7 @@ class UpdateProduct : BaseActivity() {
             productJson.put("dealPrice", dealPrice)
             productJson.put("merchantId", merchantId)
             productJson.put("stockCount", qaunt)
-            productJson.put("taxId", "16111609-bff3-477a-b4cf-603592597721")
+            productJson.put("taxId", taxId)
             homeviewmodel.updateProduct(productJson.toString(), prodImage!!,isSelect)
             Log.e("json>>", productJson.toString())
         }
@@ -444,7 +446,7 @@ class UpdateProduct : BaseActivity() {
                         if (it.response is GetCurrentTaxDetail) {
                             if (it.response.data.size > 0) {
                                 taxList = it.response.data
-//                                homeviewmodel.getProduct(productId)
+                                homeviewmodel.getProduct(productId)
                                 taxAdapter.setItems(itemList = it.response.data)
                             } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         } else {

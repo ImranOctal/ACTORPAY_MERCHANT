@@ -29,7 +29,11 @@ abstract class BaseAdapter<N,Y:ViewBinding>(val context: Context, private val la
         return list!!.size
     }
 
-    abstract fun onViewHolderBind(viewHolder: BaseViewHolder<Y>,binding: Y, position: Int, data: N)
+
+
+    abstract fun onViewHolderBind(viewHolder: BaseViewHolder<Y>, binding: Y, position: Int, data: N)
+
+
 
 
 }

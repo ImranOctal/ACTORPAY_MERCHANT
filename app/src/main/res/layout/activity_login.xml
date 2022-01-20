@@ -140,9 +140,6 @@
                         android:paddingLeft="@dimen/_50sdp"
                         android:paddingRight="@dimen/_50sdp"
                         android:text="@string/login" />
-
-
-
                 </LinearLayout>
 
                 <TextView
@@ -150,8 +147,15 @@
                     style="@style/regular1_primary"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:text="@string/loginwithFacial"
-                    />
+                    android:text="@string/loginwithFacial" />
+
+                <TextView
+                    android:id="@+id/tvSignUp"
+                    style="@style/regular1_primary"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="@string/Signup" />
+
 
             </LinearLayout>
         </LinearLayout>

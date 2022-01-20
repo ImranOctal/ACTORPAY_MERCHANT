@@ -44,7 +44,7 @@ data class Customer(
 
 
 ):Serializable
-data class OrderParams(val startDate: String,val endDate: String,val merchantId: String,val orderStatus: String,val customerEmail: String,val orderNo: String)
+data class OrderParams(val startDate: String="",val endDate: String="",val merchantId: String="",val orderStatus: String="",val customerEmail: String="",val orderNo: String="")
 
 data class ShippingAddressDTO(
     val addressLine1: String,

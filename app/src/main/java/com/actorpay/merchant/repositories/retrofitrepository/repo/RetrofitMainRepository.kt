@@ -257,11 +257,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun addProduct(
-        token: String,
-        product: RequestBody,
-        poduct_pic: MultipartBody.Part
-    ): RetrofitResource<AddNewProductResponse> {
+    override suspend fun addProduct(token: String, product: RequestBody, poduct_pic: MultipartBody.Part): RetrofitResource<AddNewProductResponse> {
         try {
 
             val data = apiClient.addProduct(AppConstance.B_Token + token, product, poduct_pic)
@@ -474,10 +470,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getSubCatDataDetailsList(
-        token: String,
-        pageNo: String
-    ): RetrofitResource<GetSubCatDataDetails> {
+    override suspend fun getSubCatDataDetailsList(token: String, pageNo: String): RetrofitResource<GetSubCatDataDetails> {
         try {
             val data = apiClient.getSubCategoryList(AppConstance.B_Token + token, pageNo)
             val result = data.body()

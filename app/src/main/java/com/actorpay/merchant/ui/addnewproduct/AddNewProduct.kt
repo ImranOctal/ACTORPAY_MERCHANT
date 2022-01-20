@@ -72,6 +72,7 @@ class AddNewProduct : BaseActivity() {
         homeviewmodel.getTaxationDetails()
         catAdapter = CategoryAdapter(binding.chooseCategory)
         taxAdapter = TaxAdapter(binding.taxData)
+
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
         catAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
@@ -147,7 +148,12 @@ class AddNewProduct : BaseActivity() {
         } else if (binding.dealPrice.text.toString().trim().toFloat() < 1) {
             binding.dealPrice.error = getString(R.string.deal_price_length)
             binding.dealPrice.requestFocus()
-        } else if (binding.quantity.text.toString().trim().isEmpty()) {
+        }
+        else if (taxId=="") {
+            showCustomToast("Please Select SubCategory")
+        }
+
+        else if (binding.quantity.text.toString().trim().isEmpty()) {
             binding.quantity.error = getString(R.string.prod_quant_empty)
             binding.quantity.requestFocus()
 
@@ -175,7 +181,7 @@ class AddNewProduct : BaseActivity() {
                         productJson.put("dealPrice", dealPrice)
                         productJson.put("merchantId", merchantId)
                         productJson.put("stockCount", qaunt)
-                        productJson.put("taxId", "16111609-bff3-477a-b4cf-603592597721")
+                        productJson.put("taxId", taxId)
                         homeviewmodel.addProduct(productJson.toString(), prodImage!!)
                         Log.e("merchantId>>", merchantId)
                     }

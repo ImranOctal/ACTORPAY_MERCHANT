@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
+import com.actorpay.merchant.utils.SingleClickListener
+
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -91,6 +93,7 @@ class SignupActivity : BaseActivity() {
                 binding.password.setSelection(binding.password.text.toString().length)
             }
         }
+
         clickListeners()
     }
 
@@ -99,12 +102,15 @@ class SignupActivity : BaseActivity() {
             switchActivity(Intent(baseContext(), LoginActivity::class.java))
         }
 
-        disposable = binding.signupbtn.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+
+        binding.signupbtn.setOnClickListener(object : SingleClickListener() {
+            override fun performClick(view: View?) {
                 validate()
             }
+        })
     }
+
+
     fun validate() {
         if (binding.emailEdit.text.trim().isEmpty()) {
             binding.emailEdit.error = this.getString(R.string.email_empty)

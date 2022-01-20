@@ -30,23 +30,17 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
         RecyclerView.ViewHolder(orderDetailBinding.root) {
         fun bind(position: Int) {
             orderDetailBinding.apply {
-                Glide.with(context).load(data[position].image).into(productImage)
+                Glide.with(context).load(data[position].image) .placeholder(R.drawable.logo).into(productImage)
                 productTitle.text=data[position].productName
                 actualPriceText.text=AppConstance.rupee+data[position].productPrice.toString()
                 actualQuantityText.text="Quantity: "+data[position].productQty.toString()
-
                 if(data[position].orderItemStatus=="SUCCESS"||data[position].orderItemStatus=="READY"){
                     orderItemStatus.visibility=View.VISIBLE
-
                 }else{
-
                     orderItemStatus.visibility=View.VISIBLE
                     orderItemStatus.text="RETURNED"
                 }
-
             }
         }
     }
-
-
 }
