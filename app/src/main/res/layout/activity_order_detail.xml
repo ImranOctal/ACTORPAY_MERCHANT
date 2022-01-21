@@ -80,13 +80,21 @@
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_25sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/btn_outline_green"
                         android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/_6ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/OrderType"
-                            style="@style/TxtOutlineGreen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="@dimen/_6ssp"
+                            android:layout_marginEnd="@dimen/_6ssp"
+                            android:layout_toLeftOf="@id/ivNext"
+                            android:gravity="center"
                             android:text="@string/accept"
                             android:textColor="#2E7D32"
                             android:textSize="@dimen/_8ssp" />
@@ -136,15 +144,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text='ORD28140'
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="@+id/rltRoot"
+                        app:layout_constraintTop_toTopOf="@id/rltRoot"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/rltRoot"
+                        app:layout_constraintBottom_toBottomOf="@id/rltRoot"
                         tools:text="Order Number: " />
 
                     <TextView
@@ -152,7 +159,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
                         android:text='20220-01'
@@ -288,7 +294,6 @@
                                     android:layout_marginHorizontal="@dimen/_10sdp"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="center"
-
                                     android:text="@string/delivery_address_and_time"
                                     android:textColor="@color/text_color"
                                     android:textSize="@dimen/_12ssp"
@@ -383,25 +388,24 @@
                         android:layout_height="@dimen/_35sdp"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
                         android:background="@drawable/btn_bg"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center"
                         android:text="@string/cancel_order"
                         android:textAllCaps="false"
-                        android:layout_marginBottom="@dimen/_2sdp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintTop_toBottomOf="@+id/btnNote"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        />
+                        app:layout_constraintTop_toBottomOf="@+id/btnNote" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardDropDown"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:elevation="@dimen/_5ssp"
                         android:visibility="invisible"
-                        android:layout_marginEnd="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rltRoot">
 

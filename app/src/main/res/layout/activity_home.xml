@@ -283,6 +283,47 @@
                     android:layout_marginRight="@dimen/_10sdp"
                     android:background="@color/gray" />
 
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/earnMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/ivEarnMoney"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_earn_money"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
+
+                    <TextView
+                        style="@style/viewParent"
+                        android:layout_marginStart="16dp"
+                        android:text="Earn Money"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivEarnMoney"
+                        app:layout_constraintStart_toEndOf="@+id/ivEarnMoney"
+                        app:layout_constraintTop_toTopOf="@+id/ivEarnMoney" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/gray" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/contactusLay"
                     android:layout_width="match_parent"
@@ -410,14 +451,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_30sdp"
                     android:gravity="bottom"
-                    android:layout_marginTop="@dimen/_16sdp"
+
+                    android:layout_marginTop="@dimen/_5ssp"
                     android:orientation="vertical">
 
                     <include
                         android:id="@+id/footer"
                         layout="@layout/custom_duo_view_footer" />
+
 
                 </LinearLayout>
 

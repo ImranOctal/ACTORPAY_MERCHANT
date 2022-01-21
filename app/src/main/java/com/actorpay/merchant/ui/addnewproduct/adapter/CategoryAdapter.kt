@@ -39,6 +39,7 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
 
     override fun onBindViewHolder(holder: IconSpinnerViewHolder, position: Int) {
         holder.bind(spinnerItems[position], spinnerView)
+
         holder.itemView.setOnClickListener {
             notifyItemSelected(position)
         }

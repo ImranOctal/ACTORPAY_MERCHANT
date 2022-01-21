@@ -10,9 +10,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_2sdp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/_4sdp"
-
-        >
+        app:cardCornerRadius="@dimen/_4sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -89,17 +87,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/actualQuantityText" />
 
-                <Button
+                <TextView
                     android:id="@+id/orderItemStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_28sdp"
-                    android:paddingHorizontal="@dimen/_15sdp"
-                    android:background="@drawable/btn_bg"
-                    android:fontFamily="@font/poppins_semibold"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/btn_outline_blue"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="Cancel"
+                    android:paddingVertical="@dimen/_5ssp"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/blue_color"
                     android:textSize="@dimen/_11ssp"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"

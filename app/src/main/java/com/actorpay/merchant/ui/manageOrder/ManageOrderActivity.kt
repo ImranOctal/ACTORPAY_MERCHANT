@@ -96,11 +96,13 @@ class ManageOrderActivity : AppCompatActivity() {
         }
         binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
+
                 orderStatus = binding.spinnerStatus.selectedItem.toString()
+
+
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
                 if(position>0){
                     orderStatus = binding.spinnerStatus.selectedItem.toString()
                 }

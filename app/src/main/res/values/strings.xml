@@ -137,7 +137,7 @@
     <string name="search_by_start_date">Search by start date</string>
     <string name="search_by_end_date">Search by end date</string>
     <string name="order_summary">Order Summary</string>
-    <string name="delivery_address_and_time">Delivery Address and Time</string>
+    <string name="delivery_address_and_time">Shipping Details</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="add_note">Add Note</string>
     <string name="more">More</string>

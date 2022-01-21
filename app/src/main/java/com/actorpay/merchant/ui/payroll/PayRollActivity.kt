@@ -29,7 +29,6 @@ class PayRollActivity : BaseActivity() {
         binding.toolbar.ToolbarTitle.text = getString(R.string.payroll)
         ClickListners()
     }
-
     private fun ClickListners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()

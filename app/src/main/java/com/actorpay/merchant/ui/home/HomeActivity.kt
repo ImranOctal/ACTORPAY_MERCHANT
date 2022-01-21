@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,14 +70,10 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
     private fun initialisation() {
         binding.swipeLoad.setOnRefreshListener(this)
-
-
         homeviewmodel.getProductList("0", "")
-
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable) {
                 if (s.toString().length > 2) {
                     searchRunnable = Runnable {

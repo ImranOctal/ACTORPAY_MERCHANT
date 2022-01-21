@@ -66,6 +66,7 @@ class UpdateProduct : BaseActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
@@ -86,6 +87,7 @@ class UpdateProduct : BaseActivity() {
         catAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<Data> { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
                 catId = newItem.id
+
             }
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
@@ -299,15 +301,19 @@ class UpdateProduct : BaseActivity() {
                             binding.description.setText(it.response.data.description.toString())
                             binding.quantity.setText(it.response.data.stockCount.toString())
                             binding.productNameEdit.setText(it.response.data.name.toString())
+
                             if (categoryList != null && categoryList!!.size > 0) {
                                 for ((index, value) in categoryList!!.withIndex()) {
-                                    if (value.id.equals(it.response.data.categoryId)) {
+                                    if (value.id == it.response.data.categoryId) {
                                         binding.chooseCategory.selectItemByIndex(index)
                                         catId = value.id
                                         break
                                     }
+                                    Log.e("valueId>>>>>",value.id)
+                                    Log.e("catId>>>>>",it.response.data.categoryId)
                                 }
                             }
+
                             if (subCategoryList != null && subCategoryList!!.size > 0) {
                                 for ((index, value) in subCategoryList!!.withIndex()) {
                                     if (value.id.equals(it.response.data.subCategoryId)) {

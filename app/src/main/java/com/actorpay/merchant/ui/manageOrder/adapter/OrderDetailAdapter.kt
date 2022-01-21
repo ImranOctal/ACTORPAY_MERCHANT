@@ -34,12 +34,14 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
                 productTitle.text=data[position].productName
                 actualPriceText.text=AppConstance.rupee+data[position].productPrice.toString()
                 actualQuantityText.text="Quantity: "+data[position].productQty.toString()
-                if(data[position].orderItemStatus=="SUCCESS"||data[position].orderItemStatus=="READY"){
-                    orderItemStatus.visibility=View.VISIBLE
-                }else{
-                    orderItemStatus.visibility=View.VISIBLE
-                    orderItemStatus.text="RETURNED"
-                }
+                orderItemStatus.text=data[position].orderItemStatus
+
+//                if(data[position].orderItemStatus=="SUCCESS"||data[position].orderItemStatus=="READY"){
+//                    orderItemStatus.visibility=View.VISIBLE
+//                }else{
+//                    orderItemStatus.visibility=View.VISIBLE
+//                    orderItemStatus.text="RETURNED"
+//                }
             }
         }
     }
