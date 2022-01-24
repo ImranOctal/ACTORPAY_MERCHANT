@@ -69,6 +69,7 @@
     <string name="termsTxt">By Signing up you are agreeing to our Terms of use and Privacy Policy</string>
     <string name="error_phone">Oops! Your Phone is Not Correct or Empty</string>
     <string name="mobile_not_start_with_0">Mobile No. should not start with 0</string>
+    <string name="not_empty">Description is empty</string>
     <string name="productName">Product Name</string>
     <string name="chooseCategory">Choose Product Category</string>
     <string name="chooseSubCategory">Choose Product Subcategory</string>
@@ -106,7 +107,6 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="userName">Username</string>
-    <string name="submit">Submit</string>
     <string name="manage_new_sub_admin">Manage New Sub Admin</string>
     <string name="ok">OK</string>
     <string name="cancel1">Cancel</string>
@@ -122,6 +122,7 @@
     <string name="log_out">Log Out</string>
     <string name="press_back_again">Press back again</string>
     <string name="terms_of_use">Terms of use</string>
+    <string name="add_note_description">Add Note Description</string>
     <string name="agree_our_terms_and_condition">Please agree to our terms to sign up</string>
     <string name="agree_our_terms_and_condition_login">Please agree to our terms to login</string>
     <string name="profile_update">Profile Update</string>
@@ -144,6 +145,7 @@
     <string name="search_by_merchant_email">Search by Merchant Email</string>
     <string name="order_details">Order Details</string>
     <string name="customer_details">Customer Details:</string>
+    <string name="submit">Submit</string>
     >
 
     <string-array name="status_array">

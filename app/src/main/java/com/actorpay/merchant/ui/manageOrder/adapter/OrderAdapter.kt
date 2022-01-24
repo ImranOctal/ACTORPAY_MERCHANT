@@ -10,6 +10,10 @@ import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.octal.actorpay.repositories.AppConstance.AppConstance
+import android.app.Activity
+
+
+
 
 
 class OrderAdapter(
@@ -46,34 +50,8 @@ class OrderAdapter(
                 llRoot.setOnClickListener {
                     val intent = Intent(context, OrderDetailActivity::class.java)
                     intent.putExtra("data", items[position])
-                    context.startActivity(intent)
+                    (context as Activity).startActivityForResult(intent, 101)
                 }
-//                ivNext.setOnClickListener {
-//                    card.visibility=View.VISIBLE
-//                    ivDropDown.visibility=View.VISIBLE
-//                    ivNext.visibility=View.GONE
-//
-//                }
-//                ivDropDown.setOnClickListener {
-//                    card.visibility=View.GONE
-//                    ivDropDown.visibility=View.GONE
-//                    ivNext.visibility=View.VISIBLE
-//
-//                }
-//                if(items[position].orderStatus=="SUCCESS"){
-//                    list.add("READY")
-//                    list.add("CANCELED")
-//
-//                }else if(items[position].orderStatus=="READY"){
-//                    list.add("CANCELED")
-//                    list.add("DISPATCHED")
-//
-//                }else if(items[position].orderStatus=="RETURNING"){
-//                    list.add("RETURNED")
-//
-//                }else{
-//                    list.add("")
-//                }
 //                orderStatusSpinner.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 //                orderStatusSpinner.adapter=OrderStatusAdapter(context,list){
 //                    pos,status ->

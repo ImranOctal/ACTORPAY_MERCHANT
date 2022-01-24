@@ -52,6 +52,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry" />
 
+
+                <ImageView
+                    android:id="@+id/ivMenu"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_6ssp"
+                    android:src="@drawable/ic_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <!--   <TextView
                        android:id="@+id/cancelPriceText"
                        android:layout_width="wrap_content"
@@ -87,22 +97,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/actualQuantityText" />
 
+
                 <TextView
                     android:id="@+id/orderItemStatus"
-                    android:layout_width="@dimen/_80sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/btn_outline_blue"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Cancel"
-                    android:paddingVertical="@dimen/_5ssp"
-                    android:gravity="center"
-                    android:textAllCaps="false"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text=""
                     android:textColor="@color/blue_color"
-                    android:textSize="@dimen/_11ssp"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/actualPriceText" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/actualPriceText" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

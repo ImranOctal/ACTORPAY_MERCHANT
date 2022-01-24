@@ -1,12 +1,13 @@
 package com.actorpay.merchant.ui.home
 
 import android.app.Application
+import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
-import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ForgetPasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ProductPram
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.UpdateStatus
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
@@ -20,6 +21,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import java.io.File
 
 
@@ -234,18 +236,17 @@ class HomeViewModel(
         }
     }
 
-    fun updateStatus(orderNo: String, status: String) {
+    fun updateStatus(etNote: String, orderItemId: MutableList<String>, status: String, orderNo: String) {
+        val body= UpdateStatus(etNote,orderItemId)
         viewModelScope.launch(dispatcherProvider.IO) {
             updateStatus.value = HomeSealedClasses.Companion.ResponseSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.updateStatus(token,orderNo,status)) {
+                when (val response = apiRepo.updateStatus(token,body,status,orderNo)) {
                     is RetrofitResource.Error -> updateStatus.value = HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> updateStatus.value =
                         HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
                 }
-
             }
-
         }
     }
 

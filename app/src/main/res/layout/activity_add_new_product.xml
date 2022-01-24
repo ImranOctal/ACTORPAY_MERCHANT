@@ -76,7 +76,6 @@
 
                             <!--ChooseProductCategory-->
 
-
                                 <com.skydoves.powerspinner.PowerSpinnerView
                                     style="@style/TxtOutlineCustom"
                                     android:id="@+id/chooseCategory"

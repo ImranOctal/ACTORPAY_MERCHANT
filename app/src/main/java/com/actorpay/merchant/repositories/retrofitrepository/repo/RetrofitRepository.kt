@@ -21,7 +21,6 @@ import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResp
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONObject
 
 /*
 * © Copyright Ishant Sharma
@@ -66,7 +65,7 @@ interface RetrofitRepository {
 
     suspend fun getById( id: String,token: String,): RetrofitResource<GetUserById>
 
-    suspend fun updateStatus(token: String,orderNo:String,status: String,): RetrofitResource<UpdateOrderStatus>
+    suspend fun updateStatus(token: String, body: UpdateStatus, status: String, orderNo: String): RetrofitResource<UpdateOrderStatus>
 
     suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String):RetrofitResource<BeanViewAllOrder>
     suspend fun getAllCountries():RetrofitResource<CountryResponse>

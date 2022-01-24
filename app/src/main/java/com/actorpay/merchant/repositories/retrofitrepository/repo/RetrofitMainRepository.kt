@@ -538,34 +538,26 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun updateStatus(token: String, orderNo: String, status: String): RetrofitResource<UpdateOrderStatus> {
+    override suspend fun updateStatus(token: String, body: UpdateStatus, status: String, orderNo: String): RetrofitResource<UpdateOrderStatus> {
         try {
-            val updateStatus = apiClient.updateStatus(AppConstance.B_Token + token, orderNo, status)
+            val updateStatus = apiClient.updateStatus(AppConstance.B_Token +token,status,orderNo,body)
             val result = updateStatus.body()
             if (updateStatus.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)
             } else {
-                if (updateStatus.errorBody() != null) {
-                    val json = JSONObject(updateStatus.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
+                if(updateStatus.errorBody()!=null) {
+                    val json=JSONObject(updateStatus.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
                     return RetrofitResource.Error(FailResponse(message, status))
                 }
-                return RetrofitResource.Error(
-                    FailResponse(
-                        context.getString(R.string.please_try_after_sometime),
-                        ""
-                    )
-                )
+                return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
             }
         } catch (e: Exception) {
-            return RetrofitResource.Error(
-                FailResponse(
-                    e.message ?: context.getString(R.string.server_not_responding), ""
-                )
-            )
+            return RetrofitResource.Error(FailResponse(e.message ?: context.getString(R.string.server_not_responding),""))
         }
     }
+
 
     override suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String): RetrofitResource<BeanViewAllOrder> {
         try {

@@ -340,6 +340,7 @@ class AddNewProduct : BaseActivity() {
                             if (it.response is GetAllCategoriesDetails) {
                                 if (it.response.data.size > 0) {
                                     catAdapter.setItems(itemList = it.response.data)
+
                                 } else {
                                     showCustomAlert(
                                         getString(R.string.category_not_found),

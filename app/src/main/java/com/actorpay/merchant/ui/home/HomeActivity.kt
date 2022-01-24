@@ -165,8 +165,8 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
             homeviewmodel.changePassword(oldPassword, newPassword)
         }
-
     }
+
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
             homeviewmodel.homeResponseLive.collect {
@@ -206,8 +206,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                             getString(R.string.please_try_after_sometime),
                             binding.root
                         )
-
-
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
                         homeviewmodel.methodRepo.hideLoadingDialog()

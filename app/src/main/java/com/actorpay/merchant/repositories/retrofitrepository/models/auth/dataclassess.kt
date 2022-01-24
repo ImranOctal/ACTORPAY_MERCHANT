@@ -1,5 +1,8 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.auth
 
+import com.google.gson.JsonArray
+import org.json.JSONArray
+
 data class LoginResponses(
     val `data`: Data,
     val httpStatus: String,
@@ -19,6 +22,9 @@ data class Data(
 data class LoginParams(val email: String,val password: String)
 
 data class ForgetPasswordParams(val emailId: String)
+
+
+data class UpdateStatus(val orderNoteDescription: String,val orderItemIds:MutableList<String>)
 
 
 data class SignUpParams(val email:String,

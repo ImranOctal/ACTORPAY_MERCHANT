@@ -74,7 +74,7 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
              NetworkCapabilities.TRANSPORT_CELLULAR
          ))
     }
-    fun showLoadingDialog(context: Context?): Dialog? {
+    fun showLoadingDialog(context: Context?) {
         if(progressDialog==null){
             progressDialog = Dialog(context!!)
             if (progressDialog!!.window != null) {
@@ -90,8 +90,10 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
             progressDialog!!.setCancelable(false)
             progressDialog!!.setCanceledOnTouchOutside(false)
             progressDialog!!.show()
+        }else{
+            progressDialog!!.show()
         }
-        return progressDialog
+
     }
     fun hideLoadingDialog() {
         if(progressDialog!=null){

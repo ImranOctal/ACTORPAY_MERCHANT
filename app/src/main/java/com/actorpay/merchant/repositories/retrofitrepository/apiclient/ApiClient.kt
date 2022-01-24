@@ -167,6 +167,7 @@ interface ApiClient {
         @Header(AUTH) token: String,
         @Query(AppConstance.STATUS) status: String,
         @Query(AppConstance.ORDERNO) orderNo: String,
+        @Body statusParam: UpdateStatus
     ): Response<UpdateOrderStatus>
 
     @GET(GET_FAQ)

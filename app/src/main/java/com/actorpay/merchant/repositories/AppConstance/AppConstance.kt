@@ -70,6 +70,22 @@ class AppConstance {
         const val GET_COUNTRIES: String = SUB_DOMAIN+ SUB_DOMAIN_GLOBAL+"v1/country/get/all"
         val dateFormate3= SimpleDateFormat("yyyy-MM-dd HH:MM", Locale.ENGLISH)
         val dateFormate4= SimpleDateFormat("dd MMM yyyy HH:MM", Locale.ENGLISH)
+
+        const val STATUS_SUCCESS:String="SUCCESS"
+        const val STATUS_READY:String="READY"
+        const val STATUS_CANCELLED:String="CANCELLED"
+        const val STATUS_PARTIALLY_CANCELLED:String="PARTIALLY_CANCELLED"
+        const val STATUS_DISPATCHED:String="DISPATCHED"
+        const val STATUS_RETURNING:String="RETURNING"
+        const val STATUS_PARTIALLY_RETURNING:String="PARTIALLY_RETURNING"
+        const val STATUS_RETURNED :String="RETURNED"
+        const val STATUS_PARTIALLY_RETURNED:String="PARTIALLY_RETURNED"
+        const val STATUS_DELIVERED:String="DELIVERED"
+        const val STATUS_PENDING:String="PENDING"
+        const val STATUS_FAILED:String="FAILED"
+        const val STATUS_COMPLETED:String="COMPLETED"
+
     }
+
 
 }

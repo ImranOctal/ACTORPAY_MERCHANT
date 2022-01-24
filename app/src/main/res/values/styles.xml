@@ -454,4 +454,17 @@
     </style>
 
 
+    <style name="DialogFragmentTheme" parent="android:style/Theme.Translucent">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>
