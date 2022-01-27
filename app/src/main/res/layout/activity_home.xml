@@ -119,9 +119,15 @@
             android:layout_gravity="start|top"
             android:background="@drawable/side_round_corner_drawble">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <include
@@ -282,6 +288,45 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/gray" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/myRolesLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/rolesIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/doller"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_color" />
+
+                    <TextView
+                        style="@style/viewParent"
+                        android:layout_marginStart="16dp"
+                        android:text="Roles"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/rolesIcon"
+                        app:layout_constraintStart_toEndOf="@+id/rolesIcon"
+                        app:layout_constraintTop_toTopOf="@+id/rolesIcon" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -321,6 +366,8 @@
                         app:layout_constraintStart_toEndOf="@+id/orderIco"
                         app:layout_constraintTop_toTopOf="@+id/orderIco" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -516,6 +563,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+            </ScrollView>
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -34,6 +34,7 @@ import com.actorpay.merchant.ui.outlet.OutletActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.profile.ProfileViewModel
+import com.actorpay.merchant.ui.roles.RolesActivity
 import com.actorpay.merchant.ui.subAdmin.CreateSubAdminActivity
 import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
@@ -113,6 +114,12 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             } else {
                 binding.drawerLayout.openDrawer(GravityCompat.START, true)
             }
+        }
+        binding.myRolesLay.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), RolesActivity::class.java))
         }
         binding.AddNewProductButton.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
