@@ -13,6 +13,7 @@ import com.actorpay.merchant.ui.outlet.adapter.AdapterOutlet
 import com.actorpay.merchant.ui.outlet.addoutlet.AddOutletActivity
 import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
 import com.actorpay.merchant.ui.outlet.response.GetOutlet
+import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -51,9 +52,22 @@ class OutletActivity : BaseActivity() {
                                     pos ->
                                     var ids = mutableListOf<String>()
                                     ids.add(it.response.data.items[pos].id)
+                                    CommonDialogsUtils.showCommonDialog(this@OutletActivity,
+                                        outletViewModel.methodRepo, "Delete", "Are you sure you want to delete",
+                                        autoCancelable = false,
+                                        isCancelAvailable = true,
+                                        isOKAvailable = true,
+                                        showClickable = false,
+                                        callback = object : CommonDialogsUtils.DialogClick {
+                                            override fun onClick() {
+                                                deleteOutlet(ids)
+                                            }
 
-                                    deleteOutlet(ids)
+                                            override fun onCancel() {
 
+                                            }
+                                        }
+                                    )
                                 }
 
                             }else{
@@ -61,10 +75,7 @@ class OutletActivity : BaseActivity() {
                             }
 
                         } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
+
                         }
                     }
                     is ResponseSealed.ErrorOnResponse -> {
@@ -90,13 +101,13 @@ class OutletActivity : BaseActivity() {
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is DeleteOutlet) {
-                            outletViewModel.getOutlet()
 
+                            showCustomAlert(it.response.message, binding.root)
+
+                            outletViewModel.getOutlet()
                         } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
+
+
                         }
                     }
                     is ResponseSealed.ErrorOnResponse -> {

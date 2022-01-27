@@ -203,14 +203,9 @@ interface ApiClient {
   ): Response<GetOutlet>
 
 
-  @DELETE(DELETE_OUTLET)
+  @HTTP(method = "DELETE", path = DELETE_OUTLET,hasBody = true)
     suspend fun deleteOutlet(
         @Header(AUTH) token: String,
         @Body param: DeleteOutParam,
-
-
   ): Response<DeleteOutlet>
-
-
 }
-

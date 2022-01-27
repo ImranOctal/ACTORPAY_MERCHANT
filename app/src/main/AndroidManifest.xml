@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.outlet.updateoutlet.UpdateOutletActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.outlet.addoutlet.AddOutletActivity"
             android:exported="false" />
         <activity

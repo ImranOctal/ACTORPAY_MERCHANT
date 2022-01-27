@@ -1,12 +1,16 @@
 package com.actorpay.merchant.ui.outlet.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOutletBinding
+import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.actorpay.merchant.ui.outlet.response.OutletItem
+import com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletActivity
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 
 
@@ -42,6 +46,14 @@ class AdapterOutlet(
                 tvAddress1.text=items[position].addressLine1
                 tvOutletAddress2.text=items[position].addressLine2
                 tvOutletContact.text=items[position].extensionNumber+items[position].contactNumber
+
+
+                edit.setOnClickListener {
+                    val intent = Intent(context, UpdateOutletActivity::class.java)
+                    context.startActivity(intent)
+
+                }
+
 
                 delete.setOnClickListener {
                     onClick(position)
