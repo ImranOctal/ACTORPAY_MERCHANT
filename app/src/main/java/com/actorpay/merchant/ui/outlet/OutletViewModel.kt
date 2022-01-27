@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.DeleteOutParam
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.UpdateParam
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.outlet.response.EmptyBody
@@ -24,7 +25,6 @@ class OutletViewModel(
 
 
     fun getOutlet() {
-
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
 
@@ -45,6 +45,19 @@ class OutletViewModel(
             val body=DeleteOutParam(ids)
             methodRepo.dataStore.getAccessToken().collect { token ->
                 when (val response = apiRepo.deleteOutlet(token,body)) {
+                    is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> responseLive.value =
+                        ResponseSealed.Success(response.data!!)
+                }
+            }
+        }
+    }
+    fun updateOutlet(resourceType: String, licenceNumber: String, title: String, description: String, extensionNumber: String, addressLine1: String, addressLine2: String, contactNumber: String, zipCode: String, city: String, country: String, state: String, latitude: String, longitude: String, id: String) {
+        val body= UpdateParam(id,resourceType,licenceNumber,title,description,extensionNumber,contactNumber,addressLine1,addressLine2,zipCode,city,state,country,latitude,longitude)
+        viewModelScope.launch(dispatcherProvider.IO) {
+            responseLive.value = ResponseSealed.Loading(true)
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                when (val response = apiRepo.updateOutlet(token,body)) {
                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> responseLive.value =
                         ResponseSealed.Success(response.data!!)

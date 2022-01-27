@@ -17,7 +17,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance
 class AdapterOutlet(
     val context: Context,
     private var items: List<OutletItem>,
-    val onClick: (pos: Int) -> Unit
+    val onClick: (pos: Int,action:String) -> Unit
 ) :
     RecyclerView.Adapter<AdapterOutlet.ItemHolder>() {
 
@@ -49,14 +49,13 @@ class AdapterOutlet(
 
 
                 edit.setOnClickListener {
-                    val intent = Intent(context, UpdateOutletActivity::class.java)
-                    context.startActivity(intent)
+                    onClick(position,"edit")
 
                 }
 
 
                 delete.setOnClickListener {
-                    onClick(position)
+                    onClick(position,"delete")
                 }
             }
 

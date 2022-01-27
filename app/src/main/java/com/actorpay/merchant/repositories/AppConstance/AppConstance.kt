@@ -70,6 +70,7 @@ class AppConstance {
         const val CREATE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/create"
         const val GET_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/get/all/paged"
         const val DELETE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/delete/by/ids"
+        const val UPDATE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/update"
 
         const val GET_FAQ: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "faq/all"
         const val GET_COUNTRIES: String = SUB_DOMAIN+ SUB_DOMAIN_GLOBAL+"v1/country/get/all"
@@ -92,7 +93,7 @@ class AppConstance {
         const val white_color:String="#FFFFFF"
         const val blue_color:String="#0078b7"
         const val red_color:String="#F44336"
-
+        const val GET_ROLES:String=SUB_DOMAIN+SUB_DOMAIN2+"role/get/all/paged"
     }
 
 

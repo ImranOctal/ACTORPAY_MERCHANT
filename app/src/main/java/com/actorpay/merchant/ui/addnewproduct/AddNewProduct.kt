@@ -122,8 +122,8 @@ class AddNewProduct : BaseActivity() {
     fun validate() {
         if (prodImage == null) {
             showCustomToast("Please Select Product Image")
-        } else if (binding.productNameEdit.text.toString().trim().isEmpty()) {
 
+        } else if (binding.productNameEdit.text.toString().trim().isEmpty()) {
             binding.productNameEdit.error = getString(R.string.product_empty)
             binding.productNameEdit.requestFocus()
 

@@ -51,6 +51,27 @@ data class OutletParam(val resourceType:String,
                         val longitude:String
 )
 
+data class UpdateParam(
+    val id:String, val resourceType:String,
+    val licenceNumber:String,
+                        val title:String,
+                        val description:String,
+                        val extensionNumber:String,
+                        val contactNumber:String,
+                        val addressLine1:String,
+                        val addressLine2:String,
+                        val zipCode:String,
+                        val city:String,
+                        val state:String,
+                        val country:String,
+                        val latitude:String,
+                        val longitude:String
+)
+
+
+
+
+
 
 
 data class ForgetPasswordResponses(

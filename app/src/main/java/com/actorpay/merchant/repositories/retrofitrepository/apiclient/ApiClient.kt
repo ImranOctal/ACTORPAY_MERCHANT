@@ -15,11 +15,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.GetRolesParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RolesResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
-import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
-import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
-import com.actorpay.merchant.ui.outlet.response.EmptyBody
-import com.actorpay.merchant.ui.outlet.response.GetOutlet
+import com.actorpay.merchant.ui.outlet.response.*
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
@@ -32,6 +31,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_C
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ROLES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
@@ -41,6 +41,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_C
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
@@ -202,10 +203,28 @@ interface ApiClient {
 
   ): Response<GetOutlet>
 
+  @PUT(UPDATE_OUTLET)
+    suspend fun updateOutlet(
+        @Header(AUTH) token: String,
+        @Body param: UpdateParam,
+
+  ): Response<UpdateOutlet>
+
 
   @HTTP(method = "DELETE", path = DELETE_OUTLET,hasBody = true)
     suspend fun deleteOutlet(
         @Header(AUTH) token: String,
         @Body param: DeleteOutParam,
   ): Response<DeleteOutlet>
+
+    @Headers("Content-Type:application/json")
+    @POST(GET_ROLES)
+    suspend fun getAllRoles(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: Int,
+        @Body param: GetRolesParams,
+        @Query(AppConstance.ASCECNDING) asc: Boolean=false,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
+
+        ): Response<RolesResponse>
 }

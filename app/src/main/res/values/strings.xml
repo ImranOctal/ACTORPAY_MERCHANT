@@ -170,6 +170,8 @@
 
     <string name="licence_number">Licence Number</string>
     <string name="add_outlet">Add Outlet</string>
+    <string name="update_outlet">Update Outlet</string>
+    <string name="all_roles">All Roles</string>
 
     >
 
