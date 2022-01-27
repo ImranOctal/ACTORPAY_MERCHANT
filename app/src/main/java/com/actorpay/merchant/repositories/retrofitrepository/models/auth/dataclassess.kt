@@ -1,8 +1,5 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.auth
 
-import com.google.gson.JsonArray
-import org.json.JSONArray
-
 data class LoginResponses(
     val `data`: Data,
     val httpStatus: String,
@@ -38,6 +35,24 @@ data class SignUpParams(val email:String,
                         val fcmToken:String
 )
 
+data class OutletParam(val resourceType:String,
+                        val licenceNumber:String,
+                        val title:String,
+                        val description:String,
+                        val extensionNumber:String,
+                        val contactNumber:String,
+                        val addressLine1:String,
+                        val addressLine2:String,
+                        val zipCode:String,
+                        val city:String,
+                        val state:String,
+                        val country:String,
+                        val latitude:String,
+                        val longitude:String
+)
+
+
+
 data class ForgetPasswordResponses(
     val `data`: Data,
     val httpStatus: String,
@@ -56,5 +71,7 @@ data class CountryItem(
     val countryCode:String,
     val countryFlag:String?,
 )
+data class DeleteOutParam(val ids: MutableList<String>)
+
 
 data class ProductPram(val name: String)

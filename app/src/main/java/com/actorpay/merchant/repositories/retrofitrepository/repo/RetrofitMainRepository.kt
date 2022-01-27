@@ -24,6 +24,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.profile.Prof
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
+import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
+import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
+import com.actorpay.merchant.ui.outlet.response.EmptyBody
+import com.actorpay.merchant.ui.outlet.response.GetOutlet
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
@@ -591,6 +595,94 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun createOutlet(token: String, param: OutletParam): RetrofitResource<AddOutletResponse> {
+        try {
+            val data = apiClient.createOutlet(AppConstance.B_Token +token,param)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+
+    }
+
+    override suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet> {
+        try {
+            val data = apiClient.getOutlet(AppConstance.B_Token+token,pageNo,body)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteOutlet(token: String, body: DeleteOutParam): RetrofitResource<DeleteOutlet> {
+        try {
+            val data = apiClient.deleteOutlet(AppConstance.B_Token+token, body)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
                     val json=JSONObject(data.errorBody()!!.string())
                     val status=json.getString("status")
                     val message=json.getString("message")

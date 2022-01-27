@@ -12,6 +12,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.text.SpannableString
@@ -73,32 +74,6 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
          return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || capabilities.hasTransport(
              NetworkCapabilities.TRANSPORT_CELLULAR
          ))
-    }
-    fun showLoadingDialog(context: Context?) {
-        if(progressDialog==null){
-            progressDialog = Dialog(context!!)
-            if (progressDialog!!.window != null) {
-                val window = progressDialog!!.window
-                window!!.setLayout(
-                        WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.WRAP_CONTENT
-                )
-                window.setGravity(Gravity.CENTER)
-                progressDialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            }
-            progressDialog!!.setContentView(R.layout.progress_dialog)
-            progressDialog!!.setCancelable(false)
-            progressDialog!!.setCanceledOnTouchOutside(false)
-            progressDialog!!.show()
-        }else{
-            progressDialog!!.show()
-        }
-
-    }
-    fun hideLoadingDialog() {
-        if(progressDialog!=null){
-            progressDialog!!.dismiss()
-        }
     }
     fun getFormattedDate(context: Context?, smsTimeInMilis: Long): String? {
         val formatter = SimpleDateFormat("yyyy-MM-dd , h:mm aa", Locale.ENGLISH)
@@ -207,6 +182,18 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
         catch (e : Exception){
             return orderDate
         }
+    }
+    fun View.roundBorderedView(cornerRadius: Int, backgroundColor : String, borderColor: String, borderWidth : Int) {
+        addOnLayoutChangeListener(object: View.OnLayoutChangeListener {
+            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                val shape = GradientDrawable()
+                shape.cornerRadius = cornerRadius.toFloat()//measuredHeight / 2f
+                shape.setColor(Color.parseColor(backgroundColor))
+                shape.setStroke(borderWidth, Color.parseColor(borderColor))
+                background = shape
+                removeOnLayoutChangeListener(this)
+            }
+        })
     }
 
 }

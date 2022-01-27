@@ -73,6 +73,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
 
+
     implementation 'com.makeramen:roundedimageview:2.3.0' //Rounded Imageview
     //Circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -168,4 +169,7 @@ dependencies {
     implementation "com.github.skydoves:powerspinner:1.1.9"
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
+
+    //placeApi
+    implementation 'com.google.android.libraries.places:places:2.4.0'
 }

@@ -54,22 +54,22 @@ class FaqActivity : BaseActivity() {
             moreViewModel.miscResponseLive.collect { action ->
                 when (action) {
                     is MoreViewModel.ResponseMiscSealed.loading -> {
-                       moreViewModel.methodRepo.showLoadingDialog(this@FaqActivity)
+                       showLoadingDialog()
                     }
                     is  MoreViewModel.ResponseMiscSealed.Success -> {
-                        moreViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (action.response is FAQResponse) {
                             initExpandableList()
                         }
                     }
                     is MoreViewModel.ResponseMiscSealed.ErrorOnResponse -> {
-                        moreViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         (this@FaqActivity as BaseActivity).showCustomAlert(
                             action.failResponse!!.message,
                             binding.root
                         )
                     }
-                    else -> moreViewModel.methodRepo.hideLoadingDialog()
+                    else -> hideLoadingDialog()
                 }
             }
         }

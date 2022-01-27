@@ -280,10 +280,10 @@ class AddNewProduct : BaseActivity() {
                 homeviewmodel.addProductByIDLive.collect {
                     when (it) {
                         is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
-                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                            showLoadingDialog()
                         }
                         is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             if (it.response is AddNewProductResponse) {
                                 CommonDialogsUtils.showCommonDialog(
                                     this@AddNewProduct,
@@ -314,14 +314,14 @@ class AddNewProduct : BaseActivity() {
 
                         }
                         is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             showCustomAlert(
                                 it.failResponse!!.message,
                                 binding.root
                             )
                         }
                         else -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                         }
                     }
 
@@ -333,10 +333,10 @@ class AddNewProduct : BaseActivity() {
                 homeviewmodel.CatogryLive.collect {
                     when (it) {
                         is HomeSealedClasses.Companion.CatogrySealed.loading -> {
-                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                            showLoadingDialog()
                         }
                         is HomeSealedClasses.Companion.CatogrySealed.Success -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             if (it.response is GetAllCategoriesDetails) {
                                 if (it.response.data.size > 0) {
                                     catAdapter.setItems(itemList = it.response.data)
@@ -358,14 +358,14 @@ class AddNewProduct : BaseActivity() {
 
                         }
                         is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             showCustomAlert(
                                 it.failResponse!!.message,
                                 binding.root
                             )
                         }
                         else -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                         }
                     }
 
@@ -377,10 +377,10 @@ class AddNewProduct : BaseActivity() {
                 homeviewmodel.subCatLive.collect {
                     when (it) {
                         is HomeSealedClasses.Companion.SubCatSealed.loading -> {
-                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                            showLoadingDialog()
                         }
                         is HomeSealedClasses.Companion.SubCatSealed.Success -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             if (it.response is GetSubCatDataDetails) {
                                 if (it.response.data.items.size > 0) {
                                     subCategoryAdapter.setItems(itemList = it.response.data.items)
@@ -397,14 +397,14 @@ class AddNewProduct : BaseActivity() {
 
                         }
                         is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             showCustomAlert(
                                 it.failResponse!!.message,
                                 binding.root
                             )
                         }
                         else -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                         }
                     }
 
@@ -417,10 +417,10 @@ class AddNewProduct : BaseActivity() {
                 homeviewmodel.taxListLive.collect {
                     when (it) {
                         is HomeSealedClasses.Companion.TaxationSealed.loading -> {
-                            homeviewmodel.methodRepo.showLoadingDialog(this@AddNewProduct)
+                            showLoadingDialog()
                         }
                         is HomeSealedClasses.Companion.TaxationSealed.Success -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                             if (it.response is GetCurrentTaxDetail) {
                                 if (it.response.data.size > 0) {
                                     taxAdapter.setItems(itemList = it.response.data)
@@ -434,11 +434,11 @@ class AddNewProduct : BaseActivity() {
 
                         }
                         is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
 //                        showCustomAlert(it.failResponse!!.message, binding.root)
                         }
                         else -> {
-                            homeviewmodel.methodRepo.hideLoadingDialog()
+                            hideLoadingDialog()
                         }
                     }
 

@@ -37,10 +37,10 @@ class ContentActivity : BaseActivity() {
             contentViewModel.contentResponseLive.collect{
                 when(it){
                     is ContentViewModel.ResponseContentSealed.loading->{
-                        contentViewModel.methodRepo.showLoadingDialog(this@ContentActivity)
+                        showLoadingDialog()
                     }
                     is ContentViewModel.ResponseContentSealed.Success -> {
-                        contentViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is ContentResponse) {
                             binding.toolbar.ToolbarTitle.text=it.response.data.title
                             binding.contentWebview.loadDataWithBaseURL("",it.response.data.contents,"text/html","UTF-8","")
@@ -55,14 +55,14 @@ class ContentActivity : BaseActivity() {
 
                     }
                     is ContentViewModel.ResponseContentSealed.ErrorOnResponse -> {
-                        contentViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.message!!.message,
                             binding.root
                         )
                     }
                     else -> {
-                        contentViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 

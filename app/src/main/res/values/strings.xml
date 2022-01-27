@@ -7,9 +7,16 @@
     <string name="cpass_and_pass_not_match">Oops! Your Password Mismatch</string>
     <string name="invalid_email">Oops! Your Email is Invalid</string>
     <string name="email_empty">Oops! Your Email is Empty</string>
+    <string name="resource_empty">Oops! Your Resource is Empty</string>
+    <string name="licence_empty">Oops! Your Licence is Empty</string>
+    <string name="title_empty">Oops! Your Title is Empty</string>
     <string name="product_empty">Oops! Your Product is Empty</string>
     <string name="shop_address_empty">Oops! Your Shop Address is Empty</string>
     <string name="address_empty">Oops! Your Address is Empty</string>
+    <string name="zip_code_empty">Oops! Your Zip Code is Empty</string>
+    <string name="city_empty">Oops! Your City is Empty</string>
+    <string name="state_empty">Oops! Your State is Empty</string>
+    <string name="country_empty">Oops! Your Country is Empty</string>
     <string name="password_empty">Oops! Your Password is Empty</string>
     <string name="business_empty">Oops! Your Business Name is Empty</string>
     <string name="error_business">Oops! your business name\'s length is less than 3</string>
@@ -62,12 +69,15 @@
     <string name="mobile">Mobile</string>
     <string name="shopAddress">Shop Address</string>
     <string name="address">Full Address</string>
+    <string name="place_api_key">AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0</string>
     <string name="shopact">Shop  Act No/ License</string>
     <string name="resourceType">Resource Type</string>
     <string name="alreadySignup">already have an account ?</string>
     <string name="signup">Signup</string>
     <string name="termsTxt">By Signing up you are agreeing to our Terms of use and Privacy Policy</string>
     <string name="error_phone">Oops! Your Phone is Not Correct or Empty</string>
+    <string name="number_not_correct">Oops! Your Phone Number is Not Correct</string>
+    <string name="phone_empty">Oops! Your Phone Number Empty</string>
     <string name="mobile_not_start_with_0">Mobile No. should not start with 0</string>
     <string name="not_empty">Description is empty</string>
     <string name="productName">Product Name</string>
@@ -75,7 +85,7 @@
     <string name="chooseSubCategory">Choose Product Subcategory</string>
     <string name="actualPrice">Enter Actual Price</string>
     <string name="dealPrice">Enter Deal Price</string>
-    <string name="dealPrice1">Deal Price</string>
+    <string name="dealPrice1">Deal Price : </string>
     <string name="quantity">Enter Quantity</string>
     <string name="discription">Description</string>
     <string name="Upload">+Upload Image</string>
@@ -146,6 +156,21 @@
     <string name="order_details">Order Details</string>
     <string name="customer_details">Customer Details:</string>
     <string name="submit">Submit</string>
+    <string name="enter_resource_type">Enter resource Type</string>
+    <string name="title">Title</string>
+    <string name="license_number">License Number</string>
+    <string name="description">Description</string>
+    <string name="outlet">Outlet</string>
+    <string name="address_line1">Address Line1: </string>
+    <string name="address_line2">Address Line2: </string>
+    <string name="zip_code">Zip Code</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+
+    <string name="licence_number">Licence Number</string>
+    <string name="add_outlet">Add Outlet</string>
+
     >
 
     <string-array name="status_array">
@@ -162,7 +187,6 @@
         <item>DELIVERED</item>
         <item>PENDING</item>
         <item>FAILED</item>
-
     </string-array>
 
     <string-array name="productCat">

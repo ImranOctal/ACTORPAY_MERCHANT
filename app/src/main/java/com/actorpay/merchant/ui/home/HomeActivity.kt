@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,8 +29,8 @@ import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
-import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
 import com.actorpay.merchant.ui.more.MoreActivity
+import com.actorpay.merchant.ui.outlet.OutletActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.profile.ProfileViewModel
@@ -50,7 +49,6 @@ import java.util.*
 
 class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityHomeBinding
-
     private var doubleBackToExitPressedOnce = false
     private val homeviewmodel: HomeViewModel by inject()
     private var productListData = ArrayList<Item>()
@@ -154,6 +152,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
             switchActivity(Intent(baseContext(), MoreActivity::class.java))
         }
+
+        binding.outlet.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), OutletActivity::class.java))
+        }
+
         binding.changePasswordLay.setOnClickListener {
             changePasswordUi()
         }
@@ -172,10 +178,10 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             homeviewmodel.homeResponseLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseHomeSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@HomeActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@HomeActivity,
@@ -208,14 +214,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         )
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
 
-                    else -> homeviewmodel.methodRepo.hideLoadingDialog()
+                    else -> hideLoadingDialog()
                 }
             }
         }
@@ -224,14 +230,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             homeviewmodel.productListLive.collect { action ->
                 when (action) {
                     is HomeSealedClasses.Companion.ResponseProductListSealed.loading -> {
-                        binding.emptyText.visibility = View.VISIBLE
-                        homeviewmodel.methodRepo.showLoadingDialog(this@HomeActivity)
+//                        binding.emptyText.visibility = View.VISIBLE
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseProductListSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         binding.swipeLoad.isRefreshing = false
                         if (action.response is GetProductListResponse) {
-                            binding.emptyText.visibility = View.GONE
+//                            binding.emptyText.visibility = View.GONE
                             if (action.response.data.items.size > 0) {
                                 productListData = action.response.data.items
                                 binding.manageProduct.visibility=View.VISIBLE
@@ -277,15 +283,15 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse -> {
-                        binding.emptyText.visibility = View.VISIBLE
+//                        binding.emptyText.visibility = View.VISIBLE
                         binding.swipeLoad.isRefreshing = false
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(action.failResponse!!.message, binding.root)
                         if (action.failResponse.message.contains("End of input at")) {
-                            logOutDirect()
+//                            logOutDirect()
                         }
                     }
-                    else -> homeviewmodel.methodRepo.hideLoadingDialog()
+                    else -> hideLoadingDialog()
                 }
             }
         }
@@ -295,10 +301,10 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 when (action) {
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.loading -> {
                         binding.emptyText.visibility = View.VISIBLE
-                        homeviewmodel.methodRepo.showLoadingDialog(this@HomeActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (action.response is DeleteProductResponse) {
                             showCustomAlert("Product Deleted Successfully", binding.root)
                             homeviewmodel.getProductList("0", "")
@@ -311,13 +317,13 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(action.failResponse!!.message, binding.root)
                         /* if (action.failResponse.message.contains("End of input at")) {
                              logOutDirect()
                          }*/
                     }
-                    else -> homeviewmodel.methodRepo.hideLoadingDialog()
+                    else -> hideLoadingDialog()
                 }
             }
         }
@@ -326,10 +332,10 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             homeviewmodel.getById.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@HomeActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         when (it.response) {
                             is GetUserById -> {
                                 val data = it.response
@@ -353,11 +359,11 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(it.failResponse!!.message, binding.root)
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
 
                 }

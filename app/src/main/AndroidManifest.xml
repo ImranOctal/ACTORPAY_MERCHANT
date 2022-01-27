@@ -15,30 +15,31 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.outlet.addoutlet.AddOutletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.outlet.OutletActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.more.FaqActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.more.MoreActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.manageOrder.OrderDetailActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.content.ContentActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.subAdmin.CreateSubAdminActivity"
             android:exported="false"
@@ -130,6 +131,10 @@
                 android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0" />
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"

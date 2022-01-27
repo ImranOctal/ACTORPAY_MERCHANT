@@ -16,15 +16,22 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.sub
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
+import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
+import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
+import com.actorpay.merchant.ui.outlet.response.EmptyBody
+import com.actorpay.merchant.ui.outlet.response.GetOutlet
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CREATE_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
@@ -177,6 +184,33 @@ interface ApiClient {
     @GET(GET_COUNTRIES)
     suspend fun getAllCountries(
     ): Response<CountryResponse>
+
+
+    @POST(CREATE_OUTLET)
+    suspend fun createOutlet(
+        @Header(AUTH) token: String,
+        @Body param: OutletParam
+    ): Response<AddOutletResponse>
+
+
+  @POST(GET_OUTLET)
+    suspend fun getOutlet(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: String,
+        @Body empty: EmptyBody,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
+
+  ): Response<GetOutlet>
+
+
+  @DELETE(DELETE_OUTLET)
+    suspend fun deleteOutlet(
+        @Header(AUTH) token: String,
+        @Body param: DeleteOutParam,
+
+
+  ): Response<DeleteOutlet>
+
 
 }
 

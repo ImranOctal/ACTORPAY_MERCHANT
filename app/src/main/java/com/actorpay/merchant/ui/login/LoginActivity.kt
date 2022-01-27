@@ -94,12 +94,11 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun apiResponse() {
-
         lifecycleScope.launch {
             loginViewModel.loginResponseLive.collect {
                 when (it) {
                     is AuthViewModel.ResponseLoginSealed.loading -> {
-                        loginViewModel.methodRepo.showLoadingDialog(this@LoginActivity)
+                        showLoadingDialog()
                     }
                     is AuthViewModel.ResponseLoginSealed.Success -> {
 
@@ -132,14 +131,14 @@ class LoginActivity : BaseActivity() {
                         }
                     }
                     is AuthViewModel.ResponseLoginSealed.ErrorOnResponse -> {
-                        loginViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     else -> {
-                        loginViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
             }

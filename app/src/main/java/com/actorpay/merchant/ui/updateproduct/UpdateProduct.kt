@@ -278,10 +278,10 @@ class UpdateProduct : BaseActivity() {
             homeviewmodel.getProductByIDLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseGetProductSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseGetProductSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is GetProductDataById) {
                             response = it.response
                             Glide.with(binding.root).load(it.response.data.image)
@@ -335,14 +335,14 @@ class UpdateProduct : BaseActivity() {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseGetProductSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 
@@ -353,10 +353,10 @@ class UpdateProduct : BaseActivity() {
             homeviewmodel.CatogryLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.CatogrySealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.CatogrySealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         homeviewmodel.getSubCatDetalis()
                         if (it.response is GetAllCategoriesDetails) {
                             if (it.response.data.size > 0) {
@@ -380,14 +380,14 @@ class UpdateProduct : BaseActivity() {
 
                     }
                     is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 
@@ -400,11 +400,11 @@ class UpdateProduct : BaseActivity() {
                 when (it) {
 
                     is HomeSealedClasses.Companion.SubCatSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.SubCatSealed.Success -> {
                         homeviewmodel.getTaxationDetails()
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is GetSubCatDataDetails) {
                             if (it.response.data.items.size > 0) {
                                 subCategoryList = it.response.data.items
@@ -421,14 +421,14 @@ class UpdateProduct : BaseActivity() {
                         }
                     }
                     is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
             }
@@ -438,10 +438,10 @@ class UpdateProduct : BaseActivity() {
             homeviewmodel.taxListLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.TaxationSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.TaxationSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
 
                         if (it.response is GetCurrentTaxDetail) {
                             if (it.response.data.size > 0) {
@@ -456,14 +456,14 @@ class UpdateProduct : BaseActivity() {
 
                     }
                     is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
 //                        showCustomAlert(
 //                            it.failResponse!!.message,
 //                            binding.root
 //                        )
                     }
                     else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 
@@ -475,12 +475,11 @@ class UpdateProduct : BaseActivity() {
             homeviewmodel.editProductByIDLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseEditProductSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@UpdateProduct)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseEditProductSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is ProductResponse) {
-
                             setResult(Activity.RESULT_OK)
                             finish()
 
@@ -489,11 +488,11 @@ class UpdateProduct : BaseActivity() {
 
                     }
                     is HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(it.failResponse!!.message, binding.root)
                     }
                     else -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 

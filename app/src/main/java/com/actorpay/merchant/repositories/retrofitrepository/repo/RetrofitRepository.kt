@@ -16,6 +16,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
+import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
+import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
+import com.actorpay.merchant.ui.outlet.response.EmptyBody
+import com.actorpay.merchant.ui.outlet.response.GetOutlet
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
@@ -70,4 +74,10 @@ interface RetrofitRepository {
     suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String):RetrofitResource<BeanViewAllOrder>
     suspend fun getAllCountries():RetrofitResource<CountryResponse>
     suspend fun getFAQ():RetrofitResource<FAQResponse>
+
+    suspend fun createOutlet(token: String,param: OutletParam): RetrofitResource<AddOutletResponse>
+
+    suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet>
+
+    suspend fun deleteOutlet(token: String, body: DeleteOutParam): RetrofitResource<DeleteOutlet>
 }

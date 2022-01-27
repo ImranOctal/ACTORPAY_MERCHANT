@@ -14,6 +14,8 @@ import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.more.MoreViewModel
+import com.actorpay.merchant.ui.outlet.OutletViewModel
+import com.actorpay.merchant.ui.outlet.addoutlet.AddOutletViewModel
 import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.viewmodel.AuthViewModel
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
@@ -88,6 +90,12 @@ private val appKoinModule = module {
     }
     viewModel {
         MoreViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        OutletViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        AddOutletViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
 
    /* factory<ScreenNavigator> {

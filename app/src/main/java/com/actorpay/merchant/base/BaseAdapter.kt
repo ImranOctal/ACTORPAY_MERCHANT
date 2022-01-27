@@ -6,9 +6,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.actorpay.merchant.repositories.methods.MethodsRepo
+import org.koin.android.ext.android.inject
+import org.koin.java.KoinJavaComponent.inject
 
 abstract class BaseAdapter<N,Y:ViewBinding>(val context: Context, private val layoutId:Int): RecyclerView.Adapter<BaseViewHolder<Y>>() {
+
     private var list: java.util.ArrayList<N>? = ArrayList()
+
    fun UpdateList(list:java.util.ArrayList<N>){
        list.also { this.list = it }
        notifyDataSetChanged()

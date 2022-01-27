@@ -41,9 +41,8 @@
                         style="@style/parentConstraint"
                         android:layout_weight=".3"
                         android:orientation="vertical"
-                        android:weightSum="1"
                         android:visibility="invisible"
-                        >
+                        android:weightSum="1">
 
                         <TextView
                             android:id="@+id/status"
@@ -54,8 +53,8 @@
 
                         <Spinner
                             android:id="@+id/orderStatusSpinner"
-                            android:visibility="gone"
-                            style="@style/spinner" />
+                            style="@style/spinner"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -88,36 +87,57 @@
 
                         <TextView
                             android:id="@+id/itemActualPricelbl"
-                            style="@style/regular1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="@string/item_price"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/_9sdp" />
 
                         <TextView
                             android:id="@+id/actualPrice"
-                            style="@style/Heading2_bold_red"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
                             android:foreground="@drawable/strikethrough"
-                            android:text="@string/demo_price" />
+                            android:text="@string/demo_price"
+                            android:layout_marginStart="@dimen/_5ssp"
+                            android:textColor="@color/red" />
 
-                        <TextView
-                            android:id="@+id/itemDealPricelbl"
-                            style="@style/regular1"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:text="@string/dealPrice1"
-                            android:textColor="@color/gray_dark"
-                            android:textSize="@dimen/_9sdp" />
 
-                        <TextView
-                            android:id="@+id/dealPrice"
-                            style="@style/Heading2_bold_primary"
-                            android:text="@string/demo_price" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/itemDealPricelbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/dealPrice1"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        android:id="@+id/dealPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary"
+                        android:layout_marginStart="@dimen/_5ssp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/demo_price" />
+                </LinearLayout>
+
+
                 <TextView
                     android:id="@+id/date"
-                    style="@style/regular1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="10:30 PM Saturday 03-May 2021"
                     android:textColor="@color/gray_dark"
                     android:textSize="@dimen/_9sdp" />

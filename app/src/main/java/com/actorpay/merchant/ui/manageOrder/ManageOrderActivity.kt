@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
+import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityManageOrderBinding
 import com.actorpay.merchant.databinding.DialogFilterBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
@@ -32,7 +33,7 @@ import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ManageOrderActivity : AppCompatActivity() {
+class ManageOrderActivity : BaseActivity() {
     private lateinit var binding: ActivityManageOrderBinding
     private val homeviewmodel: HomeViewModel by inject()
 
@@ -70,7 +71,6 @@ class ManageOrderActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
-
         binding.ivFilter.setOnClickListener {
             filterBottomsheet()
         }
@@ -116,23 +116,17 @@ class ManageOrderActivity : AppCompatActivity() {
         }
         binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 orderStatus = binding.spinnerStatus.selectedItem.toString()
-
-
             }
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long
-            ) {
+                id: Long)
+            {
                 if (position > 0) {
                     orderStatus = binding.spinnerStatus.selectedItem.toString()
                 }
-
-
                 if (position == 0) {
                     (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
                 }
@@ -200,10 +194,10 @@ class ManageOrderActivity : AppCompatActivity() {
             homeviewmodel.getAllOrder.collect { action ->
                 when (action) {
                     is HomeSealedClasses.Companion.ResponseSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@ManageOrderActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (action.response is BeanViewAllOrder) {
 
                             if (action.response.data.items.size > 0) {
@@ -218,18 +212,17 @@ class ManageOrderActivity : AppCompatActivity() {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
-                    else -> homeviewmodel.methodRepo.hideLoadingDialog()
+                    else -> hideLoadingDialog()
                 }
             }
         }
     }
 
     private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
-//        homeviewmodel.updateStatus(items[position].orderNo,status)
+    // homeviewmodel.updateStatus(items[position].orderNo,status)
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101&&resultCode== Activity.RESULT_OK) {
@@ -243,6 +236,4 @@ class ManageOrderActivity : AppCompatActivity() {
             )
         }
     }
-
-
 }

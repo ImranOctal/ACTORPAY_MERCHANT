@@ -74,55 +74,23 @@
                     android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <RelativeLayout
-                        android:id="@+id/rltRoot"
-                        style="@style/parentConstraint"
-                        android:layout_width="@dimen/_80sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:background="@drawable/btn_outline_green"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="@dimen/_6ssp"
+
+                    <TextView
+                        android:id="@+id/OrderType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_6ssp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:padding="@dimen/_6sdp"
+                        android:text="@string/accept"
+                        android:textColor="#2E7D32"
+                        android:textSize="@dimen/_8ssp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/OrderType"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="@dimen/_6ssp"
-                            android:layout_marginEnd="@dimen/_6ssp"
-                            android:layout_toLeftOf="@id/ivNext"
-                            android:gravity="center"
-                            android:text="@string/accept"
-                            android:textColor="#2E7D32"
-                            android:textSize="@dimen/_8ssp" />
-
-
-                        <ImageView
-                            android:id="@+id/ivNext"
-                            android:layout_width="@dimen/_8ssp"
-                            android:layout_height="@dimen/_8ssp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/_6ssp"
-                            android:visibility="gone"
-                            android:src="@drawable/ic_next" />
-
-                        <ImageView
-                            android:id="@+id/ivDropDown"
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
-
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/_6ssp"
-                            android:src="@drawable/ic_dropdown"
-                            android:visibility="gone" />
-
-
-                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/merchant_name"
@@ -151,9 +119,9 @@
                         android:text='ORD28140'
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintTop_toTopOf="@id/rltRoot"
+                        app:layout_constraintBottom_toBottomOf="@id/OrderType"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/rltRoot"
+                        app:layout_constraintTop_toTopOf="@id/OrderType"
                         tools:text="Order Number: " />
 
                     <TextView
@@ -203,6 +171,7 @@
                         android:layout_marginHorizontal="@dimen/_5ssp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:elevation="@dimen/_5ssp"
+                        app:cardCornerRadius="@dimen/_4sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/order_recycler_view">
 
@@ -354,35 +323,99 @@
                         app:layout_constraintTop_toBottomOf="@+id/order_date_text"
                         tools:text="Order Price" />
 
-                    <EditText
-                        android:id="@+id/etNote"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardNotes"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_5ssp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:background="@drawable/btn_outline_gray"
-                        android:gravity="start"
-                        android:hint="Note"
-                        android:padding="@dimen/_16sdp"
-                        app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail" />
-
-                    <Button
-                        android:id="@+id/btnNote"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_35sdp"
-                        android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/btn_bg"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:gravity="center"
-                        android:paddingHorizontal="@dimen/_10sdp"
-                        android:text="@string/add_note"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:elevation="@dimen/_5ssp"
+                        app:cardCornerRadius="@dimen/_4sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etNote" />
+                        app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail"
+
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/_5sdp"
+                                    android:fontFamily="@font/poppins_bold"
+                                    android:gravity="start"
+
+                                    android:layout_weight="1"
+                                    android:padding="@dimen/_6ssp"
+                                    android:text="Notes"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="@dimen/_12ssp" />
+
+                                <Button
+                                    android:id="@+id/btnNote"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_marginHorizontal="@dimen/_10sdp"
+                                    android:background="@drawable/btn_bg"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="@dimen/_10sdp"
+                                    android:text="@string/add_note"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_10sdp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail" />
+
+
+
+
+                            </LinearLayout>
+                                <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_6sdp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:gravity="center_vertical"
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="Note 1 Description Text"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="@dimen/_10sdp"
+                                android:layout_marginHorizontal="@dimen/_20sdp"
+                                android:background="@color/gray_dark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_6sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:gravity="center_vertical"
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="Note 2 Description Text"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
 
                     <Button
                         android:id="@+id/done"
@@ -395,13 +428,12 @@
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center"
                         android:text="@string/cancel_order"
-                        android:visibility="gone"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/btnNote" />
-
+                        app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

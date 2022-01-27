@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_margin="@dimen/_6ssp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -13,6 +10,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SUCCESS"
+            android:padding="@dimen/_5ssp"
             android:fontFamily="@font/poppins_medium"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp" />

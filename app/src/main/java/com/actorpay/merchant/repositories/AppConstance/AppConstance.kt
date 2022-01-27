@@ -38,6 +38,7 @@ class AppConstance {
         const val IDS:String="{id}"
         const val FILE:String="file"
         const val PRODUCT:String="product"
+        const val oultet:String="outlet"
         const val PRODUCTS:String="products"
         private const val PRODUCT_API:String="product/"
         private const val PASSWORD:String="password"
@@ -66,11 +67,14 @@ class AppConstance {
         const val GENRATE_TOKEN_AGAIN: String = SUB_DOMAIN+USER_SERVICE+SUB_DOMAIN3+SLASH_TOKEN+REFRESH
         const val GET_ALL_ORDER:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"list/paged"
         const val UPDATE_STATUS:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"status"
+        const val CREATE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/create"
+        const val GET_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/get/all/paged"
+        const val DELETE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/delete/by/ids"
+
         const val GET_FAQ: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "faq/all"
         const val GET_COUNTRIES: String = SUB_DOMAIN+ SUB_DOMAIN_GLOBAL+"v1/country/get/all"
         val dateFormate3= SimpleDateFormat("yyyy-MM-dd HH:MM", Locale.ENGLISH)
         val dateFormate4= SimpleDateFormat("dd MMM yyyy HH:MM", Locale.ENGLISH)
-
         const val STATUS_SUCCESS:String="SUCCESS"
         const val STATUS_READY:String="READY"
         const val STATUS_CANCELLED:String="CANCELLED"
@@ -84,6 +88,10 @@ class AppConstance {
         const val STATUS_PENDING:String="PENDING"
         const val STATUS_FAILED:String="FAILED"
         const val STATUS_COMPLETED:String="COMPLETED"
+        const val green_color:String="#00A63D"
+        const val white_color:String="#FFFFFF"
+        const val blue_color:String="#0078b7"
+        const val red_color:String="#F44336"
 
     }
 

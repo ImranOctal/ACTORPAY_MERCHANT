@@ -11,9 +11,12 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import android.app.Activity
-
-
-
+import android.graphics.Color
+import android.view.RoundedCorner
+import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.utils.roundBorderedView
+import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 
 class OrderAdapter(
@@ -22,6 +25,7 @@ class OrderAdapter(
     val onClick: (pos: Int, status: String) -> Unit
 ) :
     RecyclerView.Adapter<OrderAdapter.ItemHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.manage_order_layout_item, parent, false)
@@ -43,14 +47,24 @@ class OrderAdapter(
 
             orderBinding.apply {
                 titleOfOrder.text = items[position].orderNo
-                price.text = AppConstance.dollar + items[position].totalPrice.toString()
-                OrderType.text = items[position].orderStatus
-                date.text= getFormattedOrderDate(items[position].createdAt)
-
-                llRoot.setOnClickListener {
+                tvPrice.text = AppConstance.dollar + items[position].totalPrice.toString()
+                orderStatus.text = items[position].orderStatus.replace("_"," ")
+                tvDate.text= getFormattedOrderDate(items[position].createdAt)
+                cardView.setOnClickListener {
                     val intent = Intent(context, OrderDetailActivity::class.java)
                     intent.putExtra("data", items[position])
                     (context as Activity).startActivityForResult(intent, 101)
+                }
+                if(items[position].orderStatus=="CANCELLED"){
+                    orderStatus.setTextColor(Color.parseColor(AppConstance.red_color))
+                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.red_color,1)
+
+                }else if(items[position].orderStatus=="PARTIALLY_RETURNED"||items[position].orderStatus=="PARTIALLY_RETURNING"||items[position].orderStatus=="PARTIALLY_CANCELLED"||items[position].orderStatus=="PARTIALLY_CANCELLED"){
+                    orderStatus.setTextColor(Color.parseColor(AppConstance.blue_color))
+                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.blue_color,1)
+                }else{
+                    orderStatus.setTextColor(Color.parseColor(AppConstance.green_color))
+                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.green_color,1)
                 }
 //                orderStatusSpinner.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 //                orderStatusSpinner.adapter=OrderStatusAdapter(context,list){
@@ -59,9 +73,7 @@ class OrderAdapter(
 //                }
             }
         }
-
     }
-
     fun getFormattedOrderDate(orderDate: String): String? {
         try {
             return  AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)
@@ -70,6 +82,4 @@ class OrderAdapter(
             return orderDate
         }
     }
-
-
 }

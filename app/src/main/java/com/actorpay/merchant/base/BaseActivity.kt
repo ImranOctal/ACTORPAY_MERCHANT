@@ -1,12 +1,15 @@
 package com.actorpay.merchant.base
 
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +35,7 @@ abstract class BaseActivity : AppCompatActivity() {
      val methods by inject<MethodsRepo>()
     val CLICK_TIME = 1000L
     private lateinit var snackBar: Snackbar
+    private var  progressDialog: Dialog?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -151,5 +155,32 @@ abstract class BaseActivity : AppCompatActivity() {
     private val view: View
         get() = findViewById(R.id.content)
 
+    fun showLoadingDialog() {
+        if(progressDialog==null){
+            progressDialog = Dialog(this)
+            if (progressDialog!!.window != null) {
+                val window = progressDialog!!.window
+                window!!.setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
+                )
+                window.setGravity(Gravity.CENTER)
+                progressDialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+            progressDialog!!.setContentView(R.layout.progress_dialog)
+            progressDialog!!.setCancelable(false)
+            progressDialog!!.setCanceledOnTouchOutside(false)
+            progressDialog!!.show()
+        }
+        else{
+            progressDialog!!.show()
+        }
+
+    }
+    fun hideLoadingDialog() {
+        if(progressDialog!=null){
+            progressDialog!!.dismiss()
+        }
+    }
 
 }

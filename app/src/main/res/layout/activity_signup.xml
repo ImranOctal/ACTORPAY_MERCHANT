@@ -32,8 +32,8 @@
 
             <LinearLayout style="@style/parentFull">
 
-                <androidx.core.widget.NestedScrollView style="@style/parentFull">
-
+                <androidx.core.widget.NestedScrollView
+                    style="@style/parentFull">
                     <LinearLayout
                         style="@style/parent"
                         android:layout_marginBottom="@dimen/_20sdp"

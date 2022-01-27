@@ -41,10 +41,10 @@ class ProfileActivity : BaseActivity() {
             profileViewModel.profileResponseLive.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseSealed.loading -> {
-                        profileViewModel.methodRepo.showLoadingDialog(this@ProfileActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
-                        profileViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is GetUserById) {
                             val reesponse2 = it.response
                             binding.emailEdit.setText(reesponse2.data.email)
@@ -78,14 +78,14 @@ class ProfileActivity : BaseActivity() {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
-                        profileViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
-                        profileViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
             }

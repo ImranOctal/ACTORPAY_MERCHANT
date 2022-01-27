@@ -41,7 +41,6 @@ class SignupActivity : BaseActivity() {
         installation()
         apiResponse()
         val codeList= mutableListOf<String>()
-
         GlobalData.allCountries.forEach {
             val code=it.countryCode
             codeList.add(code)
@@ -60,13 +59,7 @@ class SignupActivity : BaseActivity() {
     private fun installation() {
         binding.toolbar.back.visibility = View.INVISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.signup)
-
-        signUpViewModel.methodRepo.makeTextLink(
-            binding.signupTermsText,
-            getString(R.string.terms_of_use),
-            true,
-            null
-        ) {
+        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText, getString(R.string.terms_of_use), true, null) {
             ContentViewModel.type = 3
             startActivity(Intent(this, ContentActivity::class.java))
         }
@@ -101,8 +94,6 @@ class SignupActivity : BaseActivity() {
         binding.login.setOnClickListener {
             switchActivity(Intent(baseContext(), LoginActivity::class.java))
         }
-
-
         binding.signupbtn.setOnClickListener(object : SingleClickListener() {
             override fun performClick(view: View?) {
                 validate()
@@ -141,18 +132,22 @@ class SignupActivity : BaseActivity() {
         } else if (binding.mobileNumber.text.toString().trim()[0].toString() == "0") {
             binding.mobileNumber.error = getString(R.string.mobile_not_start_with_0)
             binding.mobileNumber.requestFocus()
+
         } else if (binding.shopAddress.text.toString().trim().isEmpty()) {
             binding.shopAddress.error = getString(R.string.shop_address_empty)
             binding.shopAddress.requestFocus()
         }else if (binding.shopAddress.text.toString().trim().length < 3) {
             binding.shopAddress.error = getString(R.string.error_shop_address)
             binding.shopAddress.requestFocus()
+
         } else if (binding.address.text.toString().trim().isEmpty()) {
             binding.address.error = getString(R.string.address_empty)
             binding.address.requestFocus()
+
         } else if (binding.address.text.toString().trim().length < 3) {
             binding.address.error = getString(R.string.address_error)
             binding.address.requestFocus()
+
         } else if (binding.shopAct.text.toString().trim().isEmpty()) {
             binding.shopAct.error = getString(R.string.shop_act_empty)
             binding.shopAct.requestFocus()
@@ -172,10 +167,10 @@ class SignupActivity : BaseActivity() {
             signUpViewModel.loginResponseLive.collect {
                 when (it) {
                     is AuthViewModel.ResponseLoginSealed.loading -> {
-                        signUpViewModel.methodRepo.showLoadingDialog(this@SignupActivity)
+                        showLoadingDialog()
                     }
                     is AuthViewModel.ResponseLoginSealed.Success -> {
-                        signUpViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                            CommonDialogsUtils.showCommonDialog(
                                 this@SignupActivity,
@@ -213,14 +208,14 @@ class SignupActivity : BaseActivity() {
 
                     }
                     is AuthViewModel.ResponseLoginSealed.ErrorOnResponse -> {
-//                        signUpViewModel.methodRepo.hideLoadingDialog()
+                      hideLoadingDialog()
                         showCustomAlert(
                             it.failResponse!!.message,
                             binding.root
                         )
                     }
                     else -> {
-//                        signUpViewModel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                     }
                 }
 
@@ -231,15 +226,6 @@ class SignupActivity : BaseActivity() {
     private fun signUp() {
         val countryCode = binding.codePicker.text.toString().trim()
         signUpViewModel.methodRepo.hideSoftKeypad(this)
-        signUpViewModel.signUp(
-            binding.emailEdit.text.toString().trim(),
-            countryCode,
-            binding.mobileNumber.text.toString().trim(),
-            binding.password.text.toString().trim(),
-            binding.shopAddress.text.toString().trim(),
-            binding.address.text.toString().trim(),
-            binding.businessName.text.toString().trim(),
-            binding.shopAct.text.toString().trim(),
-        )
+        signUpViewModel.signUp(binding.emailEdit.text.toString().trim(), countryCode, binding.mobileNumber.text.toString().trim(), binding.password.text.toString().trim(), binding.shopAddress.text.toString().trim(), binding.address.text.toString().trim(), binding.businessName.text.toString().trim(), binding.shopAct.text.toString().trim(),)
     }
 }

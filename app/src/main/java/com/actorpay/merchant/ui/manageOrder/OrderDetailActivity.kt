@@ -2,6 +2,7 @@ package com.actorpay.merchant.ui.manageOrder
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityOrderDetailBinding
 import com.actorpay.merchant.databinding.CancelBottomsheetBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
 import com.actorpay.merchant.ui.home.HomeViewModel
@@ -22,6 +24,7 @@ import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderDetailAdapter
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.roundBorderedView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import kotlinx.coroutines.flow.collect
@@ -38,11 +41,20 @@ class OrderDetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order_detail)
         list = intent.getSerializableExtra("data") as Item
-        binding.OrderType.text = list.orderStatus
+        binding.OrderType.text = list.orderStatus.replace("_"," ")
         orderNo = list.orderNo
         binding.back.setOnClickListener {
             finish()
         }
+        homeviewmodel.getAllOrder(
+            "",
+            "",
+            "",
+            "",
+            "",
+            list.orderNo
+        )
+
         getIntentData(list)
         apiResponse()
     }
@@ -51,30 +63,18 @@ class OrderDetailActivity : BaseActivity() {
             homeviewmodel.updateStatus.collect {
                 when (it) {
                     is HomeSealedClasses.Companion.ResponseSealed.loading -> {
-                        homeviewmodel.methodRepo.showLoadingDialog(this@OrderDetailActivity)
+                        showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
-                        homeviewmodel.methodRepo.hideLoadingDialog()
+                        hideLoadingDialog()
                         if (it.response is UpdateOrderStatus) {
-                            CommonDialogsUtils.showCommonDialog(
-                                this@OrderDetailActivity,
-                                homeviewmodel.methodRepo,
-                                "Update status successfully",
-                                it.response.message,
-                                autoCancelable = false,
-                                isCancelAvailable = false,
-                                isOKAvailable = true,
-                                showClickable = false,
-                                callback = object : CommonDialogsUtils.DialogClick {
-                                    override fun onClick() {
-                                        setResult(Activity.RESULT_OK)
-                                        finish()
-
-                                    }
-                                    override fun onCancel() {
-
-                                    }
-                                }
+                            homeviewmodel.getAllOrder(
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                list.orderNo
                             )
 
                         } else {
@@ -91,10 +91,34 @@ class OrderDetailActivity : BaseActivity() {
                 }
             }
         }
+        lifecycleScope.launchWhenStarted {
+            homeviewmodel.getAllOrder.collect { action ->
+                when (action) {
+                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
+                        showLoadingDialog()
+                    }
+                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        if (action.response is BeanViewAllOrder) {
+
+                            if (action.response.data.items.size > 0) {
+
+                                binding.orderRecyclerView.layoutManager = LinearLayoutManager(this@OrderDetailActivity, LinearLayoutManager.VERTICAL, false)
+                                binding.orderRecyclerView.adapter = OrderDetailAdapter(this@OrderDetailActivity, (action.response.data.items[0].orderItemDtos))
+
+                            } else {
+                            }
+                        }
+                    }
+                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                    }
+                    else -> hideLoadingDialog()
+                }
+            }
+        }
     }
     private fun getIntentData(list: Item) {
-        binding.orderRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.orderRecyclerView.adapter = OrderDetailAdapter(this, list.orderItemDtos)
         binding.merchantName.text = list.orderItemDtos[0].merchantName
         binding.orderDateText.text = "Created On: " + methods.getFormattedOrderDate(list.createdAt)
         binding.orderNumber.text = list.orderNo
@@ -105,8 +129,18 @@ class OrderDetailActivity : BaseActivity() {
         binding.tvLastName.text = "Last Name: " + list.customer.lastName
         binding.tvEmail.text = "Email: " + list.customer.email
         binding.tvContact.text = "Contact: " + list.customer.contactNumber
-    }
+        if(list.orderStatus=="CANCELLED"){
+            binding.OrderType.setTextColor(Color.parseColor(AppConstance.red_color))
+            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.red_color,1)
 
+        }else if(list.orderStatus=="PARTIALLY_RETURNED"||list.orderStatus=="PARTIALLY_RETURNING"||list.orderStatus=="PARTIALLY_CANCELLED"||list.orderStatus=="PARTIALLY_CANCELLED"){
+            binding.OrderType.setTextColor(Color.parseColor(AppConstance.blue_color))
+            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.blue_color,1)
+        }else{
+            binding.OrderType.setTextColor(Color.parseColor(AppConstance.green_color))
+            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.green_color,1)
+        }
+    }
     fun dialog(list: ArrayList<String>, root: View, orderItemId: MutableList<String>) {
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.dialog_status, null)

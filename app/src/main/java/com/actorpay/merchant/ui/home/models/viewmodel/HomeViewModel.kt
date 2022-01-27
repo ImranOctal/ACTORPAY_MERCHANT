@@ -1,11 +1,11 @@
 package com.actorpay.merchant.ui.home
 
 import android.app.Application
-import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.OutletParam
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ProductPram
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.UpdateStatus
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
@@ -21,7 +21,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONArray
 import java.io.File
 
 
@@ -42,6 +41,7 @@ class HomeViewModel(
     val productListLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseProductListSealed>(HomeSealedClasses.Companion.ResponseProductListSealed.Empty)
     val getById = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
     val updateStatus = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
+    val createOutlet = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
     val deleteproductLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseDeleteSealed>(HomeSealedClasses.Companion.ResponseDeleteSealed.Empty)
     val changePasswordLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseChangePasswordSealed>(HomeSealedClasses.Companion.ResponseChangePasswordSealed.Empty)
     val genrateNewTokenLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseGenrateNewTokenSealed>(HomeSealedClasses.Companion.ResponseGenrateNewTokenSealed.Empty)
@@ -249,6 +249,7 @@ class HomeViewModel(
             }
         }
     }
+
 
 
 
