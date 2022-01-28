@@ -122,6 +122,4 @@ private val appKoinModule = module {
     }*/
 }
 
-
-
 val appModule = listOf(appKoinModule)

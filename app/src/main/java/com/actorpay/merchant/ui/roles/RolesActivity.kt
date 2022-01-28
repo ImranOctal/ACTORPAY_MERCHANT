@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
+
+
 class RolesActivity : BaseActivity() {
     private lateinit var binding: ActivityRolesBinding
     private val rolesViewModel: RolesViewModel by inject()
@@ -47,6 +49,7 @@ class RolesActivity : BaseActivity() {
             rolesViewModel.getAllRoles()
         }
     }
+
 
     fun setAdapter(){
         val adapter= RoleAdapter(rolesViewModel.methodRepo,rolesViewModel.rolesList){
