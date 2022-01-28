@@ -14,8 +14,9 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.GetRolesParams
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RolesResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.*
+import com.actorpay.merchant.repositories.retrofitrepository.models.screens.ScreenResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.outlet.response.*
@@ -78,8 +79,29 @@ interface RetrofitRepository {
 
     suspend fun updateOutlet(token: String,param: UpdateParam): RetrofitResource<UpdateOutlet>
 
+
+    suspend fun addSubMerchant(token: String,param: AddSubMerchantParam): RetrofitResource<CreateSubMerchant>
+    suspend fun updateSubMerchant(token: String,param: UpdateSubMerchantParam): RetrofitResource<UpdateSubMerchant>
+
     suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet>
 
+    suspend fun getSubMerchants(token: String, pageNo: String, body: EMPTYJSON): RetrofitResource<GetAllSubMerchant>
+
+    suspend fun getMerchantById(token: String, id: String): RetrofitResource<GetMerchantById>
+
     suspend fun deleteOutlet(token: String, body: DeleteOutParam): RetrofitResource<DeleteOutlet>
+
+    suspend fun deleteMerchant(token: String, body: DeleteOutParam): RetrofitResource<DeleteSubMerchant>
     suspend fun getRoles(token: String, pageNo: Int, body: GetRolesParams): RetrofitResource<RolesResponse>
+
+    suspend fun getRoleById(token: String, id: String): RetrofitResource<SingleRoleResponse>
+
+    suspend fun addRole(token: String, sendRolesParmas: SendRolesParmas): RetrofitResource<SuccessResponse>
+
+    suspend fun updateRole(token: String, sendRolesParmas: SendRolesParmas): RetrofitResource<SuccessResponse>
+
+    suspend fun deleteRole(token: String, deleteRolesParams: DeleteRolesParams): RetrofitResource<SuccessResponse>
+
+    suspend fun getAllScreens(token: String): RetrofitResource<ScreenResponse>
 }
+

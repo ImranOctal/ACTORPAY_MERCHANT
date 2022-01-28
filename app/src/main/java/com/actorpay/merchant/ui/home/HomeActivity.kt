@@ -35,7 +35,7 @@ import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.ui.roles.RolesActivity
-import com.actorpay.merchant.ui.subAdmin.CreateSubAdminActivity
+import com.actorpay.merchant.ui.subAdmin.SubMerchantActivity
 import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
@@ -150,7 +150,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
-            switchActivity(Intent(baseContext(), CreateSubAdminActivity::class.java))
+            switchActivity(Intent(baseContext(), SubMerchantActivity::class.java))
         }
 
         binding.constMore.setOnClickListener {

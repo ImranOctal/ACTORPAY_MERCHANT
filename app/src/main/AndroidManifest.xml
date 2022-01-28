@@ -15,13 +15,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.subAdmin.SubMerchantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.roles.details.RoleDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.outlet.updateoutlet.UpdateOutletActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roles.RolesActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.addoutlet.AddOutletActivity"
             android:exported="false" />
@@ -49,7 +54,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.subAdmin.CreateSubAdminActivity"
+            android:name=".ui.subAdmin.addSubMerchant.CreateSubAdminActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

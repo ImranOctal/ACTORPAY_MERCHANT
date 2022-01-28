@@ -23,6 +23,7 @@ class AppConstance {
         const val rupee:String="₹"
         const val PRODUCT_ID:String="productId"
         const val PAGE_NO:String="pageNo"
+
         const val STATUS:String="status"
         const val ORDERNO:String="orderNo"
         const val SORT_BY:String="sortBy"
@@ -70,6 +71,7 @@ class AppConstance {
         const val CREATE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/create"
         const val GET_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/get/all/paged"
         const val DELETE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/delete/by/ids"
+        const val DELETE_SUBMERCHANT:String=SUB_DOMAIN+SUB_DOMAIN2+"submerchant/delete/by/ids"
         const val UPDATE_OUTLET:String=SUB_DOMAIN+SUB_DOMAIN2+"v1/merchant/outlet/update"
 
         const val GET_FAQ: String = SUB_DOMAIN+ SUB_DOMAIN_CMS+  "faq/all"
@@ -94,6 +96,18 @@ class AppConstance {
         const val blue_color:String="#0078b7"
         const val red_color:String="#F44336"
         const val GET_ROLES:String=SUB_DOMAIN+SUB_DOMAIN2+"role/get/all/paged"
+        const val GET_SUBMERCHANTS:String=SUB_DOMAIN+SUB_DOMAIN2+"submerchant/get/all/paged"
+        const val ADD_SUBMERCHANT:String=SUB_DOMAIN+SUB_DOMAIN2+"submerchant/create"
+        const val GET_MERCHANT_BY_ID:String=SUB_DOMAIN+SUB_DOMAIN2+"submerchant/read/by/id/"
+        const val UPDATE_SUBMERCHANT:String=SUB_DOMAIN+SUB_DOMAIN2+"submerchant/update"
+        const val GET_SINGLE_ROLE:String=SUB_DOMAIN+SUB_DOMAIN2+"role/by/id"
+
+        const val ADD_ROLE:String=SUB_DOMAIN+SUB_DOMAIN2+"role/create"
+        const val UPDATE_ROLE:String=SUB_DOMAIN+SUB_DOMAIN2+"role/update"
+        const val DELETE_ROLE:String=SUB_DOMAIN+SUB_DOMAIN2+"role/delete/by/ids"
+
+        const val GET_ALL_SCREENS:String=SUB_DOMAIN+SUB_DOMAIN2+"get/all/screens"
+
     }
 
 

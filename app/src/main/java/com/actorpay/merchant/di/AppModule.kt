@@ -18,6 +18,10 @@ import com.actorpay.merchant.ui.outlet.OutletViewModel
 import com.actorpay.merchant.ui.outlet.addoutlet.AddOutletViewModel
 import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.ui.roles.RolesViewModel
+import com.actorpay.merchant.ui.roles.details.RolesDetailsViewModel
+import com.actorpay.merchant.ui.subAdmin.SubMerchantActivity
+import com.actorpay.merchant.ui.subAdmin.SubMerchantsViewModel
+import com.actorpay.merchant.ui.subAdmin.addSubMerchant.AddSubMerchantViewModel
 import com.actorpay.merchant.viewmodel.AuthViewModel
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BASE_URL
@@ -102,6 +106,17 @@ private val appKoinModule = module {
         RolesViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
 
+ viewModel {
+     SubMerchantsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+
+    viewModel {
+        AddSubMerchantViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+
+    viewModel {
+        RolesDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
    /* factory<ScreenNavigator> {
         LegacyNavigator()
     }*/

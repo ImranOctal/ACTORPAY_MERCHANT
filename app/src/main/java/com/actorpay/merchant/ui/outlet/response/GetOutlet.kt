@@ -7,7 +7,9 @@ data class GetOutlet(
     val status: String
 )
 
- class EmptyBody
+data class EmptyBody(
+    val idfdljf:String?=null
+)
 
 data class Data(
     val items: List<OutletItem>,

@@ -105,11 +105,7 @@ class ManageOrderActivity : BaseActivity() {
             )
             dialog.dismiss()
         }
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.status_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
+        ArrayAdapter.createFromResource(this, R.array.status_array, android.R.layout.simple_spinner_item).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerStatus.adapter = adapter
@@ -118,12 +114,7 @@ class ManageOrderActivity : BaseActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 orderStatus = binding.spinnerStatus.selectedItem.toString()
             }
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long)
-            {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position > 0) {
                     orderStatus = binding.spinnerStatus.selectedItem.toString()
                 }

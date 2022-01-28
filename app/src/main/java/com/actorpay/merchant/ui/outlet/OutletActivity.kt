@@ -84,9 +84,7 @@ class OutletActivity : BaseActivity() {
 
                         }
                         if (it.response is DeleteOutlet) {
-
                             showCustomAlert(it.response.message, binding.root)
-
                             outletViewModel.getOutlet()
                         }
 

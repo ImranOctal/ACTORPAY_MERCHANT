@@ -7,6 +7,7 @@
     <string name="cpass_and_pass_not_match">Oops! Your Password Mismatch</string>
     <string name="invalid_email">Oops! Your Email is Invalid</string>
     <string name="email_empty">Oops! Your Email is Empty</string>
+    <string name="dob_empty">Oops! Your DOB is Empty</string>
     <string name="resource_empty">Oops! Your Resource is Empty</string>
     <string name="licence_empty">Oops! Your Licence is Empty</string>
     <string name="title_empty">Oops! Your Title is Empty</string>
@@ -35,6 +36,8 @@
     <string name="prod_quant_empty">Oops! Product Quantity is Empty</string>
     <string name="prod_quant_length">Oops! Product Quantity is  0</string>
     <string name="prod_desc_empty">Oops! Product Description  Empty</string>
+    <string name="first_name_empty">Oops! Your First Name is Empty</string>
+    <string name="last_name_empty">Oops! Your Last Name is Empty</string>
     <string name="product_list">Product List</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -118,6 +121,8 @@
     <string name="last_name">Last Name</string>
     <string name="userName">Username</string>
     <string name="manage_new_sub_admin">Manage New Sub Admin</string>
+    <string name="add_merchant_new">Add New Sub Merchant</string>
+    <string name="update_new_merchant">Update New Sub Merchant</string>
     <string name="ok">OK</string>
     <string name="cancel1">Cancel</string>
     <string name="change_password">Change Password</string>
@@ -172,6 +177,11 @@
     <string name="add_outlet">Add Outlet</string>
     <string name="update_outlet">Update Outlet</string>
     <string name="all_roles">All Roles</string>
+    <string name="add_merchant">Add Merchant</string>
+    <string name="date">Date</string>
+    <string name="contact">Contact</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="dob">DOB</string>
 
     >
 
@@ -195,5 +205,11 @@
         <item>Home</item>
         <item>Furniture</item>
         <item>Kitchen</item>
+    </string-array>
+
+    <string-array name="Gender">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 </resources>

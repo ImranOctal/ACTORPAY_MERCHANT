@@ -94,5 +94,12 @@ data class CountryItem(
 )
 data class DeleteOutParam(val ids: MutableList<String>)
 
-
 data class ProductPram(val name: String)
+
+
+data class UpdateSubMerchantParam(val firstName: String,val lastName: String,val contactNumber: String,val extensionNumber: String,val roleId: String,val id:String,val gender:String,val email:String)
+
+
+data class AddSubMerchantParam(val extensionNumber: String,val firstName:String,val lastName:String,val email:String,val contactNumber:String,val dateOfBirth:String,val roleId:String,val gender:String ,val isDefaultPassword:Boolean,val password:String)
+
+

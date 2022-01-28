@@ -1,13 +1,15 @@
-package com.actorpay.merchant.ui.roles
+package com.actorpay.merchant.ui.roles.details
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.DeleteRolesParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.GetRolesParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RoleItem
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.ScreenAccessPermission
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.SendRolesParmas
+import com.actorpay.merchant.repositories.retrofitrepository.models.screens.ScreenItem
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.outlet.response.EmptyBody
@@ -16,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class RolesViewModel(
+class RolesDetailsViewModel(
     val dispatcherProvider: CoroutineContextProvider,
     val methodRepo: MethodsRepo,
     val apiRepo: RetrofitRepository, ) : AndroidViewModel(
@@ -25,32 +27,17 @@ class RolesViewModel(
  {
      val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
 
-     var pageNo=0
-     val getRolesParams=GetRolesParams("","")
-     val rolesList= mutableListOf<RoleItem>()
+     var id=""
+     var allScreens= mutableListOf<ScreenItem>()
+     val screenPermissionsList= mutableListOf<ScreenAccessPermission>()
 
-     fun getAllRoles() {
-         viewModelScope.launch(dispatcherProvider.IO) {
-             responseLive.value = ResponseSealed.Loading(true)
-
-             methodRepo.dataStore.getAccessToken().collect { token ->
-                 when (val response = apiRepo.getRoles(token,pageNo,getRolesParams)) {
-                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
-                     is RetrofitResource.Success -> responseLive.value =
-                         ResponseSealed.Success(response.data!!)
-                 }
-             }
-         }
-     }
-     fun deleteRole(id:String) {
+     fun getRoleById() {
 
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
 
-             val deleteRolesParams= DeleteRolesParams(mutableListOf(id))
-
              methodRepo.dataStore.getAccessToken().collect { token ->
-                 when (val response = apiRepo.deleteRole(token,deleteRolesParams)) {
+                 when (val response = apiRepo.getRoleById(token,id)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                      is RetrofitResource.Success -> responseLive.value =
                          ResponseSealed.Success(response.data!!)
@@ -59,13 +46,13 @@ class RolesViewModel(
          }
      }
 
-     fun getAllScreen() {
+     fun addRole(sendRolesParmas: SendRolesParmas) {
 
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
 
              methodRepo.dataStore.getAccessToken().collect { token ->
-                 when (val response = apiRepo.getAllScreens(token)) {
+                 when (val response = apiRepo.addRole(token,sendRolesParmas)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                      is RetrofitResource.Success -> responseLive.value =
                          ResponseSealed.Success(response.data!!)
@@ -73,5 +60,22 @@ class RolesViewModel(
              }
          }
      }
+
+     fun updateRole(sendRolesParmas: SendRolesParmas) {
+
+         viewModelScope.launch(dispatcherProvider.IO) {
+             responseLive.value = ResponseSealed.Loading(true)
+
+             methodRepo.dataStore.getAccessToken().collect { token ->
+                 when (val response = apiRepo.updateRole(token,sendRolesParmas)) {
+                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
+                     is RetrofitResource.Success -> responseLive.value =
+                         ResponseSealed.Success(response.data!!)
+                 }
+             }
+         }
+     }
+
+
 
  }

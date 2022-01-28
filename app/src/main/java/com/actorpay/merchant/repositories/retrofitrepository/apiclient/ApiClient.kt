@@ -1,5 +1,6 @@
 package com.actorpay.merchant.retrofitrepository.apiclient
 
+import android.os.Build.ID
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
@@ -15,23 +16,32 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileReesponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.GetRolesParams
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RolesResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.*
+import com.actorpay.merchant.repositories.retrofitrepository.models.screens.ScreenResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.ui.outlet.response.*
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_ROLE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_SUBMERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CREATE_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_ROLE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_SUBMERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ROLES
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SUBMERCHANTS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
@@ -42,7 +52,9 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_U
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
@@ -227,4 +239,74 @@ interface ApiClient {
         @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
 
         ): Response<RolesResponse>
+
+
+
+    @POST(GET_SUBMERCHANTS)
+    suspend fun getSubMerchants(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: String,
+        @Body empty: EMPTYJSON,
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
+        @Query(AppConstance.ASCECNDING) asc: Boolean = true,
+
+    ):Response<GetAllSubMerchant>
+
+
+
+    @POST(ADD_SUBMERCHANT)
+    suspend fun addSubMerchant(
+        @Header(AUTH) token: String,
+        @Body param: AddSubMerchantParam,
+        ): Response<CreateSubMerchant>
+
+
+    @HTTP(method = "DELETE", path = DELETE_SUBMERCHANT,hasBody = true)
+    suspend fun deleteSubMerchant(
+        @Header(AUTH) token: String,
+        @Body param: DeleteOutParam,
+    ): Response<DeleteSubMerchant>
+
+
+    @GET(GET_MERCHANT_BY_ID+IDS)
+    suspend fun getMerchantById(
+        @Header(AUTH) token: String,
+        @Path(ID_VAR) id: String,
+    ): Response<GetMerchantById>
+
+    @PUT(UPDATE_SUBMERCHANT)
+    suspend fun updateSubMerchant(
+        @Header(AUTH) token: String,
+        @Body param: UpdateSubMerchantParam,
+        ): Response<UpdateSubMerchant>
+
+    @GET(GET_SINGLE_ROLE)
+    suspend fun getSingleRole(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.ID_VAR) id: String,
+    ): Response<SingleRoleResponse>
+
+    @POST(ADD_ROLE)
+    suspend fun addRole(
+        @Header(AUTH) token: String,
+        @Body sendRolesParmas: SendRolesParmas,
+    ): Response<SuccessResponse>
+
+    @PUT(UPDATE_ROLE)
+    suspend fun updateRole(
+        @Header(AUTH) token: String,
+        @Body sendRolesParmas: SendRolesParmas
+    ): Response<SuccessResponse>
+
+    @Headers("Content-Type:application/json")
+    @HTTP(method = "DELETE", path = DELETE_ROLE, hasBody = true)
+    suspend fun deleteRole(
+        @Header(AUTH) token: String,
+        @Body  deleteRolesParams: DeleteRolesParams
+    ): Response<SuccessResponse>
+
+    @GET(GET_ALL_SCREENS)
+    suspend fun getAllScreens(
+        @Header(AUTH) token: String,
+    ): Response<ScreenResponse>
 }

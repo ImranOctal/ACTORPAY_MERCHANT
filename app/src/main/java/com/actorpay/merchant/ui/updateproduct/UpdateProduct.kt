@@ -82,12 +82,10 @@ class UpdateProduct : BaseActivity() {
         catAdapter = CategoryAdapter(binding.chooseCategory)
         taxAdapter = TaxAdapter(binding.taxData)
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-        catAdapter.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener<Data> { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
+        catAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<Data> { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
                 catId = newItem.id
             }
-        taxAdapter.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
+        taxAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
                 taxId = newItem.id
             }
         subCategoryAdapter.onSpinnerItemSelectedListener =
