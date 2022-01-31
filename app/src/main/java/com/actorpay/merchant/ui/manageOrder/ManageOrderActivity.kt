@@ -116,7 +116,7 @@ class ManageOrderActivity : BaseActivity() {
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position > 0) {
-                    orderStatus = binding.spinnerStatus.selectedItem.toString()
+                    orderStatus = binding.spinnerStatus.selectedItem.toString().replace(" ","_")
                 }
                 if (position == 0) {
                     (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
@@ -124,8 +124,8 @@ class ManageOrderActivity : BaseActivity() {
             }
         }
         val array = this.resources.getStringArray(R.array.status_array).toMutableList()
-        if (array.contains(orderStatus)) {
-            val pos = array.indexOfFirst { it.equals(orderStatus) }
+        if (array.contains(orderStatus.replace("_"," "))) {
+            val pos = array.indexOfFirst { it.equals(orderStatus.replace("_"," ")) }
             binding.spinnerStatus.setSelection(pos)
         }
         binding.cancel.setOnClickListener {

@@ -25,6 +25,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
+import com.actorpay.merchant.ui.commission.CommissionActivity
 import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
@@ -115,6 +116,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 binding.drawerLayout.openDrawer(GravityCompat.START, true)
             }
         }
+
+        binding.myCommissionLay.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), CommissionActivity::class.java))
+        }
+
         binding.myRolesLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()

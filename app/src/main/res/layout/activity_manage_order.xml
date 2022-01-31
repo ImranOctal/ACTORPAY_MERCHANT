@@ -91,7 +91,7 @@
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="5"
-                    tools:listitem="@layout/manage_order_layout_item" />
+                    tools:listitem="@layout/item_commission" />
 
             </LinearLayout>
 

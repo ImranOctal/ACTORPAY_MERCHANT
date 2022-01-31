@@ -16,23 +16,38 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.subAdmin.SubMerchantActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.commission.CommissionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.roles.details.RoleDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.outlet.updateoutlet.UpdateOutletActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.roles.RolesActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.addoutlet.AddOutletActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.outlet.OutletActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.more.FaqActivity"
             android:exported="false"

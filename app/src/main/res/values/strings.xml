@@ -182,6 +182,7 @@
     <string name="contact">Contact</string>
     <string name="no_data_found">No Data Found</string>
     <string name="dob">DOB</string>
+    <string name="my_commission">My Commission</string>
 
     >
 
@@ -190,16 +191,23 @@
         <item>SUCCESS</item>
         <item>READY</item>
         <item>CANCELLED</item>
-        <item>PARTIALLY_CANCELLED</item>
+        <item>PARTIALLY CANCELLED</item>
         <item>DISPATCHED</item>
         <item>RETURNING</item>
-        <item>PARTIALLY_RETURNING</item>
+        <item>PARTIALLY RETURNING</item>
         <item>RETURNED</item>
-        <item>PARTIALLY_RETURNED</item>
+        <item>PARTIALLY RETURNED</item>
         <item>DELIVERED</item>
         <item>PENDING</item>
         <item>FAILED</item>
     </string-array>
+
+    <string-array name="settlement_array">
+        <item>Select Status</item>
+        <item>PENDING</item>
+        <item>SETTLED</item>
+    </string-array>
+
 
     <string-array name="productCat">
         <item>Home</item>

@@ -3,6 +3,8 @@ package com.actorpay.merchant.retrofitrepository.apiclient
 import android.os.Build.ID
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
@@ -32,6 +34,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_ROLE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_SUBMERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_COMMISSIONS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
@@ -309,4 +312,13 @@ interface ApiClient {
     suspend fun getAllScreens(
         @Header(AUTH) token: String,
     ): Response<ScreenResponse>
+
+    @POST(GET_ALL_COMMISSIONS)
+    suspend fun getAllCommission(
+        @Header(AUTH) token: String,
+        @Query(AppConstance.PAGE_NO) pageNo: Int,
+        @Body  commissionParams: CommissionParams,
+        @Query(AppConstance.PAGE_SIZE) pageSize: Int = 20,
+        @Query(AppConstance.ASCECNDING) asc: Boolean = true,
+    ): Response<CommissionResponse>
 }

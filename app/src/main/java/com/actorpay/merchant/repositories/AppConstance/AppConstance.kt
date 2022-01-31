@@ -108,6 +108,8 @@ class AppConstance {
 
         const val GET_ALL_SCREENS:String=SUB_DOMAIN+SUB_DOMAIN2+"get/all/screens"
 
+        const val GET_ALL_COMMISSIONS:String=SUB_DOMAIN+SUB_DOMAIN2+"productCommission/list/paged"
+
     }
 
 

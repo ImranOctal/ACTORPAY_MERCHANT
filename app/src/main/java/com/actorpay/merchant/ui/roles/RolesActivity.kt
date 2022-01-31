@@ -50,11 +50,9 @@ class RolesActivity : BaseActivity() {
         }
     }
 
-
     fun setAdapter(){
         val adapter= RoleAdapter(rolesViewModel.methodRepo,rolesViewModel.rolesList){
                 pos, action ->
-
             when(action){
                 "edit"->{
                     val intent=Intent(this, RoleDetailsActivity::class.java)
@@ -67,20 +65,15 @@ class RolesActivity : BaseActivity() {
                             rolesViewModel.deleteRole(rolesViewModel.rolesList[pos].id)
                         }
                         override fun onCancel() {
-
                         }
                     })
-
                 }
-
             }
 
         }
         binding.rvRoles.layoutManager= LinearLayoutManager(this)
         binding.rvRoles.adapter=adapter
-
     }
-
     fun apiResponse(){
         lifecycleScope.launch {
             rolesViewModel.responseLive.collect {
@@ -125,5 +118,4 @@ class RolesActivity : BaseActivity() {
             }
         }
     }
-
 }

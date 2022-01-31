@@ -11,6 +11,7 @@ import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitMainRepository
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
+import com.actorpay.merchant.ui.commission.CommissionViewModel
 import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.more.MoreViewModel
@@ -116,6 +117,9 @@ private val appKoinModule = module {
 
     viewModel {
         RolesDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        CommissionViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
    /* factory<ScreenNavigator> {
         LegacyNavigator()

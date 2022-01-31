@@ -29,7 +29,11 @@ data class RoleItem(
     val description: String,
     val createdAt: String,
     val screenAccessPermission: MutableList<ScreenAccessPermission>?,
-)
+){
+    override fun toString(): String {
+        return name
+    }
+}
 
 data class ScreenAccessPermission(
     val screenId: String,

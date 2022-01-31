@@ -9,6 +9,8 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
@@ -1103,5 +1105,37 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
+    override suspend fun getCommissions(
+        token: String,
+        pageNo: Int,
+        body: CommissionParams
+    ): RetrofitResource<CommissionResponse> {
+        try {
+            val data = apiClient.getAllCommission(AppConstance.B_Token+token,pageNo,body)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    val json=JSONObject(data.errorBody()!!.string())
+                    val status=json.getString("status")
+                    val message=json.getString("message")
+                    return RetrofitResource.Error(FailResponse(message, status))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
 
 }

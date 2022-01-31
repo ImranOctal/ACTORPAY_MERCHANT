@@ -2,6 +2,8 @@ package com.actorpay.merchant.repositories.retrofitrepository.repo
 
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
@@ -103,5 +105,7 @@ interface RetrofitRepository {
     suspend fun deleteRole(token: String, deleteRolesParams: DeleteRolesParams): RetrofitResource<SuccessResponse>
 
     suspend fun getAllScreens(token: String): RetrofitResource<ScreenResponse>
+
+    suspend fun getCommissions(token: String, pageNo: Int, body: CommissionParams): RetrofitResource<CommissionResponse>
 }
 
