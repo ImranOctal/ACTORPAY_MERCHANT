@@ -14,7 +14,10 @@ import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.countrypicker.CountryPicker
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -46,15 +49,15 @@ class AddOutletActivity : BaseActivity() {
             }.show()
         }
         apiResponse()
-//        binding.etAddressOne.setOnClickListener {
-//            if (!Places.isInitialized()) {
-//                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
-//            }
-//            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
-//            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-//                .build(this)
-//            startForAddressResult.launch(intent)
-//        }
+        binding.etAddressOne.setOnClickListener {
+            if (!Places.isInitialized()) {
+                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
+            }
+            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .build(this)
+            startForAddressResult.launch(intent)
+        }
     }
 
     private fun validation() {

@@ -13,16 +13,18 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar2" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/parentFull"
             android:background="@drawable/top_round_drawble_white"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/businessLay"
+                app:layout_constraintTop_toTopOf="parent"
                 style="@style/TxtOutline2"
                 android:elevation="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="horizontal">
 
@@ -38,33 +40,53 @@
 
 
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/manageProduct"
-                style="@style/parentConstraintMatchHeight"
-                android:layout_weight=".88"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                tools:listitem="@layout/manage_product_item" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLoad"
                 android:layout_height="0dp"
-                android:layout_weight=".12">
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/businessLay"
+                app:layout_constraintBottom_toTopOf="@id/AddNewProductButton"
+             >
 
-                <Button
-                    android:id="@+id/AddNewProductButton"
-                    style="@style/btn_main"
-                    android:elevation="2dp"
-                    android:paddingLeft="@dimen/_50sdp"
-                    android:paddingRight="@dimen/_50sdp"
-                    android:text="@string/addNewProduct" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manageProduct"
+                    style="@style/parentConstraintMatchHeight"
+                    android:layout_weight=".88"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/manage_product_item" />
 
 
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/no_product_data_found"
+                android:textSize="@dimen/_13sdp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+         />
+            <Button
+                android:id="@+id/AddNewProductButton"
+                style="@style/btn_main"
+                android:elevation="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/swipeLoad"
+                android:paddingLeft="@dimen/_50sdp"
+                android:paddingRight="@dimen/_50sdp"
+                android:text="@string/addNewProduct" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

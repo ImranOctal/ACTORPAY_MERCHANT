@@ -9,6 +9,8 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangeP
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
+import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
@@ -28,6 +30,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_P
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_ROLE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_SUBMERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.Add_Note
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CREATE_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_OUTLET
@@ -42,6 +45,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_C
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_PERMISSION
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ROLES
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SUBMERCHANTS
@@ -321,4 +325,17 @@ interface ApiClient {
         @Query(AppConstance.PAGE_SIZE) pageSize: Int = 20,
         @Query(AppConstance.ASCECNDING) asc: Boolean = true,
     ): Response<CommissionResponse>
+
+
+    @POST(Add_Note)
+    suspend fun addNote(
+        @Header(AUTH) token: String,
+        @Body  addNoteParam: AddNoteParam,
+    ): Response<OrderNote>
+
+
+    @GET(GET_PERMISSION)
+    suspend fun getPermission(
+        @Header(AUTH) token: String,
+    ): Response<PermissionDetails>
 }

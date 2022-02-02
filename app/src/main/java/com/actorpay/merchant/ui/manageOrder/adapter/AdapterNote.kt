@@ -37,9 +37,7 @@ class AdapterNote(
             binding.orderNote=orderNote
             if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS)
                 binding.orderNoteDesc.visibility= View.GONE
-
-            if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS || orderNote.orderStatus == AppConstance.STATUS_READY || orderNote.orderStatus == AppConstance.STATUS_DISPATCHED || orderNote.orderStatus == AppConstance.STATUS_DELIVERED)
-            {
+            if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS || orderNote.orderStatus == AppConstance.STATUS_READY || orderNote.orderStatus == AppConstance.STATUS_DISPATCHED || orderNote.orderStatus == AppConstance.STATUS_DELIVERED) {
                 binding.orderNoteStatus.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_color))
                 binding.orderNoteView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green_color))
             }

@@ -109,8 +109,11 @@ class AppConstance {
         const val GET_ALL_SCREENS:String=SUB_DOMAIN+SUB_DOMAIN2+"get/all/screens"
 
         const val GET_ALL_COMMISSIONS:String=SUB_DOMAIN+SUB_DOMAIN2+"productCommission/list/paged"
+        const val Add_Note:String=SUB_DOMAIN+SUB_DOMAIN2+"orderNotes/post"
 
-    }
+
+        const val GET_PERMISSION:String=SUB_DOMAIN+SUB_DOMAIN2+"get/user/permissions"
+   }
 
 
 }

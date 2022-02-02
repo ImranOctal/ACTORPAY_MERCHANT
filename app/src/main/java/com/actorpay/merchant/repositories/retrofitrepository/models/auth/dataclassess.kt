@@ -13,6 +13,7 @@ data class Data(
     val businessName: String,
     val access_token: String,
     val refresh_token: String,
+    val role: String,
     val token_type: String
 )
 

@@ -110,13 +110,15 @@ class LoginActivity : BaseActivity() {
                             viewModel.methodRepo.dataStore.setAccessToken(it.response.data.access_token)
                             viewModel.methodRepo.dataStore.setRefreshToken(it.response.data.refresh_token)
                             viewModel.methodRepo.dataStore.setBussinessName(it.response.data.businessName)
-                            showCustomAlert(
-                                "Logged in Successfully",
-                                binding.root
-                            )
+                            viewModel.methodRepo.dataStore.setRole(it.response.data.role)
+                            showCustomAlert("Logged in Successfully", binding.root)
                             delay(1000)
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                             finishAffinity()
+
+
+
+
                         } else if (it.response is ForgetPasswordResponses) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@LoginActivity,

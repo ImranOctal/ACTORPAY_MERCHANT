@@ -31,12 +31,17 @@ interface DataStoreBase {
 
     suspend fun setEmail(email:String)
 
+
+    suspend fun setRole(role:String)
+
     suspend fun setAccessToken(value:String)
 
     suspend fun setRefreshToken(value:String)
 
 
     suspend fun setBussinessName(value:String)
+
+
 
     fun getBoolean(): Flow<Boolean>
 
@@ -63,4 +68,6 @@ interface DataStoreBase {
     fun getBussinessName(): Flow<String>
 
     fun getRefreshToken(): Flow<String>
+
+    fun getRole(): Flow<String>
 }

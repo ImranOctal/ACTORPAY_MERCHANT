@@ -22,5 +22,12 @@ data class Data(
     val profilePicture: Any,
     val resourceType: Any,
     val shopAddress: String,
-    val updatedAt: String
+    val updatedAt: String,
+    val merchantSettingsDTOS:MutableList<MerchantSettingsDTO>
+)
+data class MerchantSettingsDTO(
+    val settingId: String,
+    val paramName: String,
+    var paramValue: String,
+    val paramDescription: String,
 )

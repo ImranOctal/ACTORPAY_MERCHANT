@@ -12,103 +12,72 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityHomeBinding
-import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
-import com.actorpay.merchant.repositories.AppConstance.AppConstanceData.PRODUCT_ID
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
-import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
 import com.actorpay.merchant.ui.commission.CommissionActivity
-import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
+import com.actorpay.merchant.ui.manageProduct.ManageProductActivity
 import com.actorpay.merchant.ui.more.MoreActivity
 import com.actorpay.merchant.ui.outlet.OutletActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
-import com.actorpay.merchant.ui.profile.ProfileViewModel
 import com.actorpay.merchant.ui.roles.RolesActivity
 import com.actorpay.merchant.ui.subAdmin.SubMerchantActivity
-import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
-import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var doubleBackToExitPressedOnce = false
+    var Merchantrole=""
     private val homeviewmodel: HomeViewModel by inject()
-    private var productListData = ArrayList<Item>()
-    private lateinit var data: JSONObject
-    private val profileViewModel: ProfileViewModel by inject()
     private var handler: Handler? = null
-    private var searchRunnable: Runnable? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         handler = Handler()
-        searchRunnable = Runnable {
-        }
-        initialisation()
         homeviewmodel.getById()
+        initialisation()
+        WorkSource()
+        clickListeners()
+        lifecycleScope.launch {
+            viewModel.methodRepo.dataStore.getRole().collect { role ->
+                Merchantrole=role
+
+            }
+        }
     }
     private fun initialisation() {
-        binding.swipeLoad.setOnRefreshListener(this)
-        homeviewmodel.getProductList("0", "")
-        binding.searchEdit.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                if (s.toString().length > 2) {
-                    searchRunnable = Runnable {
-//                        data = JSONObject()
-//                        data.put("name", s.toString())
-                        homeviewmodel.getProductList("0", binding.searchEdit.text.toString())
-                    }
-                    handler!!.removeCallbacks(searchRunnable!!)
-                    handler!!.postDelayed(searchRunnable!!, 1000)
-                }
-            }
-
-
-        })
-
-        val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
-            object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
-                override fun onLoadMore(page: Int, totalItemsCount: Int) {
-
-                    homeviewmodel.getProductList(page.toString(),"")
-
-                }
-        }
-        binding.manageProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
-        binding.toolbar.ToolbarTitle.text = getString(R.string.manage_product)
-        clickListeners()
-        WorkSource()
+        binding.toolbar.ToolbarTitle.text = getString(R.string.dashboard)
         lifecycleScope.launchWhenCreated {
             homeviewmodel.methodRepo.dataStore.getBussinessName().collect { businessName ->
                 binding.headerTitle.userProfileName.text = "$businessName"
             }
         }
+        getPermissionDetails()
+//        if(Merchantrole!="MERCHANT"){
+//
+//        }
     }
+
+    private fun getPermissionDetails() {
+        homeviewmodel.getPermissions()
+    }
+
     private fun clickListeners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
@@ -134,12 +103,16 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             switchActivity(Intent(baseContext(), RolesActivity::class.java))
         }
 
-        binding.AddNewProductButton.setOnClickListener {
+        binding.dashboard.setOnClickListener {
+            binding.drawerLayout.closeDrawers()
+        }
+
+        binding.constManageProduct.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
-            val i=Intent(baseContext,AddNewProduct::class.java)
-            startActivityForResult(i,102)
+
+            switchActivity(Intent(baseContext(), ManageProductActivity::class.java))
         }
 
         binding.profileLay.setOnClickListener {
@@ -157,18 +130,12 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         binding.reportsLay.setOnClickListener {
-
-
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
-
             }
-
             switchActivity(Intent(baseContext(), PayRollActivity::class.java))
 
         }
-
-
         binding.merchatLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -205,7 +172,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     fun WorkSource() {
-
         lifecycleScope.launchWhenStarted {
             homeviewmodel.homeResponseLive.collect {
                 when (it) {
@@ -240,7 +206,17 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                                     }
                                 }
                             )
-                        } else showCustomAlert(
+
+                        }
+
+
+                         else if(it.response is PermissionDetails){
+                             for(i  in it.response.data.indices){
+                                 var read =it.response.data[i].read
+                                 var write =it.response.data[i].write
+                             }
+
+                        }else showCustomAlert(
                             getString(R.string.please_try_after_sometime),
                             binding.root
                         )
@@ -260,126 +236,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
         }
-        //productListLivedata
-
-        lifecycleScope.launchWhenStarted {
-            homeviewmodel.productListLive.collect { action ->
-                when (action) {
-                    is HomeSealedClasses.Companion.ResponseProductListSealed.loading -> {
-//                        binding.emptyText.visibility = View.VISIBLE
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.ResponseProductListSealed.Success -> {
-                        hideLoadingDialog()
-                        binding.swipeLoad.isRefreshing = false
-                        if (action.response is GetProductListResponse) {
-//                            binding.emptyText.visibility = View.GONE
-                            if (action.response.data.items.size > 0) {
-                                productListData = action.response.data.items
-                                binding.manageProduct.visibility=View.VISIBLE
-                                binding.emptyText.visibility = View.GONE
-                                 binding.manageProduct.layoutManager=LinearLayoutManager(this@HomeActivity,LinearLayoutManager.VERTICAL,false)
-                                 binding.manageProduct.adapter = ManageProductAdapter(this@HomeActivity,productListData) {
-                                        position: Int, data: String ->
-                                    when (data) {
-                                        AppConstanceData.EDIT -> {
-                                            val i =Intent(baseContext(),UpdateProduct::class.java)
-                                            i.putExtra(PRODUCT_ID,productListData[position].productId)
-                                            startActivityForResult(i,102)
-                                        }
-                                        AppConstanceData.DELETE -> {
-                                            CommonDialogsUtils.showCommonDialog(this@HomeActivity,
-                                                homeviewmodel.methodRepo, "Delete", "Are you sure you want to delete",
-                                                autoCancelable = false,
-                                                isCancelAvailable = true,
-                                                isOKAvailable = true,
-                                                showClickable = false,
-                                                callback = object : CommonDialogsUtils.DialogClick {
-                                                    override fun onClick() {
-                                                        homeviewmodel.deleteProduct(productListData[position].productId)
-                                                    }
-
-                                                    override fun onCancel() {
-
-                                                    }
-                                                }
-                                            )
-                                        }
-                                        AppConstanceData.ROOT -> {
-                                        }
-                                    }
-                                }
-                            } else {
-                                binding.manageProduct.visibility=View.GONE
-                                binding.emptyText.visibility = View.VISIBLE
-                            }
-                        }
-                    }
-                    is HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        if (action.failResponse!!.code == 403) {
-                            forcelogout(homeviewmodel.methodRepo)
-                        }else{
-                            binding.swipeLoad.isRefreshing = false
-                            showCustomAlert(
-                                action.failResponse.message,
-                                binding.root
-                            )
-                        }
-//                        binding.emptyText.visibility = View.VISIBLE
-//                        binding.swipeLoad.isRefreshing = false
-//                        hideLoadingDialog()
-//                        showCustomAlert(action.failResponse!!.message, binding.root)
-//                        if (action.failResponse.message.contains("End of input at")) {
-////                            logOutDirect()
-//                        }
-                    }
-                    else -> hideLoadingDialog()
-                }
-            }
-        }
-        //Delete Product
-
-        lifecycleScope.launchWhenStarted {
-            homeviewmodel.deleteproductLive.collect { action ->
-                when (action) {
-                    is HomeSealedClasses.Companion.ResponseDeleteSealed.loading -> {
-                        binding.emptyText.visibility = View.VISIBLE
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.ResponseDeleteSealed.Success -> {
-                        hideLoadingDialog()
-                        if (action.response is DeleteProductResponse) {
-                            showCustomAlert("Product Deleted Successfully", binding.root)
-                            homeviewmodel.getProductList("0", "")
-                        } else {
-                            binding.emptyText.visibility = View.VISIBLE
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
-                        }
-                    }
-                    is HomeSealedClasses.Companion.ResponseDeleteSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        if (action.failResponse!!.code == 403) {
-                            forcelogout(homeviewmodel.methodRepo)
-                        }else{
-                            showCustomAlert(
-                                action.failResponse.message,
-                                binding.root
-                            )
-                        }
-                        /* if (action.failResponse.message.contains("End of input at")) {
-                             logOutDirect()
-                         }*/
-                    }
-                    else -> hideLoadingDialog()
-                }
-            }
-        }
         //getById
-
         lifecycleScope.launch {
             homeviewmodel.getById.collect {
                 when (it) {
@@ -394,6 +251,8 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                                 Log.e("merchantId>>>", data.data.merchantId)
                                 viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
                                 binding.headerTitle.userProfileName.text = data.data.businessName
+                                binding.tvBusinessName.text = "Hi\n"+data.data.businessName
+
                             }
                             is SuccessResponse -> {
                                 CommonDialogsUtils.showCommonDialog(
@@ -441,16 +300,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         lifecycleScope.launch(Dispatchers.Default) {
             delay(2000)
             doubleBackToExitPressedOnce = false
-        }
-    }
-    override fun onRefresh() {
-        binding.swipeLoad.isRefreshing = true
-        homeviewmodel.getProductList("0", "")
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 102&&resultCode== Activity.RESULT_OK) {
-            homeviewmodel.getProductList("0","")
         }
     }
     override fun onResume() {

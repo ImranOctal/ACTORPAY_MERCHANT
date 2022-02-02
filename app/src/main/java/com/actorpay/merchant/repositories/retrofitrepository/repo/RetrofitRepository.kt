@@ -8,6 +8,8 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangeP
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
+import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
@@ -15,6 +17,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.del
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.screens.ScreenResponse
@@ -49,7 +52,8 @@ interface RetrofitRepository {
 
    // suspend fun genrateTokenAgain(token:String):RetrofitResource<ProfileReesponse>
 
-    suspend fun saveProfile(email:String,shopAddress:String,fullAddress:String,businessName:String,licenceNumber:String,id:String,token: String):RetrofitResource<SuccessResponse>
+    suspend fun saveProfile(email:String, shopAddress:String, fullAddress:String, businessName:String, licenceNumber:String, id:String, merchantSettingsDTOS:MutableList<MerchantSettingsDTO>, token: String):RetrofitResource<SuccessResponse>
+
 
     suspend fun getContent(type:String):RetrofitResource<ContentResponse>
 
@@ -104,9 +108,12 @@ interface RetrofitRepository {
     suspend fun updateRole(token: String, sendRolesParmas: SendRolesParmas): RetrofitResource<SuccessResponse>
 
     suspend fun deleteRole(token: String, deleteRolesParams: DeleteRolesParams): RetrofitResource<SuccessResponse>
+    suspend fun addNote(token: String, note: AddNoteParam): RetrofitResource<OrderNote>
 
     suspend fun getAllScreens(token: String): RetrofitResource<ScreenResponse>
 
     suspend fun getCommissions(token: String, pageNo: Int, body: CommissionParams): RetrofitResource<CommissionResponse>
+
+    suspend fun getPermissions(token: String): RetrofitResource<PermissionDetails>
 }
 

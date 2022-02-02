@@ -57,3 +57,7 @@ data class  SendRolesParmas(
 data class DeleteRolesParams(
     val ids: MutableList<String>
 )
+
+
+data class  AddNoteParam( val orderNoteDescription: String,val orderNo: String?,
+)

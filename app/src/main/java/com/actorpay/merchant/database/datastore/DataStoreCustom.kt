@@ -79,6 +79,14 @@ class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Pre
         context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.EMAIL, email) }
     }
 
+    override suspend fun setRole(role: String) {
+        context.dataStore.edit {
+
+                preferences -> preferences[PreferenceKeys.Role] = role
+        }
+
+    }
+
     override suspend fun setAccessToken(value: String) {
 
         context.dataStore.edit { preferences ->
@@ -239,6 +247,10 @@ class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Pre
 
     override fun getRefreshToken(): Flow<String> {
         return getString(PreferenceKeys.REFRESH_TOKEN)
+    }
+
+    override fun getRole(): Flow<String> {
+        return getString(PreferenceKeys.Role)
     }
 
 }

@@ -15,12 +15,15 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangeP
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
+import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.profile.ProfileParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.*
@@ -177,20 +180,9 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun saveProfile(
-        email: String,
-        shopAddress: String,
-        fullAddress: String,
-        businessName: String,
-        licenceNumber: String,
-        id: String,
-        token: String
-    ): RetrofitResource<SuccessResponse> {
+    override suspend fun saveProfile(email: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String, id: String, merchantSettingsDTOS:MutableList<MerchantSettingsDTO>, token: String): RetrofitResource<SuccessResponse> {
         try {
-            val data = apiClient.saveProfile(
-                AppConstance.B_Token + token,
-                ProfileParams(id, email, shopAddress, fullAddress, businessName, licenceNumber)
-            )
+            val data = apiClient.saveProfile(AppConstance.B_Token + token, ProfileParams(id, email, shopAddress, fullAddress, businessName, licenceNumber,merchantSettingsDTOS))
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)
@@ -1001,11 +993,33 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getCommissions(
-        token: String,
-        pageNo: Int,
-        body: CommissionParams
-    ): RetrofitResource<CommissionResponse> {
+    override suspend fun addNote(token: String, note: AddNoteParam): RetrofitResource<OrderNote> {
+        try {
+            val data = apiClient.addNote(AppConstance.B_Token+token,note)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getCommissions(token: String, pageNo: Int, body: CommissionParams): RetrofitResource<CommissionResponse> {
         try {
             val data = apiClient.getAllCommission(AppConstance.B_Token+token,pageNo,body)
             val result = data.body()
@@ -1030,6 +1044,33 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
             )
         }
     }
+
+    override suspend fun getPermissions(token: String): RetrofitResource<PermissionDetails> {
+        try {
+            val data = apiClient.getPermission(AppConstance.B_Token+token)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
     fun handleError(code:Int,error:String):FailResponse{
         if (code == 403) {
             return FailResponse("", "", code)

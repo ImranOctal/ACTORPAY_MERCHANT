@@ -15,25 +15,26 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.manageProduct.ManageProductActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
+        <activity
             android:name=".ui.subAdmin.SubMerchantActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.commission.CommissionActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.roles.details.RoleDetailsActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.updateoutlet.UpdateOutletActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.roles.RolesActivity"
             android:exported="false"
@@ -41,13 +42,11 @@
         <activity
             android:name=".ui.outlet.addoutlet.AddOutletActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.OutletActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.more.FaqActivity"
             android:exported="false"
@@ -162,7 +161,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0" />
+            android:value="AIzaSyDF9E6078CB2YHeX3Qc6c4xOTkkQoT7KCY" />
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"

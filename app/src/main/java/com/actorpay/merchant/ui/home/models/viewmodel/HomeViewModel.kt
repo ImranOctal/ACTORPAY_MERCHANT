@@ -249,8 +249,15 @@ class HomeViewModel(
         }
     }
 
-
-
-
-
+    fun getPermissions() {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            homeResponseLive.value = HomeSealedClasses.Companion.ResponseHomeSealed.loading()
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                when (val response = apiRepo.getPermissions(token)) {
+                    is RetrofitResource.Error -> homeResponseLive.value = HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> homeResponseLive.value = HomeSealedClasses.Companion.ResponseHomeSealed.Success(response.data!!)
+                }
+            }
+        }
+    }
 }

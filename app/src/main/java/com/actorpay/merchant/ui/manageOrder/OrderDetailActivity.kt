@@ -17,12 +17,15 @@ import com.actorpay.merchant.databinding.ActivityOrderDetailBinding
 import com.actorpay.merchant.databinding.CancelBottomsheetBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderNotesDto
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
+import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.AdapterNote
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderDetailAdapter
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
+import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.roundBorderedView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.octal.actorpay.repositories.AppConstance.AppConstance
@@ -33,38 +36,31 @@ import org.koin.android.ext.android.inject
 class OrderDetailActivity : BaseActivity() {
     lateinit var list: Item
     private val homeviewmodel: HomeViewModel by inject()
-    var orderNo = ""
-
+    private val orderDetailViewModel: OrderDetailViewModel by inject()
     private lateinit var binding: ActivityOrderDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order_detail)
         list = intent.getSerializableExtra("data") as Item
         binding.OrderType.text = list.orderStatus.replace("_"," ")
-        orderNo = list.orderNo
         binding.back.setOnClickListener {
             finish()
         }
-        homeviewmodel.getAllOrder(
-            "",
-            "",
-            "",
-            "",
-            "",
-            list.orderNo
-        )
-
+        binding.btnNote.setOnClickListener {
+            addNote()
+        }
+        getAllOrderApi()
         getIntentData(list)
         apiResponse()
-        setupRv()
-    }
 
-    private fun setupRv() {
+    }
+    private fun getAllOrderApi() {
+        homeviewmodel.getAllOrder("", "", "", "", "", list.orderNo)
+    }
+    private fun setupRv(orderNotesDtos: List<OrderNotesDto>) {
         binding.rvNote.layoutManager = LinearLayoutManager(this@OrderDetailActivity, LinearLayoutManager.VERTICAL, false)
-        binding.rvNote.adapter = AdapterNote(this@OrderDetailActivity, (list.orderNotesDtos))
-
+        binding.rvNote.adapter = AdapterNote(this@OrderDetailActivity, (orderNotesDtos))
     }
-
     private fun apiResponse() {
         lifecycleScope.launch {
             homeviewmodel.updateStatus.collect {
@@ -74,22 +70,18 @@ class OrderDetailActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Success -> {
                         hideLoadingDialog()
-                        if (it.response is UpdateOrderStatus) {
-                            homeviewmodel.getAllOrder(
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                list.orderNo
-                            )
-
-                        } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
+                        when (it.response) {
+                            is UpdateOrderStatus -> {
+                               getAllOrderApi()
+                            }
+                            else -> {
+                                showCustomAlert(
+                                    getString(R.string.please_try_after_sometime),
+                                    binding.root
+                                )
+                            }
                         }
+
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse->{
                         hideLoadingDialog()
@@ -121,15 +113,45 @@ class OrderDetailActivity : BaseActivity() {
                         if (action.response is BeanViewAllOrder) {
 
                             if (action.response.data.items.size > 0) {
-
                                 binding.orderRecyclerView.layoutManager = LinearLayoutManager(this@OrderDetailActivity, LinearLayoutManager.VERTICAL, false)
                                 binding.orderRecyclerView.adapter = OrderDetailAdapter(this@OrderDetailActivity, (action.response.data.items[0].orderItemDtos))
+                                setupRv(action.response.data.items[0].orderNotesDtos)
 
                             } else {
                             }
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                        if(action.failResponse!!.code==403){
+                            forcelogout(homeviewmodel.methodRepo)
+
+                        }else{
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
+                        }
+                    }
+                    else -> hideLoadingDialog()
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            orderDetailViewModel.responseLive.collect{ action ->
+                when (action) {
+                    is  ResponseSealed.Loading -> {
+                        showLoadingDialog()
+                    }
+                    is ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        if (action.response is OrderNote) {
+                            showCustomToast("Add Order Note Successfully")
+                            getAllOrderApi()
+                        }
+                    }
+                    is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if(action.failResponse!!.code==403){
                             forcelogout(homeviewmodel.methodRepo)
@@ -187,7 +209,7 @@ class OrderDetailActivity : BaseActivity() {
                 showCustomToast(getString(R.string.add_note_description))
             } else {
                 dialog.dismiss()
-                homeviewmodel.updateStatus(binding.etNote.text.trim().toString(), orderItemId, itemStauts, orderNo)
+                homeviewmodel.updateStatus(binding.etNote.text.trim().toString(), orderItemId, itemStauts, list.orderNo)
             }
         }
         binding.btnCancnel.setOnClickListener {
@@ -195,6 +217,25 @@ class OrderDetailActivity : BaseActivity() {
         }
         dialog.setContentView(binding.root)
         dialog.show()
+    }
+
+    private fun addNote() {
+        val binding: CancelBottomsheetBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.cancel_bottomsheet, null, false)
+        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
+        binding.btnSubmit.setOnClickListener {
+            if (binding.etNote.text.isEmpty()) {
+                showCustomToast(getString(R.string.add_note_description))
+            } else {
+                dialog.dismiss()
+                orderDetailViewModel.addNote(binding.etNote.text.toString().trim(), list.orderNo)
+            }
+        }
+        binding.btnCancnel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.setContentView(binding.root)
+        dialog.show()
+
     }
 
 }

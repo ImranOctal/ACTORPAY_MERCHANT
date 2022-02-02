@@ -80,7 +80,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/rvRoles"
-                android:text="@string/add_outlet" />
+                android:text="@string/add_roll" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

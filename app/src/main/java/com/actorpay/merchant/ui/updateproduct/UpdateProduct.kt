@@ -78,7 +78,6 @@ class UpdateProduct : BaseActivity() {
         binding.toolbar.ToolbarTitle.text = getString(R.string.updateProduct)
         binding.toolbar.back.visibility = View.VISIBLE
         homeviewmodel.getCatogrys()
-
         catAdapter = CategoryAdapter(binding.chooseCategory)
         taxAdapter = TaxAdapter(binding.taxData)
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)

@@ -216,7 +216,8 @@
                                 style="@style/TxtOutlineCustom"
                                 android:layout_marginTop="@dimen/_14ssp"
                                 android:autofillHints="postalAddress"
-                                android:hint="Address Line1"
+                                android:hint="@string/address_line1"
+                                android:focusable="false"
                                 android:inputType="textAutoComplete"
                                 android:singleLine="true" />
 
@@ -234,7 +235,7 @@
                                 style="@style/TxtOutlineCustom"
                                 android:layout_marginTop="@dimen/_14ssp"
                                 android:autofillHints="postalAddress"
-                                android:hint="Address Line2"
+                                android:hint="@string/address_line2"
                                 android:inputType="textAutoComplete"
                                 android:singleLine="true" />
 

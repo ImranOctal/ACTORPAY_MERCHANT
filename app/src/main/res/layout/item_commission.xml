@@ -31,7 +31,7 @@
                     android:fontFamily="@font/poppins_medium"
                     android:paddingEnd="10dp"
                     android:singleLine="true"
-                    android:text="Name: "
+                    android:text="Order Number: "
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"

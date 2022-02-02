@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
@@ -17,6 +18,8 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
     Application()
 ) {
     val profileResponseLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
+
+    val merchantSettingsDTOList= mutableListOf<MerchantSettingsDTO>()
 
     sealed class ResponseProfileSealed {
         class Success(val response: Any) : ResponseProfileSealed()
@@ -62,6 +65,7 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
                         businessName,
                         licenceNumber,
                         userId,
+                        merchantSettingsDTOList,
                         token
                     )) {
                         is RetrofitResource.Error -> profileResponseLive.value =

@@ -72,7 +72,7 @@
     <string name="mobile">Mobile</string>
     <string name="shopAddress">Shop Address</string>
     <string name="address">Full Address</string>
-    <string name="place_api_key">AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0</string>
+    <string name="place_api_key">AIzaSyDF9E6078CB2YHeX3Qc6c4xOTkkQoT7KCY</string>
     <string name="shopact">Shop  Act No/ License</string>
     <string name="resourceType">Resource Type</string>
     <string name="alreadySignup">already have an account ?</string>
@@ -108,6 +108,7 @@
     <string name="cancel">Cancel/ Raise Dispute</string>
     <string name="merchant_sub_merchant"><![CDATA[Merchant & Sub Merchant]]></string>
     <string name="manage_product">Manage Products</string>
+    <string name="dashboard">Dashboard</string>
     <string name="available_balance">Available Balance</string>
     <string name="add_money">Add Money</string>
     <string name="upload_csv_file">+ Upload CSV File</string>
@@ -166,13 +167,13 @@
     <string name="license_number">License Number</string>
     <string name="description">Description</string>
     <string name="outlet">Outlet</string>
-    <string name="address_line1">Address Line1: </string>
-    <string name="address_line2">Address Line2: </string>
+    <string name="address_line1">Address Line1 </string>
+    <string name="address_line2">Address Line2 </string>
     <string name="zip_code">Zip Code</string>
     <string name="city">City</string>
     <string name="state">State</string>
     <string name="country">Country</string>
-
+    <string name="error_percentage_numeric">Percentage should be between 1 to 99</string>
     <string name="licence_number">Licence Number</string>
     <string name="add_outlet">Add Outlet</string>
     <string name="update_outlet">Update Outlet</string>
@@ -183,6 +184,7 @@
     <string name="no_data_found">No Data Found</string>
     <string name="dob">DOB</string>
     <string name="my_commission">My Commission</string>
+    <string name="add_roll">Add Roll</string>
 
     >
 

@@ -33,10 +33,10 @@
                         tools:layout_editor_absoluteY="0dp">
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/imgCamelMD_PRDet"
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="@dimen/_105sdp"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_70sdp"
                             android:layout_marginTop="24dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/demo"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -89,39 +89,39 @@
                             android:text="@string/oops_your_email_is_not_correct_or_empty"
                             android:visibility="gone" />
                         <!--Password-->
-                   <!--     <LinearLayout
-                            android:id="@+id/passLay"
-                            style="@style/TxtOutline2"
-                            android:orientation="horizontal">
+                        <!--     <LinearLayout
+                                 android:id="@+id/passLay"
+                                 style="@style/TxtOutline2"
+                                 android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/password"
-                                style="@style/regular1Full"
-                                android:width="0dp"
-                                android:layout_weight="1"
-                                android:background="@color/transparent"
-                                android:hint="@string/password"
-                                android:autofillHints="phone"
-                                android:inputType="textPassword"
-                                android:singleLine="true" />
+                                 <EditText
+                                     android:id="@+id/password"
+                                     style="@style/regular1Full"
+                                     android:width="0dp"
+                                     android:layout_weight="1"
+                                     android:background="@color/transparent"
+                                     android:hint="@string/password"
+                                     android:autofillHints="phone"
+                                     android:inputType="textPassword"
+                                     android:singleLine="true" />
 
-                            <ImageView
-                                android:id="@+id/signup_password_show_hide"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:src="@drawable/ic_baseline_remove_red_eye_24"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_5sdp"
-                                />
+                                 <ImageView
+                                     android:id="@+id/signup_password_show_hide"
+                                     android:layout_width="@dimen/_20sdp"
+                                     android:layout_height="@dimen/_15sdp"
+                                     android:src="@drawable/ic_baseline_remove_red_eye_24"
+                                     android:layout_gravity="center"
+                                     android:layout_margin="@dimen/_5sdp"
+                                     />
 
-                        </LinearLayout>
+                             </LinearLayout>
 
 
-                        <TextView
-                            android:id="@+id/errorOnPassword"
-                            style="@style/errotextViewStyle"
-                            android:text="@string/oops_your_password_is_not_valid"
-                            android:visibility="gone" />-->
+                             <TextView
+                                 android:id="@+id/errorOnPassword"
+                                 style="@style/errotextViewStyle"
+                                 android:text="@string/oops_your_password_is_not_valid"
+                                 android:visibility="gone" />-->
                         <!--Business Name-->
                         <LinearLayout
                             android:id="@+id/businessLay"
@@ -297,6 +297,118 @@
                             style="@style/errotextViewStyle"
                             android:text="@string/field_should_not_be_empty"
                             android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/returnLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Return Fee (%):  "
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_bold"
+                                android:textColor="@color/text_color"
+                                />
+
+                            <EditText
+                                android:id="@+id/returnedt"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:autofillHints="creditCardSecurityCode"
+                                android:background="@color/transparent"
+                                android:text=""
+                                android:inputType="number"
+                                android:digits="0123456789."
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                />
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:id="@+id/cancellationLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Cancellation Fee (%):  "
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_bold"
+                                android:textColor="@color/text_color"
+                                />
+
+                            <EditText
+                                android:id="@+id/cancellation"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:autofillHints="creditCardSecurityCode"
+                                android:background="@color/transparent"
+                                android:text=""
+                                android:inputType="numberDecimal"
+                                android:digits="0123456789."
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/adminCommissionLay"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Admin Commission (%):  "
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_bold"
+                                android:textColor="@color/text_color"
+                                />
+
+                            <EditText
+                                android:id="@+id/adminCommission"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:autofillHints="creditCardSecurityCode"
+                                android:background="@color/transparent"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:focusableInTouchMode="false"
+                                android:text=""
+                                android:inputType="numberDecimal"
+                                android:digits="0123456789."
+                                android:singleLine="true"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                />
+
+
+                        </LinearLayout>
+
+
 
 
                         <LinearLayout

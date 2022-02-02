@@ -1,5 +1,7 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.profile
 
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
+
 
 data class ProfileReesponse (
     val id: String,
@@ -26,4 +28,6 @@ data class ProfileParams(
     val fullAddress:String,
     val businessName:String,
     val licenceNumber:String,
+    val merchantSettingsDTOS: MutableList<MerchantSettingsDTO>
+
 )
