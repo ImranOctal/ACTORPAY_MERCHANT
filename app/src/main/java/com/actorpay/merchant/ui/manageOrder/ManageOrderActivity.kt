@@ -59,14 +59,12 @@ class ManageOrderActivity : BaseActivity() {
             orderNo
         )
     }
-
     private fun setupRv(orderList: ArrayList<Item>) {
         binding.manageOrder.layoutManager = LinearLayoutManager(this@ManageOrderActivity, LinearLayoutManager.VERTICAL, false)
         binding.manageOrder.adapter = OrderAdapter(this@ManageOrderActivity, orderList) { position, status ->
             updateStatus(position, orderList, status)
         }
     }
-
     private fun Installation() {
         binding.back.setOnClickListener {
             finish()
@@ -110,6 +108,8 @@ class ManageOrderActivity : BaseActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerStatus.adapter = adapter
         }
+
+
         binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 orderStatus = binding.spinnerStatus.selectedItem.toString()
@@ -204,6 +204,14 @@ class ManageOrderActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
+                        if(action.failResponse!!.code==403){
+                            forcelogout(homeviewmodel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> hideLoadingDialog()
                 }

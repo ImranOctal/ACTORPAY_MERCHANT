@@ -9,16 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
-
 import com.actorpay.merchant.databinding.AddOutletActitvityBinding
 import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.countrypicker.CountryPicker
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -60,6 +56,7 @@ class AddOutletActivity : BaseActivity() {
 //            startForAddressResult.launch(intent)
 //        }
     }
+
     private fun validation() {
         if (binding.etTitle.text.isEmpty()) {
             binding.etTitle.error = this.getString(R.string.title_empty)
@@ -92,18 +89,15 @@ class AddOutletActivity : BaseActivity() {
             binding.etAddressTwo.error = getString(R.string.address_empty)
             binding.etAddressTwo.requestFocus()
 
-        }
-        else if (binding.etZipCode.text.toString().trim().isEmpty()) {
+        } else if (binding.etZipCode.text.toString().trim().isEmpty()) {
             binding.etZipCode.error = getString(R.string.zip_code_empty)
             binding.etZipCode.requestFocus()
 
-        }
-        else if (binding.etCity.text.toString().trim().isEmpty()) {
+        } else if (binding.etCity.text.toString().trim().isEmpty()) {
             binding.etCity.error = getString(R.string.city_empty)
             binding.etCity.requestFocus()
 
-        }
-        else if (binding.etState.text.toString().trim().isEmpty()) {
+        } else if (binding.etState.text.toString().trim().isEmpty()) {
             binding.etState.error = getString(R.string.state_empty)
             binding.etState.requestFocus()
 
@@ -135,8 +129,10 @@ class AddOutletActivity : BaseActivity() {
         val state = binding.etState.text.toString().trim()
         val latitude = "23234343"
         val longitude = "3333333"
+
         addOutletViewModel.methodRepo.hideSoftKeypad(this)
         addOutletViewModel.createOutlet(resourceType, licenceNumber, title, description, extensionNumber, addressLine1, addressLine2, contactNumber, zipCode, city, country, state, latitude, longitude)
+
     }
 
     private val startForAddressResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -161,7 +157,7 @@ class AddOutletActivity : BaseActivity() {
         }
     }
 
-    fun apiResponse(){
+    fun apiResponse() {
         lifecycleScope.launch {
             addOutletViewModel.AddresponseLive.collect {
                 when (it) {
@@ -181,14 +177,17 @@ class AddOutletActivity : BaseActivity() {
                                 binding.root
                             )
                         }
-
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if (it.failResponse!!.code == 403) {
+                            forcelogout(viewModel.methodRepo)
+                        } else {
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

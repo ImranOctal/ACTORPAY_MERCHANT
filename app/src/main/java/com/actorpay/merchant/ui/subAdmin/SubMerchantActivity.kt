@@ -44,7 +44,6 @@ class SubMerchantActivity : BaseActivity() {
         apiResponse()
     }
 
-
     private fun setUpRv(items: List<Item>) {
         binding.rvSubMerchants.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvSubMerchants.adapter = SubMerchantAdapter(this, items){
@@ -111,10 +110,14 @@ class SubMerchantActivity : BaseActivity() {
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(viewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

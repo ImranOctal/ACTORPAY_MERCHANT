@@ -61,14 +61,11 @@ class CommissionActivity : BaseActivity() {
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (action.response is CommissionResponse) {
-
                             if (commissionViewModel.pageNo == 0) {
                                 commissionViewModel.commissionList.clear()
                             }
                             commissionViewModel.commissionList.addAll(action.response.data.items)
                             binding.rvCommission.adapter?.notifyDataSetChanged()
-
-
                             if (commissionViewModel.commissionList.size > 0) {
                                 binding.rvCommission.visibility = View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
@@ -79,22 +76,21 @@ class CommissionActivity : BaseActivity() {
                             }
                         }
                     }
+
                     is ResponseSealed.ErrorOnResponse -> {
-                        showCustomAlert(
-                            action.failResponse!!.message,
-                            binding.root
-                        )
                         hideLoadingDialog()
+                        if (action.failResponse!!.code == 403) {
+                            forcelogout(commissionViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(action.failResponse!!.message, binding.root)
+                        }
                     }
                     else -> hideLoadingDialog()
                 }
             }
         }
     }
-
     private fun filterBottomsheet() {
-
-
         val binding: DialogCommissionFilterBinding = DataBindingUtil.inflate(
             LayoutInflater.from(this),
             R.layout.dialog_commission_filter,

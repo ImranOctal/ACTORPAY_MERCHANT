@@ -334,10 +334,14 @@ class UpdateProduct : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseGetProductSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(viewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

@@ -99,10 +99,14 @@ class RoleDetailsActivity : BaseActivity() {
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            event.failResponse!!.message,
-                            binding.root
-                        )
+                        if(event.failResponse!!.code==403){
+                            forcelogout(viewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                event.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

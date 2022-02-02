@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="orderNote"
+            type="com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderNotesDto" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+
+
+        <View
+            android:id="@+id/order_note_view"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@color/primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/order_note_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_6ssp"
+                android:text="@{orderNote.orderStatus}"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_10ssp"
+                tools:text="title" />
+
+
+            <TextView
+                android:id="@+id/order_note_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_6ssp"
+                android:text="@{orderNote.orderNoteDescription}"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_10ssp"
+                tools:text="decription" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

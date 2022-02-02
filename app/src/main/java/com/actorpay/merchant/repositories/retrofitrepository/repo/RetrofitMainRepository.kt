@@ -30,6 +30,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Get
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.outlet.response.*
+import com.google.gson.JsonObject
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
@@ -50,10 +51,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (loginData.errorBody() != null) {
-                    val json = JSONObject(loginData.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(loginData.code(),loginData.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -79,10 +77,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (forgetData.errorBody() != null) {
-                    val json = JSONObject(forgetData.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(forgetData.code(),forgetData.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -108,10 +103,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (loginData.errorBody() != null) {
-                    val json = JSONObject(loginData.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(loginData.code(),loginData.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -141,10 +133,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -170,10 +159,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -210,10 +196,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -242,10 +225,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -272,10 +252,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -306,10 +283,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -337,10 +311,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -368,10 +339,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -397,10 +365,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -426,10 +391,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -455,10 +417,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -494,10 +453,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
 
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -523,10 +479,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json = JSONObject(data.errorBody()!!.string())
-                    val status = json.getString("status")
-                    val message = json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -552,10 +505,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(updateStatus.errorBody()!=null) {
-                    val json=JSONObject(updateStatus.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(updateStatus.code(),updateStatus.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
             }
@@ -573,10 +523,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(orderData.errorBody()!=null) {
-                    val json=JSONObject(orderData.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(orderData.code(),orderData.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(FailResponse(context.getString(R.string.please_try_after_sometime),""))
             }
@@ -597,10 +544,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if (data.errorBody() != null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -626,10 +570,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -655,10 +596,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -684,10 +622,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -713,10 +648,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -742,10 +674,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -771,10 +700,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -800,10 +726,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -830,10 +753,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -859,10 +779,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -889,10 +806,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -922,10 +836,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -956,10 +867,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -988,10 +896,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -1020,10 +925,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -1052,10 +954,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -1084,10 +983,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -1117,10 +1013,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 return RetrofitResource.Success(result)
             } else {
                 if(data.errorBody()!=null) {
-                    val json=JSONObject(data.errorBody()!!.string())
-                    val status=json.getString("status")
-                    val message=json.getString("message")
-                    return RetrofitResource.Error(FailResponse(message, status))
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
                 }
                 return RetrofitResource.Error(
                     FailResponse(
@@ -1137,5 +1030,13 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
             )
         }
     }
-
+    fun handleError(code:Int,error:String):FailResponse{
+        if (code == 403) {
+            return FailResponse("", "", code)
+        }
+        val json = JSONObject(error)
+        val status = json.getString("status")
+        val message = json.getString("message")
+        return FailResponse(message, status)
+    }
 }

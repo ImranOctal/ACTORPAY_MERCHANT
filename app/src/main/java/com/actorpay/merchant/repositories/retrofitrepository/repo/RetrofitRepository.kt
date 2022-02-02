@@ -75,25 +75,26 @@ interface RetrofitRepository {
 
     suspend fun getAllOrder(token: String, orderParam: OrderParams, pageNo: String, pageSize: String):RetrofitResource<BeanViewAllOrder>
     suspend fun getAllCountries():RetrofitResource<CountryResponse>
+
     suspend fun getFAQ():RetrofitResource<FAQResponse>
 
     suspend fun createOutlet(token: String,param: OutletParam): RetrofitResource<AddOutletResponse>
 
     suspend fun updateOutlet(token: String,param: UpdateParam): RetrofitResource<UpdateOutlet>
 
-
     suspend fun addSubMerchant(token: String,param: AddSubMerchantParam): RetrofitResource<CreateSubMerchant>
+
     suspend fun updateSubMerchant(token: String,param: UpdateSubMerchantParam): RetrofitResource<UpdateSubMerchant>
 
     suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet>
 
     suspend fun getSubMerchants(token: String, pageNo: String, body: EMPTYJSON): RetrofitResource<GetAllSubMerchant>
-
     suspend fun getMerchantById(token: String, id: String): RetrofitResource<GetMerchantById>
 
     suspend fun deleteOutlet(token: String, body: DeleteOutParam): RetrofitResource<DeleteOutlet>
 
     suspend fun deleteMerchant(token: String, body: DeleteOutParam): RetrofitResource<DeleteSubMerchant>
+
     suspend fun getRoles(token: String, pageNo: Int, body: GetRolesParams): RetrofitResource<RolesResponse>
 
     suspend fun getRoleById(token: String, id: String): RetrofitResource<SingleRoleResponse>

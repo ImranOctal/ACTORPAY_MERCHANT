@@ -1,7 +1,5 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.order
-
 import java.io.Serializable
-
 
 data class BeanViewAllOrder(
     val `data`: Data,
@@ -41,8 +39,6 @@ data class Customer(
      val taxPercentage: Double,
      val taxableValue: Double,
      val totalPrice: Double
-
-
 ):Serializable
 data class OrderParams(val startDate: String="",val endDate: String="",val merchantId: String="",val orderStatus: String="",val customerEmail: String="",val orderNo: String="")
 
@@ -57,3 +53,11 @@ data class ShippingAddressDTO(
     val state: String
 ):Serializable
 
+data class OrderNotesDto(
+    val createdAt: String,
+    val orderNoteBy: String,
+    val orderStatus: String,
+    val userId: String,
+    val userType: String,
+    val orderNoteDescription: String
+):Serializable

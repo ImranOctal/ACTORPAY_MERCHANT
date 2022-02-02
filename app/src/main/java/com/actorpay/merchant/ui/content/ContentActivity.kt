@@ -56,10 +56,14 @@ class ContentActivity : BaseActivity() {
                     }
                     is ContentViewModel.ResponseContentSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.message!!.message,
-                            binding.root
-                        )
+                        if(it.message!!.code==403){
+                            forcelogout(viewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.message.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

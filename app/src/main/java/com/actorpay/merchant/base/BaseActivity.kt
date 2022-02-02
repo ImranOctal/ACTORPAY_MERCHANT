@@ -182,5 +182,22 @@ abstract class BaseActivity : AppCompatActivity() {
             progressDialog!!.dismiss()
         }
     }
+    fun forcelogout(methodRepo: MethodsRepo){
+        CommonDialogsUtils.showCommonDialog(this,methodRepo, "Log Out ",
+            "Session Expire", false, false, true, false,
+            object : CommonDialogsUtils.DialogClick {
+                override fun onClick() {
+//                    viewModel.shared.Logout()
+                    lifecycleScope.launchWhenCreated {
+                        methodRepo.dataStore.logOut()
+
+                        startActivity(Intent(this@BaseActivity, LoginActivity::class.java))
+                        finishAffinity()
+                    }
+                }
+                override fun onCancel() {
+                }
+            })
+    }
 
 }

@@ -31,24 +31,34 @@ import com.actorpay.merchant.utils.SingleClickListener
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
+
     private val signUpViewModel: AuthViewModel by inject()
+
     private var showPassword = false
 
     private lateinit var disposable: Disposable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+
         installation()
+
         apiResponse()
+
         val codeList= mutableListOf<String>()
         GlobalData.allCountries.forEach {
             val code=it.countryCode
             codeList.add(code)
+
         }
 
         if(GlobalData.allCountries.size>0){
             binding.codePicker.text=GlobalData.allCountries[0].countryCode
+
         }
+
         binding.countryLayout.setOnClickListener {
             CountryPicker(this,viewModel.methodRepo,GlobalData.allCountries){
                 binding.codePicker.text=GlobalData.allCountries[it].countryCode
@@ -63,12 +73,8 @@ class SignupActivity : BaseActivity() {
             ContentViewModel.type = 3
             startActivity(Intent(this, ContentActivity::class.java))
         }
-        signUpViewModel.methodRepo.makeTextLink(
-            binding.signupTermsText,
-            getString(R.string.privacy_policy),
-            true,
-            null
-        ) {
+
+        signUpViewModel.methodRepo.makeTextLink(binding.signupTermsText, getString(R.string.privacy_policy), true, null) {
             ContentViewModel.type = 2
             startActivity(Intent(this, ContentActivity::class.java))
         }
@@ -208,11 +214,14 @@ class SignupActivity : BaseActivity() {
 
                     }
                     is AuthViewModel.ResponseLoginSealed.ErrorOnResponse -> {
-                      hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(signUpViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

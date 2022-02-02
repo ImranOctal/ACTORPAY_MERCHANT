@@ -2,6 +2,7 @@ package com.actorpay.merchant.ui.outlet
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,7 @@ class OutletActivity : BaseActivity() {
                         hideLoadingDialog()
                         if (it.response is GetOutlet) {
                             if(it.response.data.items.isNotEmpty()){
+
                                 binding.rvOutlet.layoutManager=LinearLayoutManager(this@OutletActivity,LinearLayoutManager.VERTICAL,false)
                                 binding.rvOutlet.adapter=AdapterOutlet(this@OutletActivity,it.response.data.items){
                                     pos,action ->
@@ -74,12 +76,13 @@ class OutletActivity : BaseActivity() {
                                         val intent = Intent(this@OutletActivity, UpdateOutletActivity::class.java)
                                         resultUpdateLauncher.launch(intent)
                                     }
-
+                                    binding.tvDataNotFound.visibility=View.GONE
 
                                 }
 
                             }else{
-                                showCustomToast("Data not found")
+                                binding.tvDataNotFound.visibility=View.VISIBLE
+
                             }
 
                         }
@@ -91,10 +94,14 @@ class OutletActivity : BaseActivity() {
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(outletViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

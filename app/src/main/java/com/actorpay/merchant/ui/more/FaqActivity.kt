@@ -63,11 +63,14 @@ class FaqActivity : BaseActivity() {
                         }
                     }
                     is MoreViewModel.ResponseMiscSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        (this@FaqActivity as BaseActivity).showCustomAlert(
-                            action.failResponse!!.message,
-                            binding.root
-                        )
+                        if(action.failResponse!!.code==403){
+                            forcelogout(moreViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> hideLoadingDialog()
                 }

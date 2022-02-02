@@ -109,10 +109,15 @@ class SplashActivity : BaseActivity() {
                     }
                     is ActorPayViewModel.ResponseActorSealed.ErrorOnResponse->{
 //                        viewModel.methodRepo.hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        hideLoadingDialog()
+                        if(it.failResponse!!.code==403){
+                            forcelogout(viewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     is ActorPayViewModel.ResponseActorSealed.Empty -> {
 //                        viewModel.methodRepo.hideLoadingDialog()

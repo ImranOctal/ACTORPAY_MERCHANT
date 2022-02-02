@@ -1,5 +1,6 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.order
 
+
 import java.io.Serializable
 
 data class Item (
@@ -8,6 +9,7 @@ data class Item (
     val merchantId: String,
     val orderId: String,
     val orderItemDtos: List<OrderItemDto>,
+    val orderNotesDtos: List<OrderNotesDto>,
     val orderNo: String,
     val orderStatus: String,
     val shippingAddressDTO: ShippingAddressDTO,

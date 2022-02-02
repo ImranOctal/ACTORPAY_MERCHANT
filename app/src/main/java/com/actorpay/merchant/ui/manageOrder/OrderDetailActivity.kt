@@ -1,6 +1,5 @@
 package com.actorpay.merchant.ui.manageOrder
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -21,9 +20,9 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+import com.actorpay.merchant.ui.manageOrder.adapter.AdapterNote
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderDetailAdapter
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
-import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.roundBorderedView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.octal.actorpay.repositories.AppConstance.AppConstance
@@ -57,7 +56,15 @@ class OrderDetailActivity : BaseActivity() {
 
         getIntentData(list)
         apiResponse()
+        setupRv()
     }
+
+    private fun setupRv() {
+        binding.rvNote.layoutManager = LinearLayoutManager(this@OrderDetailActivity, LinearLayoutManager.VERTICAL, false)
+        binding.rvNote.adapter = AdapterNote(this@OrderDetailActivity, (list.orderNotesDtos))
+
+    }
+
     private fun apiResponse() {
         lifecycleScope.launch {
             homeviewmodel.updateStatus.collect {
@@ -84,10 +91,22 @@ class OrderDetailActivity : BaseActivity() {
                             )
                         }
                     }
+                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse->{
+                        hideLoadingDialog()
+                        if(it.failResponse!!.code==403){
+                            forcelogout(homeviewmodel.methodRepo)
 
-                    else -> {
-//                        signUpViewModel.methodRepo.hideLoadingDialog()
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
+                    else->{
+                        hideLoadingDialog()
+                    }
+
                 }
             }
         }
@@ -112,6 +131,15 @@ class OrderDetailActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
+                        if(action.failResponse!!.code==403){
+                            forcelogout(homeviewmodel.methodRepo)
+
+                        }else{
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> hideLoadingDialog()
                 }

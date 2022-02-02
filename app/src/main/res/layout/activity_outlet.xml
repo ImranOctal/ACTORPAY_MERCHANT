@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -45,43 +46,54 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/top_round_drawble_white"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/top_round_drawble_white">
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
                 android:id="@+id/rvOutlet"
-                app:layout_constraintBottom_toTopOf="@id/btnAddOutlet"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_height="0dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnAddOutlet"
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
+            <TextView
+                android:id="@+id/tvDataNotFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/data_not_available"
+                android:textSize="@dimen/_13sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <Button
                 android:id="@+id/btnAddOutlet"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:elevation="2dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/btn_bg"
-                android:paddingLeft="@dimen/_50sdp"
-                android:textSize="@dimen/_12ssp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:paddingRight="@dimen/_50sdp"
+                android:background="@drawable/btn_bg"
+                android:elevation="2dp"
                 android:fontFamily="@font/poppins_medium"
+                android:paddingLeft="@dimen/_50sdp"
+                android:paddingRight="@dimen/_50sdp"
+                android:text="@string/add_outlet"
                 android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/rvOutlet"
-                android:text="@string/add_outlet" />
-
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvOutlet" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

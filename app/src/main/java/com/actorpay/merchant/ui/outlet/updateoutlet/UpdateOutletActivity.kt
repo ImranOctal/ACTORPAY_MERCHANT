@@ -154,16 +154,20 @@ class UpdateOutletActivity : BaseActivity() {
                         if (it.response is UpdateOutlet) {
                             setResult(Activity.RESULT_OK)
                             finish()
-
-                        }
-                    }
+                            }
+                      }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(outletViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
+
                     else -> {
                         hideLoadingDialog()
                     }
@@ -171,8 +175,5 @@ class UpdateOutletActivity : BaseActivity() {
             }
         }
 
-
     }
-
-
 }

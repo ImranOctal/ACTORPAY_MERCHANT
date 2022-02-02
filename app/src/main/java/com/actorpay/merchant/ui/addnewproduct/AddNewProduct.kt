@@ -65,7 +65,6 @@ class AddNewProduct : BaseActivity() {
     }
 
     private fun Installation() {
-
         binding.toolbar.back.visibility = View.VISIBLE
         homeviewmodel.getCatogrys()
         homeviewmodel.getSubCatDetalis()
@@ -315,10 +314,15 @@ class AddNewProduct : BaseActivity() {
                         }
                         is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
                             hideLoadingDialog()
-                            showCustomAlert(
-                                it.failResponse!!.message,
-                                binding.root
-                            )
+                            hideLoadingDialog()
+                            if(it.failResponse!!.code==403){
+                                forcelogout(homeviewmodel.methodRepo)
+                            }else{
+                                showCustomAlert(
+                                    it.failResponse.message,
+                                    binding.root
+                                )
+                            }
                         }
                         else -> {
                             hideLoadingDialog()

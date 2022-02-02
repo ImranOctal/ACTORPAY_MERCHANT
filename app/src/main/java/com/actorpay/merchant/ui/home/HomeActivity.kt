@@ -85,17 +85,19 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     handler!!.postDelayed(searchRunnable!!, 1000)
                 }
             }
+
+
         })
 
         val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
+
                     homeviewmodel.getProductList(page.toString(),"")
-         }
+
+                }
         }
-
         binding.manageProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
-
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
         binding.toolbar.ToolbarTitle.text = getString(R.string.manage_product)
@@ -108,7 +110,9 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
     private fun clickListeners() {
-        binding.toolbar.back.setOnClickListener { onBackPressed() }
+        binding.toolbar.back.setOnClickListener {
+            onBackPressed()
+        }
         binding.toolbar.back.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -116,7 +120,6 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                 binding.drawerLayout.openDrawer(GravityCompat.START, true)
             }
         }
-
         binding.myCommissionLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -130,6 +133,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
             switchActivity(Intent(baseContext(), RolesActivity::class.java))
         }
+
         binding.AddNewProductButton.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -137,24 +141,34 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             val i=Intent(baseContext,AddNewProduct::class.java)
             startActivityForResult(i,102)
         }
+
         binding.profileLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ProfileActivity::class.java))
         }
+
         binding.myOrderLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
+
         binding.reportsLay.setOnClickListener {
+
+
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
+
             }
+
             switchActivity(Intent(baseContext(), PayRollActivity::class.java))
+
         }
+
+
         binding.merchatLay.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -179,17 +193,19 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         binding.changePasswordLay.setOnClickListener {
             changePasswordUi()
         }
+
         binding.footer.btnHomeLogout.setOnClickListener {
             logOut()
         }
     }
+
     fun changePasswordUi() {
-        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
-            homeviewmodel.changePassword(oldPassword, newPassword)
+        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword -> homeviewmodel.changePassword(oldPassword, newPassword)
         }
     }
 
     fun WorkSource() {
+
         lifecycleScope.launchWhenStarted {
             homeviewmodel.homeResponseLive.collect {
                 when (it) {
@@ -231,17 +247,21 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if (it.failResponse!!.code == 403) {
+                            forcelogout(homeviewmodel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
-
                     else -> hideLoadingDialog()
                 }
             }
         }
         //productListLivedata
+
         lifecycleScope.launchWhenStarted {
             homeviewmodel.productListLive.collect { action ->
                 when (action) {
@@ -288,10 +308,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                                         AppConstanceData.ROOT -> {
                                         }
                                     }
-
                                 }
-
-
                             } else {
                                 binding.manageProduct.visibility=View.GONE
                                 binding.emptyText.visibility = View.VISIBLE
@@ -299,19 +316,30 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                         }
                     }
                     is HomeSealedClasses.Companion.ResponseProductListSealed.ErrorOnResponse -> {
-//                        binding.emptyText.visibility = View.VISIBLE
-                        binding.swipeLoad.isRefreshing = false
                         hideLoadingDialog()
-                        showCustomAlert(action.failResponse!!.message, binding.root)
-                        if (action.failResponse.message.contains("End of input at")) {
-//                            logOutDirect()
+                        if (action.failResponse!!.code == 403) {
+                            forcelogout(homeviewmodel.methodRepo)
+                        }else{
+                            binding.swipeLoad.isRefreshing = false
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
                         }
+//                        binding.emptyText.visibility = View.VISIBLE
+//                        binding.swipeLoad.isRefreshing = false
+//                        hideLoadingDialog()
+//                        showCustomAlert(action.failResponse!!.message, binding.root)
+//                        if (action.failResponse.message.contains("End of input at")) {
+////                            logOutDirect()
+//                        }
                     }
                     else -> hideLoadingDialog()
                 }
             }
         }
         //Delete Product
+
         lifecycleScope.launchWhenStarted {
             homeviewmodel.deleteproductLive.collect { action ->
                 when (action) {
@@ -334,7 +362,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     }
                     is HomeSealedClasses.Companion.ResponseDeleteSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(action.failResponse!!.message, binding.root)
+                        if (action.failResponse!!.code == 403) {
+                            forcelogout(homeviewmodel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                action.failResponse.message,
+                                binding.root
+                            )
+                        }
                         /* if (action.failResponse.message.contains("End of input at")) {
                              logOutDirect()
                          }*/
@@ -344,6 +379,7 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         //getById
+
         lifecycleScope.launch {
             homeviewmodel.getById.collect {
                 when (it) {
@@ -376,7 +412,14 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(it.failResponse!!.message, binding.root)
+                        if (it.failResponse!!.code == 403) {
+                            forcelogout(homeviewmodel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
                         hideLoadingDialog()
@@ -400,19 +443,16 @@ class HomeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             doubleBackToExitPressedOnce = false
         }
     }
-
     override fun onRefresh() {
         binding.swipeLoad.isRefreshing = true
         homeviewmodel.getProductList("0", "")
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 102&&resultCode== Activity.RESULT_OK) {
             homeviewmodel.getProductList("0","")
         }
     }
-
     override fun onResume() {
         super.onResume()
         homeviewmodel.getById()

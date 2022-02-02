@@ -71,6 +71,7 @@ class LoginActivity : BaseActivity() {
         binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
         }
+
       }
       private fun validate() {
         if (binding.emailEdit.text.isEmpty()) {
@@ -132,10 +133,14 @@ class LoginActivity : BaseActivity() {
                     }
                     is AuthViewModel.ResponseLoginSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if (it.failResponse!!.code == 403) {
+                            forcelogout(loginViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     else -> {
                         hideLoadingDialog()

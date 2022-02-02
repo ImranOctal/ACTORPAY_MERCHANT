@@ -79,10 +79,14 @@ class ProfileActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
+                        if(it.failResponse!!.code==403){
+                            forcelogout(profileViewModel.methodRepo)
+                        }else{
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
                         hideLoadingDialog()
