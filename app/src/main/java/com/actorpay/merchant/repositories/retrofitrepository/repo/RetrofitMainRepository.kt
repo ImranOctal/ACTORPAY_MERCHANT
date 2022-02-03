@@ -816,11 +816,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getRoles(
-        token: String,
-        pageNo: Int,
-        body: GetRolesParams
-    ): RetrofitResource<RolesResponse> {
+    override suspend fun getRoles(token: String, pageNo: Int, body: GetRolesParams): RetrofitResource<RolesResponse> {
         try {
             val data = apiClient.getAllRoles(AppConstance.B_Token+token,pageNo,body)
             val result = data.body()

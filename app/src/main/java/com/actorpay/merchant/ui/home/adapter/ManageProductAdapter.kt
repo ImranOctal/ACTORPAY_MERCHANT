@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ManageProductItemBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
 import com.bumptech.glide.Glide
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 
 class ManageProductAdapter(
     val context: Context,
+    private  var permissionData: PermissionData,
     private var items: ArrayList<Item>,
+
     val onClick: (pos: Int, status: String) -> Unit
 ) :
     RecyclerView.Adapter<ManageProductAdapter.ItemHolder>() {
@@ -40,6 +43,13 @@ class ManageProductAdapter(
                 actualPrice.text = items[position].actualPrice.toString()
                 date.text = getFormattedOrderDate(items[position].createdAt)
                 dealPrice.text = AppConstance.rupee + items[position].dealPrice.toString()
+                if(permissionData.write){
+                    edit.visibility=View.VISIBLE
+                    delete.visibility=View.VISIBLE
+                }else{
+                    edit.visibility=View.GONE
+                    delete.visibility=View.GONE
+                }
                 root.setOnClickListener {
                     onClick(position, "root")
                 }

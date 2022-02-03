@@ -2,29 +2,24 @@ package com.actorpay.merchant.ui.manageProduct
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.WorkSource
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
-import com.actorpay.merchant.databinding.ActivityHomeBinding
 import com.actorpay.merchant.databinding.ActivityManageProductBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
@@ -32,6 +27,9 @@ import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.GlobalData.permissionDataList
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -43,6 +41,9 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     private var searchRunnable: Runnable? = null
     private var handler: Handler? = null
     private var productListData = ArrayList<Item>()
+
+    var permissionData=PermissionData(false,"5",SCREEN_MANAGE_PRODUCT,false)
+
     private val homeviewmodel: HomeViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +51,24 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         handler = Handler()
         searchRunnable = Runnable {
         }
-        clickListner()
+
+
+
         installation()
+
+        permissionDataList.forEach {
+            if(it.screenName==permissionData.screenName){
+                permissionData.read=it.read
+                permissionData.write=it.write
+            }
+        }
+
+        if(permissionData.write){
+            binding.AddNewProductButton.visibility=View.VISIBLE
+        }else{
+            binding.AddNewProductButton.visibility=View.GONE
+        }
+        clickListner()
 
     }
 
@@ -171,8 +188,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                 binding.manageProduct.visibility=View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
                                 binding.manageProduct.layoutManager=LinearLayoutManager(  this@ManageProductActivity,LinearLayoutManager.VERTICAL,false)
-                                binding.manageProduct.adapter = ManageProductAdapter(  this@ManageProductActivity,productListData) {
-                                        position: Int, data: String ->
+                                binding.manageProduct.adapter = ManageProductAdapter(  this@ManageProductActivity,permissionData,productListData) { position: Int, data: String ->
                                     when (data) {
                                         AppConstanceData.EDIT -> {
                                             val i = Intent(baseContext(), UpdateProduct::class.java)

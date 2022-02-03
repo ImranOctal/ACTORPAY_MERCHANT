@@ -109,8 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|top"
-            android:background="@drawable/side_round_corner_drawble"
-            android:visibility="gone">
+            android:background="@drawable/side_round_corner_drawble">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -131,6 +130,7 @@
                         android:id="@+id/dashboard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -192,6 +192,7 @@
                             app:tint="@color/text_color" />
 
                         <TextView
+                            android:id="@+id/profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -215,6 +216,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constManageProduct"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
@@ -248,6 +250,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -287,6 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -294,6 +298,7 @@
                         android:id="@+id/merchatLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -325,6 +330,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:visibility="gone"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
@@ -333,6 +339,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/outlet"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
@@ -367,6 +374,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:visibility="gone"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
@@ -375,6 +383,7 @@
                         android:id="@+id/myRolesLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -409,6 +418,7 @@
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:background="@color/gray" />
 
 
@@ -416,6 +426,7 @@
                         android:id="@+id/myOrderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -448,6 +459,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -455,6 +467,7 @@
                         android:id="@+id/myCommissionLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -487,6 +500,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -496,6 +510,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:weightSum="1">
 
@@ -527,6 +542,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:visibility="gone"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
@@ -536,6 +552,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:weightSum="1">
 
@@ -576,6 +593,7 @@
                         android:id="@+id/reportsLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -609,6 +627,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -649,6 +668,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
                     <View
                         android:id="@+id/view"
                         android:layout_width="match_parent"
@@ -663,7 +683,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
 
-                        android:layout_marginTop="@dimen/_5ssp"
+                        android:layout_marginTop="@dimen/_10sdp"
 
                         android:gravity="bottom"
                         android:orientation="vertical"

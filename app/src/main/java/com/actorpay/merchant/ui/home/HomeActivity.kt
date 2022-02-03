@@ -30,6 +30,17 @@ import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.roles.RolesActivity
 import com.actorpay.merchant.ui.subAdmin.SubMerchantActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.GlobalData.permissionDataList
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_DASHBOARD
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_ORDER
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_PRODUCT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_ROLE
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_OUTLET
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_PAYMENT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_REPORTS
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -42,6 +53,10 @@ class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var doubleBackToExitPressedOnce = false
     var Merchantrole=""
+    var read=false
+    var write=false
+    var screenName=""
+
     private val homeviewmodel: HomeViewModel by inject()
     private var handler: Handler? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +67,7 @@ class HomeActivity : BaseActivity() {
         initialisation()
         WorkSource()
         clickListeners()
+        homeviewmodel.getPermissions()
         lifecycleScope.launch {
             viewModel.methodRepo.dataStore.getRole().collect { role ->
                 Merchantrole=role
@@ -59,6 +75,9 @@ class HomeActivity : BaseActivity() {
             }
         }
     }
+
+
+
     private fun initialisation() {
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
@@ -111,7 +130,6 @@ class HomeActivity : BaseActivity() {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
             }
-
             switchActivity(Intent(baseContext(), ManageProductActivity::class.java))
         }
 
@@ -206,17 +224,27 @@ class HomeActivity : BaseActivity() {
                                     }
                                 }
                             )
-
+                        }
+                         else if(it.response is PermissionDetails){
+                             for (i in it.response.data.indices){
+                                 permissionDataList.forEachIndexed {
+                                     index, permissionData ->
+                                     if (permissionData.screenName == it.response.data[i].screenName) {
+                                         permissionDataList[index].read = it.response.data[i].read
+                                         permissionDataList[index].write = it.response.data[i].write
+                                     }
+                                 }
+                             }
+                            updateUi()
+                        } else if (it.response is  GetUserById){
+                            val data = it.response
+                            Log.e("merchantId>>>", data.data.merchantId)
+                            viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
+                            binding.headerTitle.userProfileName.text = data.data.businessName
+                            binding.tvBusinessName.text = "Hi\n"+data.data.businessName
                         }
 
-
-                         else if(it.response is PermissionDetails){
-                             for(i  in it.response.data.indices){
-                                 var read =it.response.data[i].read
-                                 var write =it.response.data[i].write
-                             }
-
-                        }else showCustomAlert(
+                        else showCustomAlert(
                             getString(R.string.please_try_after_sometime),
                             binding.root
                         )
@@ -236,54 +264,85 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
-        //getById
-        lifecycleScope.launch {
-            homeviewmodel.getById.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
-                        hideLoadingDialog()
-                        when (it.response) {
-                            is GetUserById -> {
-                                val data = it.response
-                                Log.e("merchantId>>>", data.data.merchantId)
-                                viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
-                                binding.headerTitle.userProfileName.text = data.data.businessName
-                                binding.tvBusinessName.text = "Hi\n"+data.data.businessName
 
-                            }
-                            is SuccessResponse -> {
-                                CommonDialogsUtils.showCommonDialog(
-                                    this@HomeActivity, homeviewmodel.methodRepo, getString(
-                                        R.string.merchant_detail
-                                    ), it.response.message
-                                )
-                            }
-                            else -> {
-                                showCustomAlert(
-                                    getString(R.string.please_try_after_sometime),
-                                    binding.root
-                                )
-                            }
-                        }
-                    }
-                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        if (it.failResponse!!.code == 403) {
-                            forcelogout(homeviewmodel.methodRepo)
-                        }else{
-                            showCustomAlert(
-                                it.failResponse.message,
-                                binding.root
-                            )
-                        }
-                    }
-                    is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
-                        hideLoadingDialog()
-                    }
+    }
 
+    private fun updateUi() {
+        permissionDataList.forEach {
+            if(it.screenName== SCREEN_SUB_MERCHANT) {
+                if(it.write||it.read){
+                    binding.merchatLay.visibility=View.VISIBLE
+                }else{
+                    binding.merchatLay.visibility=View.GONE
+                }
+            }
+            if(it.screenName == SCREEN_OUTLET){
+                if(it.write||it.read){
+                    binding.outlet.visibility=View.VISIBLE
+                }else{
+                    binding.outlet.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_WALLET_BALANCE){
+                if(it.write||it.read){
+                    binding.headerTitle.userProfileBalance.visibility=View.VISIBLE
+                }else{
+                    binding.headerTitle.userProfileBalance.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_PAYMENT){
+                if(it.write||it.read){
+                    binding.earnMoney.visibility=View.VISIBLE
+                }else{
+                    binding.earnMoney.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_DASHBOARD){
+                if(it.write||it.read){
+                    binding.dashboard.visibility=View.VISIBLE
+                }else{
+                    binding.dashboard.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_MANAGE_PRODUCT){
+                if(it.write||it.read){
+                    binding.constManageProduct.visibility=View.VISIBLE
+                }else{
+                    binding.constManageProduct.visibility=View.GONE
+                }
+            }
+            if(it.screenName == SCREEN_MANAGE_ORDER){
+                if(it.write||it.read){
+                    binding.myOrderLay.visibility=View.VISIBLE
+                }else{
+                    binding.myOrderLay.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_REPORTS){
+                if(it.write||it.read){
+                    binding.reportsLay.visibility=View.VISIBLE
+                }else{
+                    binding.reportsLay.visibility=View.GONE
+                }
+            }
+
+            if(it.screenName == SCREEN_MANAGE_ROLE){
+                if(it.write||it.read){
+                    binding.myRolesLay.visibility=View.VISIBLE
+                }else{
+                    binding.myRolesLay.visibility=View.GONE
+                }
+            }
+            if(it.screenName == SCREEN_MANAGE_OUTLET){
+                if(it.write||it.read){
+                    binding.outlet.visibility=View.VISIBLE
+                }else{
+                    binding.outlet.visibility=View.GONE
                 }
             }
         }

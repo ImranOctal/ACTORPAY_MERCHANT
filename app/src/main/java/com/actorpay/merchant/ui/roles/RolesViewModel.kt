@@ -19,12 +19,9 @@ import kotlinx.coroutines.launch
 class RolesViewModel(
     val dispatcherProvider: CoroutineContextProvider,
     val methodRepo: MethodsRepo,
-    val apiRepo: RetrofitRepository, ) : AndroidViewModel(
-    Application()
-)
+    val apiRepo: RetrofitRepository, ) : AndroidViewModel(Application())
  {
      val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
-
      var pageNo=0
      val getRolesParams=GetRolesParams("","")
      val rolesList= mutableListOf<RoleItem>()
@@ -32,7 +29,6 @@ class RolesViewModel(
      fun getAllRoles() {
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
-
              methodRepo.dataStore.getAccessToken().collect { token ->
                  when (val response = apiRepo.getRoles(token,pageNo,getRolesParams)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)

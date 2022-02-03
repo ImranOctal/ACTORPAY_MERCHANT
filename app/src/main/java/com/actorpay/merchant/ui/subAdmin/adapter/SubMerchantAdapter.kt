@@ -2,16 +2,19 @@ package com.actorpay.merchant.ui.subAdmin.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemSubmerchantBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.Item
 import com.bumptech.glide.Glide
 
 
 class SubMerchantAdapter(
     val context: Context,
+    private  var permissionData: PermissionData,
     private val items: List<Item>,
     val onClick: (pos: Int, action: String) -> Unit
     ) :
@@ -48,6 +51,13 @@ class SubMerchantAdapter(
                 edit.setOnClickListener {
                     onClick(position,"edit")
 
+                }
+                if(permissionData.write){
+                    edit.visibility= View.VISIBLE
+                    delete.visibility= View.VISIBLE
+                }else{
+                    edit.visibility= View.GONE
+                    delete.visibility= View.GONE
                 }
 
                  }

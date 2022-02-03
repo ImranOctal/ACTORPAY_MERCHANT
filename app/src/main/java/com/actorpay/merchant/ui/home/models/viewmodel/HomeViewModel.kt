@@ -39,7 +39,7 @@ class HomeViewModel(
     val editProductByIDLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseEditProductSealed>(HomeSealedClasses.Companion.ResponseEditProductSealed.Empty)
     val addProductByIDLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseAddProductSealed>(HomeSealedClasses.Companion.ResponseAddProductSealed.Empty)
     val productListLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseProductListSealed>(HomeSealedClasses.Companion.ResponseProductListSealed.Empty)
-    val getById = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
+
     val updateStatus = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
     val createOutlet = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
     val deleteproductLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseDeleteSealed>(HomeSealedClasses.Companion.ResponseDeleteSealed.Empty)
@@ -205,13 +205,13 @@ class HomeViewModel(
 
     fun getById() {
         viewModelScope.launch(dispatcherProvider.IO) {
-            getById.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            homeResponseLive.value = HomeSealedClasses.Companion.ResponseHomeSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
                 methodRepo.dataStore.getUserId().collect { userId ->
                     when (val response = apiRepo.getById(token, userId)) {
-                        is RetrofitResource.Error -> getById.value = HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
-                        is RetrofitResource.Success -> getById.value =
-                            HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                        is RetrofitResource.Error -> homeResponseLive.value = HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse(response.failResponse)
+                        is RetrofitResource.Success -> homeResponseLive.value =
+                            HomeSealedClasses.Companion.ResponseHomeSealed.Success(response.data!!)
                     }
                 }
 

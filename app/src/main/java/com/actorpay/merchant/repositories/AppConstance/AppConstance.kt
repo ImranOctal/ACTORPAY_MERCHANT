@@ -91,6 +91,20 @@ class AppConstance {
         const val STATUS_PENDING:String="PENDING"
         const val STATUS_FAILED:String="FAILED"
         const val STATUS_COMPLETED:String="COMPLETED"
+        const val SCREEN_SUB_MERCHANT:String="Manage Submerchant"
+        const val SCREEN_OUTLET:String="Manage Outlets"
+
+        const val SCREEN_WALLET_BALANCE:String="Wallet & Wallet Balance"
+        const val SCREEN_PAYMENT:String="Payment & Earning"
+        const val SCREEN_DASHBOARD:String="Dashboard"
+        const val SCREEN_MANAGE_PRODUCT:String="Manage Product"
+        const val SCREEN_MANAGE_ORDER:String="Manage Orders"
+        const val SCREEN_MANAGE_ORDER_NOTE:String="Manage Order Notes"
+        const val SCREEN_REPORTS:String="Reports"
+        const val SCREEN_MANAGE_ROLE:String="Manage Role"
+        const val SCREEN_MANAGE_OUTLET:String="Manage Outlets"
+
+
         const val green_color:String="#00A63D"
         const val white_color:String="#FFFFFF"
         const val blue_color:String="#0078b7"

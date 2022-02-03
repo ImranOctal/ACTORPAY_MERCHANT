@@ -242,8 +242,9 @@ interface ApiClient {
         @Header(AUTH) token: String,
         @Query(AppConstance.PAGE_NO) pageNo: Int,
         @Body param: GetRolesParams,
-        @Query(AppConstance.ASCECNDING) asc: Boolean=false,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
+        @Query(AppConstance.ASCECNDING) asc: Boolean=true,
+        @Query(AppConstance.SORT_BY) sortBy: String="name",
+        @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
 
         ): Response<RolesResponse>
 

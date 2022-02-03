@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivitySubMerchantBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.DeleteSubMerchant
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.GetAllSubMerchant
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.Item
@@ -21,7 +22,10 @@ import com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletActivity
 import com.actorpay.merchant.ui.subAdmin.adapter.SubMerchantAdapter
 import com.actorpay.merchant.ui.subAdmin.addSubMerchant.CreateSubAdminActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.GlobalData
+import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.actorpay.merchant.utils.ResponseSealed
+import com.octal.actorpay.repositories.AppConstance.AppConstance
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -29,6 +33,7 @@ import org.koin.android.ext.android.inject
 class SubMerchantActivity : BaseActivity() {
     private lateinit var binding: ActivitySubMerchantBinding
     private val SubviewModel: SubMerchantsViewModel by inject()
+    var permissionData= PermissionData(false,"5", AppConstance.SCREEN_SUB_MERCHANT,false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +41,30 @@ class SubMerchantActivity : BaseActivity() {
         binding.back.setOnClickListener {
             onBackPressed()
         }
+
+        SubviewModel.getSubMerchants()
+        apiResponse()
+               permissionDataList.forEach {
+            if(it.screenName==permissionData.screenName){
+                permissionData.read=it.read
+                permissionData.write=it.write
+            }
+        }
+        if(permissionData.write){
+            binding.btnAddMerchant.visibility=View.VISIBLE
+        }else{
+            binding.btnAddMerchant.visibility=View.GONE
+        }
+
         binding.btnAddMerchant.setOnClickListener {
             val intent=Intent(this, CreateSubAdminActivity::class.java)
             resultLauncher.launch(intent)
         }
-        SubviewModel.getSubMerchants()
-        apiResponse()
     }
 
     private fun setUpRv(items: List<Item>) {
         binding.rvSubMerchants.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvSubMerchants.adapter = SubMerchantAdapter(this, items){
+        binding.rvSubMerchants.adapter = SubMerchantAdapter(this,permissionData, items){
            pos, action ->
             if(action=="delete"){
                 var ids = mutableListOf<String>()
