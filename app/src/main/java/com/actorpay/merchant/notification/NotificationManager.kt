@@ -24,7 +24,6 @@ import java.io.IOException
 
 
 class NotificationManager : FirebaseMessagingService() {
-
     val sharedPre: SharedPre by  inject()
     private var isMuted = false
     private var SendNotification = true
@@ -41,8 +40,6 @@ class NotificationManager : FirebaseMessagingService() {
         sharedPre.setFirebaseToken(s)
 
     }
-
-
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         isMuted = sharedPre!!.isNotificationMuted
         super.onMessageReceived(remoteMessage)

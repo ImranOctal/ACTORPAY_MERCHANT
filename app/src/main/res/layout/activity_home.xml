@@ -130,7 +130,7 @@
                         android:id="@+id/dashboard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+
                         android:layout_marginTop="@dimen/_15sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -212,48 +212,6 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constManageProduct"
-                        android:layout_width="match_parent"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:gravity="center"
-                        android:weightSum="1">
-
-                        <ImageView
-                            android:id="@+id/ivManageProduct"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:src="@drawable/user_group"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/text_color" />
-
-                        <TextView
-                            style="@style/viewParent"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/manage_product"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivManageProduct"
-                            app:layout_constraintStart_toEndOf="@+id/ivManageProduct"
-                            app:layout_constraintTop_toTopOf="@+id/ivManageProduct" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:visibility="gone"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:background="@color/gray" />
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/change_password_lay"
                         android:layout_width="match_parent"
@@ -285,12 +243,51 @@
                             app:layout_constraintStart_toEndOf="@+id/change_password_icon"
                             app:layout_constraintTop_toTopOf="@+id/change_password_icon" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:background="@color/gray" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/myRolesLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/rolesIcon"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/ic_role"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/text_color" />
+
+                        <TextView
+                            style="@style/viewParent"
+                            android:layout_marginStart="16dp"
+                            android:text="Manage Role"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@+id/rolesIcon"
+                            app:layout_constraintStart_toEndOf="@+id/rolesIcon"
+                            app:layout_constraintTop_toTopOf="@+id/rolesIcon" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <View
+                        android:id="@+id/viewRole"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:visibility="gone"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -328,14 +325,13 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/viewSubMerchant"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:visibility="gone"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
-
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/outlet"
                         android:layout_width="match_parent"
@@ -352,7 +348,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:src="@drawable/user_group"
+                            android:src="@drawable/ic_outlet"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -361,7 +357,7 @@
                         <TextView
                             style="@style/viewParent"
                             android:layout_marginStart="16dp"
-                            android:text="@string/outlet"
+                            android:text="Manage Outlet"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/ivOutlet"
@@ -372,6 +368,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/viewOutlet"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:visibility="gone"
@@ -379,23 +376,24 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
+
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/myRolesLay"
+                        android:id="@+id/constManageProduct"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
 
                         <ImageView
-                            android:id="@+id/rolesIcon"
+                            android:id="@+id/ivManageProduct"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:src="@drawable/doller"
+                            android:src="@drawable/user_group"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -404,28 +402,35 @@
                         <TextView
                             style="@style/viewParent"
                             android:layout_marginStart="16dp"
-                            android:text="Roles"
+                            android:text="@string/manage_product"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@+id/rolesIcon"
-                            app:layout_constraintStart_toEndOf="@+id/rolesIcon"
-                            app:layout_constraintTop_toTopOf="@+id/rolesIcon" />
+                            app:layout_constraintBottom_toBottomOf="@+id/ivManageProduct"
+                            app:layout_constraintStart_toEndOf="@+id/ivManageProduct"
+                            app:layout_constraintTop_toTopOf="@+id/ivManageProduct" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                     <View
+                        android:id="@+id/viewMangeProduct"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
                         android:visibility="gone"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
+
+
+
+
+
+
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/myOrderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+
                         android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
@@ -456,6 +461,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/viewOrder"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
@@ -467,7 +473,6 @@
                         android:id="@+id/myCommissionLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -479,7 +484,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:src="@drawable/doller"
+                            android:src="@drawable/ic_commission"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -500,7 +505,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -540,6 +544,7 @@
 
 
                     <View
+                        android:id="@+id/viewEarMoney"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:visibility="gone"
@@ -552,7 +557,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="gone"
+
                         android:gravity="center"
                         android:weightSum="1">
 
@@ -624,10 +629,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
+                        android:id="@+id/viewReport"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/_10sdp"
-
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/gray" />
 
@@ -682,9 +688,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
-
                         android:layout_marginTop="@dimen/_10sdp"
-
                         android:gravity="bottom"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@+id/view">
@@ -692,7 +696,6 @@
                         <include
                             android:id="@+id/footer"
                             layout="@layout/custom_duo_view_footer" />
-
 
                     </LinearLayout>
                 </LinearLayout>

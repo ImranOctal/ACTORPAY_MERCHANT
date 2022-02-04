@@ -23,8 +23,8 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityAddNewProductBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item
@@ -52,7 +52,7 @@ class UpdateProduct : BaseActivity() {
     private lateinit var taxAdapter: TaxAdapter
     private lateinit var subCategoryAdapter: SubCategoryAdapter
     private val homeviewmodel: HomeViewModel by inject()
-    private var categoryList: List<Data>? = null
+    private var categoryList: List<ItemCategory>? = null
     private var subCategoryList: List<Item>? = null
     private var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>? =
         null
@@ -81,7 +81,7 @@ class UpdateProduct : BaseActivity() {
         catAdapter = CategoryAdapter(binding.chooseCategory)
         taxAdapter = TaxAdapter(binding.taxData)
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-        catAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<Data> { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
+        catAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<ItemCategory> { oldIndex: Int, oldItem: ItemCategory?, newIndex: Int, newItem: ItemCategory ->
                 catId = newItem.id
             }
         taxAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
@@ -360,10 +360,10 @@ class UpdateProduct : BaseActivity() {
                         hideLoadingDialog()
                         homeviewmodel.getSubCatDetalis()
                         if (it.response is GetAllCategoriesDetails) {
-                            if (it.response.data.size > 0) {
-                                categoryList = it.response.data
+                            if (it.response.data.items.size > 0) {
+                                categoryList = it.response.data.items
                                 Log.d("Update Product:  ", "cat")
-                                catAdapter.setItems(itemList = it.response.data)
+                                catAdapter.setItems(itemList = it.response.data.items)
                             } else {
                                 showCustomAlert(
                                     getString(R.string.category_not_found),
@@ -378,7 +378,6 @@ class UpdateProduct : BaseActivity() {
                                 binding.root
                             )
                         }
-
                     }
                     is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
                         hideLoadingDialog()
@@ -391,7 +390,6 @@ class UpdateProduct : BaseActivity() {
                         hideLoadingDialog()
                     }
                 }
-
             }
         }
 

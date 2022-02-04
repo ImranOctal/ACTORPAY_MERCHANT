@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class SubMerchantActivity : BaseActivity() {
+    var merchantRole=""
     private lateinit var binding: ActivitySubMerchantBinding
     private val SubviewModel: SubMerchantsViewModel by inject()
     var permissionData= PermissionData(false,"5", AppConstance.SCREEN_SUB_MERCHANT,false)
@@ -44,17 +45,28 @@ class SubMerchantActivity : BaseActivity() {
 
         SubviewModel.getSubMerchants()
         apiResponse()
+
                permissionDataList.forEach {
-            if(it.screenName==permissionData.screenName){
+                if(it.screenName==permissionData.screenName){
                 permissionData.read=it.read
                 permissionData.write=it.write
             }
         }
-        if(permissionData.write){
-            binding.btnAddMerchant.visibility=View.VISIBLE
-        }else{
-            binding.btnAddMerchant.visibility=View.GONE
+        lifecycleScope.launch {
+            viewModel.methodRepo.dataStore.getRole().collect { role ->
+                merchantRole=role
+                if(merchantRole!="MERCHANT"){
+                    if(permissionData.write){
+                        binding.btnAddMerchant.visibility=View.VISIBLE
+                    }else{
+                        binding.btnAddMerchant.visibility=View.GONE
+                    }
+                }else{
+                    binding.btnAddMerchant.visibility=View.VISIBLE
+                }
+            }
         }
+
 
         binding.btnAddMerchant.setOnClickListener {
             val intent=Intent(this, CreateSubAdminActivity::class.java)
@@ -64,7 +76,7 @@ class SubMerchantActivity : BaseActivity() {
 
     private fun setUpRv(items: List<Item>) {
         binding.rvSubMerchants.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvSubMerchants.adapter = SubMerchantAdapter(this,permissionData, items){
+        binding.rvSubMerchants.adapter = SubMerchantAdapter(this,permissionData,merchantRole, items){
            pos, action ->
             if(action=="delete"){
                 var ids = mutableListOf<String>()

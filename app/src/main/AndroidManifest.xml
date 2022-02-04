@@ -15,10 +15,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".utils.DemoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.manageProduct.ManageProductActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.subAdmin.SubMerchantActivity"
             android:exported="false"
@@ -161,7 +163,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDF9E6078CB2YHeX3Qc6c4xOTkkQoT7KCY" />
+            android:value="AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0" />
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"

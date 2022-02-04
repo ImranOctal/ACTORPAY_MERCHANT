@@ -72,7 +72,7 @@
     <string name="mobile">Mobile</string>
     <string name="shopAddress">Shop Address</string>
     <string name="address">Full Address</string>
-    <string name="place_api_key">AIzaSyDF9E6078CB2YHeX3Qc6c4xOTkkQoT7KCY</string>
+    <string name="place_api_key">AIzaSyDhMau_8Eah9KaloP_NWaBhDjvryMlzcD0</string>
     <string name="shopact">Shop  Act No/ License</string>
     <string name="resourceType">Resource Type</string>
     <string name="alreadySignup">already have an account ?</string>
@@ -185,7 +185,9 @@
     <string name="dob">DOB</string>
     <string name="my_commission">My Commission</string>
     <string name="add_roll">Add Roll</string>
-
+    <string name="continues">Continue</string>
+    <string name="use_your_pincode_to_authenticate_with_actorpay">Use your pincode to authenticate with ActorPay.</string>
+    <string name="sign_in_with_your_pincode">Sign in with your Pincode?</string>
     >
 
     <string-array name="status_array">

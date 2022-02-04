@@ -87,6 +87,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
+            android:visibility="gone"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
@@ -173,6 +174,7 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -204,6 +206,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:paddingStart="@dimen/_8sdp"
             android:paddingEnd="@dimen/_8sdp"
             app:cardBackgroundColor="#FFFFFF"

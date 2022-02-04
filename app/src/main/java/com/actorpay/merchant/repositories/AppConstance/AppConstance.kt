@@ -61,7 +61,9 @@ class AppConstance {
         const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/get/all"
 
 
-        const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/active/categories"
+        const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/categories/paged"
+
+
         const val PRODUCT_LIST: String = SUB_DOMAIN+SUB_DOMAIN2+PRODUCTS+"/list/paged"
         const val GET_BY_ID: String = SUB_DOMAIN+SUB_DOMAIN2+SUB_DOMAIN_MERCHANT+ BY+ ID
         const val SUB_CAT_URL: String = SUB_DOMAIN+SUB_DOMAIN2+"get/all/subcategories/paged"

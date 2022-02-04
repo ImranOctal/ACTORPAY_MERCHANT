@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 class SubMerchantAdapter(
     val context: Context,
     private  var permissionData: PermissionData,
+    private var merchantRole:String,
     private val items: List<Item>,
     val onClick: (pos: Int, action: String) -> Unit
     ) :
@@ -45,19 +46,21 @@ class SubMerchantAdapter(
 
                 delete.setOnClickListener {
                     onClick(position,"delete")
-
                 }
-
                 edit.setOnClickListener {
                     onClick(position,"edit")
-
                 }
-                if(permissionData.write){
-                    edit.visibility= View.VISIBLE
-                    delete.visibility= View.VISIBLE
-                }else{
-                    edit.visibility= View.GONE
-                    delete.visibility= View.GONE
+                if (merchantRole != "MERCHANT") {
+                    if (permissionData.write) {
+                        edit.visibility = View.VISIBLE
+                        delete.visibility = View.VISIBLE
+                    } else {
+                        edit.visibility = View.GONE
+                        delete.visibility = View.GONE
+                    }
+                } else {
+                    edit.visibility = View.VISIBLE
+                    delete.visibility = View.VISIBLE
                 }
 
                  }

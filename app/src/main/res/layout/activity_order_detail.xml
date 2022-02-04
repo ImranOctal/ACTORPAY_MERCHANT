@@ -325,15 +325,21 @@
 
 
 
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginHorizontal="@dimen/_5ssp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:elevation="@dimen/_5ssp"
+                        app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail"
+                        android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_marginHorizontal="@dimen/_5ssp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_2sdp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail"
                             android:orientation="vertical">
 
 
@@ -384,6 +390,8 @@
 
                         </LinearLayout>
 
+
+                    </androidx.cardview.widget.CardView>
 
 
 

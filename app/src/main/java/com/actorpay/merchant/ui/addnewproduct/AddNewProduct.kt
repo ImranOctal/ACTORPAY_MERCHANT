@@ -23,8 +23,8 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityAddNewProductBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
@@ -73,14 +73,15 @@ class AddNewProduct : BaseActivity() {
         taxAdapter = TaxAdapter(binding.taxData)
 
         subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-        catAdapter.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
-                catId = newItem.id
+          catAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<ItemCategory>() { oldIndex: Int, oldItem: ItemCategory?, newIndex: Int, newItem: ItemCategory ->
+
+              catId = newItem.id
             }
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
                 taxId = newItem.id
             }
+
         subCategoryAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<Item>() { oldIndex: Int, oldItem: Item?, newIndex: Int, newItem: Item ->
                 SubCatId = newItem.id
@@ -342,8 +343,8 @@ class AddNewProduct : BaseActivity() {
                         is HomeSealedClasses.Companion.CatogrySealed.Success -> {
                             hideLoadingDialog()
                             if (it.response is GetAllCategoriesDetails) {
-                                if (it.response.data.size > 0) {
-                                    catAdapter.setItems(itemList = it.response.data)
+                                if (it.response.data.items.size > 0) {
+                                    catAdapter.setItems(itemList = it.response.data.items)
 
                                 } else {
                                     showCustomAlert(
@@ -375,7 +376,6 @@ class AddNewProduct : BaseActivity() {
 
                 }
             }
-
             //SubCategory Loded
             lifecycleScope.launch {
                 homeviewmodel.subCatLive.collect {

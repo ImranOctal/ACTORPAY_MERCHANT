@@ -141,9 +141,8 @@ class HomeViewModel(
 
         }
     }
-
-    fun getProductList(pageno: String, name: String) {
-        val body= ProductPram(name)
+    fun getProductList(pageno: String, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String) {
+        val body= ProductPram(name,categoryNam,status,subCategoryName,merchantId)
         viewModelScope.launch(dispatcherProvider.IO) {
             productListLive.value = HomeSealedClasses.Companion.ResponseProductListSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
@@ -166,10 +165,9 @@ class HomeViewModel(
                     is RetrofitResource.Success -> CatogryLive.value = HomeSealedClasses.Companion.CatogrySealed.Success(response.data!!)
                 }
             }
-
         }
-
     }
+
 
     fun getSubCatDetalis() {
         viewModelScope.launch(dispatcherProvider.IO) {
@@ -182,9 +180,7 @@ class HomeViewModel(
                         HomeSealedClasses.Companion.SubCatSealed.Success(response.data!!)
                 }
             }
-
         }
-
     }
 
     fun getTaxationDetails() {

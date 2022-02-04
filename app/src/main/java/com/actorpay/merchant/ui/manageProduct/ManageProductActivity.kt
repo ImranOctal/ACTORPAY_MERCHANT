@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import androidx.core.view.forEachIndexed
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,13 +16,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityManageProductBinding
+import com.actorpay.merchant.databinding.DialogProductFilterBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
+import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
+import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.adapter.ManageProductAdapter
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
@@ -28,21 +36,28 @@ import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.updateproduct.UpdateProduct
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_PRODUCT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
+import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.util.ArrayList
+import java.util.*
 
 class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityManageProductBinding
     private var searchRunnable: Runnable? = null
     private var handler: Handler? = null
     private var productListData = ArrayList<Item>()
-
-    var permissionData=PermissionData(false,"5",SCREEN_MANAGE_PRODUCT,false)
+    private lateinit var catAdapter: CategoryAdapter
+    var merchantRole = ""
+    var name = ""
+    var cat = ""
+    var Sub = ""
+    private lateinit var subCategoryAdapter: SubCategoryAdapter
+    var permissionData = PermissionData(false, "5", SCREEN_MANAGE_PRODUCT, false)
 
     private val homeviewmodel: HomeViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,36 +67,45 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         searchRunnable = Runnable {
         }
 
-
-
         installation()
-
         permissionDataList.forEach {
-            if(it.screenName==permissionData.screenName){
-                permissionData.read=it.read
-                permissionData.write=it.write
+            if (it.screenName == permissionData.screenName) {
+                permissionData.read = it.read
+                permissionData.write = it.write
             }
         }
 
-        if(permissionData.write){
-            binding.AddNewProductButton.visibility=View.VISIBLE
-        }else{
-            binding.AddNewProductButton.visibility=View.GONE
+        lifecycleScope.launch {
+            viewModel.methodRepo.dataStore.getRole().collect { role ->
+                merchantRole = role
+                if (merchantRole != "MERCHANT") {
+                    if (permissionData.write) {
+                        binding.AddNewProductButton.visibility = View.VISIBLE
+                    } else {
+                        binding.AddNewProductButton.visibility = View.GONE
+                    }
+                } else {
+                    binding.AddNewProductButton.visibility = View.VISIBLE
+                }
+            }
         }
+
         clickListner()
+        homeviewmodel.getCatogrys()
+        homeviewmodel.getSubCatDetalis()
 
     }
 
     private fun clickListner() {
-       binding.AddNewProductButton.setOnClickListener {
-           val i=Intent(baseContext,AddNewProduct::class.java)
-           startActivityForResult(i,102)
-       }
+        binding.AddNewProductButton.setOnClickListener {
+            val i = Intent(baseContext, AddNewProduct::class.java)
+            startActivityForResult(i, 102)
+        }
     }
 
     private fun installation() {
         binding.swipeLoad.setOnRefreshListener(this)
-        homeviewmodel.getProductList("0", "")
+        homeviewmodel.getProductList("0", "", "", true, "", "")
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -90,7 +114,14 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                     searchRunnable = Runnable {
 //                        data = JSONObject()
 //                        data.put("name", s.toString())
-                        homeviewmodel.getProductList("0", binding.searchEdit.text.toString())
+                        homeviewmodel.getProductList(
+                            "0",
+                            binding.searchEdit.text.toString(),
+                            "",
+                            true,
+                            "",
+                            ""
+                        )
                     }
                     handler!!.removeCallbacks(searchRunnable!!)
                     handler!!.postDelayed(searchRunnable!!, 1000)
@@ -101,18 +132,168 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
-                    homeviewmodel.getProductList(page.toString(),"")
+
+                    homeviewmodel.getProductList(page.toString(), "", "", true, "", "")
                 }
             }
         binding.manageProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
-        binding.toolbar.back.visibility = View.VISIBLE
-        binding.toolbar.ToolbarTitle.text = getString(R.string.manage_product)
+        binding.ivFilter.setOnClickListener {
 
-        binding.toolbar.back.setOnClickListener {
+            productFilterBottomSheet()
+
+        }
+        binding.back.setOnClickListener {
             finish()
         }
 
         WorkSource()
+    }
+
+    private fun productFilterBottomSheet() {
+        val binding: DialogProductFilterBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(this),
+            R.layout.dialog_product_filter,
+            null,
+            false
+        )
+        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
+        binding.productName.setText(name)
+
+        if(cat.isEmpty()){
+            binding.chooseCategory.hint = "Choose Category"
+        }else{
+            binding.chooseCategory.hint = cat
+        }
+        if(Sub.isEmpty()){
+            binding.chooseSubCategory.hint = "Choose SubCategory"
+
+        }else{
+            binding.chooseSubCategory.hint = Sub
+        }
+        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
+        catAdapter = CategoryAdapter(binding.chooseCategory)
+        binding.chooseCategory.setSpinnerAdapter(catAdapter)
+        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
+        catAdapter.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener<ItemCategory>() { oldIndex: Int, oldItem: ItemCategory?, newIndex: Int, newItem: ItemCategory ->
+                cat = newItem.name
+            }
+        subCategoryAdapter.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item ->
+                Sub = newItem.name
+
+            }
+
+        binding.applyFilter.setOnClickListener {
+            if (name.isEmpty()) {
+                name = binding.productName.text.toString().trim()
+            } else {
+                name = ""
+            }
+            homeviewmodel.getProductList("0", name, cat, true, Sub, "")
+            dialog.dismiss()
+        }
+        binding.cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        binding.reset.setOnClickListener {
+            binding.chooseCategory.text = ""
+            binding.chooseSubCategory.text = ""
+            binding.productName.setText("")
+            binding.chooseCategory.hint="Choose Category"
+            binding.chooseSubCategory.hint="Choose SubCategory"
+            cat=""
+            Sub=""
+        }
+
+        getCategoryReponse()
+        dialog.setContentView(binding.root)
+        dialog.show()
+
+
+    }
+
+    private fun getCategoryReponse() {
+        lifecycleScope.launch {
+            homeviewmodel.CatogryLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.CatogrySealed.loading -> {
+                        showLoadingDialog()
+                    }
+                    is HomeSealedClasses.Companion.CatogrySealed.Success -> {
+                        hideLoadingDialog()
+                        if (it.response is GetAllCategoriesDetails) {
+                            if (it.response.data.items.size > 0) {
+                                catAdapter.setItems(itemList = it.response.data.items)
+
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.category_not_found),
+                                    binding.root
+                                )
+                            }
+
+
+                        } else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        hideLoadingDialog()
+                    }
+                }
+            }
+        }
+        //SubCategory Loded
+        lifecycleScope.launch {
+            homeviewmodel.subCatLive.collect {
+                when (it) {
+                    is HomeSealedClasses.Companion.SubCatSealed.loading -> {
+                        showLoadingDialog()
+                    }
+                    is HomeSealedClasses.Companion.SubCatSealed.Success -> {
+                        hideLoadingDialog()
+                        if (it.response is GetSubCatDataDetails) {
+                            if (it.response.data.items.size > 0) {
+                                subCategoryAdapter.setItems(itemList = it.response.data.items)
+                            } else showCustomAlert(
+                                getString(R.string.sub_category_not_found),
+                                binding.root
+                            )
+                        } else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                        showCustomAlert(
+                            it.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        hideLoadingDialog()
+                    }
+                }
+
+            }
+        }
     }
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
@@ -158,7 +339,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                         hideLoadingDialog()
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
-                        }else{
+                        } else {
                             showCustomAlert(
                                 it.failResponse.message,
                                 binding.root
@@ -170,7 +351,6 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
             }
         }
         //productListLivedata
-
         lifecycleScope.launchWhenStarted {
             homeviewmodel.productListLive.collect { action ->
                 when (action) {
@@ -185,19 +365,33 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 //                            binding.emptyText.visibility = View.GONE
                             if (action.response.data.items.size > 0) {
                                 productListData = action.response.data.items
-                                binding.manageProduct.visibility=View.VISIBLE
+                                binding.manageProduct.visibility = View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
-                                binding.manageProduct.layoutManager=LinearLayoutManager(  this@ManageProductActivity,LinearLayoutManager.VERTICAL,false)
-                                binding.manageProduct.adapter = ManageProductAdapter(  this@ManageProductActivity,permissionData,productListData) { position: Int, data: String ->
+                                binding.manageProduct.layoutManager = LinearLayoutManager(
+                                    this@ManageProductActivity,
+                                    LinearLayoutManager.VERTICAL,
+                                    false
+                                )
+                                binding.manageProduct.adapter = ManageProductAdapter(
+                                    this@ManageProductActivity,
+                                    permissionData,
+                                    merchantRole,
+                                    productListData
+                                ) { position: Int, data: String ->
                                     when (data) {
                                         AppConstanceData.EDIT -> {
                                             val i = Intent(baseContext(), UpdateProduct::class.java)
-                                            i.putExtra(AppConstanceData.PRODUCT_ID,productListData[position].productId)
-                                            startActivityForResult(i,102)
+                                            i.putExtra(
+                                                AppConstanceData.PRODUCT_ID,
+                                                productListData[position].productId
+                                            )
+                                            startActivityForResult(i, 102)
                                         }
                                         AppConstanceData.DELETE -> {
                                             CommonDialogsUtils.showCommonDialog(this@ManageProductActivity,
-                                                homeviewmodel.methodRepo, "Delete", "Are you sure you want to delete",
+                                                homeviewmodel.methodRepo,
+                                                "Delete",
+                                                "Are you sure you want to delete",
                                                 autoCancelable = false,
                                                 isCancelAvailable = true,
                                                 isOKAvailable = true,
@@ -210,6 +404,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                                     override fun onCancel() {
 
                                                     }
+
                                                 }
                                             )
                                         }
@@ -218,7 +413,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                     }
                                 }
                             } else {
-                                binding.manageProduct.visibility=View.GONE
+                                binding.manageProduct.visibility = View.GONE
                                 binding.emptyText.visibility = View.VISIBLE
                             }
                         }
@@ -227,7 +422,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                         hideLoadingDialog()
                         if (action.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
-                        }else{
+                        } else {
                             binding.swipeLoad.isRefreshing = false
                             showCustomAlert(
                                 action.failResponse.message,
@@ -247,7 +442,6 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
             }
         }
         //Delete Product
-
         lifecycleScope.launchWhenStarted {
             homeviewmodel.deleteproductLive.collect { action ->
                 when (action) {
@@ -259,7 +453,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                         hideLoadingDialog()
                         if (action.response is DeleteProductResponse) {
                             showCustomAlert("Product Deleted Successfully", binding.root)
-                            homeviewmodel.getProductList("0", "")
+                            homeviewmodel.getProductList("0", "", "", true, "", "")
                         } else {
                             binding.emptyText.visibility = View.VISIBLE
                             showCustomAlert(
@@ -272,7 +466,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                         hideLoadingDialog()
                         if (action.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
-                        }else{
+                        } else {
                             showCustomAlert(
                                 action.failResponse.message,
                                 binding.root
@@ -286,16 +480,20 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
             }
         }
+
+
     }
 
     override fun onRefresh() {
         binding.swipeLoad.isRefreshing = true
-        homeviewmodel.getProductList("0", "")
+        homeviewmodel.getProductList("0", "", "", true, "", "")
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 102&&resultCode== Activity.RESULT_OK) {
-            homeviewmodel.getProductList("0","")
+        if (requestCode == 102 && resultCode == Activity.RESULT_OK) {
+            homeviewmodel.getProductList("0", "", "", true, "", "")
         }
     }
+
 }

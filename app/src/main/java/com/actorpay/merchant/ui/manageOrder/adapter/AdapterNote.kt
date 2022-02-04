@@ -35,6 +35,7 @@ class AdapterNote(
         fun bind(position: Int) {
             val orderNote=orderNotesDtos[position]
             binding.orderNote=orderNote
+            binding.orderNoteDesc.text=getFormattedOrderDate(orderNote.createdAt)
             if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS)
                 binding.orderNoteDesc.visibility= View.GONE
             if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS || orderNote.orderStatus == AppConstance.STATUS_READY || orderNote.orderStatus == AppConstance.STATUS_DISPATCHED || orderNote.orderStatus == AppConstance.STATUS_DELIVERED) {
@@ -51,4 +52,13 @@ class AdapterNote(
             }
         }
     }
+
+    fun getFormattedOrderDate(orderDate: String): String? {
+        try {
+            return AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)
+        } catch (e: Exception) {
+            return orderDate
+        }
+    }
+
 }

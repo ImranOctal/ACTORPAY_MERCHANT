@@ -15,9 +15,9 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance
 
 class ManageProductAdapter(
     val context: Context,
-    private  var permissionData: PermissionData,
+    private var permissionData: PermissionData,
+    private var merchantRole: String,
     private var items: ArrayList<Item>,
-
     val onClick: (pos: Int, status: String) -> Unit
 ) :
     RecyclerView.Adapter<ManageProductAdapter.ItemHolder>() {
@@ -27,29 +27,45 @@ class ManageProductAdapter(
         val productBinding = ManageProductItemBinding.bind(view)
         return ItemHolder(productBinding)
     }
+
     override fun getItemCount(): Int {
+
+
+
         return items.size
+
+
     }
+
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         holder.bind(position)
     }
+
     inner class ItemHolder(private val productBinding: ManageProductItemBinding) :
         RecyclerView.ViewHolder(productBinding.root) {
         fun bind(position: Int) {
             productBinding.apply {
-                Glide.with(root).load(items[position].image).placeholder(R.drawable.logo).into(productImage)
+                Glide.with(root).load(items[position].image).placeholder(R.drawable.logo)
+                    .into(productImage)
                 titleOfOrder.text = items[position].name
                 status.visibility = View.GONE
                 actualPrice.text = items[position].actualPrice.toString()
                 date.text = getFormattedOrderDate(items[position].createdAt)
                 dealPrice.text = AppConstance.rupee + items[position].dealPrice.toString()
-                if(permissionData.write){
-                    edit.visibility=View.VISIBLE
-                    delete.visibility=View.VISIBLE
-                }else{
-                    edit.visibility=View.GONE
-                    delete.visibility=View.GONE
+
+                if (merchantRole != "MERCHANT") {
+                    if (permissionData.write) {
+                        edit.visibility = View.VISIBLE
+                        delete.visibility = View.VISIBLE
+                    } else {
+                        edit.visibility = View.GONE
+                        delete.visibility = View.GONE
+                    }
+                } else {
+                    edit.visibility = View.VISIBLE
+                    delete.visibility = View.VISIBLE
                 }
+
                 root.setOnClickListener {
                     onClick(position, "root")
                 }
@@ -62,6 +78,7 @@ class ManageProductAdapter(
             }
         }
     }
+
     fun getFormattedOrderDate(orderDate: String): String? {
         try {
             return AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)

@@ -38,7 +38,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/_6ssp"
-                android:text="@{orderNote.orderStatus}"
+                android:text="@{orderNote.orderNoteDescription}"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/_10ssp"
                 tools:text="title" />
@@ -52,7 +52,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/_6ssp"
-                android:text="@{orderNote.orderNoteDescription}"
+                android:text=""
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/_10ssp"
                 tools:text="decription" />

@@ -4,19 +4,20 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.Data
+
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
 import com.skydoves.powerspinner.*
 import com.skydoves.powerspinner.databinding.ItemDefaultPowerSpinnerLibraryBinding
 
 class CategoryAdapter(powerSpinnerView: PowerSpinnerView
 ) : RecyclerView.Adapter<CategoryAdapter.IconSpinnerViewHolder>(),
-    PowerSpinnerInterface<Data> {
+    PowerSpinnerInterface<ItemCategory> {
 
     override var index: Int = powerSpinnerView.selectedIndex?:0
     override val spinnerView: PowerSpinnerView = powerSpinnerView
-    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<Data>? = null
+    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<ItemCategory>? = null
     private val compoundPadding: Int = 12
-    private var spinnerItems: MutableList<Data> = arrayListOf()
+    private var spinnerItems: MutableList<ItemCategory> = arrayListOf()
 
     init {
         this.spinnerView.compoundDrawablePadding = compoundPadding
@@ -46,9 +47,9 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
 
     }
 
-    override fun setItems(itemList: List<Data>) {
+    override fun setItems(itemList: List<ItemCategory>) {
         this.spinnerItems.clear()
-       this.spinnerItems= itemList.toMutableList()
+        this.spinnerItems= itemList.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -71,7 +72,7 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
     class IconSpinnerViewHolder(private val binding: ItemDefaultPowerSpinnerLibraryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Data, spinnerView: PowerSpinnerView) {
+        fun bind(item: ItemCategory, spinnerView: PowerSpinnerView) {
             binding.itemDefaultText.apply {
                 text = item.name
                 gravity = spinnerView.gravity

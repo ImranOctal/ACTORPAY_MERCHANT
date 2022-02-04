@@ -109,27 +109,8 @@ abstract class BaseActivity : AppCompatActivity() {
         textView.setTextColor(Color.WHITE)
         snackBar.show()
     }
-    fun logOut(){
-        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, getString(R.string.log_out),
-            getString(R.string.are_you_sure),
-            autoCancelable = true,
-            isCancelAvailable = true,
-            isOKAvailable = true,
-            showClickable = false,
-            callback = object : CommonDialogsUtils.DialogClick {
-                override fun onClick() {
-                    lifecycleScope.launchWhenCreated {
-                        delay(2000)
-                        viewModel.methodRepo.dataStore.logOut()
-                        startActivity(Intent(this@BaseActivity, LoginActivity::class.java))
-                        finishAffinity()
-                    }
-                }
 
-                override fun onCancel() {
-                }
-            })
-    }
+
     fun logOutDirect(){
         lifecycleScope.launchWhenCreated {
             delay(2000)
@@ -190,7 +171,6 @@ abstract class BaseActivity : AppCompatActivity() {
 //                    viewModel.shared.Logout()
                     lifecycleScope.launchWhenCreated {
                         methodRepo.dataStore.logOut()
-
                         startActivity(Intent(this@BaseActivity, LoginActivity::class.java))
                         finishAffinity()
                     }

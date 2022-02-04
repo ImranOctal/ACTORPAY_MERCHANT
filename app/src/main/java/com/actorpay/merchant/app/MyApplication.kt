@@ -1,13 +1,16 @@
 package com.actorpay.merchant.app
 
 import android.content.Context
+import androidx.annotation.RequiresOptIn
 import androidx.multidex.MultiDexApplication
 import com.actorpay.merchant.di.appModule
 import com.actorpay.merchant.viewmodel.ActorPayViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.logger.Level
 
 /**
  * MyApplication
@@ -40,7 +43,9 @@ class MyApplication : MultiDexApplication() {
         context = this
         startKoin {
             // use Koin logger
-            printLogger()
+//             printLogger()
+
+            androidLogger(Level.ERROR)
             // declare used Android context
             androidContext(context)
             // declare modules

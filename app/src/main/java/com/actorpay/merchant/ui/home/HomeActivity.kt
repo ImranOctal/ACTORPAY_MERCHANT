@@ -1,13 +1,15 @@
 package com.actorpay.merchant.ui.home
 
 import android.app.Activity
+import android.app.KeyguardManager
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -33,7 +35,6 @@ import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_DASHBOARD
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_ORDER
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_OUTLET
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_ROLE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_OUTLET
@@ -41,42 +42,126 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_REPORTS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
+import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.*
+import java.util.concurrent.Executor
 
 
 class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var doubleBackToExitPressedOnce = false
-    var Merchantrole=""
-    var read=false
-    var write=false
-    var screenName=""
+    var Merchantrole = ""
+    private var authSheet:AuthBottomSheetDialog?=null
 
+    var screenName = ""
+    var read = false
+    var write = false
     private val homeviewmodel: HomeViewModel by inject()
-    private var handler: Handler? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        handler = Handler()
         homeviewmodel.getById()
-        initialisation()
         WorkSource()
         clickListeners()
-        homeviewmodel.getPermissions()
+
+
         lifecycleScope.launch {
             viewModel.methodRepo.dataStore.getRole().collect { role ->
-                Merchantrole=role
-
+                Merchantrole = role
+                initialisation()
+                fingerPrint()
             }
         }
     }
 
+    fun isBioMetricAvailable():Boolean{
+        val biometricManager: BiometricManager = BiometricManager.from(this)
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                return true
 
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                return false
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                return false
+
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                return false
+            }
+        }
+        return false
+
+    }
+
+    private fun fingerPrint() {
+        if(!isBioMetricAvailable())
+            return
+
+        val executor: Executor = ContextCompat.getMainExecutor(this)
+        val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+
+                    keyGuard()
+                }
+                // THIS METHOD IS CALLED WHEN AUTHENTICATION IS SUCCESS
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    authSheet!!.dismiss()
+
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(applicationContext, "Login fail", Toast.LENGTH_SHORT).show()
+
+                }
+            })
+
+
+        val fingerPromptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Actor Pay")
+            .setDescription("Sign-in using Fingerprint ID")
+            .setNegativeButtonText("Use pattern lock")
+            .setConfirmationRequired(false)
+            .build()
+        if (authSheet == null) {
+            authSheet = AuthBottomSheetDialog {
+                biometricPrompt?.authenticate(fingerPromptInfo)
+            }
+            authSheet?.isCancelable = false
+            authSheet?.show(supportFragmentManager, "auth sheet")
+            biometricPrompt?.authenticate(fingerPromptInfo)
+
+        } else {
+            if (authSheet?.isVisible!!.not())
+                authSheet?.show(supportFragmentManager, "auth sheet")
+        }
+
+    }
+
+    fun keyGuard() {
+        val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+        if (km.isKeyguardSecure) {
+            val i =
+                km.createConfirmDeviceCredentialIntent("Authentication required", "password")
+            // startActivityForResult(i, Constants.CODE_AUTHENTICATION_VERIFICATION)
+            resultLauncher.launch(i)
+
+        } else {
+//            authSheet!!.dismiss()
+//            showCustomToast("No any security setup. please setup it.")
+        }
+    }
 
     private fun initialisation() {
         binding.toolbar.back.visibility = View.VISIBLE
@@ -85,27 +170,43 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launchWhenCreated {
             homeviewmodel.methodRepo.dataStore.getBussinessName().collect { businessName ->
                 binding.headerTitle.userProfileName.text = "$businessName"
+
             }
         }
-        getPermissionDetails()
-//        if(Merchantrole!="MERCHANT"){
-//
-//        }
-    }
 
+    }
     private fun getPermissionDetails() {
-        homeviewmodel.getPermissions()
+        if (Merchantrole != "MERCHANT") {
+            homeviewmodel.getPermissions()
+        }
+        else {
+            binding.reportsLay.visibility = View.VISIBLE
+            binding.merchatLay.visibility = View.VISIBLE
+            binding.headerTitle.userProfileBalance.visibility = View.VISIBLE
+            binding.outlet.visibility = View.VISIBLE
+            binding.earnMoney.visibility = View.VISIBLE
+            binding.dashboard.visibility = View.VISIBLE
+            binding.constManageProduct.visibility = View.VISIBLE
+            binding.myOrderLay.visibility = View.VISIBLE
+            binding.myRolesLay.visibility = View.VISIBLE
+            binding.viewMangeProduct.visibility = View.VISIBLE
+            binding.viewSubMerchant.visibility = View.VISIBLE
+            binding.viewOutlet.visibility = View.VISIBLE
+            binding.viewRole.visibility = View.VISIBLE
+            binding.viewOrder.visibility=View.VISIBLE
+            binding.viewReport.visibility=View.VISIBLE
+            binding.viewEarMoney.visibility=View.VISIBLE
+        }
     }
-
     private fun clickListeners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
         }
         binding.toolbar.back.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START, true)
+                drawer_layout.openDrawer(GravityCompat.START, true)
             }
         }
         binding.myCommissionLay.setOnClickListener {
@@ -134,43 +235,43 @@ class HomeActivity : BaseActivity() {
         }
 
         binding.profileLay.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ProfileActivity::class.java))
         }
 
         binding.myOrderLay.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
 
-        binding.reportsLay.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+        reportsLay.setOnClickListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), PayRollActivity::class.java))
 
         }
-        binding.merchatLay.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+        merchatLay.setOnClickListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), SubMerchantActivity::class.java))
         }
 
-        binding.constMore.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+        constMore.setOnClickListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), MoreActivity::class.java))
         }
 
-        binding.outlet.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawers()
+        outlet.setOnClickListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), OutletActivity::class.java))
         }
@@ -185,7 +286,8 @@ class HomeActivity : BaseActivity() {
     }
 
     fun changePasswordUi() {
-        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword -> homeviewmodel.changePassword(oldPassword, newPassword)
+        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
+            homeviewmodel.changePassword(oldPassword, newPassword)
         }
     }
 
@@ -225,8 +327,9 @@ class HomeActivity : BaseActivity() {
                                 }
                             )
                         }
-                         else if(it.response is PermissionDetails){
-                             for (i in it.response.data.indices){
+                        else if (it.response is PermissionDetails) {
+
+                            for (i in it.response.data.indices) {
                                  permissionDataList.forEachIndexed {
                                      index, permissionData ->
                                      if (permissionData.screenName == it.response.data[i].screenName) {
@@ -234,44 +337,50 @@ class HomeActivity : BaseActivity() {
                                          permissionDataList[index].write = it.response.data[i].write
                                      }
                                  }
-                             }
+                            }
+
                             updateUi()
-                        } else if (it.response is  GetUserById){
+                        } else if (it.response is GetUserById) {
                             val data = it.response
                             Log.e("merchantId>>>", data.data.merchantId)
                             viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
                             binding.headerTitle.userProfileName.text = data.data.businessName
-                            binding.tvBusinessName.text = "Hi\n"+data.data.businessName
-                        }
+                            binding.tvBusinessName.text = "Hi\n" + data.data.businessName
 
-                        else showCustomAlert(
+                            getPermissionDetails()
+
+
+                        } else showCustomAlert(
                             getString(R.string.please_try_after_sometime),
                             binding.root
                         )
+
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
-                        }else{
+                        } else {
                             showCustomAlert(
                                 it.failResponse.message,
                                 binding.root
                             )
                         }
+
                     }
                     else -> hideLoadingDialog()
                 }
             }
         }
-
     }
+
 
     private fun updateUi() {
         permissionDataList.forEach {
             if(it.screenName== SCREEN_SUB_MERCHANT) {
                 if(it.write||it.read){
                     binding.merchatLay.visibility=View.VISIBLE
+                    binding.viewSubMerchant.visibility = View.VISIBLE
                 }else{
                     binding.merchatLay.visibility=View.GONE
                 }
@@ -279,6 +388,7 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_OUTLET){
                 if(it.write||it.read){
                     binding.outlet.visibility=View.VISIBLE
+                    binding.viewOutlet.visibility = View.VISIBLE
                 }else{
                     binding.outlet.visibility=View.GONE
                 }
@@ -295,6 +405,7 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_PAYMENT){
                 if(it.write||it.read){
                     binding.earnMoney.visibility=View.VISIBLE
+                    binding.viewEarMoney.visibility=View.VISIBLE
                 }else{
                     binding.earnMoney.visibility=View.GONE
                 }
@@ -311,6 +422,7 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_MANAGE_PRODUCT){
                 if(it.write||it.read){
                     binding.constManageProduct.visibility=View.VISIBLE
+                    binding.viewMangeProduct.visibility = View.VISIBLE
                 }else{
                     binding.constManageProduct.visibility=View.GONE
                 }
@@ -318,6 +430,7 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_MANAGE_ORDER){
                 if(it.write||it.read){
                     binding.myOrderLay.visibility=View.VISIBLE
+                    binding.viewOrder.visibility=View.VISIBLE
                 }else{
                     binding.myOrderLay.visibility=View.GONE
                 }
@@ -326,6 +439,7 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_REPORTS){
                 if(it.write||it.read){
                     binding.reportsLay.visibility=View.VISIBLE
+                    binding.viewReport.visibility = View.VISIBLE
                 }else{
                     binding.reportsLay.visibility=View.GONE
                 }
@@ -334,19 +448,15 @@ class HomeActivity : BaseActivity() {
             if(it.screenName == SCREEN_MANAGE_ROLE){
                 if(it.write||it.read){
                     binding.myRolesLay.visibility=View.VISIBLE
+                    binding.viewRole.visibility = View.VISIBLE
                 }else{
                     binding.myRolesLay.visibility=View.GONE
                 }
             }
-            if(it.screenName == SCREEN_MANAGE_OUTLET){
-                if(it.write||it.read){
-                    binding.outlet.visibility=View.VISIBLE
-                }else{
-                    binding.outlet.visibility=View.GONE
-                }
-            }
+
         }
     }
+
 
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -361,8 +471,41 @@ class HomeActivity : BaseActivity() {
             doubleBackToExitPressedOnce = false
         }
     }
+
     override fun onResume() {
         super.onResume()
         homeviewmodel.getById()
+    }
+    fun logOut(){
+        CommonDialogsUtils.showCommonDialog(this,viewModel.methodRepo, getString(R.string.log_out),
+            getString(R.string.are_you_sure),
+            autoCancelable = true,
+            isCancelAvailable = true,
+            isOKAvailable = true,
+            showClickable = false,
+            callback = object : CommonDialogsUtils.DialogClick {
+                override fun onClick() {
+                    lifecycleScope.launchWhenCreated {
+//                        delay(2000)
+                        viewModel.methodRepo.dataStore.logOut()
+                        startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
+                        finishAffinity()
+                    }
+                }
+
+                override fun onCancel() {
+
+                }
+            })
+    }
+
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            authSheet?.dismiss()
+
+        }
+        if (result.resultCode == Activity.RESULT_CANCELED) {
+
+        }
     }
 }

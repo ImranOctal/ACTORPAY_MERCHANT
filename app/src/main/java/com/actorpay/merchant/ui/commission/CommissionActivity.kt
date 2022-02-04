@@ -132,7 +132,6 @@ class CommissionActivity : BaseActivity() {
                     (view as TextView).setTextColor(ContextCompat.getColor(this@CommissionActivity,R.color.gray))
                 }
             }
-
         }
 
 
@@ -183,17 +182,12 @@ class CommissionActivity : BaseActivity() {
 
 
         binding.applyFilter.setOnClickListener {
-
             commissionViewModel.commissionParams.orderNo = binding.orderNumber.text.toString()
             commissionViewModel.commissionParams.merchantName = binding.merchantName.text.toString()
-            commissionViewModel.commissionParams.merchantEarningsRangeFrom =
-                binding.merchantEarningFrom.text.toString()
-            commissionViewModel.commissionParams.merchantEarningsRangeTo =
-                binding.merchantEarningTo.text.toString()
-            commissionViewModel.commissionParams.actorCommissionAmtRangeFrom =
-                binding.merchantCommissionFrom.text.toString()
-            commissionViewModel.commissionParams.actorCommissionAmtRangeTo =
-                binding.merchantCommissionTo.text.toString()
+            commissionViewModel.commissionParams.merchantEarningsRangeFrom = binding.merchantEarningFrom.text.toString()
+            commissionViewModel.commissionParams.merchantEarningsRangeTo = binding.merchantEarningTo.text.toString()
+            commissionViewModel.commissionParams.actorCommissionAmtRangeFrom = binding.merchantCommissionFrom.text.toString()
+            commissionViewModel.commissionParams.actorCommissionAmtRangeTo = binding.merchantCommissionTo.text.toString()
             commissionViewModel.commissionParams.startDate = binding.startDate.text.toString()
             commissionViewModel.commissionParams.endDate = binding.endDate.text.toString()
             val statusPosition = binding.spinnerStatus.selectedItemPosition
@@ -210,7 +204,6 @@ class CommissionActivity : BaseActivity() {
 
             commissionViewModel.commissionParams.orderStatus = status
             commissionViewModel.commissionParams.settlementStatus = settlement
-
             commissionViewModel.pageNo=0
             commissionViewModel.getAllCommissions()
 

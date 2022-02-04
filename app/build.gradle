@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdk 31
 
@@ -172,4 +174,7 @@ dependencies {
 
     //placeApi
     implementation 'com.google.android.libraries.places:places:2.4.0'
+
+    //
+    implementation 'androidx.biometric:biometric:1.2.0-alpha04'
 }
