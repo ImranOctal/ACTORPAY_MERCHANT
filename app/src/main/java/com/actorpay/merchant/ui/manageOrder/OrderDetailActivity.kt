@@ -49,6 +49,10 @@ class OrderDetailActivity : BaseActivity() {
         binding.btnNote.setOnClickListener {
             addNote()
         }
+        binding.pullToRefresh.setOnRefreshListener {
+            getAllOrderApi()
+            binding.pullToRefresh.isRefreshing=false
+        }
         getAllOrderApi()
         getIntentData(list)
         apiResponse()
@@ -81,7 +85,6 @@ class OrderDetailActivity : BaseActivity() {
                                 )
                             }
                         }
-
                     }
                     is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse->{
                         hideLoadingDialog()

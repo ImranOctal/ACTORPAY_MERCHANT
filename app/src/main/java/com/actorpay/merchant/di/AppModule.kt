@@ -29,6 +29,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BASE_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.BEARER
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
+import com.octal.actorpayuser.ui.dispute.DisputeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -124,6 +125,9 @@ private val appKoinModule = module {
     }
     viewModel {
         OrderDetailViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        DisputeViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
    /* factory<ScreenNavigator> {
         LegacyNavigator()

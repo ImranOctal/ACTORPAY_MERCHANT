@@ -28,6 +28,8 @@ import com.actorpay.merchant.ui.outlet.response.*
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -53,7 +55,6 @@ interface RetrofitRepository {
    // suspend fun genrateTokenAgain(token:String):RetrofitResource<ProfileReesponse>
 
     suspend fun saveProfile(email:String, shopAddress:String, fullAddress:String, businessName:String, licenceNumber:String, id:String, merchantSettingsDTOS:MutableList<MerchantSettingsDTO>, token: String):RetrofitResource<SuccessResponse>
-
 
     suspend fun getContent(type:String):RetrofitResource<ContentResponse>
 
@@ -115,5 +116,8 @@ interface RetrofitRepository {
     suspend fun getCommissions(token: String, pageNo: Int, body: CommissionParams): RetrofitResource<CommissionResponse>
 
     suspend fun getPermissions(token: String): RetrofitResource<PermissionDetails>
+
+    suspend fun getAllDisputes(token: String,pageNo:Int,pageSize:Int,disputeListParams: DisputeListParams):RetrofitResource<DisputeListResponse>
+
 }
 

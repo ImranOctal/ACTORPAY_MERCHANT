@@ -21,6 +21,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessRespo
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.commission.CommissionActivity
+import com.actorpay.merchant.ui.disputes.DisputeActivity
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
@@ -214,6 +215,12 @@ class HomeActivity : BaseActivity() {
                 binding.drawerLayout.closeDrawers()
             }
             switchActivity(Intent(baseContext(), CommissionActivity::class.java))
+        }
+        binding.disputeLay.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), DisputeActivity::class.java))
         }
 
         binding.myRolesLay.setOnClickListener {

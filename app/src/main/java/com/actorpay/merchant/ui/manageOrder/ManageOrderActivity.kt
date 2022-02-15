@@ -119,6 +119,7 @@ class ManageOrderActivity : BaseActivity() {
                     orderStatus = binding.spinnerStatus.selectedItem.toString().replace(" ","_")
                 }
                 if (position == 0) {
+                    orderStatus=""
                     (view as TextView).setTextColor(this@ManageOrderActivity.resources.getColor(R.color.light_grey))
                 }
             }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="disputedata"
+            type="com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeData" />
+    </data>
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_5sdp"
+    >
+
+    <TextView
+        android:id="@+id/code_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text='Dispute Code: '
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_bold"
+        tools:text="Dispute Code: "
+
+        />
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/code_text"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text='@{disputedata.disputeCode}'
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/primary"
+        android:fontFamily="@font/poppins_bold"
+        tools:text="DIS123456"
+
+        />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/code"
+        android:text="@{disputedata.title}"
+        android:textSize="@dimen/_11ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_medium"
+        tools:text="@string/demo_text"
+
+        />
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="@{disputedata.description}"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_regular"
+        tools:text="@string/demo_text"
+        />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text='Status: '
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_regular"
+        tools:text="Status: "
+        />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/status_text"
+        app:layout_constraintTop_toBottomOf="@+id/desc"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text='@{disputedata.status}'
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/primary"
+        android:fontFamily="@font/poppins_medium"
+        tools:text="OPEN"
+        />
+
+    <TextView
+        android:id="@+id/created_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_text"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text='Created Date: '
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_regular"
+        tools:text="Status: "
+        />
+
+    <TextView
+        android:id="@+id/created_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/created_text"
+        app:layout_constraintTop_toBottomOf="@+id/status_text"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_regular"
+        tools:text="2012 12 02"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+</layout>

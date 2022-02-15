@@ -15,8 +15,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".utils.DemoActivity"
+            android:name=".ui.disputes.DisputeActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.manageProduct.ManageProductActivity"
             android:exported="false"

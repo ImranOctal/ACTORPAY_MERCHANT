@@ -10,6 +10,7 @@ import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityProfileBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import kotlinx.coroutines.flow.collect
@@ -228,7 +229,6 @@ class ProfileActivity : BaseActivity() {
         }
         else {
             saveProfile()
-
         }
     }
 
@@ -243,14 +243,20 @@ class ProfileActivity : BaseActivity() {
         val returnFee = binding.returnedt.text.toString().trim()
         val cancellationFee = binding.cancellation.text.toString().trim()
 
+        val merchantSettingsDTOList= mutableListOf<MerchantSettingsDTO>()
+
         profileViewModel.merchantSettingsDTOList.forEach {
-            if(it.paramName == "return-fee")
+            if(it.paramName == "return-fee"){
                 it.paramValue=returnFee
-            else if(it.paramName == "cancellation-fee")
+                merchantSettingsDTOList.add(it)
+            }
+            else if(it.paramName == "cancellation-fee"){
                 it.paramValue=cancellationFee
+                merchantSettingsDTOList.add(it)
+            }
         }
 
-        profileViewModel.saveProfile(email, shopAddress, fullAddress, businessName, licenceNumber)
+        profileViewModel.saveProfile(email, shopAddress, fullAddress, businessName, licenceNumber,merchantSettingsDTOList)
     }
 
     private fun getProfile() {
