@@ -156,7 +156,8 @@ class DisputeFilterDialog(
                     startDate,
                     endDate,
                     orderNo,
-                    status
+                    status,
+                    ""
                 )
             )
             dismiss()

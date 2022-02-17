@@ -1,14 +1,13 @@
 package com.octal.actorpayuser.ui.dispute
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.databinding.RowDisputeBinding
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeData
 
-class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: MethodsRepo):RecyclerView.Adapter<DisputeAdapter.MyViewHolder>() {
+class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: MethodsRepo, val onClick: (position: Int) -> Unit):RecyclerView.Adapter<DisputeAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -32,6 +31,8 @@ class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: Methods
 
                 binding.disputedata=item
                 binding.createdDate.text=methodsRepo.getFormattedOrderDate(item.createdAt)
+
+                binding.root.setOnClickListener { onClick(adapterPosition) }
 
             }
     }

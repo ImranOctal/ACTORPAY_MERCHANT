@@ -1,13 +1,17 @@
 package com.actorpay.merchant.ui.disputes
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityDisputeBinding
+import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsActivity
+import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsViewModel
 import com.actorpay.merchant.utils.ResponseSealed
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListData
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -40,7 +44,15 @@ class DisputeActivity : BaseActivity() {
     }
 
     private fun setAdapter() {
-        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo)
+        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo){
+                position ->
+            DisputeDetailsViewModel.disputeData=disputeViewModel.disputeListData.items[position]
+
+            val intent= Intent(this,DisputeDetailsActivity::class.java)
+            intent.putExtra("disputeId",disputeViewModel.disputeListData.items[position].disputeId)
+            intent.putExtra("disputeCode",disputeViewModel.disputeListData.items[position].disputeCode)
+            startActivity(intent)
+        }
         val layoutManager = LinearLayoutManager(this)
 
         binding.rvDispute.layoutManager = layoutManager

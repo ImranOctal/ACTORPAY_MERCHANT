@@ -35,11 +35,14 @@ import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.outlet.response.*
 import com.google.gson.JsonObject
 import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.B_Token
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeSingleResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.SendMessageParams
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -1078,6 +1081,65 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
     ): RetrofitResource<DisputeListResponse> {
         try {
             val data = apiClient.getAllDispute(AppConstance.B_Token +token,pageNo, pageSize, disputeListParams)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+
+    override suspend fun getDispute(
+        token: String,
+        disputeId: String
+    ): RetrofitResource<DisputeSingleResponse> {
+        try {
+            val data = apiClient.getDispute(B_Token +token,disputeId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun sendDisputeMessage(
+        token: String,
+        sendMessageParams: SendMessageParams
+    ): RetrofitResource<SuccessResponse> {
+        try {
+            val data = apiClient.sendDisputeMessage(B_Token +token,sendMessageParams)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)

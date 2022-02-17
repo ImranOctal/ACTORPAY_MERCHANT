@@ -43,6 +43,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_A
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_DISPUTE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
@@ -55,6 +56,7 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VA
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
+import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SEND_DISPUTE_MESSAGE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
@@ -68,6 +70,8 @@ import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResp
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeSingleResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.SendMessageParams
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -355,6 +359,18 @@ interface ApiClient {
         @Body disputeListParams: DisputeListParams,
         @Query("asc") asc: Boolean=false
     ): Response<DisputeListResponse>
+
+    @GET("$GET_DISPUTE{id}")
+    suspend fun getDispute(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): Response<DisputeSingleResponse>
+
+    @POST(SEND_DISPUTE_MESSAGE)
+    suspend fun sendDisputeMessage(
+        @Header("Authorization") token: String,
+        @Body sendMessageParams: SendMessageParams,
+    ): Response<SuccessResponse>
 
 
 }

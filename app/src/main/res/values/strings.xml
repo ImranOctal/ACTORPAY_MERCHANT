@@ -189,6 +189,7 @@
     <string name="continues">Continue</string>
     <string name="use_your_pincode_to_authenticate_with_actorpay">Use your pincode to authenticate with ActorPay.</string>
     <string name="sign_in_with_your_pincode">Sign in with your Pincode?</string>
+    <string name="dispute_details">Dispute Details</string>
     >
 
     <string-array name="status_array">

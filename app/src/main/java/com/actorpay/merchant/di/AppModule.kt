@@ -13,6 +13,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitReposi
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.commission.CommissionViewModel
 import com.actorpay.merchant.ui.content.ContentViewModel
+import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.manageOrder.OrderDetailViewModel
 import com.actorpay.merchant.ui.more.MoreViewModel
@@ -128,6 +129,9 @@ private val appKoinModule = module {
     }
     viewModel {
         DisputeViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        DisputeDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
    /* factory<ScreenNavigator> {
         LegacyNavigator()

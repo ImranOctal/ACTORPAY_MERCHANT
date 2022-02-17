@@ -30,6 +30,8 @@ import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResp
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeSingleResponse
+import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.SendMessageParams
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -118,6 +120,10 @@ interface RetrofitRepository {
     suspend fun getPermissions(token: String): RetrofitResource<PermissionDetails>
 
     suspend fun getAllDisputes(token: String,pageNo:Int,pageSize:Int,disputeListParams: DisputeListParams):RetrofitResource<DisputeListResponse>
+
+    suspend fun getDispute(token: String,disputeId:String):RetrofitResource<DisputeSingleResponse>
+
+    suspend fun sendDisputeMessage(token: String,sendMessageParams: SendMessageParams):RetrofitResource<SuccessResponse>
 
 }
 
