@@ -93,10 +93,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         }
 
         clickListner()
-
         homeviewmodel.getCatogrys()
-
-
         homeviewmodel.getSubCatDetalis()
 
     }

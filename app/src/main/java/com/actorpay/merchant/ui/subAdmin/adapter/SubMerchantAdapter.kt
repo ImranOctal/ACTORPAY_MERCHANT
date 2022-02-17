@@ -47,6 +47,7 @@ class SubMerchantAdapter(
                 delete.setOnClickListener {
                     onClick(position,"delete")
                 }
+
                 edit.setOnClickListener {
                     onClick(position,"edit")
                 }

@@ -83,15 +83,17 @@ class LoginActivity : BaseActivity() {
             binding.emailEdit.requestFocus()
 
         } else if (binding.password.text.isEmpty()) {
+
             binding.password.error=getString(R.string.oops_your_password_is_empty)
             binding.password.requestFocus()
-        }else if (!binding.rememberMe.isChecked) {
 
-            showCustomToast(getString(R.string.agree_our_terms_and_condition_login))
-        } else {
+        }else {
+
             login()
 
         }
+
+
     }
 
     private fun apiResponse() {

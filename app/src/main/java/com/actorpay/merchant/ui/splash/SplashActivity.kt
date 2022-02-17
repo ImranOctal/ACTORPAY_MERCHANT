@@ -1,5 +1,6 @@
 package com.actorpay.merchant.ui.splash
 
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -32,6 +33,7 @@ import android.widget.Toast
 
 import android.content.ContentValues.TAG
 import com.actorpay.merchant.R
+import com.actorpay.merchant.ui.login.LoginActivity
 
 
 @SuppressLint("CustomSplashScreen")
@@ -42,7 +44,6 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this, R.layout.activity_main)
         Firebase.messaging.isAutoInitEnabled = true
-
         apiResponse()
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000L)
@@ -94,20 +95,18 @@ class SplashActivity : BaseActivity() {
                             startActivity(Intent(baseContext(), HomeActivity::class.java))
                             finish()
                         } else {
-                            startActivity(Intent(baseContext(), SignupActivity::class.java))
+                            startActivity(Intent(baseContext(), LoginActivity::class.java))
                             finish()
                         }
                     }
                 }
             }
-
-
             // Log and toast
-
         })
+
         }
 
-    private fun apiResponse(){
+       private fun apiResponse(){
         lifecycleScope.launch {
             viewModel.actorcResponseLive.collect {
                 when(it){

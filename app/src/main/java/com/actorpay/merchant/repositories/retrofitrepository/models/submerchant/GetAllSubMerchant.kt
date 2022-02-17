@@ -20,7 +20,7 @@ data class Data(
 )
 
 data class Item(
-    val active: Boolean,
+    val active: Any,
     val contactNumber: String,
     val createdAt: String,
     val email: String,

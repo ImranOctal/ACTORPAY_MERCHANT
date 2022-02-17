@@ -49,15 +49,16 @@ class AddOutletActivity : BaseActivity() {
             }.show()
         }
         apiResponse()
-       /* binding.etAddressOne.setOnClickListener {
-            if (!Places.isInitialized()) {
-                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
-            }
-            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
-            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-                .build(this)
-            startForAddressResult.launch(intent)
-        }*/
+
+//        binding.etAddressOne.setOnClickListener {
+//            if (!Places.isInitialized()) {
+//                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
+//            }
+//            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+//            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+//                .build(this)
+//            startForAddressResult.launch(intent)
+//        }
     }
 
     private fun validation() {

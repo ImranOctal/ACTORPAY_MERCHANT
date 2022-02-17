@@ -35,7 +35,6 @@ class RolesActivity : BaseActivity() {
         apiResponse()
         setAdapter()
         rolesViewModel.getAllRoles()
-
         binding.btnAddRole.setOnClickListener {
             val intent= Intent(this,RoleDetailsActivity::class.java)
             intent.putExtra("id","")
@@ -77,7 +76,6 @@ class RolesActivity : BaseActivity() {
     fun apiResponse(){
         lifecycleScope.launch {
             rolesViewModel.responseLive.collect {
-
                     event->
                 when (event) {
                     is ResponseSealed.Loading -> {
@@ -86,7 +84,6 @@ class RolesActivity : BaseActivity() {
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (event.response is RolesResponse) {
-
                             rolesViewModel.pageNo=event.response.data.pageNumber
                             rolesViewModel.rolesList.clear()
                             rolesViewModel.rolesList.addAll(event.response.data.items)

@@ -272,7 +272,6 @@ interface ApiClient {
     ):Response<GetAllSubMerchant>
 
 
-
     @POST(ADD_SUBMERCHANT)
     suspend fun addSubMerchant(
         @Header(AUTH) token: String,

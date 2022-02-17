@@ -1,6 +1,4 @@
 package com.actorpay.merchant.ui.manageOrder
-
-
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -50,18 +48,12 @@ class ManageOrderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_order)
         Installation()
-        homeviewmodel.getAllOrder(
-            startDate,
-            endDate,
-            merchantIid,
-            orderStatus,
-            customerEmail,
-            orderNo
-        )
+        homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
     }
     private fun setupRv(orderList: ArrayList<Item>) {
         binding.manageOrder.layoutManager = LinearLayoutManager(this@ManageOrderActivity, LinearLayoutManager.VERTICAL, false)
         binding.manageOrder.adapter = OrderAdapter(this@ManageOrderActivity, orderList) { position, status ->
+
             updateStatus(position, orderList, status)
         }
     }
@@ -124,7 +116,7 @@ class ManageOrderActivity : BaseActivity() {
                 }
             }
         }
-        val array = this.resources.getStringArray(R.array.status_array).toMutableList()
+       val array = this.resources.getStringArray(R.array.status_array).toMutableList()
         if (array.contains(orderStatus.replace("_"," "))) {
             val pos = array.indexOfFirst { it.equals(orderStatus.replace("_"," ")) }
             binding.spinnerStatus.setSelection(pos)
@@ -223,17 +215,9 @@ class ManageOrderActivity : BaseActivity() {
     private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
     // homeviewmodel.updateStatus(items[position].orderNo,status)
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101&&resultCode== Activity.RESULT_OK) {
-            homeviewmodel.getAllOrder(
-                startDate,
-                endDate,
-                merchantIid,
-                orderStatus,
-                customerEmail,
-                orderNo
-            )
-        }
+
+    override fun onResume() {
+        super.onResume()
+        homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
     }
 }

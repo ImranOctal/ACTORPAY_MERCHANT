@@ -45,7 +45,6 @@ class SubMerchantActivity : BaseActivity() {
 
         SubviewModel.getSubMerchants()
         apiResponse()
-
                permissionDataList.forEach {
                 if(it.screenName==permissionData.screenName){
                 permissionData.read=it.read
@@ -89,10 +88,14 @@ class SubMerchantActivity : BaseActivity() {
                     showClickable = false,
                     callback = object : CommonDialogsUtils.DialogClick {
                         override fun onClick() {
-                            deleteOutlet(ids)
+                            SubviewModel.deleteMerchant(ids)
+
                         }
+
                         override fun onCancel() {
+
                         }
+
                     }
                 )
             }else if(action=="edit"){
@@ -101,14 +104,7 @@ class SubMerchantActivity : BaseActivity() {
                 intent.putExtra("id",items[pos].id)
                 resultUpdateLauncher.launch(intent)
             }
-
-
         }
-    }
-
-    private fun deleteOutlet(ids: MutableList<String>) {
-        SubviewModel.deleteMerchant(ids)
-
     }
 
     private fun apiResponse() {
@@ -121,19 +117,17 @@ class SubMerchantActivity : BaseActivity() {
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetAllSubMerchant) {
-
                             if (it.response.data.items.isNotEmpty()) {
                                 setUpRv(it.response.data.items)
-
                                 binding.tvEmptyText.visibility=View.GONE
 
                             }else{
-                               binding.tvEmptyText.visibility=View.VISIBLE
+                                setUpRv(mutableListOf())
+                                binding.tvEmptyText.visibility=View.VISIBLE
 
                             }
-                        }
 
-                        if (it.response is DeleteSubMerchant) {
+                        }else  if (it.response is DeleteSubMerchant) {
                             showCustomAlert(it.response.message, binding.root)
                             SubviewModel.getSubMerchants()
                         }
@@ -156,8 +150,6 @@ class SubMerchantActivity : BaseActivity() {
 
             }
         }
-
-
     }
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode== Activity.RESULT_OK) {

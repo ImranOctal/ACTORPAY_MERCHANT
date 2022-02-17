@@ -187,7 +187,6 @@ class HomeActivity : BaseActivity() {
             binding.merchatLay.visibility = View.VISIBLE
             binding.headerTitle.userProfileBalance.visibility = View.VISIBLE
             binding.outlet.visibility = View.VISIBLE
-            binding.earnMoney.visibility = View.VISIBLE
             binding.dashboard.visibility = View.VISIBLE
             binding.constManageProduct.visibility = View.VISIBLE
             binding.myOrderLay.visibility = View.VISIBLE
@@ -198,7 +197,6 @@ class HomeActivity : BaseActivity() {
             binding.viewRole.visibility = View.VISIBLE
             binding.viewOrder.visibility=View.VISIBLE
             binding.viewReport.visibility=View.VISIBLE
-            binding.viewEarMoney.visibility=View.VISIBLE
         }
     }
     private fun clickListeners() {

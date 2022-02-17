@@ -217,6 +217,7 @@
                                 android:layout_marginTop="@dimen/_14ssp"
                                 android:autofillHints="postalAddress"
                                 android:hint="@string/address_line1"
+
                                 android:inputType="textAutoComplete"
                                 android:singleLine="true" />
 

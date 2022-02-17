@@ -67,7 +67,7 @@
     <string name="your_email">Email Address</string>
     <string name="password">Password</string>
     <string name="remember_me">Remember Me</string>
-    <string name="loginwithFacial">login with facial recognition</string>
+    <string name="loginwithFacial">Login with facial recognition</string>
     <string name="Signup">Don\'t have an account? Signup</string>
     <string name="business">Business Name</string>
     <string name="mobile">Mobile</string>
@@ -186,9 +186,10 @@
     <string name="date">Date</string>
     <string name="contact">Contact</string>
     <string name="no_data_found">No Data Found</string>
+    <string name="no_sub_merchant_found">No Sub Merchant Found</string>
     <string name="dob">DOB</string>
     <string name="my_commission">My Commission</string>
-    <string name="add_roll">Add Roll</string>
+    <string name="add_roll">Add Role</string>
     <string name="continues">Continue</string>
     <string name="use_your_pincode_to_authenticate_with_actorpay">Use your pincode to authenticate with ActorPay.</string>
     <string name="sign_in_with_your_pincode">Sign in with your Pincode?</string>

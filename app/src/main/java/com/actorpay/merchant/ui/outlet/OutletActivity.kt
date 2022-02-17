@@ -18,6 +18,7 @@ import com.actorpay.merchant.ui.outlet.response.GetOutlet
 import com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
+import com.google.android.libraries.places.api.Places
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -36,6 +37,10 @@ class OutletActivity : BaseActivity() {
             val intent = Intent(this, AddOutletActivity::class.java)
             resultLauncher.launch(intent)
         }
+
+        Places.initialize(
+            this, "AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"
+        )
         outletViewModel.getOutlet()
 
         apiResponse()

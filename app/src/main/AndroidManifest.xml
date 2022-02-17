@@ -18,9 +18,11 @@
             android:name=".ui.setting.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".notification.NotificationActivity"
             android:name=".ui.disputes.disputedetails.DisputeDetailsActivity"
             android:exported="false" />
+        <activity android:name=".notification.NotificationActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.disputes.DisputeActivity"
             android:exported="false" />

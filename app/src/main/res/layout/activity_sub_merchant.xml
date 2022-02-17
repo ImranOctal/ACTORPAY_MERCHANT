@@ -64,7 +64,7 @@
             <TextView
                 android:id="@+id/tvEmptyText"
                 android:layout_width="wrap_content"
-                android:text="@string/no_data_found"
+                android:text="@string/no_sub_merchant_found"
                 android:gravity="center"
                 android:textSize="@dimen/_14ssp"
                 android:textColor="@color/text_color"

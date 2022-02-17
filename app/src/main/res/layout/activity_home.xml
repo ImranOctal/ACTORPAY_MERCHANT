@@ -203,7 +203,7 @@
 
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="@dimen/_110sdp"
-                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_height="120dp"
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:elevation="@dimen/_15sdp"
@@ -778,7 +778,7 @@
                         <TextView
                             style="@style/viewParent"
                             android:layout_marginStart="16dp"
-                            android:text="@string/my_commission"
+                            android:text="Earn Money"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/commissionIco"
