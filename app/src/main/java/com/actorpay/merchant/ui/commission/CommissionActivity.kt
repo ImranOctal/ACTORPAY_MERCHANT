@@ -82,7 +82,7 @@ class CommissionActivity : BaseActivity() {
                         if (action.failResponse!!.code == 403) {
                             forcelogout(commissionViewModel.methodRepo)
                         }else{
-                            showCustomAlert(action.failResponse!!.message, binding.root)
+                            showCustomAlert(action.failResponse.message, binding.root)
                         }
                     }
                     else -> hideLoadingDialog()

@@ -49,7 +49,7 @@ class AddOutletActivity : BaseActivity() {
             }.show()
         }
         apiResponse()
-        binding.etAddressOne.setOnClickListener {
+       /* binding.etAddressOne.setOnClickListener {
             if (!Places.isInitialized()) {
                 Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
             }
@@ -57,7 +57,7 @@ class AddOutletActivity : BaseActivity() {
             val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                 .build(this)
             startForAddressResult.launch(intent)
-        }
+        }*/
     }
 
     private fun validation() {
@@ -84,7 +84,7 @@ class AddOutletActivity : BaseActivity() {
             binding.mobileNumber.error = getString(R.string.mobile_not_start_with_0)
             binding.mobileNumber.requestFocus()
 
-        } else if (binding.etAddressOne.text.toString().trim().isEmpty()) {
+        } else if (binding.etAddressOne .text.toString().trim().isEmpty()) {
             binding.etAddressOne.error = getString(R.string.address_empty)
             binding.etAddressOne.requestFocus()
 

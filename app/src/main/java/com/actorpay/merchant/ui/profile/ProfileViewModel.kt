@@ -51,7 +51,8 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
         shopAddress: String,
         fullAddress: String,
         businessName: String,
-        licenceNumber: String
+        licenceNumber: String,
+        merchantSettingsDTO: MutableList<MerchantSettingsDTO>
     ) {
 
         viewModelScope.launch(dispatcherProvider.IO) {
@@ -65,7 +66,7 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
                         businessName,
                         licenceNumber,
                         userId,
-                        merchantSettingsDTOList,
+                        merchantSettingsDTO,
                         token
                     )) {
                         is RetrofitResource.Error -> profileResponseLive.value =

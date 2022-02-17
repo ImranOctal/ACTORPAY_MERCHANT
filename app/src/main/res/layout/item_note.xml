@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/_6ssp"
                 android:text="@{orderNote.orderNoteDescription}"
                 android:textColor="@color/text_color"

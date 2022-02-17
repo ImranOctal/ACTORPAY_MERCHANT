@@ -107,6 +107,7 @@
     <string name="completed">Complete</string>
     <string name="reportUser">Reports</string>
     <string name="cancel">Cancel/ Raise Dispute</string>
+    <string name="disputes">Disputes</string>
     <string name="merchant_sub_merchant"><![CDATA[Merchant & Sub Merchant]]></string>
     <string name="manage_product">Manage Products</string>
     <string name="dashboard">Dashboard</string>
@@ -199,6 +200,7 @@
     <string name="manager">Manager</string>
 
 
+    <string name="dispute_details">Dispute Details</string>
     >
 
     <string-array name="status_array">
@@ -223,6 +225,12 @@
         <item>SETTLED</item>
     </string-array>
 
+    <string-array name="dispute_status_array">
+        <item>Select Status</item>
+        <item>OPEN</item>
+        <item>CLOSED</item>
+        <item>PENDING</item>
+    </string-array>
 
     <string-array name="productCat">
         <item>Home</item>

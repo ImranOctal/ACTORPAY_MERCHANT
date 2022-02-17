@@ -26,7 +26,7 @@ data class Data(
     val merchantSettingsDTOS:MutableList<MerchantSettingsDTO>
 )
 data class MerchantSettingsDTO(
-    val settingId: String,
+    val id: String,
     val paramName: String,
     var paramValue: String,
     val paramDescription: String,

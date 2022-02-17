@@ -41,10 +41,10 @@ class OrderStatusAdapter(
         RecyclerView.ViewHolder(orderStatus.root) {
         fun bind(position: Int) {
             orderStatus.apply {
-                tvStatus.text=list[position]
+                tvStatus.text=list[position].replace("_"," ")
                 tvStatus.setOnClickListener {
                     mpopup.dismiss()
-                    (context as OrderDetailActivity).cancelBottomSheet(list[position],orderItemId)
+                    (context as OrderDetailActivity).cancelBottomSheet(list[position].replace(" ","_"),orderItemId)
 
                 }
 

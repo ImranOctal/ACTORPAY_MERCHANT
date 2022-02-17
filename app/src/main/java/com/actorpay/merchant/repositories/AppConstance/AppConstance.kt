@@ -93,6 +93,8 @@ class AppConstance {
         const val STATUS_PENDING:String="PENDING"
         const val STATUS_FAILED:String="FAILED"
         const val STATUS_COMPLETED:String="COMPLETED"
+        const val STATUS_RETURN_ACCEPT:String="RETURNING_ACCEPTED"
+        const val STATUS_RETURN_DECLINE:String="RETURNING_DECLINED"
         const val SCREEN_SUB_MERCHANT:String="Manage Submerchant"
         const val SCREEN_OUTLET:String="Manage Outlets"
 
@@ -129,7 +131,12 @@ class AppConstance {
 
 
         const val GET_PERMISSION:String=SUB_DOMAIN+SUB_DOMAIN2+"get/user/permissions"
-   }
+
+        const val GET_ALL_DISPUTES: String = SUB_DOMAIN+ SUB_DOMAIN2+"dispute/list/paged"
+        const val GET_DISPUTE: String = SUB_DOMAIN+ SUB_DOMAIN2+"dispute/get/"
+        const val SEND_DISPUTE_MESSAGE: String = SUB_DOMAIN+ SUB_DOMAIN2+"dispute/send/message"
+
+    }
 
 
 }

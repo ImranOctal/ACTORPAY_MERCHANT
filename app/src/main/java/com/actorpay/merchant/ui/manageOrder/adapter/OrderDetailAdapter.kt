@@ -49,6 +49,10 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
                         list.add(AppConstance.STATUS_DISPATCHED)
                     }
                     AppConstance.STATUS_RETURNING -> {
+                        list.add(AppConstance.STATUS_RETURN_ACCEPT)
+                        list.add(AppConstance.STATUS_RETURN_DECLINE)
+                    }
+                    AppConstance.STATUS_RETURN_ACCEPT , AppConstance.STATUS_RETURN_DECLINE -> {
                         list.add(AppConstance.STATUS_RETURNED)
                     }
                     AppConstance.STATUS_DISPATCHED -> {

@@ -102,7 +102,7 @@ class LoginActivity : BaseActivity() {
                         showLoadingDialog()
                     }
                     is AuthViewModel.ResponseLoginSealed.Success -> {
-
+                        hideLoadingDialog()
                         if (it.response is LoginResponses) {
                             viewModel.methodRepo.dataStore.setUserId(it.response.data.id)
                             viewModel.methodRepo.dataStore.setIsLoggedIn(true)
@@ -115,8 +115,6 @@ class LoginActivity : BaseActivity() {
                             delay(1000)
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                             finishAffinity()
-
-
 
 
                         } else if (it.response is ForgetPasswordResponses) {

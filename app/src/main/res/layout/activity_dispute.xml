@@ -8,10 +8,9 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.commission.CommissionActivity"
     android:orientation="vertical"
     android:background="@color/primary"
-    >
+    tools:context=".ui.disputes.DisputeActivity">
 
     <RelativeLayout
         android:id="@+id/rltRoot"
@@ -41,7 +40,7 @@
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_toEndOf="@+id/back"
             android:fontFamily="@font/poppins_medium"
-            android:text="Commissions"
+            android:text="@string/disputes"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp" />
 
@@ -64,28 +63,35 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/top_round_drawble_white">
+        android:background="@drawable/top_round_drawble_white"
+
+        >
+
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_commission"
+            android:id="@+id/rv_dispute"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_20sdp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/manage_order_layout_item" />
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            />
+
 
         <TextView
-            android:id="@+id/emptyText"
-            android:layout_width="match_parent"
+            android:id="@+id/text_empty"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="No Commission Available"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="No Dispute Available"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular"
+            android:visibility="gone"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
