@@ -45,25 +45,21 @@ class SignupActivity : BaseActivity() {
 
         installation()
 
-        apiResponse()
-
         val codeList= mutableListOf<String>()
         GlobalData.allCountries.forEach {
             val code=it.countryCode
             codeList.add(code)
-
         }
-
         if(GlobalData.allCountries.size>0){
             binding.codePicker.text=GlobalData.allCountries[0].countryCode
-
         }
-
         binding.countryLayout.setOnClickListener {
             CountryPicker(this,viewModel.methodRepo,GlobalData.allCountries){
                 binding.codePicker.text=GlobalData.allCountries[it].countryCode
             }.show()
         }
+
+        apiResponse()
     }
 
     private fun installation() {

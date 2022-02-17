@@ -2,4 +2,5 @@
 <resources>
     <string name="category_not_found">Categories Not Found Please try again</string>
     <string name="error_on_tax">Please Choose Tax Details</string>
+    <string name="msg_token_fmt">msg token fmt</string>
 </resources>

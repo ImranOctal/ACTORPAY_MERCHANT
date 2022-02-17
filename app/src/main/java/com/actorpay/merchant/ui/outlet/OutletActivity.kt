@@ -1,4 +1,5 @@
 package com.actorpay.merchant.ui.outlet
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -32,32 +33,38 @@ class OutletActivity : BaseActivity() {
             onBackPressed()
         }
         binding.btnAddOutlet.setOnClickListener {
-            val intent=Intent(this,AddOutletActivity::class.java)
+            val intent = Intent(this, AddOutletActivity::class.java)
             resultLauncher.launch(intent)
         }
         outletViewModel.getOutlet()
+
         apiResponse()
     }
-    fun apiResponse(){
+
+
+    fun apiResponse() {
         lifecycleScope.launch {
             outletViewModel.responseLive.collect {
                 when (it) {
                     is ResponseSealed.Loading -> {
+
                         showLoadingDialog()
+
                     }
+
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetOutlet) {
-                            if(it.response.data.items.isNotEmpty()){
-
-                                binding.rvOutlet.layoutManager=LinearLayoutManager(this@OutletActivity,LinearLayoutManager.VERTICAL,false)
-                                binding.rvOutlet.adapter=AdapterOutlet(this@OutletActivity,it.response.data.items){
-                                    pos,action ->
-                                    if(action=="delete"){
+                            if (it.response.data.items.isNotEmpty()) {
+                                binding.rvOutlet.layoutManager = LinearLayoutManager(this@OutletActivity, LinearLayoutManager.VERTICAL, false)
+                                binding.rvOutlet.adapter = AdapterOutlet(this@OutletActivity, it.response.data.items) { pos, action ->
+                                    if (action == "delete") {
                                         var ids = mutableListOf<String>()
                                         ids.add(it.response.data.items[pos].id)
                                         CommonDialogsUtils.showCommonDialog(this@OutletActivity,
-                                            outletViewModel.methodRepo, "Delete", "Are you sure you want to delete",
+                                            outletViewModel.methodRepo,
+                                            "Delete",
+                                            "Are you sure you want to delete",
                                             autoCancelable = false,
                                             isCancelAvailable = true,
                                             isOKAvailable = true,
@@ -68,35 +75,32 @@ class OutletActivity : BaseActivity() {
                                                 }
 
                                                 override fun onCancel() {
-
                                                 }
                                             }
                                         )
-                                    }else if(action=="edit"){
-                                        val intent = Intent(this@OutletActivity, UpdateOutletActivity::class.java)
+                                    } else if (action == "edit") {
+                                        val intent = Intent(
+                                            this@OutletActivity,
+                                            UpdateOutletActivity::class.java
+                                        )
                                         resultUpdateLauncher.launch(intent)
                                     }
-                                    binding.tvDataNotFound.visibility=View.GONE
-
+                                    binding.tvDataNotFound.visibility = View.GONE
                                 }
-
-                            }else{
-                                binding.tvDataNotFound.visibility=View.VISIBLE
-
+                            } else {
+                                binding.tvDataNotFound.visibility = View.VISIBLE
                             }
-
                         }
                         if (it.response is DeleteOutlet) {
                             showCustomAlert(it.response.message, binding.root)
                             outletViewModel.getOutlet()
                         }
-
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-                        if(it.failResponse!!.code==403){
+                        if (it.failResponse!!.code == 403) {
                             forcelogout(outletViewModel.methodRepo)
-                        }else{
+                        } else {
                             showCustomAlert(
                                 it.failResponse.message,
                                 binding.root
@@ -109,22 +113,22 @@ class OutletActivity : BaseActivity() {
                 }
             }
         }
-
-
     }
-
 
     private fun deleteOutlet(ids: MutableList<String>) {
         outletViewModel.deleteOutlet(ids)
     }
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-       if(it.resultCode==Activity.RESULT_OK) {
-           outletViewModel.getOutlet()
-       }
-    }
-    private var resultUpdateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-       if(it.resultCode==Activity.RESULT_OK) {
-           outletViewModel.getOutlet()
-       }
-    }
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                outletViewModel.getOutlet()
+            }
+        }
+    private var resultUpdateLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                outletViewModel.getOutlet()
+            }
+        }
 }

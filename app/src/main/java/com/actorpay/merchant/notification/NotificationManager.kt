@@ -41,7 +41,7 @@ class NotificationManager : FirebaseMessagingService() {
 
     }
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        isMuted = sharedPre!!.isNotificationMuted
+        isMuted = sharedPre.isNotificationMuted
         super.onMessageReceived(remoteMessage)
         try {
             uri = if (isMuted) {

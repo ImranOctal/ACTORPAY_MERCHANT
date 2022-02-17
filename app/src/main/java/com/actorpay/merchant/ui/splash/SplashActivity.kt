@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.actorpay.merchant.R
+
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityMainBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
@@ -26,6 +27,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import android.widget.Toast
+
+
+import android.content.ContentValues.TAG
+import com.actorpay.merchant.R
+
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
@@ -33,7 +40,7 @@ class SplashActivity : BaseActivity() {
     private val actorPayViewModel: ActorPayViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding=DataBindingUtil.setContentView(this, R.layout.activity_main)
         Firebase.messaging.isAutoInitEnabled = true
 
         apiResponse()
@@ -48,6 +55,25 @@ class SplashActivity : BaseActivity() {
             }
 
         }
+//        FirebaseMessaging.getInstance().token
+//            .addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+//                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new FCM registration token
+//                val token = task.result
+//
+//                // Log and toast
+////                val msg = getString(com.actorpay.merchant.R.string.msg_token_fmt, token)
+////                Log.d(TAG, msg)
+//
+//                Log.e("FirebaseToken", token )
+//            })
+
+//        val token=sharedPre.firebaseDeviceToken
+//        Log.e("FCM", "token: $token", )
 
         Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {

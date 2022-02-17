@@ -45,6 +45,7 @@ import java.io.File
 import java.io.IOException
 
 
+
 class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
     private lateinit var catAdapter: CategoryAdapter

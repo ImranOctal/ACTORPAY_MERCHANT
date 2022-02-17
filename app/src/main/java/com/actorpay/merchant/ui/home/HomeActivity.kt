@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityHomeBinding
+import com.actorpay.merchant.notification.NotificationActivity
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
@@ -43,6 +44,8 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
 import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
+import com.actorpay.merchant.ui.setting.SettingActivity
+
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,7 +54,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.*
 import java.util.concurrent.Executor
-
 
 class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -98,6 +100,7 @@ class HomeActivity : BaseActivity() {
                 return false
             }
         }
+
         return false
 
     }
@@ -105,7 +108,6 @@ class HomeActivity : BaseActivity() {
     private fun fingerPrint() {
         if(!isBioMetricAvailable())
             return
-
         val executor: Executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -119,15 +121,11 @@ class HomeActivity : BaseActivity() {
                     authSheet!!.dismiss()
 
                 }
-
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                     Toast.makeText(applicationContext, "Login fail", Toast.LENGTH_SHORT).show()
-
                 }
             })
-
-
         val fingerPromptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Actor Pay")
             .setDescription("Sign-in using Fingerprint ID")
@@ -146,7 +144,6 @@ class HomeActivity : BaseActivity() {
             if (authSheet?.isVisible!!.not())
                 authSheet?.show(supportFragmentManager, "auth sheet")
         }
-
     }
 
     fun keyGuard() {
@@ -165,6 +162,8 @@ class HomeActivity : BaseActivity() {
 
     private fun initialisation() {
         binding.toolbar.back.visibility = View.VISIBLE
+        binding.toolbar.ivNotification.visibility = View.VISIBLE
+
         binding.toolbar.back.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hamburger))
         binding.toolbar.ToolbarTitle.text = getString(R.string.dashboard)
         lifecycleScope.launchWhenCreated {
@@ -172,6 +171,9 @@ class HomeActivity : BaseActivity() {
                 binding.headerTitle.userProfileName.text = "$businessName"
 
             }
+        }
+        binding.toolbar.ivNotification.setOnClickListener {
+            switchActivity(Intent(baseContext(), NotificationActivity::class.java))
         }
 
     }
@@ -234,11 +236,20 @@ class HomeActivity : BaseActivity() {
             switchActivity(Intent(baseContext(), ManageProductActivity::class.java))
         }
 
+        binding.constSetting.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), SettingActivity::class.java))
+        }
+
         binding.profileLay.setOnClickListener {
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                 drawer_layout.closeDrawers()
             }
-            switchActivity(Intent(baseContext(), ProfileActivity::class.java))
+
+            val intent=Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
         }
 
         binding.myOrderLay.setOnClickListener {
@@ -247,6 +258,7 @@ class HomeActivity : BaseActivity() {
             }
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
+
 
         reportsLay.setOnClickListener {
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -276,18 +288,8 @@ class HomeActivity : BaseActivity() {
             switchActivity(Intent(baseContext(), OutletActivity::class.java))
         }
 
-        binding.changePasswordLay.setOnClickListener {
-            changePasswordUi()
-        }
-
         binding.footer.btnHomeLogout.setOnClickListener {
             logOut()
-        }
-    }
-
-    fun changePasswordUi() {
-        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
-            homeviewmodel.changePassword(oldPassword, newPassword)
         }
     }
 
@@ -328,7 +330,6 @@ class HomeActivity : BaseActivity() {
                             )
                         }
                         else if (it.response is PermissionDetails) {
-
                             for (i in it.response.data.indices) {
                                  permissionDataList.forEachIndexed {
                                      index, permissionData ->
@@ -358,6 +359,7 @@ class HomeActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
+
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
                         } else {

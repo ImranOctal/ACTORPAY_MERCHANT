@@ -68,6 +68,8 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         }
 
         installation()
+
+
         permissionDataList.forEach {
             if (it.screenName == permissionData.screenName) {
                 permissionData.read = it.read
@@ -91,7 +93,10 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         }
 
         clickListner()
+
         homeviewmodel.getCatogrys()
+
+
         homeviewmodel.getSubCatDetalis()
 
     }

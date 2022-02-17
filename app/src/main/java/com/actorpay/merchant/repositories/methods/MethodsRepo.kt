@@ -5,16 +5,15 @@ package com.actorpay.merchant.repositories.methods
 * JAVA/KOTLIN
 * */
 
-import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -22,17 +21,15 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Base64
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.Gravity
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.actorpay.merchant.R
 import com.actorpay.merchant.database.datastore.DataStoreBase
+import com.actorpay.merchant.ui.home.HomeActivity
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import java.io.UnsupportedEncodingException
 import java.text.DateFormat
@@ -194,6 +191,39 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
                 removeOnLayoutChangeListener(this)
             }
         })
+    }
+    fun Activity.transparentStatusBar() {
+        this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        this.window.statusBarColor = Color.TRANSPARENT
+    }
+
+    private fun setWindowFlag(activity: Activity, bits: Int, on: Boolean) {
+        val win = activity.window
+        val winParams = win.attributes
+        if (on) {
+            winParams.flags = winParams.flags or bits
+        } else {
+            winParams.flags = winParams.flags and bits.inv()
+        }
+        win.attributes = winParams
+    }
+
+    fun Activity.setStatusBarTransparent(color: String, isDark: Boolean) {
+        this.window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window: Window = this.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            if (isDark) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+            window.statusBarColor = Color.parseColor(color)
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = this.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.statusBarColor = Color.parseColor(color)
+        }
     }
 
 }

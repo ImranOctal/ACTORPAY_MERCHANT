@@ -40,6 +40,7 @@
     <string name="last_name_empty">Oops! Your Last Name is Empty</string>
     <string name="product_list">Product List</string>
     <string name="login">Login</string>
+    <string name="notification">Notification</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="faq">FAQ</string>
     <string name="about_us">About Us</string>
@@ -170,7 +171,9 @@
     <string name="address_line1">Address Line1 </string>
     <string name="address_line2">Address Line2 </string>
     <string name="zip_code">Zip Code</string>
+    <string name="msg_token_fmt">msg token fmt</string>
     <string name="city">City</string>
+
     <string name="state">State</string>
     <string name="country">Country</string>
     <string name="error_percentage_numeric">Percentage should be between 1 to 99</string>
@@ -188,6 +191,14 @@
     <string name="continues">Continue</string>
     <string name="use_your_pincode_to_authenticate_with_actorpay">Use your pincode to authenticate with ActorPay.</string>
     <string name="sign_in_with_your_pincode">Sign in with your Pincode?</string>
+    <string name="loan_decline_by_bank">Loan Decline by Bank</string>
+    <string name="general">General</string>
+    <string name="manage">MANAGE</string>
+    <string name="product">Product</string>
+    <string name="reporting">Reporting</string>
+    <string name="manager">Manager</string>
+
+
     >
 
     <string-array name="status_array">
