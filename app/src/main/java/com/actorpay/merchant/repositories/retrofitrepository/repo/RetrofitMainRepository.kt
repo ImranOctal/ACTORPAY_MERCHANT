@@ -33,7 +33,6 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Get
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.outlet.response.*
-import com.google.gson.JsonObject
 import com.octal.actorpay.repositories.AppConstance.AppConstance
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.B_Token
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
@@ -432,12 +431,12 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getSubCatDataDetailsList(token: String, pageNo: String): RetrofitResource<GetSubCatDataDetails> {
+    override suspend fun getSubCatDataDetailsList(token: String ,catId: String): RetrofitResource<GetSubCatDataDetails> {
         try {
-            val data = apiClient.getSubCategoryList(AppConstance.B_Token + token, pageNo)
+            val data = apiClient.getSubCategoryList(AppConstance.B_Token + token, catId)
             val result = data.body()
             if (data.isSuccessful && result != null) {
-                if (result.data != null && result.data.items.size > 0) {
+                if (result.data != null && result.data.size > 0) {
                     return RetrofitResource.Success(result)
                 } else {
                     return RetrofitResource.Error(

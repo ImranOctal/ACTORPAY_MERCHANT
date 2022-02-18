@@ -27,6 +27,7 @@ class AppConstance {
         const val STATUS:String="status"
         const val ORDERNO:String="orderNo"
         const val SORT_BY:String="sortBy"
+        const val CATEGORY_ID:String="categoryId"
         const val ASCECNDING:String="asc"
         const val isActive:String="isActive"
         const val PAGE_SIZE:String="pageSize"
@@ -61,12 +62,16 @@ class AppConstance {
         const val TAX_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "taxes/get/all"
 
 
-        const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/categories/paged"
+        const val CATEGORIES_URL: String = SUB_DOMAIN+ SUB_DOMAIN2+ "get/all/categories"
+
 
 
         const val PRODUCT_LIST: String = SUB_DOMAIN+SUB_DOMAIN2+PRODUCTS+"/list/paged"
         const val GET_BY_ID: String = SUB_DOMAIN+SUB_DOMAIN2+SUB_DOMAIN_MERCHANT+ BY+ ID
-        const val SUB_CAT_URL: String = SUB_DOMAIN+SUB_DOMAIN2+"get/all/subcategories/paged"
+
+        const val SUB_CAT_URL: String = SUB_DOMAIN+SUB_DOMAIN2+"get/all/subcategories/by/category"
+
+
         const val GENRATE_TOKEN_AGAIN: String = SUB_DOMAIN+USER_SERVICE+SUB_DOMAIN3+SLASH_TOKEN+REFRESH
         const val GET_ALL_ORDER:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"list/paged"
         const val UPDATE_STATUS:String=SUB_DOMAIN+SUB_DOMAIN2+ORDER+"status"

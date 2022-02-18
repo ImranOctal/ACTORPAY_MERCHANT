@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
 import com.skydoves.powerspinner.*
 import com.skydoves.powerspinner.databinding.ItemDefaultPowerSpinnerLibraryBinding
 
 class CategoryAdapter(powerSpinnerView: PowerSpinnerView
 ) : RecyclerView.Adapter<CategoryAdapter.IconSpinnerViewHolder>(),
-    PowerSpinnerInterface<ItemCategory> {
+    PowerSpinnerInterface<DataCategory> {
 
     override var index: Int = powerSpinnerView.selectedIndex?:0
     override val spinnerView: PowerSpinnerView = powerSpinnerView
-    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<ItemCategory>? = null
+    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<DataCategory>? = null
     private val compoundPadding: Int = 12
-    private var spinnerItems: MutableList<ItemCategory> = arrayListOf()
+    private var spinnerItems: MutableList<DataCategory> = arrayListOf()
 
     init {
         this.spinnerView.compoundDrawablePadding = compoundPadding
@@ -47,7 +47,7 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
 
     }
 
-    override fun setItems(itemList: List<ItemCategory>) {
+    override fun setItems(itemList: List<DataCategory>) {
         this.spinnerItems.clear()
         this.spinnerItems= itemList.toMutableList()
         notifyDataSetChanged()
@@ -72,7 +72,7 @@ class CategoryAdapter(powerSpinnerView: PowerSpinnerView
     class IconSpinnerViewHolder(private val binding: ItemDefaultPowerSpinnerLibraryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemCategory, spinnerView: PowerSpinnerView) {
+        fun bind(item: DataCategory, spinnerView: PowerSpinnerView) {
             binding.itemDefaultText.apply {
                 text = item.name
                 gravity = spinnerView.gravity

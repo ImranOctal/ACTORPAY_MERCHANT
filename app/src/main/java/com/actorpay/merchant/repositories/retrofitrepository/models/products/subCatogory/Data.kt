@@ -1,9 +1,18 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory
 
 data class Data(
-    val items: List<Item>,
-    val pageNumber: Int,
-    val pageSize: Int,
-    val totalItems: Int,
-    val totalPages: Int
-)
+    val active: Boolean,
+    val categoryId: String,
+    val categoryName: String,
+    val createdAt: String,
+    val description: String,
+    val id: String,
+    var name: String
+    ){
+
+    override fun toString(): String {
+        return name
+
+    }
+
+}

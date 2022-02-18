@@ -333,6 +333,41 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/returnDays"
+                            style="@style/TxtOutline2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Return Days (%):  "
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_bold"
+                                android:textColor="@color/text_color"
+                                />
+
+                            <EditText
+                                android:id="@+id/returnedD"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:autofillHints="creditCardSecurityCode"
+                                android:background="@color/transparent"
+                                android:text=""
+                                android:inputType="number"
+                                android:digits="0123456789."
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textSize="@dimen/_12ssp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                />
+
+
+                        </LinearLayout>
+
 
 
                         <LinearLayout

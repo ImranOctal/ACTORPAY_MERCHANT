@@ -8,7 +8,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.forEachIndexed
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +23,12 @@ import com.actorpay.merchant.databinding.DialogProductFilterBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.ItemCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.ui.addnewproduct.AddNewProduct
 import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
@@ -38,13 +42,10 @@ import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_MANAGE_PRODUCT
-import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
-import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityManageProductBinding
@@ -56,20 +57,21 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     var name = ""
     var cat = ""
     var Sub = ""
+    var catId = ""
+    var SubCatId = ""
+    var catList: MutableList<DataCategory> = ArrayList()
+    var subCatList: MutableList<Data> = ArrayList()
     private lateinit var subCategoryAdapter: SubCategoryAdapter
     var permissionData = PermissionData(false, "5", SCREEN_MANAGE_PRODUCT, false)
-
     private val homeviewmodel: HomeViewModel by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_product)
         handler = Handler()
         searchRunnable = Runnable {
         }
-
         installation()
-
-
         permissionDataList.forEach {
             if (it.screenName == permissionData.screenName) {
                 permissionData.read = it.read
@@ -94,7 +96,6 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         clickListner()
         homeviewmodel.getCatogrys()
-        homeviewmodel.getSubCatDetalis()
 
     }
 
@@ -130,24 +131,21 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
             }
         })
-
         val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
-
                     homeviewmodel.getProductList(page.toString(), "", "", true, "", "")
                 }
             }
+
+
         binding.manageProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
         binding.ivFilter.setOnClickListener {
-
             productFilterBottomSheet()
-
         }
         binding.back.setOnClickListener {
             finish()
         }
-
         WorkSource()
     }
 
@@ -160,31 +158,67 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         )
         val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
         binding.productName.setText(name)
+        catList.add(DataCategory("", "", "", "", "Please select Category", false))
+        setCatAdapter(binding.chooseCategory)
+        setSubCatAdapter(binding.chooseSubCategory)
 
-        if(cat.isEmpty()){
-            binding.chooseCategory.hint = "Choose Category"
-        }else{
-            binding.chooseCategory.hint = cat
-        }
-        if(Sub.isEmpty()){
-            binding.chooseSubCategory.hint = "Choose SubCategory"
+        binding.chooseCategory.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    subCatList.clear()
+                    subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
+                    setSubCatAdapter(binding.chooseSubCategory)
+                    if (position == 0) {
+                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
+                    } else {
+                        catId = catList[position].id
+                        cat = catList[position].name
+                        homeviewmodel.getSubCatDetalis(catId)
 
-        }else{
-            binding.chooseSubCategory.hint = Sub
-        }
-        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-        catAdapter = CategoryAdapter(binding.chooseCategory)
-        binding.chooseCategory.setSpinnerAdapter(catAdapter)
-        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
-        catAdapter.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener<ItemCategory>() { oldIndex: Int, oldItem: ItemCategory?, newIndex: Int, newItem: ItemCategory ->
-                cat = newItem.name
+                    }
+
+                }
             }
-        subCategoryAdapter.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item ->
-                Sub = newItem.name
-
+        binding.chooseSubCategory.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (position == 0) {
+                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
+                    }else{
+                        Sub = subCatList[position].name
+                        SubCatId = subCatList[position].id
+                    }
+                }
             }
+//        if(cat.isEmpty()){
+//            binding.chooseCategory.hint = "Choose Category"
+//        }else{
+//            binding.chooseCategory.hint = cat
+//        }
+//        if(Sub.isEmpty()){
+//            binding.chooseSubCategory.hint = "Choose SubCategory"
+//
+//        }else{
+//            binding.chooseSubCategory.hint = Sub
+//        }
+//        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
+//        catAdapter = CategoryAdapter(binding.chooseCategory)
+//        binding.chooseCategory.setSpinnerAdapter(catAdapter)
+//        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
+//        catAdapter.onSpinnerItemSelectedListener =
+//            OnSpinnerItemSelectedListener<DataCategory>() { oldIndex: Int, oldItem: DataCategory?, newIndex: Int, newItem: DataCategory ->
+//                cat = newItem.name
+//                homeviewmodel.getSubCatDetalis(cat)
+//            }
+//        subCategoryAdapter.onSpinnerItemSelectedListener =
+//            OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
+//                Sub = newItem.name
+//
+//            }
 
         binding.applyFilter.setOnClickListener {
             if (name.isEmpty()) {
@@ -200,21 +234,33 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         }
 
         binding.reset.setOnClickListener {
-            binding.chooseCategory.text = ""
-            binding.chooseSubCategory.text = ""
             binding.productName.setText("")
-            binding.chooseCategory.hint="Choose Category"
-            binding.chooseSubCategory.hint="Choose SubCategory"
-            cat=""
-            Sub=""
+            cat = ""
+            Sub = ""
         }
 
         getCategoryReponse()
         dialog.setContentView(binding.root)
         dialog.show()
 
+    }
+
+    fun setSubCatAdapter(chooseSubCategory: Spinner) {
+        val branchListAdapter: ArrayAdapter<Data> =
+            ArrayAdapter<Data>(this, android.R.layout.simple_spinner_item, subCatList)
+        branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        chooseSubCategory.adapter = branchListAdapter
 
     }
+
+    fun setCatAdapter(chooseCategory: Spinner) {
+        val catAdapter: ArrayAdapter<DataCategory> =
+            ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        chooseCategory.adapter = catAdapter
+
+    }
+
 
     private fun getCategoryReponse() {
         lifecycleScope.launch {
@@ -226,8 +272,9 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                     is HomeSealedClasses.Companion.CatogrySealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetAllCategoriesDetails) {
-                            if (it.response.data.items.size > 0) {
-                                catAdapter.setItems(itemList = it.response.data.items)
+                            if (it.response.data.size > 0) {
+                                catList.addAll(it.response.data)
+
 
                             } else {
                                 showCustomAlert(
@@ -235,7 +282,6 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                     binding.root
                                 )
                             }
-
 
                         } else {
                             showCustomAlert(
@@ -268,8 +314,8 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                     is HomeSealedClasses.Companion.SubCatSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetSubCatDataDetails) {
-                            if (it.response.data.items.size > 0) {
-                                subCategoryAdapter.setItems(itemList = it.response.data.items)
+                            if (it.response.data.size > 0) {
+                                subCatList.addAll(it.response.data)
                             } else showCustomAlert(
                                 getString(R.string.sub_category_not_found),
                                 binding.root
@@ -297,6 +343,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
             }
         }
     }
+
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
             homeviewmodel.homeResponseLive.collect {

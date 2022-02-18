@@ -47,9 +47,9 @@ class OrderAdapter(
 
             orderBinding.apply {
                 titleOfOrder.text = items[position].orderNo
-                tvPrice.text = AppConstance.dollar + items[position].totalPrice.toString()
+                tvPrice.text ="Price: "+ AppConstance.dollar + items[position].totalPrice.toString()
                 orderStatus.text = items[position].orderStatus.replace("_"," ")
-                tvDate.text= getFormattedOrderDate(items[position].createdAt)
+                tvDate.text= getFormattedOrderDate("Order Date: "+items[position].createdAt)
                 cardView.setOnClickListener {
                     val intent = Intent(context, OrderDetailActivity::class.java)
                     intent.putExtra("data", items[position])
@@ -57,14 +57,14 @@ class OrderAdapter(
                 }
                 if(items[position].orderStatus=="CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.red_color))
-                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.red_color,1)
+                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.red_color,1)
 
                 }else if(items[position].orderStatus=="PARTIALLY_RETURNED"||items[position].orderStatus=="PARTIALLY_RETURNING"||items[position].orderStatus=="PARTIALLY_CANCELLED"||items[position].orderStatus=="PARTIALLY_CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.blue_color))
-                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.blue_color,1)
+                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.blue_color,1)
                 }else{
                     orderStatus.setTextColor(Color.parseColor(AppConstance.green_color))
-                    orderStatus.roundBorderedView(10,AppConstance.white_color,AppConstance.green_color,1)
+                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.green_color,1)
                 }
 //                orderStatusSpinner.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 //                orderStatusSpinner.adapter=OrderStatusAdapter(context,list){

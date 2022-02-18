@@ -124,7 +124,7 @@ class HomeActivity : BaseActivity() {
                 }
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(applicationContext, "Login fail", Toast.LENGTH_SHORT).show()
+
                 }
             })
         val fingerPromptInfo = BiometricPrompt.PromptInfo.Builder()

@@ -69,7 +69,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <com.skydoves.powerspinner.PowerSpinnerView
+        <Spinner
             android:id="@+id/chooseCategory"
             style="@style/TxtOutlineCustom"
             android:layout_marginHorizontal="@dimen/_20sdp"
@@ -94,7 +94,7 @@
             app:spinner_popup_elevation="14dp" />
 
 
-        <com.skydoves.powerspinner.PowerSpinnerView
+        <Spinner
             android:id="@+id/chooseSubCategory"
             style="@style/TxtOutlineCustom"
             android:layout_marginHorizontal="@dimen/_20sdp"

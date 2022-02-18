@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.actorpay.merchant.di.models.CoroutineContextProvider
 import com.actorpay.merchant.repositories.methods.MethodsRepo
-import com.actorpay.merchant.repositories.retrofitrepository.models.auth.OutletParam
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.ProductPram
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.UpdateStatus
 import com.actorpay.merchant.repositories.retrofitrepository.models.home.ChangePasswordParams
@@ -169,11 +168,11 @@ class HomeViewModel(
     }
 
 
-    fun getSubCatDetalis() {
+    fun getSubCatDetalis(catId: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             subCatLive.value = HomeSealedClasses.Companion.SubCatSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.getSubCatDataDetailsList(token,"0")) {
+                when (val response = apiRepo.getSubCatDataDetailsList(token,catId)) {
                     is RetrofitResource.Error -> subCatLive.value =
                         HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> subCatLive.value =

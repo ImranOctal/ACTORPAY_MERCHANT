@@ -64,15 +64,13 @@ class TaxAdapter(powerSpinnerView: PowerSpinnerView
             newItem = item
         )
     }
-
     override fun getItemCount() = this.spinnerItems.size
 
     class IconSpinnerViewHolder(private val binding: ItemDefaultPowerSpinnerLibraryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: Data, spinnerView: PowerSpinnerView) {
             binding.itemDefaultText.apply {
-                text = item.taxPercentage.toString()
+                text =  item.hsnCode+ "(${item.taxPercentage.toString()+"%"})"
                 gravity = spinnerView.gravity
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerView.textSize)
                 setTextColor(spinnerView.currentTextColor)

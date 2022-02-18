@@ -29,15 +29,10 @@ class ProfileActivity : BaseActivity() {
     private fun initialisation() {
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.my_profile)
-
         clickListeners()
         getProfile()
         apiResponse()
-
-
-
     }
-
     fun apiResponse() {
         lifecycleScope.launch {
             profileViewModel.profileResponseLive.collect {
@@ -96,11 +91,15 @@ class ProfileActivity : BaseActivity() {
         var adminCommission="0"
         var returnFee="0"
         var cancellationFee="0"
+        var returnDays="0"
         profileViewModel.merchantSettingsDTOList.forEach {
             if(it.paramName == "return-fee")
                 returnFee=it.paramValue
             else if(it.paramName == "cancellation-fee")
                 cancellationFee=it.paramValue
+
+            else if(it.paramName == "return-days")
+                returnDays=it.paramValue
             else if(it.paramName == "admin-commission")
                 adminCommission=it.paramValue
         }
@@ -108,6 +107,7 @@ class ProfileActivity : BaseActivity() {
         binding.adminCommission.setText(adminCommission)
         binding.cancellation.setText(cancellationFee)
         binding.returnedt.setText(returnFee)
+        binding.returnedD.setText(returnDays)
 
 
 
@@ -139,14 +139,9 @@ class ProfileActivity : BaseActivity() {
                 isCancelFee=true
         }
         catch (e:Exception){ }
-        if (binding.emailEdit.text.toString().length < 3 || !profileViewModel.methodRepo.isValidEmail(
-                binding.emailEdit.text.toString())) {
+        if (binding.emailEdit.text.toString().length < 3 || !profileViewModel.methodRepo.isValidEmail(binding.emailEdit.text.toString())) {
             binding.errorOnEmail.visibility = View.VISIBLE
-            profileViewModel.methodRepo.setBackGround(
-                this,
-                binding.emailLay,
-                R.drawable.btn_search_outline
-            )
+            profileViewModel.methodRepo.setBackGround(this, binding.emailLay, R.drawable.btn_search_outline)
         }
         else if (binding.businessName.text.toString().trim().isEmpty()) {
             binding.businessName.error = getString(R.string.business_empty)
@@ -243,8 +238,9 @@ class ProfileActivity : BaseActivity() {
         val licenceNumber = binding.shopAct.text.toString().trim()
         val returnFee = binding.returnedt.text.toString().trim()
         val cancellationFee = binding.cancellation.text.toString().trim()
-
+        val returnDays = binding.returnedD.text.toString().trim()
         val merchantSettingsDTOList= mutableListOf<MerchantSettingsDTO>()
+
 
         profileViewModel.merchantSettingsDTOList.forEach {
             if(it.paramName == "return-fee"){
@@ -253,6 +249,11 @@ class ProfileActivity : BaseActivity() {
             }
             else if(it.paramName == "cancellation-fee"){
                 it.paramValue=cancellationFee
+                merchantSettingsDTOList.add(it)
+            }
+
+            else if(it.paramName == "return-days"){
+                it.paramValue=returnDays
                 merchantSettingsDTOList.add(it)
             }
         }
@@ -270,6 +271,9 @@ class ProfileActivity : BaseActivity() {
         }
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
+        }
+        binding.adminCommissionLay.setOnClickListener {
+            showCustomToast("Your are not allowed to change admin commission")
         }
     }
 }

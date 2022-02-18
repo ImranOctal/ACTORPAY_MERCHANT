@@ -172,11 +172,10 @@ interface ApiClient {
     ): Response<GetCurrentTaxDetail>
 
 
+
     @GET(CATEGORIES_URL)
     suspend fun getAllCategoriesDataApi(
         @Header(AUTH) token: String,
-        @Query(AppConstance.PAGE_NO) pageNo: String="0",
-        @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
         @Query(AppConstance.SORT_BY) sortBy: String = "name",
         @Query(AppConstance.ASCECNDING) asc: Boolean = true
     ): Response<GetAllCategoriesDetails>
@@ -185,10 +184,7 @@ interface ApiClient {
     @GET(SUB_CAT_URL)
     suspend fun getSubCategoryList(
         @Header(AUTH) token: String,
-        @Query(AppConstance.PAGE_NO) pageNo: String,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
-        @Query(AppConstance.SORT_BY) sortBy: String = "name",
-        @Query(AppConstance.ASCECNDING) asc: Boolean = true
+        @Query(AppConstance.CATEGORY_ID) categoryId: String,
     ): Response<GetSubCatDataDetails>
 
 

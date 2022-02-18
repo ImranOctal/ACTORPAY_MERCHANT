@@ -4,19 +4,20 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Item
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Data
+
 import com.skydoves.powerspinner.*
 import com.skydoves.powerspinner.databinding.ItemDefaultPowerSpinnerLibraryBinding
 
 class SubCategoryAdapter(powerSpinnerView: PowerSpinnerView
 ) : RecyclerView.Adapter<SubCategoryAdapter.IconSpinnerViewHolder>(),
-    PowerSpinnerInterface<Item> {
+    PowerSpinnerInterface<Data> {
 
     override var index: Int = powerSpinnerView.selectedIndex?:0
     override val spinnerView: PowerSpinnerView = powerSpinnerView
-    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<Item>? = null
+    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<Data>? = null
     private val compoundPadding: Int = 12
-    private var spinnerItems: MutableList<Item> = arrayListOf()
+    private var spinnerItems: MutableList<Data> = arrayListOf()
 
     init {
         this.spinnerView.compoundDrawablePadding = compoundPadding
@@ -45,10 +46,12 @@ class SubCategoryAdapter(powerSpinnerView: PowerSpinnerView
 
     }
 
-    override fun setItems(itemList: List<Item>) {
-        this.spinnerItems.clear()
+    override fun setItems(itemList: List<Data>) {
+         this.spinnerItems.clear()
          this.spinnerItems= itemList.toMutableList()
+
         notifyDataSetChanged()
+
     }
 
     override fun notifyItemSelected(index: Int) {
@@ -70,7 +73,7 @@ class SubCategoryAdapter(powerSpinnerView: PowerSpinnerView
     class IconSpinnerViewHolder(private val binding: ItemDefaultPowerSpinnerLibraryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Item, spinnerView: PowerSpinnerView) {
+        fun bind(item: Data, spinnerView: PowerSpinnerView) {
             binding.itemDefaultText.apply {
                 text = item.name
                 gravity = spinnerView.gravity

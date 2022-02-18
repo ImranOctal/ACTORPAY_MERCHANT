@@ -74,7 +74,7 @@ interface RetrofitRepository {
 
     suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse>
 
-    suspend fun getSubCatDataDetailsList(token: String, pageNo: String): RetrofitResource<GetSubCatDataDetails>
+    suspend fun getSubCatDataDetailsList(token: String, catId: String): RetrofitResource<GetSubCatDataDetails>
 
     suspend fun getById( id: String,token: String,): RetrofitResource<GetUserById>
 

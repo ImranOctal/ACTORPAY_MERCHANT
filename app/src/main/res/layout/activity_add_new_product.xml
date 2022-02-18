@@ -75,7 +75,7 @@
 
                         <!--ChooseProductCategory-->
 
-                        <com.skydoves.powerspinner.PowerSpinnerView
+                        <Spinner
                             android:id="@+id/chooseCategory"
                             style="@style/TxtOutlineCustom"
                             android:gravity="start"
@@ -83,21 +83,53 @@
                             android:paddingVertical="@dimen/_10sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/gray"
-                            android:textSize="14.5sp"
-                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"
-                            app:spinner_arrow_gravity="end"
-                            app:spinner_arrow_padding="1dp"
-                            app:spinner_arrow_show="true"
-                            app:spinner_divider_color="@color/gray"
-                            app:spinner_divider_show="true"
-                            app:spinner_divider_size="0.4dp"
-                            app:spinner_item_array="@array/productCat"
-                            app:spinner_popup_animation="dropdown"
-                            app:spinner_popup_background="@color/white"
-                            app:spinner_popup_elevation="14dp" />
+                            android:textSize="14.5sp" />
 
 
-                        <com.skydoves.powerspinner.PowerSpinnerView
+<!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+<!--                            android:id="@+id/chooseCategory"-->
+<!--                            style="@style/TxtOutlineCustom"-->
+<!--                            android:gravity="start"-->
+<!--                            android:hint="@string/chooseCategory"-->
+<!--                            android:paddingVertical="@dimen/_10sdp"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textColorHint="@color/gray"-->
+<!--                            android:textSize="14.5sp"-->
+<!--                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"-->
+<!--                            app:spinner_arrow_gravity="end"-->
+<!--                            app:spinner_arrow_padding="1dp"-->
+<!--                            app:spinner_arrow_show="true"-->
+<!--                            app:spinner_divider_color="@color/gray"-->
+<!--                            app:spinner_divider_show="true"-->
+<!--                            app:spinner_divider_size="0.4dp"-->
+<!--                            app:spinner_item_array="@array/productCat"-->
+<!--                            app:spinner_popup_animation="dropdown"-->
+<!--                            app:spinner_popup_background="@color/white"-->
+<!--                            app:spinner_popup_elevation="14dp" />-->
+
+
+<!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+<!--                            android:id="@+id/chooseSubCategory"-->
+<!--                            style="@style/TxtOutlineCustom"-->
+<!--                            android:gravity="start"-->
+<!--                            android:hint="@string/chooseSubCategory"-->
+<!--                            android:paddingVertical="@dimen/_10sdp"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textColorHint="@color/gray"-->
+<!--                            android:textSize="14.5sp"-->
+<!--                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"-->
+<!--                            app:spinner_arrow_gravity="end"-->
+<!--                            app:spinner_arrow_padding="8dp"-->
+<!--                            app:spinner_arrow_show="true"-->
+<!--                            app:spinner_divider_color="@color/gray"-->
+<!--                            app:spinner_divider_show="true"-->
+<!--                            app:spinner_divider_size="0.4dp"-->
+<!--                            app:spinner_item_array="@array/productCat"-->
+<!--                            app:spinner_popup_animation="dropdown"-->
+<!--                            app:spinner_popup_background="@color/white"-->
+<!--                            app:spinner_popup_elevation="14dp" />-->
+
+                        <Spinner
                             android:id="@+id/chooseSubCategory"
                             style="@style/TxtOutlineCustom"
                             android:gravity="start"
@@ -105,18 +137,7 @@
                             android:paddingVertical="@dimen/_10sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/gray"
-                            android:textSize="14.5sp"
-                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"
-                            app:spinner_arrow_gravity="end"
-                            app:spinner_arrow_padding="8dp"
-                            app:spinner_arrow_show="true"
-                            app:spinner_divider_color="@color/gray"
-                            app:spinner_divider_show="true"
-                            app:spinner_divider_size="0.4dp"
-                            app:spinner_item_array="@array/productCat"
-                            app:spinner_popup_animation="dropdown"
-                            app:spinner_popup_background="@color/white"
-                            app:spinner_popup_elevation="14dp" />
+                            android:textSize="14.5sp" />
 
                         <TextView
                             android:id="@+id/error_on_subcat"
@@ -216,7 +237,7 @@
                             android:ellipsize="end"
                             android:hint="@string/discription"
                             android:inputType="text"
-                            android:maxLength="500"/>
+                            android:maxLength="500" />
 
                         <TextView
                             android:id="@+id/errorOnDescription"
