@@ -85,8 +85,11 @@ class UpdateProduct : BaseActivity() {
         binding.toolbar.ToolbarTitle.text = getString(R.string.updateProduct)
         binding.toolbar.back.visibility = View.VISIBLE
         homeviewmodel.getProduct(productId)
+        homeviewmodel.getTaxationDetails()
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
+
         taxAdapter = TaxAdapter(binding.taxData)
+
         catAdapter()
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
@@ -142,7 +145,8 @@ class UpdateProduct : BaseActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    SubCatId = subCatList[position].id
+                    if(isCategoryAvailable)
+                     SubCatId = subCatList[position].id
                     if (position == 0) {
 //                   (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
                     }
@@ -319,6 +323,8 @@ class UpdateProduct : BaseActivity() {
                             binding.productNameEdit.setText(it.response.data.name.toString())
                             catId=it.response.data.categoryId
                             SubCatId=it.response.data.subCategoryId
+
+                            taxId=it.response.data.taxId
                             homeviewmodel.getCatogrys()
 
                         }else {
@@ -368,6 +374,7 @@ class UpdateProduct : BaseActivity() {
                                     }
                                 }
 
+
                             } else {
                                 showCustomAlert(
                                     getString(R.string.category_not_found),
@@ -375,6 +382,7 @@ class UpdateProduct : BaseActivity() {
                                 )
                             }
 
+                            homeviewmodel.getSubCatDetalis(catId)
 
                         } else {
                             showCustomAlert(
@@ -406,7 +414,7 @@ class UpdateProduct : BaseActivity() {
                         showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.SubCatSealed.Success -> {
-                        homeviewmodel.getTaxationDetails()
+
                         hideLoadingDialog()
                         if (it.response is GetSubCatDataDetails) {
                             if (it.response.data.size > 0) {
@@ -462,6 +470,14 @@ class UpdateProduct : BaseActivity() {
                             if (it.response.data.size > 0) {
                                 taxList = it.response.data
                                 taxAdapter.setItems(itemList = it.response.data)
+
+                                for ((index, value) in taxList!!.withIndex()) {
+                                    if (value.id == taxId) {
+                                        binding.taxData.selectItemByIndex(index)
+                                        break
+                                    }
+                                }
+
                             } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         } else {
 

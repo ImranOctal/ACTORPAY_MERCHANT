@@ -217,7 +217,7 @@
                                 android:layout_marginTop="@dimen/_14ssp"
                                 android:autofillHints="postalAddress"
                                 android:hint="@string/address_line1"
-
+                                android:focusable="false"
                                 android:inputType="textAutoComplete"
                                 android:singleLine="true" />
 
@@ -236,6 +236,8 @@
                                 android:layout_marginTop="@dimen/_14ssp"
                                 android:autofillHints="postalAddress"
                                 android:hint="@string/address_line2"
+                                android:focusable="false"
+                                android:layout_gravity="center_vertical"
                                 android:inputType="textAutoComplete"
                                 android:singleLine="true" />
 

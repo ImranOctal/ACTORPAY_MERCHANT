@@ -14,7 +14,10 @@ import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.countrypicker.CountryPicker
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -23,6 +26,10 @@ import java.util.*
 class AddOutletActivity : BaseActivity() {
     private lateinit var binding: AddOutletActitvityBinding
     private val addOutletViewModel: AddOutletViewModel by inject()
+
+    var long=0.0
+    var lat=0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.add_outlet_actitvity)
@@ -47,19 +54,18 @@ class AddOutletActivity : BaseActivity() {
         }
         apiResponse()
 
-//        binding.etAddressOne.setOnClickListener {
-//            if (!Places.isInitialized()) {
-//                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
-//            }
-//            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
-//            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-//                .build(this)
-//            startForAddressResult.launch(intent)
-//        }
+        binding.etAddressOne.setOnClickListener {
+            if (!Places.isInitialized()) {
+                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
+            }
+            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .build(this)
+            startForAddressResult.launch(intent)
+        }
     }
 
     private fun validation() {
-
         var isValidate = true
         if (binding.etDescription.text.toString().trim().isEmpty()) {
             binding.etDescription.error = getString(R.string.address_empty)
@@ -157,8 +163,7 @@ class AddOutletActivity : BaseActivity() {
         val city = binding.etCity.text.toString().trim()
         val country = binding.etCountry.text.toString().trim()
         val state = binding.etState.text.toString().trim()
-        val latitude = "23234343"
-        val longitude = "3333333"
+
 
         addOutletViewModel.methodRepo.hideSoftKeypad(this)
         addOutletViewModel.createOutlet(
@@ -174,8 +179,8 @@ class AddOutletActivity : BaseActivity() {
             city,
             country,
             state,
-            latitude,
-            longitude
+            lat.toString(),
+            long.toString()
         )
 
     }
@@ -187,9 +192,9 @@ class AddOutletActivity : BaseActivity() {
                 val place = Autocomplete.getPlaceFromIntent(intent!!)
                 val latLng = place.latLng
                 latLng?.let {
-                    var latitude = it.latitude
-                    var longitude = it.longitude
-                    getAddress(latitude, longitude)
+                      lat = it.latitude
+                      long = it.longitude
+                    getAddress(lat, long)
                 }
             }
         }
@@ -199,7 +204,14 @@ class AddOutletActivity : BaseActivity() {
         val addresses = geocoder.getFromLocation(lat, lng, 1)
         if (addresses.size > 0) {
             val address = addresses[0].getAddressLine(0)
-            val postalCode = addresses[0].postalCode
+            val address2 = addresses[0].featureName
+            binding.etAddressOne.setText(address)
+            binding.etAddressTwo.setText(address2)
+            binding.etZipCode.setText(addresses[0].postalCode)
+            binding.etCity.setText(addresses[0].locality)
+            binding.etState.setText(addresses[0].adminArea)
+            binding.etCountry.setText(addresses[0].countryName)
+
         }
     }
 
