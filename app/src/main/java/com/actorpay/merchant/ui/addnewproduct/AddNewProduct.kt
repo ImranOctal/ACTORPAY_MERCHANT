@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -50,9 +51,7 @@ import java.io.IOException
 
 class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
-    private lateinit var catAdapter: CategoryAdapter
     private lateinit var taxAdapter: TaxAdapter
-    private lateinit var subCategoryAdapter: SubCategoryAdapter
     private val homeviewmodel: HomeViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
@@ -127,41 +126,27 @@ class AddNewProduct : BaseActivity() {
         binding.chooseCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     subCatList.clear()
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
                     if (position == 0) {
-                        (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+
                     } else {
                         catId = catList[position].id
                         homeviewmodel.getSubCatDetalis(catId)
                     }
-
                 }
             }
         binding.chooseSubCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     SubCatId = subCatList[position].id
                     if (position == 0) {
-                        (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+//                   (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
                     }
                 }
             }
@@ -173,7 +158,6 @@ class AddNewProduct : BaseActivity() {
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseSubCategory.adapter = branchListAdapter
     }
-
     private fun catAdapter() {
         val branchListAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(
             this@AddNewProduct,
@@ -185,26 +169,40 @@ class AddNewProduct : BaseActivity() {
     }
 
     fun validate() {
-
         var isValidate = true
-        if (prodImage == null) {
+        if (binding.description.text.toString().trim().isEmpty()) {
+            binding.description.error = getString(R.string.prod_desc_empty)
+            binding.description.requestFocus()
+            isValidate = false
+        }
+        else if (prodImage == null) {
             showCustomToast("Please Select Product Image")
             isValidate = false
         }
-        if (binding.productNameEdit.text.toString().trim().isEmpty()) {
-            binding.productNameEdit.error = getString(R.string.product_empty)
-            binding.productNameEdit.requestFocus()
+
+        else if (binding.quantity.text.toString().trim().toInt() < 1) {
+            binding.quantity.error = getString(R.string.prod_quant_length)
+            binding.quantity.requestFocus()
             isValidate = false
-        } else if (binding.productNameEdit.text.toString().trim().length < 3) {
-            binding.productNameEdit.error = getString(R.string.prod_name_empty)
-            binding.productNameEdit.requestFocus()
+        }
+        if (binding.quantity.text.toString().trim().isEmpty()) {
+            binding.quantity.error = getString(R.string.prod_quant_empty)
+            binding.quantity.requestFocus()
             isValidate = false
 
-        } else if (catId == "") {
-            showCustomToast("Please Select Category")
+        }
+        else if (taxId == "") {
+            showCustomToast("Please Select Tax")
             isValidate = false
-        } else if (SubCatId == "") {
-            showCustomToast("Please Select SubCategory")
+        }
+        else if (binding.dealPrice.text.toString().trim().toFloat() < 1) {
+            binding.dealPrice.error = getString(R.string.deal_price_length)
+            binding.dealPrice.requestFocus()
+            isValidate = false
+        }
+        if (binding.dealPrice.text.toString().trim().isEmpty()) {
+            binding.dealPrice.error = getString(R.string.deal_price_empty)
+            binding.dealPrice.requestFocus()
             isValidate = false
         }
         if (binding.actualPrice.text.toString().trim().isEmpty()) {
@@ -213,38 +211,32 @@ class AddNewProduct : BaseActivity() {
             isValidate = false
 
         }
-        if (binding.actualPrice.text.toString().trim().toFloat() < 1) {
+        else if (binding.actualPrice.text.toString().trim().toFloat() < 1) {
             binding.actualPrice.error = getString(R.string.prod_price_empty)
             binding.actualPrice.requestFocus()
             isValidate = false
         }
-        if (binding.dealPrice.text.toString().trim().isEmpty()) {
-            binding.dealPrice.error = getString(R.string.deal_price_empty)
-            binding.dealPrice.requestFocus()
+
+        else if (binding.productNameEdit.text.toString().trim().length < 3) {
+            binding.productNameEdit.error = getString(R.string.prod_name_empty)
+            binding.productNameEdit.requestFocus()
             isValidate = false
-        } else if (binding.dealPrice.text.toString().trim().toFloat() < 1) {
-            binding.dealPrice.error = getString(R.string.deal_price_length)
-            binding.dealPrice.requestFocus()
+        }
+
+        if (binding.productNameEdit.text.toString().trim().isEmpty()) {
+            binding.productNameEdit.error = getString(R.string.product_empty)
+            binding.productNameEdit.requestFocus()
             isValidate = false
-        } else if (taxId == "") {
+        }
+        else if (catId == "") {
+            showCustomToast("Please Select Category")
+            isValidate = false
+        }
+        else if (SubCatId == "") {
             showCustomToast("Please Select SubCategory")
             isValidate = false
         }
-        if (binding.quantity.text.toString().trim().isEmpty()) {
-            binding.quantity.error = getString(R.string.prod_quant_empty)
-            binding.quantity.requestFocus()
-            isValidate = false
 
-        } else if (binding.quantity.text.toString().trim().toInt() < 1) {
-            binding.quantity.error = getString(R.string.prod_quant_length)
-            binding.quantity.requestFocus()
-            isValidate = false
-        }
-        if (binding.description.text.toString().trim().isEmpty()) {
-            binding.description.error = getString(R.string.prod_desc_empty)
-            binding.description.requestFocus()
-            isValidate = false
-        }
         if (isValidate) {
             lifecycleScope.launch {
                 viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->

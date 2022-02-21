@@ -199,37 +199,72 @@ class CreateSubAdminActivity :  BaseActivity() {
 
 
     private fun validation() {
-        if (binding.firstName.text.isEmpty()) {
-            binding.firstName.error = this.getString(R.string.first_name_empty)
-            binding.firstName.requestFocus()
-
-        } else if (binding.lastName.text.isEmpty()) {
-            binding.lastName.error = this.getString(R.string.last_name_empty)
-            binding.lastName.requestFocus()
-
-        }else if (binding.emailEdit.text.trim().isEmpty()) {
-            binding.emailEdit.error = this.getString(R.string.email_empty)
-            binding.emailEdit.requestFocus()
-
-        } else if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
-            binding.emailEdit.error = this.getString(R.string.invalid_email)
-            binding.emailEdit.requestFocus()
-
-        }  else if (binding.mobileNumber.text.toString().trim().isEmpty()) {
+        var isValidate=true
+        if (binding.etDob.text.toString().trim().isEmpty()) {
+            binding.etDob.error = getString(R.string.dob_empty)
+            binding.etDob.requestFocus()
+            isValidate = false
+        }
+        else  if (gender=="") {
+            showCustomToast(getString(R.string.gender_select))
+            isValidate = false
+        }
+        if (binding.mobileNumber.text.toString().trim().isEmpty()) {
             binding.mobileNumber.error = getString(R.string.phone_empty)
             binding.mobileNumber.requestFocus()
+            isValidate = false
 
         } else if (binding.mobileNumber.text.toString().trim().length < 7) {
             binding.mobileNumber.error = getString(R.string.number_not_correct)
             binding.mobileNumber.requestFocus()
+            isValidate = false
 
         } else if (binding.mobileNumber.text.toString().trim()[0].toString() == "0") {
             binding.mobileNumber.error = getString(R.string.mobile_not_start_with_0)
             binding.mobileNumber.requestFocus()
+            isValidate = false
+        }
 
-        } else {
+
+        else if (binding.etPassword.text.toString().trim().length < 8 || !addSubViewModel.methodRepo.isValidPassword(binding.etPassword.text.toString().trim())) {
+            binding.etPassword.error = this.getString(R.string.oops_your_password_is_not_valid)
+            binding.etPassword.requestFocus()
+            isValidate = false
+        }
+
+        if (binding.etPassword.text.toString().trim().isEmpty()) {
+            binding.etPassword.error = this.getString(R.string.password_empty)
+            binding.etPassword.requestFocus()
+            isValidate = false
+        }
+
+        if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
+            binding.emailEdit.error = this.getString(R.string.invalid_email)
+            binding.emailEdit.requestFocus()
+            isValidate = false
+        }
+
+         if (binding.emailEdit.text.trim().isEmpty()) {
+            binding.emailEdit.error = this.getString(R.string.email_empty)
+            binding.emailEdit.requestFocus()
+             isValidate = false
+        }
+
+         if (binding.lastName.text.isEmpty()) {
+            binding.lastName.error = this.getString(R.string.last_name_empty)
+            binding.lastName.requestFocus()
+             isValidate = false
+        }
+
+        if (binding.firstName.text.isEmpty()) {
+            binding.firstName.error = this.getString(R.string.first_name_empty)
+            binding.firstName.requestFocus()
+            isValidate = false
+        }
+        if(isValidate) {
             addMerchant()
         }
+
     }
 
     private fun addMerchant() {

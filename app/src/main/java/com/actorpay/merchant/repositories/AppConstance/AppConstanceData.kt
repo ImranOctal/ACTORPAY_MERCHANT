@@ -7,4 +7,5 @@ object AppConstanceData {
          val ROOT: String = "root"
          val EDIT: String = "edit"
          val PRODUCT_ID: String = "productId"
+         val CATEGORYID: String = "catId"
 }

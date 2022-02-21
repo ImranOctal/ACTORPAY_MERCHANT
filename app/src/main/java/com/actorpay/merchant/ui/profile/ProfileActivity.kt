@@ -1,8 +1,21 @@
 package com.actorpay.merchant.ui.profile
 
+import android.Manifest
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.net.toFile
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
@@ -11,16 +24,23 @@ import com.actorpay.merchant.databinding.ActivityProfileBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
+import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.bumptech.glide.Glide
+import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.io.File
+import java.io.IOException
 
 class ProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityProfileBinding
     private val profileViewModel: ProfileViewModel by inject()
-
+    private val homeviewmodel: HomeViewModel by inject()
+    var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
+    var prodImage: File? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
@@ -256,6 +276,11 @@ class ProfileActivity : BaseActivity() {
                 it.paramValue=returnDays
                 merchantSettingsDTOList.add(it)
             }
+
+            else if(it.paramName == "admin-commission"){
+//                it.paramValue=returnDays
+                merchantSettingsDTOList.add(it)
+            }
         }
 
         profileViewModel.saveProfile(email, shopAddress, fullAddress, businessName, licenceNumber,merchantSettingsDTOList)
@@ -275,5 +300,97 @@ class ProfileActivity : BaseActivity() {
         binding.adminCommissionLay.setOnClickListener {
             showCustomToast("Your are not allowed to change admin commission")
         }
+
+        binding.imgCamelMDPRDet.setOnClickListener {
+            if (!homeviewmodel.methodRepo.checkPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                permReqLauncher.launch(PERMISSIONS)
+            } else {
+                fetchImage()
+            }
+        }
     }
+
+    private val permReqLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+            if (permission) {
+                fetchImage()
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSIONS)) {
+                    showCustomToast("Permission Denied, Go to setting to give access")
+                } else {
+                    showCustomToast("Permission Denied")
+                }
+            }
+        }
+
+    fun fetchImage() {
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+
+        galleryForResult.launch(galleryIntent)
+    }
+
+    val galleryForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                if (data != null) {
+                    try {
+                        val contentURI = data.data
+                        cropImage(contentURI!!)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+
+                    }
+
+                }
+
+            }
+        }
+    private fun cropImage(sourceUri: Uri) {
+        val destinationUri: Uri = Uri.fromFile(
+            File(getCacheDir(), queryName(getContentResolver(), sourceUri))
+        )
+        val options: UCrop.Options = UCrop.Options();
+        options.setCompressionQuality(80);
+        options.setToolbarColor(ContextCompat.getColor(this, R.color.black));
+        options.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        options.setToolbarWidgetColor(ContextCompat.getColor(this, R.color.white));
+        options.withAspectRatio(1f, 1f);
+        val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
+        val intent = uCrop.getIntent(this)
+        croporResult.launch(intent)
+    }
+
+    private fun queryName(resolver: ContentResolver, uri: Uri): String {
+        val returnCursor: Cursor? = resolver.query(uri, null, null, null, null)
+        returnCursor.let {
+            val nameIndex: Int = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            val name: String = returnCursor.getString(nameIndex);
+            returnCursor.close();
+            return name;
+        }
+    }
+    val croporResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                if (data != null) {
+                    val resultUri = UCrop.getOutput(data)
+                    prodImage = resultUri?.toFile()
+                    Glide.with(this).load(resultUri).error(R.drawable.demo).into(binding.imgCamelMDPRDet)
+//                val bitmap = (mBinding.profilePic.getDrawable() as BitmapDrawable).bitmap
+//                val file = UtilityHelper.createFile(this, bitmap)
+
+                }
+            }
+        }
 }

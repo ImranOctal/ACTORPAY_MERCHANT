@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -24,6 +23,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.ui.commission.CommissionActivity
 import com.actorpay.merchant.ui.disputes.DisputeActivity
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
 import com.actorpay.merchant.ui.manageProduct.ManageProductActivity
@@ -32,6 +32,7 @@ import com.actorpay.merchant.ui.outlet.OutletActivity
 import com.actorpay.merchant.ui.payroll.PayRollActivity
 import com.actorpay.merchant.ui.profile.ProfileActivity
 import com.actorpay.merchant.ui.roles.RolesActivity
+import com.actorpay.merchant.ui.setting.SettingActivity
 import com.actorpay.merchant.ui.subAdmin.SubMerchantActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
@@ -44,16 +45,12 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREE
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_REPORTS
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
-import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
-import com.actorpay.merchant.ui.setting.SettingActivity
-
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.util.*
 import java.util.concurrent.Executor
 
 class HomeActivity : BaseActivity() {
@@ -200,6 +197,57 @@ class HomeActivity : BaseActivity() {
         }
     }
     private fun clickListeners() {
+
+        binding.cvRole.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), RolesActivity::class.java))
+        }
+
+        binding.cvProduct.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), ManageProductActivity::class.java))
+        }
+
+        binding.cvOrder.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
+        }
+
+        binding.cvSubMerchant.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), SubMerchantActivity::class.java))
+        }
+
+   binding.cvReport.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), PayRollActivity::class.java))
+        }
+        binding.cvOutlet.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), OutletActivity::class.java))
+        }
+
+        binding.cvEarnMoney.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), CommissionActivity::class.java))
+        }
+
+
+
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
         }

@@ -82,6 +82,7 @@
     <string name="error_phone">Oops! Your Phone is Not Correct or Empty</string>
     <string name="number_not_correct">Oops! Your Phone Number is Not Correct</string>
     <string name="phone_empty">Oops! Your Phone Number Empty</string>
+
     <string name="mobile_not_start_with_0">Mobile No. should not start with 0</string>
     <string name="not_empty">Description is empty</string>
     <string name="productName">Product Name</string>
@@ -140,6 +141,7 @@
     <string name="log_out">Log Out</string>
     <string name="press_back_again">Press back again</string>
     <string name="terms_of_use">Terms of use</string>
+    <string name="gender_select">Please Select Gender</string>
     <string name="add_note_description">Add Note Description</string>
     <string name="agree_our_terms_and_condition">Please agree to our terms to sign up</string>
     <string name="agree_our_terms_and_condition_login">Please agree to our terms to login</string>
@@ -147,7 +149,7 @@
     <string name="merchant_detail">Merchant Detail</string>
     <string name="tax_detail_is_not_be_empty">Tax Detail is not be empty</string>
     <string name="enter_taxation">Enter Taxation</string>
-    <string name="no_product_data_found">No Product Found</string>
+    <string name="no_product_data_found">No Product Found.</string>
     <string name="category_not_found">Categories Not Found Please try again</string>
     <string name="sub_category_not_found">SubCategories Not Found Please try again</string>
     <string name="tax_not_found">Tax details Not Found Please try again</string>
@@ -186,7 +188,7 @@
     <string name="date">Date</string>
     <string name="contact">Contact</string>
     <string name="no_data_found">No Data Found</string>
-    <string name="no_sub_merchant_found">No Sub Merchant Found</string>
+    <string name="no_sub_merchant_found">No Sub Merchant Found.</string>
     <string name="dob">DOB</string>
     <string name="my_commission">My Commission</string>
     <string name="add_roll">Add Role</string>
@@ -202,6 +204,8 @@
 
 
     <string name="dispute_details">Dispute Details</string>
+    <string name="earn_money">Earn Money</string>
+    <string name="role">Role</string>
     >
 
     <string-array name="status_array">

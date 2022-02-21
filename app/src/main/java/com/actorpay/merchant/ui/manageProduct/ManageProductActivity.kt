@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,6 +58,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     var Sub = ""
     var catId = ""
     var SubCatId = ""
+
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
     private lateinit var subCategoryAdapter: SubCategoryAdapter
@@ -150,12 +150,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     private fun productFilterBottomSheet() {
-        val binding: DialogProductFilterBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(this),
-            R.layout.dialog_product_filter,
-            null,
-            false
-        )
+        val binding: DialogProductFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_product_filter, null, false)
         val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
         binding.productName.setText(name)
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
@@ -171,8 +166,9 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter(binding.chooseSubCategory)
                     if (position == 0) {
-                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
+//                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
                     } else {
+
                         catId = catList[position].id
                         cat = catList[position].name
                         homeviewmodel.getSubCatDetalis(catId)
@@ -187,7 +183,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (position == 0) {
-                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
+//                        (view as TextView).setTextColor(this@ManageProductActivity.resources.getColor(R.color.light_grey))
                     }else{
                         Sub = subCatList[position].name
                         SubCatId = subCatList[position].id
@@ -246,16 +242,17 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     fun setSubCatAdapter(chooseSubCategory: Spinner) {
-        val branchListAdapter: ArrayAdapter<Data> =
-            ArrayAdapter<Data>(this, android.R.layout.simple_spinner_item, subCatList)
-        branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        chooseSubCategory.adapter = branchListAdapter
+        val catAdapter: ArrayAdapter<Data> = ArrayAdapter<Data>(this, android.R.layout.simple_spinner_item, subCatList)
+
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        chooseSubCategory.adapter = catAdapter
+
+
 
     }
 
     fun setCatAdapter(chooseCategory: Spinner) {
-        val catAdapter: ArrayAdapter<DataCategory> =
-            ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
+        val catAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         chooseCategory.adapter = catAdapter
 
@@ -430,17 +427,15 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                     when (data) {
                                         AppConstanceData.EDIT -> {
                                             val i = Intent(baseContext(), UpdateProduct::class.java)
-                                            i.putExtra(
-                                                AppConstanceData.PRODUCT_ID,
-                                                productListData[position].productId
-                                            )
+                                            i.putExtra(AppConstanceData.PRODUCT_ID, productListData[position].productId,)
+                                            i.putExtra(AppConstanceData.CATEGORYID, productListData[position].categoryId,)
                                             startActivityForResult(i, 102)
                                         }
                                         AppConstanceData.DELETE -> {
                                             CommonDialogsUtils.showCommonDialog(this@ManageProductActivity,
                                                 homeviewmodel.methodRepo,
                                                 "Delete",
-                                                "Are you sure you want to delete",
+                                                "Are you sure you want to delete?",
                                                 autoCancelable = false,
                                                 isCancelAvailable = true,
                                                 isOKAvailable = true,

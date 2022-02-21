@@ -46,15 +46,8 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
         }
     }
 
-    fun saveProfile(
-        email: String,
-        shopAddress: String,
-        fullAddress: String,
-        businessName: String,
-        licenceNumber: String,
-        merchantSettingsDTO: MutableList<MerchantSettingsDTO>
-    ) {
 
+    fun saveProfile(email: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String, merchantSettingsDTO: MutableList<MerchantSettingsDTO>) {
         viewModelScope.launch(dispatcherProvider.IO) {
             profileResponseLive.value = HomeSealedClasses.Companion.ResponseSealed.loading()
             methodRepo.dataStore.getAccessToken().collect { token ->

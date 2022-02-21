@@ -69,7 +69,7 @@ class OutletActivity : BaseActivity() {
                                         CommonDialogsUtils.showCommonDialog(this@OutletActivity,
                                             outletViewModel.methodRepo,
                                             "Delete",
-                                            "Are you sure you want to delete",
+                                            "Are you sure you want to delete?",
                                             autoCancelable = false,
                                             isCancelAvailable = true,
                                             isOKAvailable = true,

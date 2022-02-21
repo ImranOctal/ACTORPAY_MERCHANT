@@ -114,8 +114,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@string/no_product_data_found"
                 android:textSize="@dimen/_13sdp"
-
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
          />

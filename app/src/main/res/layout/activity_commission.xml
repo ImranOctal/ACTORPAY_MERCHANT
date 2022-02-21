@@ -80,9 +80,11 @@
             android:id="@+id/emptyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:visibility="gone"
-            android:text="No Commission Available"
+            android:textSize="@dimen/_13sdp"
+            android:text="No Commission Available."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

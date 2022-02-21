@@ -12,6 +12,8 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -60,10 +62,15 @@ class UpdateProduct : BaseActivity() {
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
     var taxId: String = ""
-    var catId = ""
-    var SubCatId = ""
+
     var productId = ""
     var isSelect = ""
+    var catId = ""
+    var SubCatId = ""
+    var catList: MutableList<DataCategory> = ArrayList()
+    var subCatList: MutableList<Data> = ArrayList()
+
+    var isCategoryAvailable=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,28 +84,17 @@ class UpdateProduct : BaseActivity() {
         binding.toolbar.back.visibility = View.VISIBLE
         binding.toolbar.ToolbarTitle.text = getString(R.string.updateProduct)
         binding.toolbar.back.visibility = View.VISIBLE
-        homeviewmodel.getCatogrys()
-//        catAdapter = CategoryAdapter(binding.chooseCategory)
+        homeviewmodel.getProduct(productId)
+        catList.add(DataCategory("", "", "", "", "Please select Category", false))
         taxAdapter = TaxAdapter(binding.taxData)
-//        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-//        catAdapter.onSpinnerItemSelectedListener =
-//            OnSpinnerItemSelectedListener<DataCategory> { oldIndex: Int, oldItem: DataCategory?, newIndex: Int, newItem: DataCategory ->
-//                catId = newItem.id
-//                homeviewmodel.getSubCatDetalis(catId)
-//            }
+        catAdapter()
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data> { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
                 taxId = newItem.id
+
             }
-//        subCategoryAdapter.onSpinnerItemSelectedListener =
-//            OnSpinnerItemSelectedListener<Data> { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
-//                SubCatId = newItem.id
-//            }
 
-//        binding.chooseCategory.setSpinnerAdapter(catAdapter)
         binding.taxData.setSpinnerAdapter(taxAdapter)
-//        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
-
         ClickListners()
         apiResponse()
     }
@@ -123,6 +119,35 @@ class UpdateProduct : BaseActivity() {
                 fetchImage()
             }
         }
+
+        binding.chooseCategory.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    subCatList.clear()
+                    subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
+                    setSubCatAdapter()
+                    if(isCategoryAvailable)
+                    if (position == 0) {
+
+                    } else {
+                        catId = catList[position].id
+                        homeviewmodel.getSubCatDetalis(catId)
+                    }
+                }
+            }
+        binding.chooseSubCategory.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    SubCatId = subCatList[position].id
+                    if (position == 0) {
+//                   (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+                    }
+                }
+            }
     }
 
     fun validate() {
@@ -282,53 +307,21 @@ class UpdateProduct : BaseActivity() {
                         showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.ResponseGetProductSealed.Success -> {
+                        homeviewmodel.getTaxationDetails()
                         hideLoadingDialog()
                         if (it.response is GetProductDataById) {
                             response = it.response
-                            Glide.with(binding.root).load(it.response.data.image)
-                                .placeholder(R.drawable.demo).into(binding.image)
+                            Glide.with(binding.root).load(it.response.data.image).placeholder(R.drawable.demo).into(binding.image)
                             binding.actualPrice.setText(it.response.data.actualPrice.toString())
                             binding.dealPrice.setText(it.response.data.dealPrice.toString())
                             binding.description.setText(it.response.data.description.toString())
                             binding.quantity.setText(it.response.data.stockCount.toString())
                             binding.productNameEdit.setText(it.response.data.name.toString())
+                            catId=it.response.data.categoryId
+                            SubCatId=it.response.data.subCategoryId
+                            homeviewmodel.getCatogrys()
 
-
-                            if (categoryList != null && categoryList!!.size > 0) {
-                                Log.d(
-                                    "Update Product:  ",
-                                    "apiResponse: ${categoryList!!.toString()}"
-                                )
-                                for ((index, value) in categoryList!!.withIndex()) {
-                                    if (value.id == it.response.data.categoryId) {
-                                        Log.d("Update Product:  ", "value: ${index}")
-//                                        binding.chooseCategory.selectItemByIndex(index)
-                                        catId = value.id
-                                        break
-                                    }
-                                }
-                            }
-
-                            if (subCategoryList != null && subCategoryList!!.size > 0) {
-                                for ((index, value) in subCategoryList!!.withIndex()) {
-                                    if (value.id.equals(it.response.data.subCategoryId)) {
-//                                        binding.chooseSubCategory.selectItemByIndex(index)
-                                        SubCatId = value.id
-                                        break
-                                    }
-                                }
-                            }
-                            if (taxList != null && taxList!!.size > 0) {
-                                for ((index, value) in taxList!!.withIndex()) {
-                                    if (value.id == it.response.data.taxId) {
-                                        binding.taxData.selectItemByIndex(index)
-                                        taxId = value.id
-                                        break
-                                    }
-                                }
-                            }
-
-                        } else {
+                        }else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root
@@ -350,9 +343,9 @@ class UpdateProduct : BaseActivity() {
                         hideLoadingDialog()
                     }
                 }
-
             }
         }
+
         //Category Loded
         lifecycleScope.launch {
             homeviewmodel.CatogryLive.collect {
@@ -361,13 +354,20 @@ class UpdateProduct : BaseActivity() {
                         showLoadingDialog()
                     }
                     is HomeSealedClasses.Companion.CatogrySealed.Success -> {
+
                         hideLoadingDialog()
 //                        homeviewmodel.getSubCatDetalis(catId)
                         if (it.response is GetAllCategoriesDetails) {
-                            if (it.response.data.size > 0) {
-                                categoryList = it.response.data
-                                Log.d("Update Product:  ", "cat")
-                                catAdapter.setItems(itemList = it.response.data)
+                            if (it.response.data.isNotEmpty()) {
+                                 catList.addAll(it.response.data)
+                                 catAdapter()
+                                for ((index, value) in catList.withIndex()) {
+                                    if (value.id == catId) {
+                                        binding.chooseCategory.setSelection(index)
+                                        break
+                                    }
+                                }
+
                             } else {
                                 showCustomAlert(
                                     getString(R.string.category_not_found),
@@ -410,8 +410,20 @@ class UpdateProduct : BaseActivity() {
                         hideLoadingDialog()
                         if (it.response is GetSubCatDataDetails) {
                             if (it.response.data.size > 0) {
-                                subCategoryList = it.response.data
-                                subCategoryAdapter.setItems(itemList = it.response.data)
+                                subCatList.addAll(it.response.data)
+                                setSubCatAdapter()
+                                for ((index, value) in subCatList.withIndex()) {
+                                    Log.d("Update Product:  ", "value: ${value.id}}")
+                                    Log.d("Update Product:  ", "subCatId: ${SubCatId}")
+                                    if (value.id == SubCatId) {
+                                        Log.d("Update Product:  ", "2 value: ${value.id}}")
+                                        Log.d("Update Product:  ", "2 subCatId: ${SubCatId}")
+                                        binding.chooseSubCategory.setSelection(index)
+                                        break
+                                    }
+                                }
+                                isCategoryAvailable=true
+
                             } else showCustomAlert(
                                 getString(R.string.sub_category_not_found),
                                 binding.root
@@ -449,7 +461,6 @@ class UpdateProduct : BaseActivity() {
                         if (it.response is GetCurrentTaxDetail) {
                             if (it.response.data.size > 0) {
                                 taxList = it.response.data
-                                homeviewmodel.getProduct(productId)
                                 taxAdapter.setItems(itemList = it.response.data)
                             } else showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         } else {
@@ -485,9 +496,7 @@ class UpdateProduct : BaseActivity() {
                         if (it.response is ProductResponse) {
                             setResult(Activity.RESULT_OK)
                             finish()
-
                         }
-
 
                     }
                     is HomeSealedClasses.Companion.ResponseEditProductSealed.ErrorOnResponse -> {
@@ -502,4 +511,17 @@ class UpdateProduct : BaseActivity() {
             }
         }
     }
+
+    private fun setSubCatAdapter() {
+        val subCatAdapter: ArrayAdapter<Data> =
+            ArrayAdapter<Data>(this, android.R.layout.simple_spinner_item, subCatList)
+        subCatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.chooseSubCategory.adapter = subCatAdapter
+    }
+    private fun catAdapter() {
+        val catAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.chooseCategory.adapter = catAdapter
+    }
+
 }

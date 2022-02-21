@@ -118,7 +118,9 @@ class ManageOrderActivity : BaseActivity() {
         }
        val array = this.resources.getStringArray(R.array.status_array).toMutableList()
         if (array.contains(orderStatus.replace("_"," "))) {
-            val pos = array.indexOfFirst { it.equals(orderStatus.replace("_"," ")) }
+            val pos = array.indexOfFirst {
+                it.equals(orderStatus.replace("_"," "))
+            }
             binding.spinnerStatus.setSelection(pos)
         }
         binding.cancel.setOnClickListener {

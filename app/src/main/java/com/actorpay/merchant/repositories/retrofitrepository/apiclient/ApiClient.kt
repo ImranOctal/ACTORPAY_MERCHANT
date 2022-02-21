@@ -166,7 +166,6 @@ interface ApiClient {
     @GET(TAX_URL)
     suspend fun getAllTaxDataApi(
         @Header(AUTH) token: String,
-        @Query(AppConstance.SORT_BY) sortBy: String = "hsnCode",
         @Query(AppConstance.ASCECNDING) asc: Boolean = true,
         @Query(AppConstance.isActive) isActive: Boolean = true
     ): Response<GetCurrentTaxDetail>

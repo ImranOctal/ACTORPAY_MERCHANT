@@ -42,7 +42,6 @@ class CommissionActivity : BaseActivity() {
         apiResponse()
         setAdapter()
 
-
     }
 
     private fun setAdapter() {
@@ -81,7 +80,7 @@ class CommissionActivity : BaseActivity() {
                         hideLoadingDialog()
                         if (action.failResponse!!.code == 403) {
                             forcelogout(commissionViewModel.methodRepo)
-                        }else{
+                        } else {
                             showCustomAlert(action.failResponse.message, binding.root)
                         }
                     }
@@ -90,6 +89,7 @@ class CommissionActivity : BaseActivity() {
             }
         }
     }
+
     private fun filterBottomsheet() {
         val binding: DialogCommissionFilterBinding = DataBindingUtil.inflate(
             LayoutInflater.from(this),
@@ -117,7 +117,7 @@ class CommissionActivity : BaseActivity() {
             binding.spinnerStatus.adapter = adapter
         }
 
-        binding.spinnerStatus.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+        binding.spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -128,8 +128,13 @@ class CommissionActivity : BaseActivity() {
                 id: Long
             ) {
 
-                if(position==0){
-                    (view as TextView).setTextColor(ContextCompat.getColor(this@CommissionActivity,R.color.gray))
+                if (position == 0) {
+                    (view as TextView).setTextColor(
+                        ContextCompat.getColor(
+                            this@CommissionActivity,
+                            R.color.gray
+                        )
+                    )
                 }
             }
         }
@@ -146,28 +151,47 @@ class CommissionActivity : BaseActivity() {
         }
 
 
-        binding.spinnerSettlement.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                if(position==0){
-                    (view as TextView).setTextColor(ContextCompat.getColor(this@CommissionActivity,R.color.gray))
+        binding.spinnerSettlement.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-            }
 
-        }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    if (position == 0) {
+                        (view as TextView).setTextColor(
+                            ContextCompat.getColor(
+                                this@CommissionActivity,
+                                R.color.gray
+                            )
+                        )
+                    }
+                }
+
+            }
 
         val status_array = this.resources.getStringArray(R.array.status_array).toMutableList()
-        if (status_array.contains(commissionViewModel.commissionParams.orderStatus.replace("_"," "))) {
+        if (status_array.contains(
+                commissionViewModel.commissionParams.orderStatus.replace(
+                    "_",
+                    " "
+                )
+            )
+        ) {
             val pos =
-                status_array.indexOfFirst { it.equals(commissionViewModel.commissionParams.orderStatus.replace("_"," ")) }
+                status_array.indexOfFirst {
+                    it.equals(
+                        commissionViewModel.commissionParams.orderStatus.replace(
+                            "_",
+                            " "
+                        )
+                    )
+                }
             binding.spinnerStatus.setSelection(pos)
         }
 
@@ -184,10 +208,14 @@ class CommissionActivity : BaseActivity() {
         binding.applyFilter.setOnClickListener {
             commissionViewModel.commissionParams.orderNo = binding.orderNumber.text.toString()
             commissionViewModel.commissionParams.merchantName = binding.merchantName.text.toString()
-            commissionViewModel.commissionParams.merchantEarningsRangeFrom = binding.merchantEarningFrom.text.toString()
-            commissionViewModel.commissionParams.merchantEarningsRangeTo = binding.merchantEarningTo.text.toString()
-            commissionViewModel.commissionParams.actorCommissionAmtRangeFrom = binding.merchantCommissionFrom.text.toString()
-            commissionViewModel.commissionParams.actorCommissionAmtRangeTo = binding.merchantCommissionTo.text.toString()
+            commissionViewModel.commissionParams.merchantEarningsRangeFrom =
+                binding.merchantEarningFrom.text.toString()
+            commissionViewModel.commissionParams.merchantEarningsRangeTo =
+                binding.merchantEarningTo.text.toString()
+            commissionViewModel.commissionParams.actorCommissionAmtRangeFrom =
+                binding.merchantCommissionFrom.text.toString()
+            commissionViewModel.commissionParams.actorCommissionAmtRangeTo =
+                binding.merchantCommissionTo.text.toString()
             commissionViewModel.commissionParams.startDate = binding.startDate.text.toString()
             commissionViewModel.commissionParams.endDate = binding.endDate.text.toString()
             val statusPosition = binding.spinnerStatus.selectedItemPosition
@@ -204,7 +232,7 @@ class CommissionActivity : BaseActivity() {
 
             commissionViewModel.commissionParams.orderStatus = status
             commissionViewModel.commissionParams.settlementStatus = settlement
-            commissionViewModel.pageNo=0
+            commissionViewModel.pageNo = 0
             commissionViewModel.getAllCommissions()
 
             dialog.dismiss()

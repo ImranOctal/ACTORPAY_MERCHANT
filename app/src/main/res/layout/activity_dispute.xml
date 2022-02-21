@@ -86,10 +86,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="No Dispute Available"
-            android:textSize="@dimen/_12sdp"
+            android:text="No Dispute Available."
+            android:textSize="@dimen/_13sdp"
             android:textColor="@color/black"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_medium"
             android:visibility="gone"
             />
 

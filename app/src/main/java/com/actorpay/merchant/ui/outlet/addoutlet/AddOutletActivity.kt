@@ -14,10 +14,7 @@ import com.actorpay.merchant.ui.outlet.response.AddOutletResponse
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.countrypicker.CountryPicker
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -62,59 +59,88 @@ class AddOutletActivity : BaseActivity() {
     }
 
     private fun validation() {
-        if (binding.etTitle.text.isEmpty()) {
-            binding.etTitle.error = this.getString(R.string.title_empty)
-            binding.etTitle.requestFocus()
 
-        } else if (binding.etResourceType.text.isEmpty()) {
-            binding.etResourceType.error = this.getString(R.string.resource_empty)
-            binding.etResourceType.requestFocus()
-        } else if (binding.etLicenceNo.text.isEmpty()) {
-            binding.etLicenceNo.error = this.getString(R.string.licence_empty)
-            binding.etLicenceNo.requestFocus()
-        } else if (binding.mobileNumber.text.toString().trim().isEmpty()) {
-            binding.mobileNumber.error = getString(R.string.phone_empty)
-            binding.mobileNumber.requestFocus()
+        var isValidate = true
+        if (binding.etDescription.text.toString().trim().isEmpty()) {
+            binding.etDescription.error = getString(R.string.address_empty)
+            binding.etDescription.requestFocus()
+            isValidate = false
+        }
+        if (binding.etCountry.text.toString().trim().isEmpty()) {
+            binding.etCountry.error = getString(R.string.country_empty)
+            binding.etCountry.requestFocus()
+            isValidate = false
 
-        } else if (binding.mobileNumber.text.toString().trim().length < 7) {
-            binding.mobileNumber.error = getString(R.string.number_not_correct)
-            binding.mobileNumber.requestFocus()
+        }
+        if (binding.etState.text.toString().trim().isEmpty()) {
+            binding.etState.error = getString(R.string.state_empty)
+            binding.etState.requestFocus()
 
+            isValidate = false
+        }
+
+        if (binding.etCity.text.toString().trim().isEmpty()) {
+            binding.etCity.error = getString(R.string.city_empty)
+            binding.etCity.requestFocus()
+            isValidate = false
+
+        }
+        if (binding.etZipCode.text.toString().trim().isEmpty()) {
+            binding.etZipCode.error = getString(R.string.zip_code_empty)
+            binding.etZipCode.requestFocus()
+            isValidate = false
+
+        }
+
+        if (binding.etAddressTwo.text.toString().trim().isEmpty()) {
+            binding.etAddressTwo.error = getString(R.string.address_empty)
+            binding.etAddressTwo.requestFocus()
+            isValidate = false
+
+        }
+        if (binding.etAddressOne.text.toString().trim().isEmpty()) {
+            binding.etAddressOne.error = getString(R.string.address_empty)
+            binding.etAddressOne.requestFocus()
+            isValidate = false
 
         } else if (binding.mobileNumber.text.toString().trim()[0].toString() == "0") {
             binding.mobileNumber.error = getString(R.string.mobile_not_start_with_0)
             binding.mobileNumber.requestFocus()
+            isValidate = false
 
-        } else if (binding.etAddressOne .text.toString().trim().isEmpty()) {
-            binding.etAddressOne.error = getString(R.string.address_empty)
-            binding.etAddressOne.requestFocus()
+        } else if (binding.mobileNumber.text.toString().trim().length < 7) {
+            binding.mobileNumber.error = getString(R.string.number_not_correct)
+            binding.mobileNumber.requestFocus()
+            isValidate = false
 
-        } else if (binding.etAddressTwo.text.toString().trim().isEmpty()) {
-            binding.etAddressTwo.error = getString(R.string.address_empty)
-            binding.etAddressTwo.requestFocus()
 
-        } else if (binding.etZipCode.text.toString().trim().isEmpty()) {
-            binding.etZipCode.error = getString(R.string.zip_code_empty)
-            binding.etZipCode.requestFocus()
+        }
+        if (binding.mobileNumber.text.toString().trim().isEmpty()) {
+            binding.mobileNumber.error = getString(R.string.phone_empty)
+            binding.mobileNumber.requestFocus()
+            isValidate = false
 
-        } else if (binding.etCity.text.toString().trim().isEmpty()) {
-            binding.etCity.error = getString(R.string.city_empty)
-            binding.etCity.requestFocus()
+        }
+        if (binding.etLicenceNo.text.isEmpty()) {
+            binding.etLicenceNo.error = this.getString(R.string.licence_empty)
+            binding.etLicenceNo.requestFocus()
+            isValidate = false
+        }
 
-        } else if (binding.etState.text.toString().trim().isEmpty()) {
-            binding.etState.error = getString(R.string.state_empty)
-            binding.etState.requestFocus()
-
-        } else if (binding.etCountry.text.toString().trim().isEmpty()) {
-            binding.etCountry.error = getString(R.string.country_empty)
-            binding.etCountry.requestFocus()
-
-        } else if (binding.etDescription.text.toString().trim().isEmpty()) {
-            binding.etDescription.error = getString(R.string.address_empty)
-            binding.etDescription.requestFocus()
-        } else {
+        if (binding.etResourceType.text.isEmpty()) {
+            binding.etResourceType.error = this.getString(R.string.resource_empty)
+            binding.etResourceType.requestFocus()
+            isValidate = false
+        }
+        if (binding.etTitle.text.isEmpty()) {
+            binding.etTitle.error = this.getString(R.string.title_empty)
+            binding.etTitle.requestFocus()
+            isValidate = false
+        }
+        if (isValidate) {
             createOutlet()
         }
+
     }
 
     private fun createOutlet() {
@@ -135,11 +161,27 @@ class AddOutletActivity : BaseActivity() {
         val longitude = "3333333"
 
         addOutletViewModel.methodRepo.hideSoftKeypad(this)
-        addOutletViewModel.createOutlet(resourceType, licenceNumber, title, description, extensionNumber, addressLine1, addressLine2, contactNumber, zipCode, city, country, state, latitude, longitude)
+        addOutletViewModel.createOutlet(
+            resourceType,
+            licenceNumber,
+            title,
+            description,
+            extensionNumber,
+            addressLine1,
+            addressLine2,
+            contactNumber,
+            zipCode,
+            city,
+            country,
+            state,
+            latitude,
+            longitude
+        )
 
     }
 
-    private val startForAddressResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+    private val startForAddressResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
                 val place = Autocomplete.getPlaceFromIntent(intent!!)

@@ -13,8 +13,10 @@ import com.octal.actorpay.repositories.AppConstance.AppConstance
 import android.app.Activity
 import android.graphics.Color
 import android.view.RoundedCorner
+import android.view.View
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.utils.roundBorderedView
+import com.bumptech.glide.Glide
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -32,7 +34,6 @@ class OrderAdapter(
         val orderBinding = ManageOrderLayoutItemBinding.bind(view)
         return ItemHolder(orderBinding)
     }
-
     override fun getItemCount(): Int {
         return items.size
     }
@@ -66,6 +67,35 @@ class OrderAdapter(
                     orderStatus.setTextColor(Color.parseColor(AppConstance.green_color))
                     orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.green_color,1)
                 }
+
+                if(items[position].orderItemDtos.size>3){
+                    productImage1.visibility=View.VISIBLE
+                    productImage2.visibility=View.VISIBLE
+                    productImage3.visibility= View.VISIBLE
+                    productImage4.visibility=View.VISIBLE
+
+                }
+                else if(items[position].orderItemDtos.size>2){
+                   productImage1.visibility=View.VISIBLE
+                    productImage2.visibility=View.VISIBLE
+                    productImage3.visibility=View.VISIBLE
+                }
+                else if(items[position].orderItemDtos.size>1){
+                    productImage1.visibility=View.VISIBLE
+                    productImage2.visibility=View.VISIBLE
+                }
+                else if(items[position].orderItemDtos.isNotEmpty()){
+                    productImage1.visibility=View.VISIBLE
+                }
+                try {
+                    Glide.with(root).load(items[position].orderItemDtos[0].image).error(R.drawable.logo).into(productImage1)
+                    Glide.with(root).load(items[position].orderItemDtos[1].image).error(R.drawable.logo).into(productImage2)
+                    Glide.with(root).load(items[position].orderItemDtos[2].image).error(R.drawable.logo).into(productImage3)
+                    Glide.with(root).load(items[position].orderItemDtos[3].image).error(R.drawable.logo).into(productImage4)
+                }
+                catch (e:Exception){
+                }
+
 //                orderStatusSpinner.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 //                orderStatusSpinner.adapter=OrderStatusAdapter(context,list){
 //                    pos,status ->

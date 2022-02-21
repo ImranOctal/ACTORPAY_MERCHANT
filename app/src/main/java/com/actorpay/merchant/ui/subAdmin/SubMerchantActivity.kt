@@ -81,7 +81,7 @@ class SubMerchantActivity : BaseActivity() {
                 var ids = mutableListOf<String>()
                 ids.add(items[pos].id)
                 CommonDialogsUtils.showCommonDialog(this,
-                    SubviewModel.methodRepo, "Delete", "Are you sure you want to delete",
+                    SubviewModel.methodRepo, "Delete", "Are you sure you want to delete?",
                     autoCancelable = false,
                     isCancelAvailable = true,
                     isOKAvailable = true,
