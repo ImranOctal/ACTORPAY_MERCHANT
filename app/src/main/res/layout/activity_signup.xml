@@ -214,6 +214,7 @@
                                     style="@style/TxtOutlineCustom"
                                     android:autofillHints="postalAddress"
                                     android:hint="@string/address"
+                                    android:focusable="false"
                                     android:inputType="textAutoComplete"
                                     android:singleLine="true" />
 

@@ -2,7 +2,7 @@ package com.actorpay.merchant.utils
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.CountryItem
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.screens.ScreenItem
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 
 object GlobalData {
     val allCountries= mutableListOf<CountryItem>()

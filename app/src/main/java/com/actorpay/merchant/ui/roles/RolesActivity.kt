@@ -75,8 +75,7 @@ class RolesActivity : BaseActivity() {
     }
     fun apiResponse(){
         lifecycleScope.launch {
-            rolesViewModel.responseLive.collect {
-                    event->
+            rolesViewModel.responseLive.collect { event->
                 when (event) {
                     is ResponseSealed.Loading -> {
                         showLoadingDialog()

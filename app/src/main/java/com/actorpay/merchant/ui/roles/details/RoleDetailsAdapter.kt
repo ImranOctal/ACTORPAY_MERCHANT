@@ -37,7 +37,6 @@ class RoleDetailsAdapter(
     inner class ItemHolder(private val outLetBinding: ItemRolesDetailsBinding) :
         RecyclerView.ViewHolder(outLetBinding.root) {
         fun bind(position: Int) {
-
             outLetBinding.apply {
                 tvRoleTitle.text=items[position].screenName
                 checkRead.isChecked=items[position].read
@@ -46,18 +45,26 @@ class RoleDetailsAdapter(
                 checkRead.setOnCheckedChangeListener { buttonView, isChecked ->
                     items[position].read=isChecked
                 }
+
                 checkWrite.setOnCheckedChangeListener { buttonView, isChecked ->
                     items[position].write=isChecked
+                    if(items[position].write==isChecked){
+                        items[position].read=isChecked
+
+                        notifyDataSetChanged()
+
+                    }
+                    if(items[position].write==isChecked||items[position].read==isChecked)
+                        checkRead.isEnabled=false
+
                 }
             }
 
         }
     }
-
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
     override fun getItemViewType(position: Int): Int {
         return position
     }

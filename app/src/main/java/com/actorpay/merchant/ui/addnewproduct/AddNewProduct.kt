@@ -74,36 +74,16 @@ class AddNewProduct : BaseActivity() {
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()
         homeviewmodel.getTaxationDetails()
-//        catAdapter = CategoryAdapter(binding.chooseCategory)
         taxAdapter = TaxAdapter(binding.taxData)
-
-
-//        subCategoryAdapter = SubCategoryAdapter(binding.chooseSubCategory)
-//          catAdapter.onSpinnerItemSelectedListener = OnSpinnerItemSelectedListener<DataCategory>() { oldIndex: Int, oldItem: DataCategory?, newIndex: Int, newItem: DataCategory ->
-//              catId = newItem.id
-//              homeviewmodel.getSubCatDetalis(catId)
-//
-//            }
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
                 taxId = newItem.id
             }
-//        subCategoryAdapter.onSpinnerItemSelectedListener =
-//            OnSpinnerItemSelectedListener<Data>() { oldIndex: Int, oldItem: Data?, newIndex: Int, newItem: Data ->
-//                SubCatId = newItem.id
-//
-//            }
-//        binding.chooseCategory.setSpinnerAdapter(catAdapter)
         binding.taxData.setSpinnerAdapter(taxAdapter)
-//        binding.chooseSubCategory.setSpinnerAdapter(subCategoryAdapter)
         binding.toolbar.ToolbarTitle.text = getString(R.string.addNewProduct)
         ClickListners()
         apiResponse()
-
-
     }
-
-
     private fun ClickListners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
@@ -132,7 +112,11 @@ class AddNewProduct : BaseActivity() {
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
                     if (position == 0) {
-
+                        try {
+                         (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+                        } catch (e:Exception) {
+                            e.printStackTrace()
+                        }
                     } else {
                         catId = catList[position].id
                         homeviewmodel.getSubCatDetalis(catId)
@@ -146,7 +130,11 @@ class AddNewProduct : BaseActivity() {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     SubCatId = subCatList[position].id
                     if (position == 0) {
-//                   (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+                        try {
+                        (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+                        } catch (e:Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }

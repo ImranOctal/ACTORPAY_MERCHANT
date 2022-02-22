@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemNoteBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderNotesDto
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 
 class AdapterNote(
     val context: Context,
@@ -38,6 +38,7 @@ class AdapterNote(
             binding.orderNoteDesc.text=getFormattedOrderDate(orderNote.createdAt)
             if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS)
                 binding.orderNoteDesc.visibility= View.GONE
+
             if(orderNote.orderStatus == AppConstance.STATUS_SUCCESS || orderNote.orderStatus == AppConstance.STATUS_READY || orderNote.orderStatus == AppConstance.STATUS_DISPATCHED || orderNote.orderStatus == AppConstance.STATUS_DELIVERED) {
                 binding.orderNoteStatus.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_color))
                 binding.orderNoteView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green_color))
@@ -52,7 +53,6 @@ class AdapterNote(
             }
         }
     }
-
     fun getFormattedOrderDate(orderDate: String): String? {
         try {
             return AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)
@@ -60,5 +60,4 @@ class AdapterNote(
             return orderDate
         }
     }
-
 }

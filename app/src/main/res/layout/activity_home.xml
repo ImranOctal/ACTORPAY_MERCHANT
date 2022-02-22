@@ -202,10 +202,10 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvEarnMoney"
                                     android:layout_width="@dimen/_110sdp"
                                     android:layout_height="120dp"
                                     android:layout_gravity="center"
-                                    android:id="@+id/cvEarnMoney"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:elevation="@dimen/_15sdp"
                                     android:shadowColor="@color/text_color"
@@ -264,9 +264,9 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvSubMerchant"
                                     android:layout_width="@dimen/_110sdp"
                                     android:layout_height="@dimen/_90sdp"
-                                    android:id="@+id/cvSubMerchant"
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:elevation="@dimen/_15sdp"
@@ -336,11 +336,11 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvOutlet"
                                     android:layout_width="@dimen/_110sdp"
                                     android:layout_height="120dp"
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/_10sdp"
-                                    android:id="@+id/cvOutlet"
                                     android:elevation="@dimen/_15sdp"
                                     android:shadowColor="@color/text_color"
                                     app:cardCornerRadius="@dimen/_5ssp">
@@ -398,10 +398,10 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvRole"
                                     android:layout_width="@dimen/_110sdp"
                                     android:layout_height="@dimen/_90sdp"
                                     android:layout_gravity="center"
-                                    android:id="@+id/cvRole"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:elevation="@dimen/_15sdp"
                                     android:shadowColor="@color/text_color"
@@ -482,7 +482,7 @@
                                         android:id="@+id/ivOrder"
                                         android:layout_width="@dimen/_30ssp"
                                         android:layout_height="@dimen/_30ssp"
-                                        android:layout_marginTop="40dp"
+                                        android:layout_marginTop="@dimen/_6sdp"
                                         android:src="@drawable/ic_order_color"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -506,10 +506,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_regular"
+                                        android:paddingVertical="@dimen/_5sdp"
                                         android:text="Manage"
                                         android:textColor="@color/text_color"
                                         android:textSize="@dimen/_12ssp"
-                                        android:paddingVertical="@dimen/_5sdp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/tvOrder" />
@@ -597,10 +597,8 @@
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
             android:layout_gravity="start|top"
-            android:background="@drawable/side_round_corner_drawble"
-            android:visibility="gone">
+            android:background="@drawable/side_round_corner_drawble">
 
             <ScrollView
                 android:layout_width="match_parent"

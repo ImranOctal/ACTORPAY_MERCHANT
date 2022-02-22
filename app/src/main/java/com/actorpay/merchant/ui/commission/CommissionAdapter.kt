@@ -1,24 +1,12 @@
 package com.actorpay.merchant.ui.commission
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
-import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
-import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
-import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
-import com.octal.actorpay.repositories.AppConstance.AppConstance
-import android.app.Activity
-import android.graphics.Color
-import android.view.RoundedCorner
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.databinding.ItemCommissionBinding
-import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionItem
-import com.actorpay.merchant.utils.roundBorderedView
-import org.koin.java.KoinJavaComponent
-import org.koin.java.KoinJavaComponent.inject
 
 
 class CommissionAdapter(

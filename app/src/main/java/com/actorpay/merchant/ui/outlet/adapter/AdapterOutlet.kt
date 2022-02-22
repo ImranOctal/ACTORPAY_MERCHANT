@@ -1,17 +1,13 @@
 package com.actorpay.merchant.ui.outlet.adapter
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOutletBinding
-import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.actorpay.merchant.ui.outlet.response.OutletItem
-import com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletActivity
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 
 
 class AdapterOutlet(

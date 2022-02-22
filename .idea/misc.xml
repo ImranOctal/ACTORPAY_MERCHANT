@@ -43,7 +43,10 @@
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable-xxxhdpi/bg_outline_gray.xml" value="0.2890625" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable-xxxhdpi/btn_outline_gray.xml" value="0.2890625" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable-xxxhdpi/ic_baseline_search_24.xml" value="0.2890625" />
+        <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_gray.xml" value="0.2585" />
+        <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_message_green.xml" value="0.2585" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_outline_grayy.xml" value="0.255" />
+        <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_text_color.xml" value="0.2585" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/btn_bg.xml" value="0.2890625" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/btn_outline_blue.xml" value="0.2890625" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/drawable/btn_outline_gray.xml" value="0.2890625" />
@@ -92,6 +95,7 @@
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/country_picker.xml" value="0.259963768115942" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/custom_duo_view_footer.xml" value="0.27291666666666664" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/custom_duo_view_header.xml" value="0.27291666666666664" />
+        <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/data_place_holder.xml" value="0.21331521739130435" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/dialog_commission_filter.xml" value="0.2884963768115942" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/dialog_filter.xml" value="0.27291666666666664" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/dialog_product_filter.xml" value="0.27291666666666664" />
@@ -103,6 +107,7 @@
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/item_order_status.xml" value="0.25885416666666666" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/item_outlet.xml" value="0.25885416666666666" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles.xml" value="0.2513586956521739" />
+        <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles_details.xml" value="0.36666666666666664" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/item_submerchant.xml" value="0.26403985507246375" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/layout_auth_verificaition.xml" value="0.27291666666666664" />
         <entry key="..\:/android/ACTORPAY_MERCHANT/app/src/main/res/layout/list_item_child_faq.xml" value="0.27291666666666664" />

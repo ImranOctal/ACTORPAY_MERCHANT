@@ -29,8 +29,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.actorpay.merchant.database.datastore.DataStoreBase
-import com.actorpay.merchant.ui.home.HomeActivity
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import java.io.UnsupportedEncodingException
 import java.text.DateFormat
 import java.text.ParseException

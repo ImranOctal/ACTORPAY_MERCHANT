@@ -28,7 +28,7 @@ import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
 import com.actorpay.merchant.utils.ResponseSealed
 import com.actorpay.merchant.utils.roundBorderedView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -184,14 +184,20 @@ class OrderDetailActivity : BaseActivity() {
         binding.tvContact.text = "Contact: " + list.customer.contactNumber
         if(list.orderStatus=="CANCELLED"){
             binding.OrderType.setTextColor(Color.parseColor(AppConstance.red_color))
-            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.red_color,1)
+            binding.OrderType.roundBorderedView(10,
+                AppConstance.white_color,
+                AppConstance.red_color,1)
 
         }else if(list.orderStatus=="PARTIALLY_RETURNED"||list.orderStatus=="PARTIALLY_RETURNING"||list.orderStatus=="PARTIALLY_CANCELLED"||list.orderStatus=="PARTIALLY_CANCELLED"){
             binding.OrderType.setTextColor(Color.parseColor(AppConstance.blue_color))
-            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.blue_color,1)
+            binding.OrderType.roundBorderedView(10,
+                AppConstance.white_color,
+                AppConstance.blue_color,1)
         }else{
             binding.OrderType.setTextColor(Color.parseColor(AppConstance.green_color))
-            binding.OrderType.roundBorderedView(10,AppConstance.white_color,AppConstance.green_color,1)
+            binding.OrderType.roundBorderedView(10,
+                AppConstance.white_color,
+                AppConstance.green_color,1)
         }
     }
     fun dialog(list: ArrayList<String>, root: View, orderItemId: MutableList<String>) {

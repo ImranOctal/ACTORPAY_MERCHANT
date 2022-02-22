@@ -1,6 +1,5 @@
 package com.actorpay.merchant.retrofitrepository.apiclient
 
-import android.os.Build.ID
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
@@ -25,46 +24,46 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.screens.Scre
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.ui.outlet.response.*
-import com.octal.actorpay.repositories.AppConstance.AppConstance
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_ROLE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ADD_SUBMERCHANT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.AUTH
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.Add_Note
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.CREATE_OUTLET
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_OUTLET
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_ROLE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELETE_SUBMERCHANT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_COMMISSIONS
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_DISPUTES
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_DISPUTE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_FAQ
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_PERMISSION
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_ROLES
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.GET_SUBMERCHANTS
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.IDS
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.ID_VAR
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SEND_DISPUTE_MESSAGE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TAX_URL
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.TYPE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_OUTLET
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_ROLE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_SUBMERCHANT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.AUTH
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.Add_Note
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.CATEGORIES_URL
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.CREATE_OUTLET
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.DELETE_OUTLET
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.DELETE_ROLE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.DELETE_SUBMERCHANT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.DELET_PRODUCT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_COMMISSIONS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_DISPUTES
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_DISPUTE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_FAQ
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_PERMISSION
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ROLES
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_SUBMERCHANTS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.IDS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ID_VAR
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SEND_DISPUTE_MESSAGE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TAX_URL
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TYPE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_OUTLET
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
@@ -221,12 +220,12 @@ interface ApiClient {
 
   @POST(GET_OUTLET)
     suspend fun getOutlet(
-        @Header(AUTH) token: String,
-        @Query(AppConstance.PAGE_NO) pageNo: String,
-        @Body empty: EmptyBody,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
+      @Header(AUTH) token: String,
+      @Query(AppConstance.PAGE_NO) pageNo: String,
+      @Body empty: EmptyBody,
+      @Query(AppConstance.PAGE_SIZE) pageSize: String = "10",
 
-  ): Response<GetOutlet>
+      ): Response<GetOutlet>
 
   @PUT(UPDATE_OUTLET)
     suspend fun updateOutlet(
@@ -264,7 +263,7 @@ interface ApiClient {
         @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
         @Query(AppConstance.ASCECNDING) asc: Boolean = true,
 
-    ):Response<GetAllSubMerchant>
+        ):Response<GetAllSubMerchant>
 
 
     @POST(ADD_SUBMERCHANT)

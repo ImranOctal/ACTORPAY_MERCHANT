@@ -9,16 +9,12 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import android.app.Activity
 import android.graphics.Color
-import android.view.RoundedCorner
 import android.view.View
-import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.utils.roundBorderedView
 import com.bumptech.glide.Glide
-import org.koin.java.KoinJavaComponent
-import org.koin.java.KoinJavaComponent.inject
 
 
 class OrderAdapter(
@@ -48,7 +44,7 @@ class OrderAdapter(
 
             orderBinding.apply {
                 titleOfOrder.text = items[position].orderNo
-                tvPrice.text ="Price: "+ AppConstance.dollar + items[position].totalPrice.toString()
+                tvPrice.text ="Price: "+ AppConstance.rupee + items[position].totalPrice.toString()
                 orderStatus.text = items[position].orderStatus.replace("_"," ")
                 tvDate.text= getFormattedOrderDate("Order Date: "+items[position].createdAt)
                 cardView.setOnClickListener {
@@ -58,14 +54,20 @@ class OrderAdapter(
                 }
                 if(items[position].orderStatus=="CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.red_color))
-                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.red_color,1)
+                    orderStatus.roundBorderedView(12,
+                        AppConstance.white_color,
+                        AppConstance.red_color,1)
 
                 }else if(items[position].orderStatus=="PARTIALLY_RETURNED"||items[position].orderStatus=="PARTIALLY_RETURNING"||items[position].orderStatus=="PARTIALLY_CANCELLED"||items[position].orderStatus=="PARTIALLY_CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.blue_color))
-                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.blue_color,1)
+                    orderStatus.roundBorderedView(12,
+                        AppConstance.white_color,
+                        AppConstance.blue_color,1)
                 }else{
                     orderStatus.setTextColor(Color.parseColor(AppConstance.green_color))
-                    orderStatus.roundBorderedView(12,AppConstance.white_color,AppConstance.green_color,1)
+                    orderStatus.roundBorderedView(12,
+                        AppConstance.white_color,
+                        AppConstance.green_color,1)
                 }
 
                 if(items[position].orderItemDtos.size>3){

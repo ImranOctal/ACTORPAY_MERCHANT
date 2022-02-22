@@ -73,14 +73,13 @@
                         android:id="@+id/order_summary_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_6ssp"
-                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:background="@color/light_grey_home"
                         android:paddingBottom="@dimen/_10sdp"
                         app:layout_constraintTop_toTopOf="parent">
-
 
                         <TextView
                             android:id="@+id/OrderType"
@@ -88,6 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_6ssp"
                             android:fontFamily="@font/poppins_medium"
                             android:gravity="center"
@@ -95,7 +95,6 @@
                             android:text="@string/accept"
                             android:textColor="#2E7D32"
                             android:textSize="@dimen/_8ssp"
-                            android:layout_marginTop="@dimen/_5sdp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -152,6 +151,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:nestedScrollingEnabled="false"
                             android:layout_marginTop="@dimen/_5ssp"
                             app:layout_constraintTop_toBottomOf="@+id/order_amount_text"
                             tools:itemCount="0" />

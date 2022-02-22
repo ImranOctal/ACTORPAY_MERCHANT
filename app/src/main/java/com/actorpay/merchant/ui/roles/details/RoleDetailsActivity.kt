@@ -95,7 +95,6 @@ class RoleDetailsActivity : BaseActivity() {
                             setResult(RESULT_OK)
                             finish()
                         }
-
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
@@ -134,14 +133,11 @@ class RoleDetailsActivity : BaseActivity() {
                 }
             }
         }
-
-        val adapter = RoleDetailsAdapter(
-            rolesDetailsViewModel.methodRepo,
-            rolesDetailsViewModel.allScreens
-        ) { pos, action ->
+        val adapter = RoleDetailsAdapter(rolesDetailsViewModel.methodRepo, rolesDetailsViewModel.allScreens) { pos, action ->
 
         }
         binding.rvScreens.layoutManager = LinearLayoutManager(this)
         binding.rvScreens.adapter = adapter
+
     }
 }

@@ -190,9 +190,11 @@ class ManageOrderActivity : BaseActivity() {
                                 order = action.response.data.items
                                 binding.manageOrder.visibility = View.VISIBLE
                                 binding.emptyText.visibility = View.GONE
+                                binding.imageEmpty.visibility = View.GONE
                                 setupRv(order)
                             } else {
                                 binding.emptyText.visibility = View.VISIBLE
+                                binding.imageEmpty.visibility = View.VISIBLE
                                 binding.manageOrder.visibility = View.GONE
                             }
                         }

@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/parentFull">
+
         <LinearLayout
             style="@style/parentFull"
             android:background="@color/primary"
@@ -36,8 +38,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:layout_toEndOf="@id/back"
-                    android:text="@string/manage_order"
                     android:fontFamily="@font/poppins_medium"
+                    android:text="@string/manage_order"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_16sdp" />
 
@@ -68,8 +70,8 @@
                     android:id="@+id/businessLay"
                     style="@style/TxtOutline2"
                     android:elevation="@dimen/_5sdp"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/searchEdit"
@@ -97,14 +99,39 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/emptyText"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="gone"
-            android:text="No Order Available"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/image_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_180sdp"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="not_found_lottie.json"
+                app:lottie_loop="true" />
+
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/no_order_available"
+                android:textSize="@dimen/_13sdp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_empty" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

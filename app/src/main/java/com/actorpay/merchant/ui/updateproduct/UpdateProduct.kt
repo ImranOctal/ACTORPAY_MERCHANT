@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -70,7 +71,7 @@ class UpdateProduct : BaseActivity() {
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
 
-    var isCategoryAvailable=false
+    var isCategoryAvailable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,28 +128,58 @@ class UpdateProduct : BaseActivity() {
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     subCatList.clear()
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
-                    if(isCategoryAvailable)
-                    if (position == 0) {
-
-                    } else {
-                        catId = catList[position].id
-                        homeviewmodel.getSubCatDetalis(catId)
-                    }
+                    if (isCategoryAvailable)
+                        if (position == 0) {
+                            try {
+                                (view as TextView).setTextColor(
+                                    this@UpdateProduct.resources.getColor(
+                                        R.color.light_grey
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        } else {
+                            catId = catList[position].id
+                            homeviewmodel.getSubCatDetalis(catId)
+                        }
                 }
             }
         binding.chooseSubCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if(isCategoryAvailable)
-                     SubCatId = subCatList[position].id
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (isCategoryAvailable)
+                        SubCatId = subCatList[position].id
                     if (position == 0) {
-//                   (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
+
+                        try {
+
+                            (view as TextView).setTextColor(this@UpdateProduct.resources.getColor(R.color.light_grey))
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+
+                        }
+
+
                     }
                 }
             }
@@ -315,19 +346,20 @@ class UpdateProduct : BaseActivity() {
                         hideLoadingDialog()
                         if (it.response is GetProductDataById) {
                             response = it.response
-                            Glide.with(binding.root).load(it.response.data.image).placeholder(R.drawable.demo).into(binding.image)
+                            Glide.with(binding.root).load(it.response.data.image)
+                                .placeholder(R.drawable.demo).into(binding.image)
                             binding.actualPrice.setText(it.response.data.actualPrice.toString())
                             binding.dealPrice.setText(it.response.data.dealPrice.toString())
                             binding.description.setText(it.response.data.description.toString())
                             binding.quantity.setText(it.response.data.stockCount.toString())
                             binding.productNameEdit.setText(it.response.data.name.toString())
-                            catId=it.response.data.categoryId
-                            SubCatId=it.response.data.subCategoryId
+                            catId = it.response.data.categoryId
+                            SubCatId = it.response.data.subCategoryId
 
-                            taxId=it.response.data.taxId
+                            taxId = it.response.data.taxId
                             homeviewmodel.getCatogrys()
 
-                        }else {
+                        } else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root
@@ -365,8 +397,8 @@ class UpdateProduct : BaseActivity() {
 //                        homeviewmodel.getSubCatDetalis(catId)
                         if (it.response is GetAllCategoriesDetails) {
                             if (it.response.data.isNotEmpty()) {
-                                 catList.addAll(it.response.data)
-                                 catAdapter()
+                                catList.addAll(it.response.data)
+                                catAdapter()
                                 for ((index, value) in catList.withIndex()) {
                                     if (value.id == catId) {
                                         binding.chooseCategory.setSelection(index)
@@ -430,7 +462,7 @@ class UpdateProduct : BaseActivity() {
                                         break
                                     }
                                 }
-                                isCategoryAvailable=true
+                                isCategoryAvailable = true
 
                             } else showCustomAlert(
                                 getString(R.string.sub_category_not_found),
@@ -534,8 +566,10 @@ class UpdateProduct : BaseActivity() {
         subCatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseSubCategory.adapter = subCatAdapter
     }
+
     private fun catAdapter() {
-        val catAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
+        val catAdapter: ArrayAdapter<DataCategory> =
+            ArrayAdapter<DataCategory>(this, android.R.layout.simple_spinner_item, catList)
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseCategory.adapter = catAdapter
     }

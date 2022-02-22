@@ -33,8 +33,8 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Get
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.outlet.response.*
-import com.octal.actorpay.repositories.AppConstance.AppConstance
-import com.octal.actorpay.repositories.AppConstance.AppConstance.Companion.B_Token
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.B_Token
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse

@@ -206,6 +206,8 @@
     <string name="dispute_details">Dispute Details</string>
     <string name="earn_money">Earn Money</string>
     <string name="role">Role</string>
+    <string name="no_order_available">No Order Available.</string>
+    <string name="no_outlet_available">No Outlet Available.</string>
     >
 
     <string-array name="status_array">

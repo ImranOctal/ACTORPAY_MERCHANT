@@ -30,11 +30,9 @@ class DisputeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_dispute)
-
         apiResponse()
         disputeViewModel.getAllDisputes()
         setAdapter()
-
         binding.ivFilter.setOnClickListener {
             applyFilter()
         }
@@ -44,10 +42,8 @@ class DisputeActivity : BaseActivity() {
     }
 
     private fun setAdapter() {
-        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo){
-                position ->
+        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo){ position ->
             DisputeDetailsViewModel.disputeData=disputeViewModel.disputeListData.items[position]
-
             val intent= Intent(this,DisputeDetailsActivity::class.java)
             intent.putExtra("disputeId",disputeViewModel.disputeListData.items[position].disputeId)
             intent.putExtra("disputeCode",disputeViewModel.disputeListData.items[position].disputeCode)

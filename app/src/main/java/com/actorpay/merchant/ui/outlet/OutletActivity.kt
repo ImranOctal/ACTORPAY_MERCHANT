@@ -15,6 +15,7 @@ import com.actorpay.merchant.ui.outlet.adapter.AdapterOutlet
 import com.actorpay.merchant.ui.outlet.addoutlet.AddOutletActivity
 import com.actorpay.merchant.ui.outlet.response.DeleteOutlet
 import com.actorpay.merchant.ui.outlet.response.GetOutlet
+import com.actorpay.merchant.ui.outlet.response.OutletItem
 import com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
@@ -37,12 +38,10 @@ class OutletActivity : BaseActivity() {
             val intent = Intent(this, AddOutletActivity::class.java)
             resultLauncher.launch(intent)
         }
-
         Places.initialize(
             this, "AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"
         )
         outletViewModel.getOutlet()
-
         apiResponse()
     }
 
@@ -52,48 +51,21 @@ class OutletActivity : BaseActivity() {
             outletViewModel.responseLive.collect {
                 when (it) {
                     is ResponseSealed.Loading -> {
-
                         showLoadingDialog()
-
                     }
-
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetOutlet) {
                             if (it.response.data.items.isNotEmpty()) {
-                                binding.rvOutlet.layoutManager = LinearLayoutManager(this@OutletActivity, LinearLayoutManager.VERTICAL, false)
-                                binding.rvOutlet.adapter = AdapterOutlet(this@OutletActivity, it.response.data.items) { pos, action ->
-                                    if (action == "delete") {
-                                        var ids = mutableListOf<String>()
-                                        ids.add(it.response.data.items[pos].id)
-                                        CommonDialogsUtils.showCommonDialog(this@OutletActivity,
-                                            outletViewModel.methodRepo,
-                                            "Delete",
-                                            "Are you sure you want to delete?",
-                                            autoCancelable = false,
-                                            isCancelAvailable = true,
-                                            isOKAvailable = true,
-                                            showClickable = false,
-                                            callback = object : CommonDialogsUtils.DialogClick {
-                                                override fun onClick() {
-                                                    deleteOutlet(ids)
-                                                }
+                                setupRv(it.response.data.items)
 
-                                                override fun onCancel() {
-                                                }
-                                            }
-                                        )
-                                    } else if (action == "edit") {
-                                        val intent = Intent(
-                                            this@OutletActivity,
-                                            UpdateOutletActivity::class.java
-                                        )
-                                        resultUpdateLauncher.launch(intent)
-                                    }
-                                    binding.tvDataNotFound.visibility = View.GONE
-                                }
+                                binding.tvDataNotFound.visibility = View.GONE
+                                binding.imageEmpty.visibility = View.GONE
+
                             } else {
+                                setupRv(mutableListOf())
                                 binding.tvDataNotFound.visibility = View.VISIBLE
+                                binding.imageEmpty.visibility = View.VISIBLE
                             }
                         }
                         if (it.response is DeleteOutlet) {
@@ -120,6 +92,40 @@ class OutletActivity : BaseActivity() {
         }
     }
 
+    private fun setupRv(items: List<OutletItem>) {
+        binding.rvOutlet.layoutManager = LinearLayoutManager(this@OutletActivity, LinearLayoutManager.VERTICAL, false)
+        binding.rvOutlet.adapter = AdapterOutlet(this@OutletActivity,items) { pos, action ->
+            if (action == "delete") {
+                var ids = mutableListOf<String>()
+                ids.add(items[pos].id)
+                CommonDialogsUtils.showCommonDialog(this@OutletActivity,
+                    outletViewModel.methodRepo,
+                    "Delete",
+                    "Are you sure you want to delete?",
+                    autoCancelable = false,
+                    isCancelAvailable = true,
+                    isOKAvailable = true,
+                    showClickable = false,
+                    callback = object : CommonDialogsUtils.DialogClick {
+                        override fun onClick() {
+                            deleteOutlet(ids)
+                        }
+
+                        override fun onCancel() {
+                        }
+                    }
+                )
+            } else if (action == "edit") {
+                val intent = Intent(
+                    this@OutletActivity,
+                    UpdateOutletActivity::class.java
+                )
+                resultUpdateLauncher.launch(intent)
+            }
+
+        }
+    }
+
     private fun deleteOutlet(ids: MutableList<String>) {
         outletViewModel.deleteOutlet(ids)
     }
@@ -136,4 +142,6 @@ class OutletActivity : BaseActivity() {
                 outletViewModel.getOutlet()
             }
         }
+
+
 }

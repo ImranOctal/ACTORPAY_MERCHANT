@@ -11,7 +11,7 @@ import com.actorpay.merchant.databinding.ManageProductItemBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
 import com.bumptech.glide.Glide
-import com.octal.actorpay.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 
 class ManageProductAdapter(
     val context: Context,

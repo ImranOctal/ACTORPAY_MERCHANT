@@ -1,9 +1,13 @@
 package com.actorpay.merchant.ui.signup
 
+import android.app.Activity
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
@@ -18,17 +22,23 @@ import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.SingleClickListener
 import com.actorpay.merchant.utils.countrypicker.CountryPicker
 import com.actorpay.merchant.viewmodel.AuthViewModel
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.util.*
 
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
 
     private val signUpViewModel: AuthViewModel by inject()
-
+    var long=0.0
+    var lat=0.0
     private var showPassword = false
 
     private lateinit var disposable: Disposable
@@ -39,7 +49,9 @@ class SignupActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
 
         installation()
-
+        Places.initialize(
+            this, "AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"
+        )
         val codeList = mutableListOf<String>()
         GlobalData.allCountries.forEach {
             val code = it.countryCode
@@ -106,150 +118,17 @@ class SignupActivity : BaseActivity() {
                 validate()
             }
         })
-    }
 
-//    fun validate(){
-//        var isValidate=true
-//        val countryCode = binding.codePicker.text.toString().trim()
-//        if(binding.adhar.text.toString().trim().length<16){
-//            isValidate=false
-//            binding.adhar.error=getString(R.string.enter_valid_adhar)
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupAdhar, R.drawable.btn_search_outline)
-//            binding.adhar.requestFocus()
-////            binding.scrollView.smoothScrollTo(0,binding.adhar.top)
-//        }
-//        else{
-//            binding.errorOnAdhar.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupAdhar, R.drawable.btn_outline_gray)
-//        }
-//
-//        if(!signupViewModel.methodRepo.isValidPAN(binding.pan.text.toString().trim())){
-//            isValidate=false
-//            binding.pan.error=getString(R.string.please_valid_pan)
-////            binding.errorOnPan.visibility = View.VISIBLE
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPan, R.drawable.btn_search_outline)
-//            binding.pan.requestFocus()
-////            binding.scrollView.smoothScrollTo(0,binding.pan.top)
-//        }
-//        else{
-//            binding.errorOnPan.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPan, R.drawable.btn_outline_gray)
-//        }
-//
-//
-//        if(binding.dob.text.toString().trim().equals("")){
-//            isValidate=false
-//            binding.errorOnDate.visibility = View.VISIBLE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupDob, R.drawable.btn_search_outline)
-////            binding.dob.requestFocus()
-////            binding.scrollView.smoothScrollTo(0,binding.dob.top)
-//        }
-//        else{
-//            binding.errorOnDate.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupDob, R.drawable.btn_outline_gray)
-//        }
-//        if(binding.spinnerAutocomplete.text.toString().trim().equals("")){
-//            isValidate=false
-//            binding.errorOnGender.visibility = View.VISIBLE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupGender2, R.drawable.btn_search_outline)
-////            binding.spinnerAutocomplete.requestFocus()
-//            binding.scrollView.smoothScrollTo(0,binding.spinnerAutocomplete.top)
-//        }
-//        else{
-//            binding.errorOnGender.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupGender2, R.drawable.btn_outline_gray)
-//        }
-//        if (binding.password.text.toString().trim().length<8) {
-//            isValidate=false
-//            binding.password.error=getString(R.string.oops_your_password_is_not_valid)
-////            binding.errorOnPassword.visibility = View.VISIBLE
-////            binding.errorOnPassword.text = getString(R.string.oops_your_password_is_not_valid)
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPassword, R.drawable.btn_search_outline)
-//            binding.password.requestFocus()
-//        }
-//        else{
-//            if (binding.password.text.toString().trim().contains(" ") || !signupViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
-//                isValidate=false
-//                binding.password.error = getString(R.string.oops_your_password_is_not_valid2)
-////                binding.errorOnPassword.visibility = View.VISIBLE
-////                signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPassword, R.drawable.btn_search_outline)
-//                binding.password.requestFocus()
-//            }
-//            else{
-//                binding.errorOnPassword.visibility = View.GONE
-//                signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPassword, R.drawable.btn_outline_gray)
-//            }
-//        }
-//
-//        if (binding.email.text.toString().length<3 || !signupViewModel.methodRepo.isValidEmail(binding.email.text.toString())) {
-//            isValidate=false
-//            binding.email.error=getString(R.string.oops_your_email_is_not_correct_or_empty)
-////            binding.errorOnEmail.visibility = View.VISIBLE
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupEmail, R.drawable.btn_search_outline)
-//            binding.email.requestFocus()
-//        }
-//        else{
-//            binding.errorOnEmail.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupEmail, R.drawable.btn_outline_gray)
-//        }
-//
-//        if (binding.lastName.text.toString().trim().length<3) {
-//            isValidate=false
-//            binding.lastName.error=getString(R.string.error_l_name)
-////            binding.errorOnLastName.visibility = View.VISIBLE
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupLast, R.drawable.btn_search_outline)
-//            binding.lastName.requestFocus()
-//        }
-//        else{
-//            binding.errorOnLastName.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupLast, R.drawable.btn_outline_gray)
-//        }
-//
-//        if (binding.firstName.text.toString().trim().isEmpty()) {
-//            isValidate=false
-//            binding.firstName.error=getString(R.string.error_name)
-////            binding.errorOnName.visibility = View.VISIBLE
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupFirst, R.drawable.btn_search_outline)
-//            binding.firstName.requestFocus()
-//        }
-//        else{
-//            binding.errorOnName.visibility = View.GONE
-//            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupFirst, R.drawable.btn_outline_gray)
-//        }
-//
-//        if (binding.editTextMobile.text.toString().trim().length<7) {
-//            isValidate=false
-////            binding.errorOnPhone.visibility = View.VISIBLE
-//            binding.editTextMobile.error=getString(R.string.error_phone)
-////            signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPhone, R.drawable.btn_search_outline)
-//            binding.editTextMobile.requestFocus()
-//        }
-//        else{
-//            if(binding.editTextMobile.text.toString().trim()[0].toString() == "0")
-//            {
-//                isValidate=false
-////                binding.errorOnPhone.visibility = View.VISIBLE
-//                binding.editTextMobile.error=getString(R.string.mobile_not_start_with_0)
-////                signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPhone, R.drawable.btn_search_outline)
-//                binding.editTextMobile.requestFocus()
-//            }
-//            else{
-//                binding.errorOnPhone.visibility = View.GONE
-//                signupViewModel.methodRepo.setBackGround(requireContext(), binding.signupPhone, R.drawable.btn_outline_gray)
-//            }
-//        }
-//        if(!binding.signCheckTerms.isChecked){
-//            isValidate=false
-//            showCustomToast("Please agree to our terms to sign up")
-//        }
-//        if(isValidate){
-//
-////            val countryCode=binding.ccp.selectedCountryCodeWithPlus
-//
-//
-//            )
-//        }
-//    }
+        binding.address.setOnClickListener {
+            if (!Places.isInitialized()) {
+                Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
+            }
+            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .build(this)
+            startForAddressResult.launch(intent)
+        }
+    }
 
     fun validate() {
         var isValidate = true
@@ -335,101 +214,7 @@ class SignupActivity : BaseActivity() {
         if (isValidate) {
             signUp()
         }
-
-
-        //        if (binding.shopAct.text.toString().trim().isEmpty()) {
-//            binding.shopAct.error = getString(R.string.shop_act_empty)
-//            binding.shopAct.requestFocus()
-//            isValidate=false
-//        }
     }
-//    fun validate() {
-//        var isValidate=true;
-//        if (binding.emailEdit.text.trim().isEmpty()) {
-//            binding.emailEdit.error = this.getString(R.string.email_empty)
-//            binding.emailEdit.requestFocus()
-//            isValidate=false
-//        }
-//        if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
-//            binding.emailEdit.error = this.getString(R.string.invalid_email)
-//            binding.emailEdit.requestFocus()
-//            isValidate=false
-//        }
-//        if (binding.password.text.toString().trim().isEmpty()) {
-//            binding.password.error = this.getString(R.string.password_empty)
-//            binding.password.requestFocus()
-//            isValidate=false
-//        }
-//        else  if (binding.password.text.toString().trim().length < 8 || !signUpViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
-//            binding.password.error = this.getString(R.string.oops_your_password_is_not_valid)
-//            binding.password.requestFocus()
-//            isValidate=false
-//        }
-//
-//        if (binding.businessName.text.toString().trim().isEmpty()) {
-//            binding.businessName.error = this.getString(R.string.business_empty)
-//            binding.businessName.requestFocus()
-//            isValidate=false
-//        }
-//       else   if (binding.businessName.text.toString().trim().length < 3) {
-//            binding.businessName.error = this.getString(R.string.error_business)
-//            binding.businessName.requestFocus()
-//            isValidate=false
-//        }
-//       else  if (binding.mobileNumber.text.toString().trim().length < 7) {
-//            binding.mobileNumber.error = getString(R.string.error_phone)
-//            binding.mobileNumber.requestFocus()
-//            isValidate=false
-//        }
-//        if (binding.mobileNumber.text.startsWith("0")) {
-//            binding.mobileNumber.error = getString(R.string.mobile_not_start_with_0)
-//            binding.mobileNumber.requestFocus()
-//            isValidate=false
-//
-//        }
-//        if (binding.shopAddress.text.toString().trim().isEmpty()) {
-//            binding.shopAddress.error = getString(R.string.shop_address_empty)
-//            binding.shopAddress.requestFocus()
-//        }else if (binding.shopAddress.text.toString().trim().length < 3) {
-//            binding.shopAddress.error = getString(R.string.error_shop_address)
-//            binding.shopAddress.requestFocus()
-//            isValidate=false
-//
-//        }
-//
-//        if (binding.address.text.toString().trim().isEmpty()) {
-//            binding.address.error = getString(R.string.address_empty)
-//            binding.address.requestFocus()
-//            isValidate=false
-//        }
-//
-//        if (binding.address.text.toString().trim().length < 3) {
-//            binding.address.error = getString(R.string.address_error)
-//            binding.address.requestFocus()
-//            isValidate=false
-//
-//        }
-//        if (binding.shopAct.text.toString().trim().isEmpty()) {
-//            binding.shopAct.error = getString(R.string.shop_act_empty)
-//            binding.shopAct.requestFocus()
-//            isValidate=false
-//        }
-//         else if (binding.shopAct.text.toString().trim().length < 3) {
-//            binding.shopAct.error = getString(R.string.shop_Act_length)
-//            binding.shopAct.requestFocus()
-//            isValidate=false
-//
-//
-//        } else if (!binding.rememberMe.isChecked) {
-//            showCustomToast(getString(R.string.agree_our_terms_and_condition))
-//            isValidate=false
-//        }
-//
-//        if(isValidate){
-//            signUp()
-//        }
-//    }
-
     private fun apiResponse() {
         lifecycleScope.launch {
             signUpViewModel.loginResponseLive.collect {
@@ -502,5 +287,28 @@ class SignupActivity : BaseActivity() {
             binding.businessName.text.toString().trim(),
             binding.shopAct.text.toString().trim(),
         )
+    }
+
+    private val startForAddressResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                val place = Autocomplete.getPlaceFromIntent(intent!!)
+                val latLng = place.latLng
+                latLng?.let {
+                    lat = it.latitude
+                    long = it.longitude
+                    getAddress(lat, long)
+                }
+            }
+        }
+    private fun getAddress(lat: Double, lng: Double) {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(lat, lng, 1)
+        if (addresses.size > 0) {
+            val address = addresses[0].getAddressLine(0)
+            binding.address.setText(address)
+
+        }
     }
 }

@@ -7,8 +7,6 @@
     android:layout_gravity="center"
     >
 
-
-
     <ProgressBar
         android:id="@+id/pb_loading"
         android:layout_width="50dp"

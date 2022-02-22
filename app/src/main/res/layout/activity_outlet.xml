@@ -49,31 +49,18 @@
             android:layout_height="match_parent"
             android:background="@drawable/top_round_drawble_white">
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOutlet"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/btnAddOutlet"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/tvDataNotFound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="No Outlet Available."
-                android:textSize="@dimen/_13sdp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
 
             <Button
@@ -96,6 +83,43 @@
                 app:layout_constraintTop_toBottomOf="@+id/rvOutlet" />
 
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/image_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_180sdp"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="not_found_lottie.json"
+                    app:lottie_loop="true" />
+
+
+
+                <TextView
+                    android:id="@+id/tvDataNotFound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/no_outlet_available"
+                    android:textSize="@dimen/_13sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

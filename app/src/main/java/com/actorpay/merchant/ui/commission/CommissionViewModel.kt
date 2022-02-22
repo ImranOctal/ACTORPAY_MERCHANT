@@ -30,7 +30,6 @@ class CommissionViewModel(val dispatcherProvider: CoroutineContextProvider,
 
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
-
              methodRepo.dataStore.getAccessToken().collect { token ->
                  when (val response = apiRepo.getCommissions(token,pageNo,commissionParams)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
