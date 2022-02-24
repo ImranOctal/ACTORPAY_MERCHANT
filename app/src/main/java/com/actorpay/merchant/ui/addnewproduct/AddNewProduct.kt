@@ -32,11 +32,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.cat
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
-import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
-import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
+
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+
+
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
@@ -54,7 +53,7 @@ import java.io.IOException
 class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
     private lateinit var taxAdapter: TaxAdapter
-    private val homeviewmodel: HomeViewModel by inject()
+
     private val productViewModel: ProductViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
@@ -94,7 +93,7 @@ class AddNewProduct : BaseActivity() {
             validate()
         }
         binding.uploadImage.setOnClickListener {
-            if (!homeviewmodel.methodRepo.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (!productViewModel.methodRepo.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 permReqLauncher.launch(PERMISSIONS)
             } else {
                 fetchImage()
@@ -250,16 +249,10 @@ class AddNewProduct : BaseActivity() {
     }
 
     fun fetchImage() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryForResult.launch(galleryIntent)
     }
-
-    private val permReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+    private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
             if (permission) {
                 fetchImage()
             } else {
@@ -343,7 +336,7 @@ class AddNewProduct : BaseActivity() {
                         if (it.response is AddNewProductResponse) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@AddNewProduct,
-                                homeviewmodel.methodRepo,
+                                productViewModel.methodRepo,
                                 "Add New Product",
                                 it.response.message,
                                 autoCancelable = false,
@@ -399,7 +392,7 @@ class AddNewProduct : BaseActivity() {
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if (it.failResponse!!.code == 403) {
-                            forcelogout(homeviewmodel.methodRepo)
+                            forcelogout(productViewModel.methodRepo)
                         } else {
                             showCustomAlert(
                                 it.failResponse.message,

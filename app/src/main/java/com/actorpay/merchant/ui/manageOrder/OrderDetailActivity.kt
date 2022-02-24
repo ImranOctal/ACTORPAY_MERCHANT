@@ -20,8 +20,6 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderNotesDto
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
 import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.AdapterNote
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderDetailAdapter
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter

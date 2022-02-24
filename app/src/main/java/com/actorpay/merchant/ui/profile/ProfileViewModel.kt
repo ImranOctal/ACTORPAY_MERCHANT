@@ -9,7 +9,8 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+
+import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val methodRepo: MethodsRepo, val apiRepo: RetrofitRepository, ) : AndroidViewModel(
     Application()
 ) {
-    val profileResponseLive = MutableStateFlow<HomeSealedClasses.Companion.ResponseSealed>(HomeSealedClasses.Companion.ResponseSealed.Empty)
+    val profileResponseLive  = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
 
     val merchantSettingsDTOList= mutableListOf<MerchantSettingsDTO>()
 
@@ -31,14 +32,14 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
 
     fun getProfile() {
         viewModelScope.launch(dispatcherProvider.IO) {
-            profileResponseLive.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            profileResponseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
                 methodRepo.dataStore.getUserId().collect { userId ->
                     when (val response = apiRepo.getProfile(userId, token)) {
                         is RetrofitResource.Error -> profileResponseLive.value =
-                            HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
+                            ResponseSealed.ErrorOnResponse(response.failResponse)
                         is RetrofitResource.Success -> profileResponseLive.value =
-                            HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                            ResponseSealed.Success(response.data!!)
                     }
                 }
 
@@ -49,7 +50,7 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
 
     fun saveProfile(email: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String, merchantSettingsDTO: MutableList<MerchantSettingsDTO>) {
         viewModelScope.launch(dispatcherProvider.IO) {
-            profileResponseLive.value = HomeSealedClasses.Companion.ResponseSealed.loading()
+            profileResponseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
                 methodRepo.dataStore.getUserId().collect { userId ->
                     when (val response = apiRepo.saveProfile(
@@ -63,9 +64,9 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
                         token
                     )) {
                         is RetrofitResource.Error -> profileResponseLive.value =
-                            HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse(response.failResponse)
+                            ResponseSealed.ErrorOnResponse(response.failResponse)
                         is RetrofitResource.Success -> profileResponseLive.value =
-                            HomeSealedClasses.Companion.ResponseSealed.Success(response.data!!)
+                            ResponseSealed.Success(response.data!!)
                     }
                 }
             }

@@ -8,14 +8,14 @@ import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivitySettingBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.ui.home.ChangePasswordDialog
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
 class SettingActivity : BaseActivity() {
-    private val homeviewmodel: HomeViewModel by inject()
+    private val settingViewModel: SettingViewModel by inject()
     private lateinit var binding: ActivitySettingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,6 @@ class SettingActivity : BaseActivity() {
         binding.toolbar.ToolbarTitle.text = getString(R.string.settings)
 
         binding.changePassword.setOnClickListener {
-
             changePasswordUi()
         }
         apiResponse()
@@ -34,17 +33,17 @@ class SettingActivity : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launchWhenStarted {
-            homeviewmodel.changePasswordLive.collect {
+            settingViewModel.responseLive.collect {
                 when (it) {
-                    HomeSealedClasses.Companion.ResponseChangePasswordSealed.loading() -> {
+                    is ResponseSealed.Loading -> {
                         showLoadingDialog()
                     }
-                    is HomeSealedClasses.Companion.ResponseChangePasswordSealed.Success -> {
+                    is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@SettingActivity,
-                                homeviewmodel.methodRepo,
+                                settingViewModel.methodRepo,
                                 "Change Password",
                                 it.response.message,
                                 autoCancelable = false,
@@ -68,11 +67,11 @@ class SettingActivity : BaseActivity() {
                         )
 
                     }
-                    is HomeSealedClasses.Companion.ResponseChangePasswordSealed.ErrorOnResponse -> {
+                    is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
 
                         if (it.failResponse!!.code == 403) {
-                            forcelogout(homeviewmodel.methodRepo)
+                            forcelogout(settingViewModel.methodRepo)
                         } else {
                             showCustomAlert(
                                 it.failResponse.message,
@@ -85,12 +84,13 @@ class SettingActivity : BaseActivity() {
                 }
             }
         }
-
     }
 
+
+
     fun changePasswordUi() {
-        ChangePasswordDialog().show(this, homeviewmodel.methodRepo) { oldPassword, newPassword ->
-            homeviewmodel.changePassword(oldPassword, newPassword)
+        ChangePasswordDialog().show(this, settingViewModel.methodRepo) { oldPassword, newPassword ->
+            settingViewModel.changePassword(oldPassword, newPassword)
         }
     }
 }

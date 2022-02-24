@@ -32,11 +32,10 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
-import com.actorpay.merchant.ui.addnewproduct.adapter.CategoryAdapter
-import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
+
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+
+
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.utils.ResponseSealed
 import com.bumptech.glide.Glide
@@ -54,7 +53,7 @@ import java.io.IOException
 class UpdateProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
     private lateinit var taxAdapter: TaxAdapter
-    private val homeviewmodel: HomeViewModel by inject()
+
 
     private val productViewModel: ProductViewModel by inject()
     private var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>? = null
@@ -105,7 +104,7 @@ class UpdateProduct : BaseActivity() {
             validate()
         }
         binding.uploadImage.setOnClickListener {
-            if (!homeviewmodel.methodRepo.checkPermission(
+            if (!productViewModel.methodRepo.checkPermission(
                     this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
@@ -312,6 +311,7 @@ class UpdateProduct : BaseActivity() {
         }
     }
 
+
     private fun apiResponse() {
         // load data order
         lifecycleScope.launch {
@@ -333,7 +333,6 @@ class UpdateProduct : BaseActivity() {
                             binding.productNameEdit.setText(it.response.data.name.toString())
                             catId = it.response.data.categoryId
                             SubCatId = it.response.data.subCategoryId
-
                             taxId = it.response.data.taxId
                             productViewModel.getCategory()
                             productViewModel.getTaxationDetails()

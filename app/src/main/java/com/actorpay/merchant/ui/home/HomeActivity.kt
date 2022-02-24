@@ -22,7 +22,6 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.permission.P
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.commission.CommissionActivity
 import com.actorpay.merchant.ui.disputes.DisputeActivity
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderActivity
@@ -45,6 +44,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SC
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_REPORTS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
+import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -348,12 +348,12 @@ class HomeActivity : BaseActivity() {
 
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
-            homeviewmodel.homeResponseLive.collect {
+            homeviewmodel.responseLive.collect {
                 when (it) {
-                    is HomeSealedClasses.Companion.ResponseHomeSealed.loading -> {
+                    is ResponseSealed.Loading -> {
                         showLoadingDialog()
                     }
-                    is HomeSealedClasses.Companion.ResponseHomeSealed.Success -> {
+                    is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is SuccessResponse) {
                             CommonDialogsUtils.showCommonDialog(
@@ -410,7 +410,7 @@ class HomeActivity : BaseActivity() {
                         )
 
                     }
-                    is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
+                    is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)

@@ -18,7 +18,6 @@ class RoleDetailsAdapter(
     val onClick: (pos: Int,action:String) -> Unit
 ) :
     RecyclerView.Adapter<RoleDetailsAdapter.ItemHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_roles_details, parent, false)
@@ -54,6 +53,7 @@ class RoleDetailsAdapter(
                     if(items[position].write==isChecked&&items[position].read==isChecked){
                         checkRead.isClickable=false
                     }
+
                     notifyDataSetChanged()
                 }
             }

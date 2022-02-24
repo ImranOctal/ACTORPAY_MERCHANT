@@ -24,9 +24,9 @@ import com.actorpay.merchant.databinding.ActivityProfileBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.ResponseSealed
 import com.bumptech.glide.Glide
 import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.flow.collect
@@ -38,7 +38,7 @@ import java.io.IOException
 class ProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityProfileBinding
     private val profileViewModel: ProfileViewModel by inject()
-    private val homeviewmodel: HomeViewModel by inject()
+
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +57,10 @@ class ProfileActivity : BaseActivity() {
         lifecycleScope.launch {
             profileViewModel.profileResponseLive.collect {
                 when (it) {
-                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
+                    is ResponseSealed.Loading -> {
                         showLoadingDialog()
                     }
-                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
+                    is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is GetUserById) {
                             updateUI(it.response)
@@ -77,7 +77,7 @@ class ProfileActivity : BaseActivity() {
                             )
                         }
                     }
-                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
+                    is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if(it.failResponse!!.code==403){
                             forcelogout(profileViewModel.methodRepo)
@@ -88,7 +88,7 @@ class ProfileActivity : BaseActivity() {
                             )
                         }
                     }
-                    is HomeSealedClasses.Companion.ResponseSealed.Empty -> {
+                    is ResponseSealed.Empty -> {
                         hideLoadingDialog()
                     }
                 }
@@ -278,7 +278,6 @@ class ProfileActivity : BaseActivity() {
             }
 
             else if(it.paramName == "admin-commission"){
-//                it.paramValue=returnDays
                 merchantSettingsDTOList.add(it)
             }
         }
@@ -302,7 +301,7 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.imgCamelMDPRDet.setOnClickListener {
-            if (!homeviewmodel.methodRepo.checkPermission(
+            if (!profileViewModel.methodRepo.checkPermission(
                     this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
