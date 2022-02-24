@@ -3,6 +3,7 @@ package com.actorpay.merchant.ui.subAdmin
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
@@ -27,6 +28,7 @@ import org.koin.android.ext.android.inject
 
 class SubMerchantActivity : BaseActivity() {
     var merchantRole=""
+    private var handler: Handler? = null
     private lateinit var binding: ActivitySubMerchantBinding
     private val SubviewModel: SubMerchantsViewModel by inject()
     var permissionData= PermissionData(false,"5", AppConstance.SCREEN_SUB_MERCHANT,false)
@@ -37,8 +39,14 @@ class SubMerchantActivity : BaseActivity() {
         binding.back.setOnClickListener {
             onBackPressed()
         }
+        binding.shimmerViewContainer.visibility=View.VISIBLE
+        handler=Handler()
+        handler!!.postDelayed({ //Do something after delay
 
-        SubviewModel.getSubMerchants()
+            SubviewModel.getSubMerchants()
+
+        }, 3000)
+
         apiResponse()
                permissionDataList.forEach {
                 if(it.screenName==permissionData.screenName){
@@ -60,14 +68,11 @@ class SubMerchantActivity : BaseActivity() {
                 }
             }
         }
-
-
         binding.btnAddMerchant.setOnClickListener {
             val intent=Intent(this, CreateSubAdminActivity::class.java)
             resultLauncher.launch(intent)
         }
     }
-
     private fun setUpRv(items: List<Item>) {
         binding.rvSubMerchants.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvSubMerchants.adapter = SubMerchantAdapter(this,permissionData,merchantRole, items){
@@ -84,13 +89,9 @@ class SubMerchantActivity : BaseActivity() {
                     callback = object : CommonDialogsUtils.DialogClick {
                         override fun onClick() {
                             SubviewModel.deleteMerchant(ids)
-
                         }
-
                         override fun onCancel() {
-
                         }
-
                     }
                 )
             }else if(action=="edit"){
@@ -101,7 +102,6 @@ class SubMerchantActivity : BaseActivity() {
             }
         }
     }
-
     private fun apiResponse() {
         lifecycleScope.launch {
             SubviewModel.responseLive.collect {
@@ -115,12 +115,17 @@ class SubMerchantActivity : BaseActivity() {
                             if (it.response.data.items.isNotEmpty()) {
                                 setUpRv(it.response.data.items)
                                 binding.tvEmptyText.visibility=View.GONE
+                                binding.imageEmpty.visibility=View.GONE
 
                             }else{
                                 setUpRv(mutableListOf())
                                 binding.tvEmptyText.visibility=View.VISIBLE
+                                binding.imageEmpty.visibility=View.VISIBLE
 
                             }
+
+                            binding.shimmerViewContainer.stopShimmerAnimation()
+                            binding.shimmerViewContainer.visibility = View.GONE
 
                         }else  if (it.response is DeleteSubMerchant) {
                             showCustomAlert(it.response.message, binding.root)
@@ -156,5 +161,19 @@ class SubMerchantActivity : BaseActivity() {
         if(it.resultCode==Activity.RESULT_OK) {
             SubviewModel.getSubMerchants()
         }
+    }
+
+
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerViewContainer.startShimmerAnimation();
+
+    }
+
+    override fun onPause() {
+        binding.shimmerViewContainer.visibility=View.GONE
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        super.onPause()
     }
 }

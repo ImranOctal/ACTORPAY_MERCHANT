@@ -37,7 +37,9 @@ import com.actorpay.merchant.ui.addnewproduct.adapter.SubCategoryAdapter
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
 import com.actorpay.merchant.ui.home.HomeViewModel
 import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
+import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.ResponseSealed
 import com.bumptech.glide.Glide
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.yalantis.ucrop.UCrop
@@ -53,6 +55,7 @@ class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
     private lateinit var taxAdapter: TaxAdapter
     private val homeviewmodel: HomeViewModel by inject()
+    private val productViewModel: ProductViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
     var taxId: String = ""
@@ -65,15 +68,14 @@ class AddNewProduct : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
         Installation()
-
     }
 
     private fun Installation() {
         binding.toolbar.back.visibility = View.VISIBLE
-        homeviewmodel.getCatogrys()
+        productViewModel.getCategory()
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()
-        homeviewmodel.getTaxationDetails()
+        productViewModel.getTaxationDetails()
         taxAdapter = TaxAdapter(binding.taxData)
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
@@ -92,17 +94,12 @@ class AddNewProduct : BaseActivity() {
             validate()
         }
         binding.uploadImage.setOnClickListener {
-            if (!homeviewmodel.methodRepo.checkPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            ) {
+            if (!homeviewmodel.methodRepo.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 permReqLauncher.launch(PERMISSIONS)
             } else {
                 fetchImage()
             }
         }
-
         binding.chooseCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -119,7 +116,7 @@ class AddNewProduct : BaseActivity() {
                         }
                     } else {
                         catId = catList[position].id
-                        homeviewmodel.getSubCatDetalis(catId)
+                        productViewModel.getSubCatDetalis(catId)
                     }
                 }
             }
@@ -244,7 +241,7 @@ class AddNewProduct : BaseActivity() {
                     productJson.put("merchantId", merchantId)
                     productJson.put("stockCount", qaunt)
                     productJson.put("taxId", taxId)
-                    homeviewmodel.addProduct(productJson.toString(), prodImage!!)
+                    productViewModel.addProduct(productJson.toString(), prodImage!!)
                     Log.e("merchantId>>", merchantId)
                 }
             }
@@ -319,9 +316,6 @@ class AddNewProduct : BaseActivity() {
                     binding.uploadImage.text = getString(R.string.edit_image)
                     Glide.with(this).load(resultUri).error(R.drawable.logo)
                         .into(binding.image)
-//                val bitmap = (mBinding.profilePic.getDrawable() as BitmapDrawable).bitmap
-//                val file = UtilityHelper.createFile(this, bitmap)
-
                 }
             }
         }
@@ -339,12 +333,12 @@ class AddNewProduct : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launch {
-            homeviewmodel.addProductByIDLive.collect {
+            productViewModel.responseLive.collect {
                 when (it) {
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.loading -> {
+                    is ResponseSealed.Loading -> {
                         showLoadingDialog()
                     }
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.Success -> {
+                    is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (it.response is AddNewProductResponse) {
                             CommonDialogsUtils.showCommonDialog(
@@ -367,7 +361,34 @@ class AddNewProduct : BaseActivity() {
                                     }
                                 }
                             )
-                        } else {
+                        }else  if (it.response is GetAllCategoriesDetails) {
+                            if (it.response.data.isNotEmpty()) {
+                                catList.addAll(it.response.data)
+                                catAdapter()
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.category_not_found),
+                                    binding.root
+                                )
+                            }
+                        }else if(it.response is GetSubCatDataDetails){
+                            if (it.response.data.isNotEmpty()) {
+                                subCatList.addAll(it.response.data)
+                                setSubCatAdapter()
+                            } else {
+                                showCustomAlert(
+                                    getString(R.string.sub_category_not_found),
+                                    binding.root
+                                )
+                            }
+                        }else if(it.response is GetCurrentTaxDetail){
+                            if (it.response.data.isNotEmpty()) {
+                                taxAdapter.setItems(itemList = it.response.data)
+                            } else
+                                showCustomAlert(getString(R.string.tax_not_found), binding.root)
+                        }
+
+                        else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),
                                 binding.root
@@ -375,7 +396,7 @@ class AddNewProduct : BaseActivity() {
                         }
 
                     }
-                    is HomeSealedClasses.Companion.ResponseAddProductSealed.ErrorOnResponse -> {
+                    is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
@@ -390,119 +411,6 @@ class AddNewProduct : BaseActivity() {
                         hideLoadingDialog()
                     }
                 }
-            }
-        }
-
-        //Category Loded
-        lifecycleScope.launch {
-            homeviewmodel.CatogryLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.CatogrySealed.loading -> {
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.CatogrySealed.Success -> {
-                        hideLoadingDialog()
-                        if (it.response is GetAllCategoriesDetails) {
-                            if (it.response.data.size > 0) {
-                                catList.addAll(it.response.data)
-                                catAdapter()
-                            } else {
-                                showCustomAlert(
-                                    getString(R.string.category_not_found),
-                                    binding.root
-                                )
-                            }
-                        } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
-                        }
-                    }
-                    is HomeSealedClasses.Companion.CatogrySealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        hideLoadingDialog()
-                    }
-                }
-            }
-        }
-        //SubCategory Loded
-        lifecycleScope.launch {
-            homeviewmodel.subCatLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.SubCatSealed.loading -> {
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.SubCatSealed.Success -> {
-                        hideLoadingDialog()
-                        if (it.response is GetSubCatDataDetails) {
-                            if (it.response.data.size > 0) {
-                                subCatList.addAll(it.response.data)
-
-                                setSubCatAdapter()
-                            } else {
-                                showCustomAlert(
-                                    getString(R.string.sub_category_not_found),
-                                    binding.root
-                                )
-                            }
-                        } else {
-                            showCustomAlert(
-                                getString(R.string.please_try_after_sometime),
-                                binding.root
-                            )
-                        }
-                    }
-                    is HomeSealedClasses.Companion.SubCatSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-
-                        showCustomAlert(
-                            it.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        hideLoadingDialog()
-                    }
-                }
-            }
-        }
-        //tax Loded
-        lifecycleScope.launch {
-            homeviewmodel.taxListLive.collect {
-                when (it) {
-                    is HomeSealedClasses.Companion.TaxationSealed.loading -> {
-                        showLoadingDialog()
-                    }
-                    is HomeSealedClasses.Companion.TaxationSealed.Success -> {
-                        hideLoadingDialog()
-                        if (it.response is GetCurrentTaxDetail) {
-                            if (it.response.data.size > 0) {
-                                taxAdapter.setItems(itemList = it.response.data)
-                            } else
-                                showCustomAlert(getString(R.string.tax_not_found), binding.root)
-
-
-                        } else {
-//                            showCustomAlert(getString(R.string.please_try_after_sometime), binding.root)
-                        }
-
-                    }
-                    is HomeSealedClasses.Companion.TaxationSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-//                        showCustomAlert(it.failResponse!!.message, binding.root)
-                    }
-                    else -> {
-                        hideLoadingDialog()
-                    }
-                }
-
             }
         }
     }

@@ -47,6 +47,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SC
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -58,8 +59,6 @@ class HomeActivity : BaseActivity() {
     private var doubleBackToExitPressedOnce = false
     var Merchantrole = ""
     private var authSheet:AuthBottomSheetDialog?=null
-
-    var screenName = ""
     var read = false
     var write = false
     private val homeviewmodel: HomeViewModel by inject()
@@ -76,6 +75,7 @@ class HomeActivity : BaseActivity() {
                 Merchantrole = role
                 initialisation()
                 fingerPrint()
+                this.cancel()
             }
         }
     }
@@ -412,7 +412,6 @@ class HomeActivity : BaseActivity() {
                     }
                     is HomeSealedClasses.Companion.ResponseHomeSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
-
                         if (it.failResponse!!.code == 403) {
                             forcelogout(homeviewmodel.methodRepo)
                         } else {

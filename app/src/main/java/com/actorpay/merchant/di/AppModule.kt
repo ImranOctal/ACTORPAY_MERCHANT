@@ -15,7 +15,7 @@ import com.actorpay.merchant.ui.commission.CommissionViewModel
 import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.manageOrder.OrderDetailViewModel
+import com.actorpay.merchant.ui.manageOrder.viewModel.OrderDetailViewModel
 import com.actorpay.merchant.ui.more.MoreViewModel
 import com.actorpay.merchant.ui.outlet.OutletViewModel
 import com.actorpay.merchant.ui.outlet.addoutlet.AddOutletViewModel
@@ -29,6 +29,8 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.AU
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.BASE_URL
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.BEARER
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
+import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
+import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.octal.actorpayuser.ui.dispute.DisputeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -131,6 +133,14 @@ private val appKoinModule = module {
     }
     viewModel {
         DisputeDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+
+    viewModel {
+        ManageOrderViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+
+    viewModel {
+        ProductViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
    /* factory<ScreenNavigator> {
         LegacyNavigator()

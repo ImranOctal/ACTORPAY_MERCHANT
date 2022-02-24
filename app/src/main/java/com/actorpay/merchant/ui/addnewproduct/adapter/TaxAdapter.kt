@@ -56,7 +56,7 @@ class TaxAdapter(powerSpinnerView: PowerSpinnerView
         val item = spinnerItems[index]
         val oldIndex = this.index
         this.index = index
-        this.spinnerView.notifyItemSelected(index, item.taxPercentage.toString())
+        this.spinnerView.notifyItemSelected(index, item.hsnCode+ "(${item.taxPercentage.toString()+"%"})")
         this.onSpinnerItemSelectedListener?.onItemSelected(
             oldIndex = oldIndex,
             oldItem = oldIndex.takeIf { it >= 0 }?.let { spinnerItems[oldIndex] },

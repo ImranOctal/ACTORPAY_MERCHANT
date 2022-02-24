@@ -26,25 +26,19 @@ class RoleDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_role_details)
-
         rolesDetailsViewModel.id = intent.getStringExtra("id")!!
         apiResponse()
-
         binding.back.setOnClickListener {
             onBackPressed()
         }
-
         if (rolesDetailsViewModel.id == "") {
             setAdapter()
         } else {
             rolesDetailsViewModel.getRoleById()
         }
-
         binding.btnSubmit.setOnClickListener {
             validate()
         }
-
-
     }
 
     fun validate() {
@@ -71,6 +65,7 @@ class RoleDetailsActivity : BaseActivity() {
             Log.d("TAG", "validate: ")
         }
     }
+
 
     fun apiResponse() {
         lifecycleScope.launch {

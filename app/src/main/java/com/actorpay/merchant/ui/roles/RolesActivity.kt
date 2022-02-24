@@ -3,6 +3,8 @@ package com.actorpay.merchant.ui.roles
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -25,16 +27,23 @@ import org.koin.android.ext.android.inject
 
 class RolesActivity : BaseActivity() {
     private lateinit var binding: ActivityRolesBinding
+    private var handler: Handler? = null
     private val rolesViewModel: RolesViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_roles)
+        binding.shimmerViewContainer.visibility= View.VISIBLE
         binding.back.setOnClickListener {
             onBackPressed()
         }
         apiResponse()
         setAdapter()
-        rolesViewModel.getAllRoles()
+        handler=Handler()
+        handler!!.postDelayed({ //Do something after delay
+            rolesViewModel.getAllRoles()
+
+        }, 3000)
+
         binding.btnAddRole.setOnClickListener {
             val intent= Intent(this,RoleDetailsActivity::class.java)
             intent.putExtra("id","")
@@ -88,7 +97,8 @@ class RolesActivity : BaseActivity() {
                             rolesViewModel.rolesList.addAll(event.response.data.items)
                             setAdapter()
                             rolesViewModel.getAllScreen()
-
+                            binding.shimmerViewContainer.stopShimmerAnimation()
+                            binding.shimmerViewContainer.visibility = View.GONE
                         }
                         else if (event.response is ScreenResponse) {
                             GlobalData.allScreens.clear()
@@ -117,5 +127,16 @@ class RolesActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerViewContainer.startShimmerAnimation()
+    }
+
+    override fun onPause() {
+        binding.shimmerViewContainer.visibility= View.GONE
+        binding.shimmerViewContainer.stopShimmerAnimation()
+        super.onPause()
     }
 }

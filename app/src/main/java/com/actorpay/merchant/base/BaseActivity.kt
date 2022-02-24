@@ -158,6 +158,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
     }
+
+
+
     fun hideLoadingDialog() {
         if(progressDialog!=null){
             progressDialog!!.dismiss()

@@ -1,18 +1,20 @@
 package com.actorpay.merchant.ui.manageOrder.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
+import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
 import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
-import com.actorpay.merchant.repositories.AppConstance.AppConstance
-import android.app.Activity
-import android.graphics.Color
-import android.view.View
 import com.actorpay.merchant.utils.roundBorderedView
 import com.bumptech.glide.Glide
 
@@ -41,7 +43,6 @@ class OrderAdapter(
     inner class ItemHolder(private val orderBinding: ManageOrderLayoutItemBinding) :
         RecyclerView.ViewHolder(orderBinding.root) {
         fun bind(position: Int) {
-
             orderBinding.apply {
                 titleOfOrder.text = items[position].orderNo
                 tvPrice.text ="Price: "+ AppConstance.rupee + items[position].totalPrice.toString()

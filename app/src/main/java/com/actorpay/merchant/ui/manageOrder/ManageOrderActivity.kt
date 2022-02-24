@@ -1,17 +1,12 @@
 package com.actorpay.merchant.ui.manageOrder
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,40 +16,39 @@ import com.actorpay.merchant.databinding.ActivityManageOrderBinding
 import com.actorpay.merchant.databinding.DialogFilterBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
-import com.actorpay.merchant.ui.home.HomeViewModel
-import com.actorpay.merchant.ui.home.models.sealedclass.HomeSealedClasses
 import com.actorpay.merchant.ui.manageOrder.adapter.OrderAdapter
+import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
+import com.actorpay.merchant.utils.ResponseSealed
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import java.text.DecimalFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ManageOrderActivity : BaseActivity() {
     private lateinit var binding: ActivityManageOrderBinding
-    private val homeviewmodel: HomeViewModel by inject()
-
+    private val orderViewModel: ManageOrderViewModel by inject()
     var startDate = ""
     var endDate = ""
     var merchantIid = ""
-    var deliveryStatus = ""
     var orderStatus = ""
     var customerEmail = ""
     var orderNo = ""
     private var order = ArrayList<Item>()
-    private var list = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_order)
         Installation()
-        homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
+        orderViewModel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
     }
     private fun setupRv(orderList: ArrayList<Item>) {
+//
+//        binding.manageOrder.itemAnimator = SlideInDownAnimator()
+
         binding.manageOrder.layoutManager = LinearLayoutManager(this@ManageOrderActivity, LinearLayoutManager.VERTICAL, false)
         binding.manageOrder.adapter = OrderAdapter(this@ManageOrderActivity, orderList) { position, status ->
 
-            updateStatus(position, orderList, status)
         }
     }
     private fun Installation() {
@@ -85,14 +79,7 @@ class ManageOrderActivity : BaseActivity() {
             if (endDate.isEmpty()) {
                 endDate = ""
             }
-            homeviewmodel.getAllOrder(
-                startDate,
-                endDate,
-                merchantIid,
-                orderStatus,
-                customerEmail,
-                orderNo
-            )
+            orderViewModel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
             dialog.dismiss()
         }
         ArrayAdapter.createFromResource(this, R.array.status_array, android.R.layout.simple_spinner_item).also { adapter ->
@@ -177,15 +164,14 @@ class ManageOrderActivity : BaseActivity() {
 
     private fun apiResponse() {
         lifecycleScope.launchWhenStarted {
-            homeviewmodel.getAllOrder.collect { action ->
+            orderViewModel.responseLive.collect { action ->
                 when (action) {
-                    is HomeSealedClasses.Companion.ResponseSealed.loading -> {
+                    is  ResponseSealed.Loading -> {
                         showLoadingDialog()
                     }
-                    is HomeSealedClasses.Companion.ResponseSealed.Success -> {
+                    is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (action.response is BeanViewAllOrder) {
-
                             if (action.response.data.items.size > 0) {
                                 order = action.response.data.items
                                 binding.manageOrder.visibility = View.VISIBLE
@@ -196,13 +182,16 @@ class ManageOrderActivity : BaseActivity() {
                                 binding.emptyText.visibility = View.VISIBLE
                                 binding.imageEmpty.visibility = View.VISIBLE
                                 binding.manageOrder.visibility = View.GONE
+
                             }
+                            binding.shimmerViewContainer.stopShimmerAnimation();
+                            binding.shimmerViewContainer.visibility = View.GONE;
                         }
                     }
-                    is HomeSealedClasses.Companion.ResponseSealed.ErrorOnResponse -> {
+                    is  ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
                         if(action.failResponse!!.code==403){
-                            forcelogout(homeviewmodel.methodRepo)
+                            forcelogout(orderViewModel.methodRepo)
                         }else{
                             showCustomAlert(
                                 action.failResponse.message,
@@ -216,12 +205,17 @@ class ManageOrderActivity : BaseActivity() {
         }
     }
 
-    private fun updateStatus(position: Int, items: ArrayList<Item>, status: String) {
-    // homeviewmodel.updateStatus(items[position].orderNo,status)
-    }
-
     override fun onResume() {
         super.onResume()
-        homeviewmodel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
+        orderViewModel.getAllOrder(startDate, endDate, merchantIid, orderStatus, customerEmail, orderNo)
+        binding.shimmerViewContainer.startShimmerAnimation();
+        binding.shimmerViewContainer.visibility=View.VISIBLE
+
+    }
+
+    override fun onPause() {
+        binding.shimmerViewContainer.visibility=View.GONE
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        super.onPause()
     }
 }

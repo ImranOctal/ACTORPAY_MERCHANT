@@ -18,8 +18,7 @@ class RoleAdapter(
     RecyclerView.Adapter<RoleAdapter.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_roles, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_roles, parent, false)
         val roleBinding = ItemRolesBinding.bind(view)
         return ItemHolder(roleBinding)
     }
@@ -29,7 +28,9 @@ class RoleAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+
         holder.bind(position)
+
     }
 
     inner class ItemHolder(private val outLetBinding: ItemRolesBinding) :

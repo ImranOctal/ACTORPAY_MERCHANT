@@ -3,6 +3,7 @@ package com.actorpay.merchant.ui.outlet
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
@@ -26,14 +27,17 @@ import org.koin.android.ext.android.inject
 
 class OutletActivity : BaseActivity() {
     private lateinit var binding: ActivityOutletBinding
+    private var handler: Handler? = null
     private val outletViewModel: OutletViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_outlet)
+        handler = Handler()
         binding.back.setOnClickListener {
             onBackPressed()
         }
+        binding.shimmerViewContainer.visibility=View.VISIBLE
         binding.btnAddOutlet.setOnClickListener {
             val intent = Intent(this, AddOutletActivity::class.java)
             resultLauncher.launch(intent)
@@ -41,11 +45,16 @@ class OutletActivity : BaseActivity() {
         Places.initialize(
             this, "AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"
         )
-        outletViewModel.getOutlet()
+
+        handler!!.postDelayed({ //Do something after delay
+
+            outletViewModel.getOutlet()
+
+        }, 3000)
+
+
         apiResponse()
     }
-
-
     fun apiResponse() {
         lifecycleScope.launch {
             outletViewModel.responseLive.collect {
@@ -67,6 +76,9 @@ class OutletActivity : BaseActivity() {
                                 binding.tvDataNotFound.visibility = View.VISIBLE
                                 binding.imageEmpty.visibility = View.VISIBLE
                             }
+
+                            binding.shimmerViewContainer.stopShimmerAnimation();
+                            binding.shimmerViewContainer.visibility = View.GONE;
                         }
                         if (it.response is DeleteOutlet) {
                             showCustomAlert(it.response.message, binding.root)
@@ -142,6 +154,18 @@ class OutletActivity : BaseActivity() {
                 outletViewModel.getOutlet()
             }
         }
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerViewContainer.startShimmerAnimation();
+
+
+    }
+
+    override fun onPause() {
+        binding.shimmerViewContainer.visibility=View.GONE
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        super.onPause()
+    }
 
 
 }

@@ -14,30 +14,29 @@ import com.actorpay.merchant.databinding.ActivityMainBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.CountryResponse
 import com.actorpay.merchant.ui.home.HomeActivity
-import com.actorpay.merchant.ui.signup.SignupActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.viewmodel.ActorPayViewModel
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import android.widget.Toast
 
 
-import android.content.ContentValues.TAG
 import com.actorpay.merchant.R
 import com.actorpay.merchant.ui.login.LoginActivity
 
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
+
+
+    var login=false
+
     private lateinit var binding: ActivityMainBinding
     private val actorPayViewModel: ActorPayViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,58 +50,13 @@ class SplashActivity : BaseActivity() {
                 viewModel.getAllCountries()
             }
             else{
-                showCustomToast("No Internet Available")
-                finishAffinity()
+                CommonDialogsUtils.networkDialog(this@SplashActivity,viewModel.methodRepo){
+                    viewModel.getAllCountries()
+                }
             }
-
         }
-//        FirebaseMessaging.getInstance().token
-//            .addOnCompleteListener(OnCompleteListener { task ->
-//                if (!task.isSuccessful) {
-//                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-//                    return@OnCompleteListener
-//                }
-//
-//                // Get new FCM registration token
-//                val token = task.result
-//
-//                // Log and toast
-////                val msg = getString(com.actorpay.merchant.R.string.msg_token_fmt, token)
-////                Log.d(TAG, msg)
-//
-//                Log.e("FirebaseToken", token )
-//            })
 
-//        val token=sharedPre.firebaseDeviceToken
-//        Log.e("FCM", "token: $token", )
 
-        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e("ERROR in Firebase", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }else{
-                // Get new FCM registration token
-                val newToken = task.result
-                sharedPre.setFirebaseToken(newToken)
-                if (sharedPre.firebaseDeviceToken != null && !sharedPre.firebaseDeviceToken!!.isEmpty()
-                ) {
-                    Log.e("FirebaseToken", newToken )
-                }
-                lifecycleScope.launch (Dispatchers.Main) {
-                    delay(2000L)
-                    actorPayViewModel.methodRepo.dataStore.isLoggedIn().collect {
-                        if (it) {
-                            startActivity(Intent(baseContext(), HomeActivity::class.java))
-                            finish()
-                        } else {
-                            startActivity(Intent(baseContext(), LoginActivity::class.java))
-                            finish()
-                        }
-                    }
-                }
-            }
-            // Log and toast
-        })
 
         }
 
@@ -119,10 +73,10 @@ class SplashActivity : BaseActivity() {
                             CommonDialogsUtils.showCommonDialog(this@SplashActivity,viewModel.methodRepo,"Success",it.response.message)
                         }
                         else if(it.response is CountryResponse){
-
                             GlobalData.allCountries.clear()
                             GlobalData.allCountries.addAll(it.response.data)
 
+                            goNextActivity()
 
                         }
                         else {
@@ -151,4 +105,37 @@ class SplashActivity : BaseActivity() {
             }
         }
     }
+
+    private fun goNextActivity() {
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e("ERROR in Firebase", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }else{
+                // Get new FCM registration token
+                val newToken = task.result
+                sharedPre.setFirebaseToken(newToken)
+                if (sharedPre.firebaseDeviceToken != null && !sharedPre.firebaseDeviceToken!!.isEmpty()
+                ) {
+                    Log.e("FirebaseToken", newToken )
+                }
+                lifecycleScope.launch (Dispatchers.Main) {
+                    delay(2000L)
+                    actorPayViewModel.methodRepo.dataStore.isLoggedIn().collect {
+                        if (it&&viewModel.methodRepo.isNetworkConnected()) {
+                            startActivity(Intent(baseContext(), HomeActivity::class.java))
+                            finish()
+                        } else {
+                            if(!viewModel.methodRepo.isNetworkConnected()){
+
+                            }
+                            startActivity(Intent(baseContext(), LoginActivity::class.java))
+                            finish()
+                        }
+                    }
+                }
+            }
+            // Log and toast
+        })
     }
+}

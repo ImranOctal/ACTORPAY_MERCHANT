@@ -1,4 +1,4 @@
-package com.actorpay.merchant.ui.manageOrder
+package com.actorpay.merchant.ui.manageOrder.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -17,9 +17,7 @@ import kotlinx.coroutines.launch
 class OrderDetailViewModel(
     val dispatcherProvider: CoroutineContextProvider,
     val methodRepo: MethodsRepo,
-    val apiRepo: RetrofitRepository, ) : AndroidViewModel(
-    Application()
-)
+    val apiRepo: RetrofitRepository, ) : AndroidViewModel(Application())
 {
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
     fun addNote(note: String, orderNo: String) {
@@ -29,8 +27,7 @@ class OrderDetailViewModel(
             methodRepo.dataStore.getAccessToken().collect { token ->
                 when (val response = apiRepo.addNote(token,body)) {
                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
-                    is RetrofitResource.Success -> responseLive.value =
-                        ResponseSealed.Success(response.data!!)
+                    is RetrofitResource.Success -> responseLive.value = ResponseSealed.Success(response.data!!)
                 }
             }
         }

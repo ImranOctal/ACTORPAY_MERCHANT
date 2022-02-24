@@ -4,6 +4,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         style="@style/parentFull"
+        xmlns:shimmer="http://schemas.android.com/apk/res-auto"
         android:background="@color/primary"
         android:orientation="vertical"
         android:weightSum="1"
@@ -83,22 +84,51 @@
 
 
             </LinearLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                shimmer:layout_constraintStart_toStartOf="parent"
+
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                shimmer:duration="800"
+                app:layout_constraintTop_toBottomOf="@id/businessLay"
+                android:orientation="vertical">
+
+                <!-- Adding 7 rows of placeholders -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/data_place_holder"/>
+                    <include layout="@layout/data_place_holder"/>
+                    <include layout="@layout/data_place_holder"/>
+                    <include layout="@layout/data_place_holder"/>
+                    <include layout="@layout/data_place_holder"/>
+                    <include layout="@layout/data_place_holder"/>
+
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeLoad"
                 android:layout_height="0dp"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/businessLay"
-                app:layout_constraintBottom_toTopOf="@id/AddNewProductButton"
-             >
+                app:layout_constraintBottom_toTopOf="@id/AddNewProductButton">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/manageProduct"
                     style="@style/parentConstraintMatchHeight"
                     android:layout_weight=".88"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/manage_product_item" />
+                    android:orientation="vertical" />
 
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

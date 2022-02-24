@@ -42,6 +42,7 @@
         <activity
             android:name=".ui.roles.details.RoleDetailsActivity"
             android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.updateoutlet.UpdateOutletActivity"
@@ -50,6 +51,7 @@
         <activity
             android:name=".ui.roles.RolesActivity"
             android:exported="false"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.outlet.addoutlet.AddOutletActivity"

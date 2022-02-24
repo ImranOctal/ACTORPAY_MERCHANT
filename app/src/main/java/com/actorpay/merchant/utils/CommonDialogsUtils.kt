@@ -3,6 +3,7 @@ package com.actorpay.merchant.utils
 import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,17 +13,36 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
+import com.actorpay.merchant.databinding.CancelBottomsheetBinding
 import com.actorpay.merchant.databinding.CommonDialogBinding
+import com.actorpay.merchant.databinding.NetworkDialogBinding
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
+import com.actorpay.merchant.ui.home.HomeActivity
+import com.actorpay.merchant.ui.login.LoginActivity
+import com.actorpay.merchant.ui.manageOrder.adapter.OrderStatusAdapter
+import com.actorpay.merchant.ui.splash.SplashActivity
+import com.actorpay.merchant.viewmodel.ActorPayViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import io.ktor.routing.RoutingPath.Companion.root
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 
 
 class CommonDialogsUtils {
@@ -158,6 +178,21 @@ class CommonDialogsUtils {
             )
         }
 
-    }
 
+        fun networkDialog(activity: Activity,methodsRepo: MethodsRepo,onClick:()->Unit) {
+            val binding: NetworkDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.network_dialog, null, false)
+            val dialog = Dialog(activity, R.style.MainDialog)
+            binding.btnRetry.setOnClickListener {
+                if(methodsRepo.isNetworkConnected()){
+                     dialog.dismiss()
+                     onClick()
+                }else{
+                    Toast.makeText(activity,"No Internet Connection",Toast.LENGTH_LONG).show()
+                }
+            }
+            dialog.setContentView(binding.root)
+            dialog.setCancelable(false)
+            dialog.show()
+        }
+    }
 }

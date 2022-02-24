@@ -22,8 +22,6 @@ class OutletViewModel(
     Application())
 {
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
-
-
     fun getOutlet() {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
