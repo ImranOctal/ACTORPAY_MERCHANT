@@ -74,13 +74,11 @@ class AddNewProduct : BaseActivity() {
     private fun Installation() {
         binding.toolbar.back.visibility = View.VISIBLE
 
-        handler!!.postDelayed({ //Do something after delay
+        handler!!.postDelayed({
 
+            //Do something after delay
             productViewModel.getCategory()
-
         }, 200)
-
-
 
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()

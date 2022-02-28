@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -33,7 +34,7 @@ class CreateSubAdminActivity :  BaseActivity() {
     private val addSubViewModel: AddSubMerchantViewModel by inject()
     private val rolesViewModel: RolesViewModel by inject()
     var dob=""
-
+    private var showPassword = false
     var roleId=""
     var gender=""
     var list=ArrayList<RoleItem>()
@@ -111,6 +112,19 @@ class CreateSubAdminActivity :  BaseActivity() {
             CountryPicker(this, viewModel.methodRepo, GlobalData.allCountries) {
                 binding.codePicker.text = GlobalData.allCountries[it].countryCode
             }.show()
+        }
+        binding.subPasswordShowHide.setOnClickListener {
+            if (showPassword) {
+                binding.etPassword.transformationMethod = PasswordTransformationMethod()
+                showPassword = false
+                binding.subPasswordShowHide.setImageResource(R.drawable.hide)
+                binding.etPassword.setSelection(binding.etPassword.text.toString().length)
+            } else {
+                binding.etPassword.transformationMethod = null
+                showPassword = true
+                binding.subPasswordShowHide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
+                binding.etPassword.setSelection(binding.etPassword.text.toString().length)
+            }
         }
     }
 

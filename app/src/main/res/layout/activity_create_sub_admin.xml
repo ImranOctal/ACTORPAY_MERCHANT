@@ -136,25 +136,29 @@
 
                             <LinearLayout
                                 android:id="@+id/llPassword"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_35sdp"
-                                android:layout_marginStart="@dimen/_10sdp"
+                                style="@style/TxtOutline2"
                                 android:layout_marginTop="@dimen/_16sdp"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                android:background="@drawable/btn_outline_gray"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
-
+                                android:orientation="horizontal">
 
                                 <EditText
                                     android:id="@+id/etPassword"
                                     style="@style/regular1Full"
-                                    android:autofillHints="emailAddress"
+                                    android:width="0dp"
+                                    android:layout_weight="1"
                                     android:background="@color/transparent"
                                     android:hint="@string/password"
+                                    android:autofillHints="phone"
                                     android:inputType="textPassword"
-                                    android:padding="@dimen/_5ssp"
                                     android:singleLine="true" />
+
+                                <ImageView
+                                    android:id="@+id/sub_password_show_hide"
+                                    android:layout_width="@dimen/_25sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:src="@drawable/hide"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    />
 
                             </LinearLayout>
 

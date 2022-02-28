@@ -8,6 +8,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
@@ -67,7 +68,7 @@ class UpdateProduct : BaseActivity() {
     var SubCatId = ""
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
-
+    private var handler: Handler? = null
     var isCategoryAvailable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +77,7 @@ class UpdateProduct : BaseActivity() {
         binding.addProduct.text = getString(R.string.updated_product)
         productId = intent.getStringExtra(AppConstanceData.PRODUCT_ID).toString()
         Installation()
+        handler= Handler()
     }
 
     private fun Installation() {
@@ -120,12 +122,7 @@ class UpdateProduct : BaseActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     subCatList.clear()
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
@@ -137,6 +134,9 @@ class UpdateProduct : BaseActivity() {
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
+                        }else{
+                            catId = catList[position].id
+                            productViewModel.getSubCatDetalis(catId)
                         }
                 }
             }
@@ -144,27 +144,16 @@ class UpdateProduct : BaseActivity() {
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (isCategoryAvailable)
                         SubCatId = subCatList[position].id
                     if (position == 0) {
-
                         try {
-
                             (view as TextView).setTextColor(this@UpdateProduct.resources.getColor(R.color.light_grey))
 
                         } catch (e: Exception) {
                             e.printStackTrace()
-
                         }
-
-
                     }
                 }
             }
@@ -334,7 +323,13 @@ class UpdateProduct : BaseActivity() {
                             catId = it.response.data.categoryId
                             SubCatId = it.response.data.subCategoryId
                             taxId = it.response.data.taxId
-                            productViewModel.getCategory()
+
+                            handler!!.postDelayed({
+                                productViewModel.getCategory()  //Do something after delay
+
+                            }, 200)
+
+
                             productViewModel.getTaxationDetails()
 
 
@@ -347,7 +342,6 @@ class UpdateProduct : BaseActivity() {
                                     break
                                 }
                             }
-
                             productViewModel.getSubCatDetalis(catId)
                         }else if(it.response is GetSubCatDataDetails){
                             if (it.response.data.isNotEmpty()) {
