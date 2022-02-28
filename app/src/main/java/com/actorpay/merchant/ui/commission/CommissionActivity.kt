@@ -32,7 +32,7 @@ class CommissionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_commission)
         commissionViewModel.getAllCommissions()
-
+        binding.shimmerViewContainer.visibility=View.VISIBLE
         binding.back.setOnClickListener {
             finish()
         }
@@ -41,7 +41,6 @@ class CommissionActivity : BaseActivity() {
         }
         apiResponse()
         setAdapter()
-
     }
 
     private fun setAdapter() {
@@ -73,6 +72,9 @@ class CommissionActivity : BaseActivity() {
                                 binding.emptyText.visibility = View.VISIBLE
                                 binding.rvCommission.visibility = View.GONE
                             }
+
+                            binding.shimmerViewContainer.stopShimmerAnimation()
+                            binding.shimmerViewContainer.visibility = View.GONE
                         }
                     }
 
@@ -294,4 +296,18 @@ class CommissionActivity : BaseActivity() {
         dialog.setContentView(binding.root)
         dialog.show()
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerViewContainer.startShimmerAnimation();
+
+
+    }
+
+    override fun onPause() {
+        binding.shimmerViewContainer.visibility=View.GONE
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        super.onPause()
+    }
+
 }

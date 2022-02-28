@@ -210,6 +210,7 @@
     <string name="no_outlet_available">No Outlet Available.</string>
     <string name="network_error">Network Error</string>
     <string name="retry">Retry</string>
+    <string name="no_role_found">No Role Found</string>
     >
 
     <string-array name="status_array">

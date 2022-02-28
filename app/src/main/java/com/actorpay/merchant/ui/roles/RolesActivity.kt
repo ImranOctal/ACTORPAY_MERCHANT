@@ -92,13 +92,23 @@ import org.koin.android.ext.android.inject
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
                         if (event.response is RolesResponse) {
-                            rolesViewModel.pageNo=event.response.data.pageNumber
-                            rolesViewModel.rolesList.clear()
-                            rolesViewModel.rolesList.addAll(event.response.data.items)
-                            setAdapter()
+                            if(event.response.data.items.isNotEmpty()){
+                                rolesViewModel.pageNo=event.response.data.pageNumber
+                                rolesViewModel.rolesList.clear()
+                                rolesViewModel.rolesList.addAll(event.response.data.items)
+                                binding.shimmerViewContainer.stopShimmerAnimation()
+                                binding.shimmerViewContainer.visibility = View.GONE
+                                binding.imageEmpty.visibility = View.GONE
+                                binding.tvEmptyText.visibility = View.GONE
+                                setAdapter()
+                            }else{
+                                rolesViewModel.rolesList.clear()
+                                binding.shimmerViewContainer.visibility = View.GONE
+                                binding.imageEmpty.visibility = View.VISIBLE
+                                binding.tvEmptyText.visibility = View.VISIBLE
+
+                            }
                             rolesViewModel.getAllScreen()
-                            binding.shimmerViewContainer.stopShimmerAnimation()
-                            binding.shimmerViewContainer.visibility = View.GONE
                         }
                         else if (event.response is ScreenResponse) {
                             GlobalData.allScreens.clear()

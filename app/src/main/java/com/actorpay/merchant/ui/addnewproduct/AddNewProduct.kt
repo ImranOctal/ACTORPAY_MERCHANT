@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
@@ -53,7 +54,7 @@ import java.io.IOException
 class AddNewProduct : BaseActivity() {
     private lateinit var binding: ActivityAddNewProductBinding
     private lateinit var taxAdapter: TaxAdapter
-
+    private var handler: Handler? = null
     private val productViewModel: ProductViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
@@ -66,12 +67,21 @@ class AddNewProduct : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_product)
+        handler=Handler()
         Installation()
     }
 
     private fun Installation() {
         binding.toolbar.back.visibility = View.VISIBLE
-        productViewModel.getCategory()
+
+        handler!!.postDelayed({ //Do something after delay
+
+            productViewModel.getCategory()
+
+        }, 200)
+
+
+
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()
         productViewModel.getTaxationDetails()
@@ -85,6 +95,7 @@ class AddNewProduct : BaseActivity() {
         ClickListners()
         apiResponse()
     }
+
     private fun ClickListners() {
         binding.toolbar.back.setOnClickListener {
             onBackPressed()
@@ -107,6 +118,7 @@ class AddNewProduct : BaseActivity() {
                     subCatList.clear()
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
+
                     if (position == 0) {
                         try {
                          (view as TextView).setTextColor(this@AddNewProduct.resources.getColor(R.color.light_grey))
@@ -143,13 +155,10 @@ class AddNewProduct : BaseActivity() {
         binding.chooseSubCategory.adapter = branchListAdapter
     }
     private fun catAdapter() {
-        val branchListAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(
-            this@AddNewProduct,
-            android.R.layout.simple_spinner_item,
-            catList
-        )
+        val branchListAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(this@AddNewProduct, android.R.layout.simple_spinner_item, catList)
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseCategory.adapter = branchListAdapter
+
     }
 
     fun validate() {
@@ -244,7 +253,6 @@ class AddNewProduct : BaseActivity() {
                     Log.e("merchantId>>", merchantId)
                 }
             }
-
         }
     }
 
@@ -252,6 +260,7 @@ class AddNewProduct : BaseActivity() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryForResult.launch(galleryIntent)
     }
+
     private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
             if (permission) {
                 fetchImage()

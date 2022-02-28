@@ -77,8 +77,8 @@ class OutletActivity : BaseActivity() {
                                 binding.imageEmpty.visibility = View.VISIBLE
                             }
 
-                            binding.shimmerViewContainer.stopShimmerAnimation();
-                            binding.shimmerViewContainer.visibility = View.GONE;
+                            binding.shimmerViewContainer.stopShimmerAnimation()
+                            binding.shimmerViewContainer.visibility = View.GONE
                         }
                         if (it.response is DeleteOutlet) {
                             showCustomAlert(it.response.message, binding.root)

@@ -219,6 +219,13 @@ class HomeActivity : BaseActivity() {
             switchActivity(Intent(baseContext(), ManageOrderActivity::class.java))
         }
 
+        binding.cvProfile.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            switchActivity(Intent(baseContext(), ProfileActivity::class.java))
+        }
+
         binding.cvSubMerchant.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()

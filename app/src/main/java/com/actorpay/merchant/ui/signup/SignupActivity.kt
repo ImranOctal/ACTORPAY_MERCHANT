@@ -120,6 +120,7 @@ class SignupActivity : BaseActivity() {
         })
 
         binding.address.setOnClickListener {
+            binding.address.error=null
             if (!Places.isInitialized()) {
                 Places.initialize(applicationContext, getString(R.string.place_api_key), Locale.US);
             }
@@ -146,6 +147,8 @@ class SignupActivity : BaseActivity() {
             binding.address.error = getString(R.string.address_empty)
             binding.address.requestFocus()
             isValidate = false
+
+
         } else if (binding.address.text.toString().trim().length < 3) {
             binding.address.error = getString(R.string.address_error)
             binding.address.requestFocus()

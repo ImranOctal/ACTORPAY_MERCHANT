@@ -49,7 +49,148 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
                             android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/_12sdp"
+                                android:gravity="start">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvOrder"
+                                    android:layout_width="@dimen/_110sdp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:elevation="@dimen/_15sdp"
+                                    android:shadowColor="@color/text_color"
+                                    app:cardCornerRadius="@dimen/_5ssp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <ImageView
+                                            android:id="@+id/ivOrder"
+                                            android:layout_width="@dimen/_30ssp"
+                                            android:layout_height="@dimen/_30ssp"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:src="@drawable/ic_order_color"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/tvOrder"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:fontFamily="@font/poppins_bold"
+                                            android:text="Orders"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/ivOrder" />
+
+                                        <TextView
+                                            android:id="@+id/tvTotalOrder"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:paddingVertical="@dimen/_5sdp"
+                                            android:text="Manage"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/tvOrder" />
+
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvEarnMoney"
+                                    android:layout_width="@dimen/_110sdp"
+                                    android:layout_height="120dp"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:elevation="@dimen/_15sdp"
+                                    android:shadowColor="@color/text_color"
+                                    app:cardCornerRadius="@dimen/_5ssp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <ImageView
+                                            android:id="@+id/ivEarnMoneyColor"
+                                            android:layout_width="@dimen/_30ssp"
+                                            android:layout_height="@dimen/_30ssp"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:src="@drawable/ic_earn_money_color"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/tvEarnMoney"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:fontFamily="@font/poppins_bold"
+                                            android:text="@string/earn_money"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/ivEarnMoneyColor" />
+
+                                        <TextView
+                                            android:id="@+id/tvPayrollManager"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:text="Manage"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/tvEarnMoney" />
+
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -114,221 +255,6 @@
 
 
                             </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal">
-
-                                    <androidx.cardview.widget.CardView
-                                        android:id="@+id/cvReport"
-                                        android:layout_width="@dimen/_110sdp"
-                                        android:layout_height="@dimen/_90sdp"
-                                        android:layout_gravity="center"
-                                        android:layout_margin="@dimen/_10sdp"
-                                        android:elevation="@dimen/_15sdp"
-                                        android:shadowColor="@color/text_color"
-                                        app:cardCornerRadius="@dimen/_5ssp">
-
-                                        <androidx.constraintlayout.widget.ConstraintLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-
-                                            <ImageView
-                                                android:id="@+id/ivReporting"
-                                                android:layout_width="@dimen/_30ssp"
-                                                android:layout_height="@dimen/_30ssp"
-                                                android:layout_marginTop="@dimen/_6sdp"
-                                                android:src="@drawable/ic_reporting"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent" />
-
-                                            <TextView
-                                                android:id="@+id/tvReport"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="@dimen/_6sdp"
-                                                android:fontFamily="@font/poppins_bold"
-                                                android:text="@string/reporting"
-                                                android:textColor="@color/black"
-                                                android:textSize="@dimen/_12ssp"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/ivReporting" />
-
-                                            <TextView
-                                                android:id="@+id/tvReportManager"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:text="Manage"
-                                                android:textColor="@color/text_color"
-                                                android:textSize="@dimen/_12ssp"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/tvReport" />
-
-
-                                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                                    </androidx.cardview.widget.CardView>
-
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/cvEarnMoney"
-                                    android:layout_width="@dimen/_110sdp"
-                                    android:layout_height="120dp"
-                                    android:layout_gravity="center"
-                                    android:layout_margin="@dimen/_10sdp"
-                                    android:elevation="@dimen/_15sdp"
-                                    android:shadowColor="@color/text_color"
-                                    app:cardCornerRadius="@dimen/_5ssp">
-
-                                    <androidx.constraintlayout.widget.ConstraintLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <ImageView
-                                            android:id="@+id/ivEarnMoneyColor"
-                                            android:layout_width="@dimen/_30ssp"
-                                            android:layout_height="@dimen/_30ssp"
-                                            android:layout_marginTop="@dimen/_6sdp"
-                                            android:src="@drawable/ic_earn_money_color"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toTopOf="parent" />
-
-                                        <TextView
-                                            android:id="@+id/tvEarnMoney"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/_6sdp"
-                                            android:fontFamily="@font/poppins_bold"
-                                            android:text="@string/earn_money"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_12ssp"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toBottomOf="@+id/ivEarnMoneyColor" />
-
-                                        <TextView
-                                            android:id="@+id/tvPayrollManager"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppins_regular"
-                                            android:text="Manage"
-                                            android:textColor="@color/text_color"
-                                            android:textSize="@dimen/_12ssp"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toBottomOf="@+id/tvEarnMoney" />
-
-
-                                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                                </androidx.cardview.widget.CardView>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/cvSubMerchant"
-                                    android:layout_width="@dimen/_110sdp"
-                                    android:layout_height="@dimen/_90sdp"
-                                    android:layout_gravity="center"
-                                    android:layout_margin="@dimen/_10sdp"
-                                    android:elevation="@dimen/_15sdp"
-                                    android:shadowColor="@color/text_color"
-                                    app:cardCornerRadius="@dimen/_5ssp">
-
-                                    <androidx.constraintlayout.widget.ConstraintLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <ImageView
-                                            android:id="@+id/ivMerchant"
-                                            android:layout_width="@dimen/_30ssp"
-                                            android:layout_height="@dimen/_30ssp"
-                                            android:layout_marginTop="@dimen/_6sdp"
-                                            android:src="@drawable/ic_merchant"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toTopOf="parent" />
-
-                                        <TextView
-                                            android:id="@+id/tvMerchant"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/_6sdp"
-                                            android:fontFamily="@font/poppins_bold"
-                                            android:text="@string/manage"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_12ssp"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toBottomOf="@+id/ivMerchant" />
-
-                                        <TextView
-                                            android:id="@+id/tvMangeMerchant"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppins_regular"
-                                            android:gravity="center"
-                                            android:text="Sub Merchant"
-                                            android:textColor="@color/text_color"
-                                            android:textSize="@dimen/_12ssp"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toBottomOf="@+id/tvMerchant" />
-
-
-                                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                                </androidx.cardview.widget.CardView>
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2">
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -390,6 +316,82 @@
 
                                 </androidx.cardview.widget.CardView>
                             </LinearLayout>
+
+
+
+
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvSubMerchant"
+                                    android:layout_width="@dimen/_110sdp"
+                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:elevation="@dimen/_15sdp"
+                                    android:shadowColor="@color/text_color"
+                                    app:cardCornerRadius="@dimen/_5ssp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <ImageView
+                                            android:id="@+id/ivMerchant"
+                                            android:layout_width="@dimen/_30ssp"
+                                            android:layout_height="@dimen/_30ssp"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:src="@drawable/ic_merchant"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/tvMerchant"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:fontFamily="@font/poppins_bold"
+                                            android:text="Sub Merchant"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/ivMerchant" />
+
+                                        <TextView
+                                            android:id="@+id/tvMangeMerchant"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:gravity="center"
+                                            android:text="Manage"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/tvMerchant" />
+
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -459,66 +461,140 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:weightSum="2"
+                         >
 
-                            android:layout_marginStart="@dimen/_12sdp"
-                            android:gravity="start">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cvOrder"
-                                android:layout_width="@dimen/_110sdp"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
 
-                                android:elevation="@dimen/_15sdp"
-                                android:shadowColor="@color/text_color"
-                                app:cardCornerRadius="@dimen/_5ssp">
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvProfile"
+                                    android:layout_width="@dimen/_110sdp"
+                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:elevation="@dimen/_15sdp"
+                                    android:shadowColor="@color/text_color"
+                                    app:cardCornerRadius="@dimen/_5ssp">
 
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
 
-                                    <ImageView
-                                        android:id="@+id/ivOrder"
-                                        android:layout_width="@dimen/_30ssp"
-                                        android:layout_height="@dimen/_30ssp"
-                                        android:layout_marginTop="@dimen/_6sdp"
-                                        android:src="@drawable/ic_order_color"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        <ImageView
+                                            android:id="@+id/ivProfile"
+                                            android:layout_width="@dimen/_30ssp"
+                                            android:layout_height="@dimen/_30ssp"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:src="@drawable/ic_profile"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
 
-                                    <TextView
-                                        android:id="@+id/tvOrder"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_6sdp"
-                                        android:fontFamily="@font/poppins_bold"
-                                        android:text="Orders"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/_12ssp"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/ivOrder" />
+                                        <TextView
+                                            android:id="@+id/tvProfile"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:fontFamily="@font/poppins_bold"
+                                            android:text="@string/my_profile"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
 
-                                    <TextView
-                                        android:id="@+id/tvTotalOrder"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_regular"
-                                        android:paddingVertical="@dimen/_5sdp"
-                                        android:text="Manage"
-                                        android:textColor="@color/text_color"
-                                        android:textSize="@dimen/_12ssp"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/tvOrder" />
-
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                        <TextView
+                                            android:id="@+id/tvProfileManage"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:text="Manage"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/tvProfile" />
 
 
-                            </androidx.cardview.widget.CardView>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </androidx.cardview.widget.CardView>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvReport"
+                                    android:layout_width="@dimen/_110sdp"
+                                    android:layout_height="@dimen/_90sdp"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:elevation="@dimen/_15sdp"
+                                    android:shadowColor="@color/text_color"
+                                    app:cardCornerRadius="@dimen/_5ssp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <ImageView
+                                            android:id="@+id/ivReporting"
+                                            android:layout_width="@dimen/_30ssp"
+                                            android:layout_height="@dimen/_30ssp"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:src="@drawable/ic_reporting"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/tvReport"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_6sdp"
+                                            android:fontFamily="@font/poppins_bold"
+                                            android:text="@string/reporting"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/ivReporting" />
+
+                                        <TextView
+                                            android:id="@+id/tvReportManager"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:text="Manage"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="@dimen/_12ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/tvReport" />
+
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </androidx.cardview.widget.CardView>
+
+
+                            </LinearLayout>
+
+
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -598,7 +674,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|top"
-            android:background="@drawable/side_round_corner_drawble">
+            android:background="@drawable/side_round_corner_drawble"
+            android:visibility="gone">
 
             <ScrollView
                 android:layout_width="match_parent"

@@ -56,8 +56,6 @@ class SplashActivity : BaseActivity() {
             }
         }
 
-
-
         }
 
        private fun apiResponse(){

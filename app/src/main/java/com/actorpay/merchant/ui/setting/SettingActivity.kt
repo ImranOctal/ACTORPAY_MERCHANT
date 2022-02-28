@@ -28,6 +28,9 @@ class SettingActivity : BaseActivity() {
         binding.changePassword.setOnClickListener {
             changePasswordUi()
         }
+
+
+
         apiResponse()
     }
 
