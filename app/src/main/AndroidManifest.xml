@@ -16,7 +16,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.setting.SettingActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".ui.disputes.disputedetails.DisputeDetailsActivity"
             android:exported="false" />

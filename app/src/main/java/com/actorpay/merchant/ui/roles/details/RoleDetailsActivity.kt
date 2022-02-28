@@ -12,6 +12,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessRespo
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.ScreenAccessPermission
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.SendRolesParmas
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.SingleRoleResponse
+import com.actorpay.merchant.ui.roles.RolesActivity
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.coroutines.flow.collect
@@ -20,14 +21,19 @@ import org.koin.android.ext.android.inject
 
 class RoleDetailsActivity : BaseActivity() {
 
+
     private lateinit var binding: ActivityRoleDetailsBinding
     private val rolesDetailsViewModel: RolesDetailsViewModel by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_role_details)
         rolesDetailsViewModel.id = intent.getStringExtra("id")!!
         apiResponse()
+
+
+
         binding.back.setOnClickListener {
             onBackPressed()
         }

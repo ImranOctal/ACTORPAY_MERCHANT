@@ -91,11 +91,11 @@
                         />
                 </LinearLayout>
 
-
                 <TextView
                     android:id="@+id/errorOnPassword"
                     style="@style/errotextViewStyle"
                     android:visibility="gone" />
+
 
                 <LinearLayout
                     android:id="@+id/termsAndConditionlay"

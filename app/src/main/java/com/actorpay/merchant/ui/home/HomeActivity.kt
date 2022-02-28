@@ -392,7 +392,6 @@ class HomeActivity : BaseActivity() {
                                      }
                                  }
                             }
-
                             updateUi()
                         } else if (it.response is GetUserById) {
                             val data = it.response
@@ -400,15 +399,8 @@ class HomeActivity : BaseActivity() {
                             viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
                             binding.headerTitle.userProfileName.text = data.data.businessName
                             binding.tvBusinessName.text = "Hi\n" + data.data.businessName
-
                             getPermissionDetails()
-
-
-                        } else showCustomAlert(
-                            getString(R.string.please_try_after_sometime),
-                            binding.root
-                        )
-
+                        } else showCustomAlert(getString(R.string.please_try_after_sometime), binding.root)
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()

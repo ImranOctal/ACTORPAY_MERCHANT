@@ -15,12 +15,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val methodRepo: MethodsRepo, val apiRepo: RetrofitRepository, ) : AndroidViewModel(
-    Application()
-) {
+class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val methodRepo: MethodsRepo, val apiRepo: RetrofitRepository, ) : AndroidViewModel(Application()) {
     val profileResponseLive  = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
-
     val merchantSettingsDTOList= mutableListOf<MerchantSettingsDTO>()
+
 
     sealed class ResponseProfileSealed {
         class Success(val response: Any) : ResponseProfileSealed()
@@ -46,7 +44,6 @@ class ProfileViewModel(val dispatcherProvider: CoroutineContextProvider, val met
             }
         }
     }
-
 
     fun saveProfile(email: String, shopAddress: String, fullAddress: String, businessName: String, licenceNumber: String, merchantSettingsDTO: MutableList<MerchantSettingsDTO>) {
         viewModelScope.launch(dispatcherProvider.IO) {

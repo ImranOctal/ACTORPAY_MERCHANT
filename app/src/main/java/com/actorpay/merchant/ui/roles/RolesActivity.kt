@@ -25,7 +25,7 @@ import org.koin.android.ext.android.inject
 
 
 
-class RolesActivity : BaseActivity() {
+ class RolesActivity : BaseActivity() {
     private lateinit var binding: ActivityRolesBinding
     private var handler: Handler? = null
     private val rolesViewModel: RolesViewModel by inject()
@@ -139,4 +139,7 @@ class RolesActivity : BaseActivity() {
         binding.shimmerViewContainer.stopShimmerAnimation()
         super.onPause()
     }
+
+
+
 }

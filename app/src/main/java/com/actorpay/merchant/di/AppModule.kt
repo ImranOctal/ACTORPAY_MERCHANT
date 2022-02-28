@@ -31,6 +31,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.BE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
 import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
+import com.actorpay.merchant.ui.setting.SettingViewModel
 import com.octal.actorpayuser.ui.dispute.DisputeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -110,15 +111,12 @@ private val appKoinModule = module {
     viewModel {
         RolesViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
-
- viewModel {
+    viewModel {
      SubMerchantsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
-
     viewModel {
         AddSubMerchantViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
-
     viewModel {
         RolesDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
@@ -141,6 +139,9 @@ private val appKoinModule = module {
 
     viewModel {
         ProductViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+    }
+    viewModel {
+        SettingViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
    /* factory<ScreenNavigator> {
         LegacyNavigator()

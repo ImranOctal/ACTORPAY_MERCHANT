@@ -29,12 +29,7 @@ class ManageProductAdapter(
     }
 
     override fun getItemCount(): Int {
-
-
-
         return items.size
-
-
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {

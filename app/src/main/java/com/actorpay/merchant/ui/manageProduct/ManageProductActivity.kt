@@ -325,7 +325,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     override fun onRefresh() {
-        binding.swipeLoad.isRefreshing = true
+        binding.swipeLoad.isRefreshing = false
         productViewModel.getProductList("0", "", "", true, "", "")
     }
 

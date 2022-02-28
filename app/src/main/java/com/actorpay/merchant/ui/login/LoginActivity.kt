@@ -71,8 +71,8 @@ class LoginActivity : BaseActivity() {
         binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
         }
-
       }
+
       private fun validate() {
         if (binding.emailEdit.text.isEmpty()) {
             binding.emailEdit.error=getString(R.string.email_empty)
@@ -90,7 +90,6 @@ class LoginActivity : BaseActivity() {
             login()
         }
     }
-
 
     private fun apiResponse() {
         lifecycleScope.launch {
@@ -147,8 +146,8 @@ class LoginActivity : BaseActivity() {
             }
         }
     }
-    fun login() {
 
+    fun login() {
         loginViewModel.methodRepo.hideSoftKeypad(this)
         loginViewModel.login(
             binding.emailEdit.text.toString().trim(),
