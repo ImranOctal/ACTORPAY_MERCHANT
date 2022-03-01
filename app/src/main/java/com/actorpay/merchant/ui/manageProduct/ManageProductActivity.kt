@@ -227,11 +227,10 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         binding.reset.setOnClickListener {
             binding.productName.setText("")
-            binding.chooseCategory.adapter=null
+            binding.chooseCategory.setSelection(0)
             cat = ""
             Sub = ""
         }
-
         dialog.setContentView(binding.root)
         dialog.show()
     }

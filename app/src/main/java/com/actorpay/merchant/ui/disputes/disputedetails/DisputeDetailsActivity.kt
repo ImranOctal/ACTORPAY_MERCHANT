@@ -114,10 +114,11 @@ class DisputeDetailsActivity : BaseActivity() {
         layoutManager.reverseLayout=true
         binding.rvMessages.layoutManager=layoutManager
         binding.rvMessages.adapter=adapter
-        if(DisputeDetailsViewModel.disputeData!!.disputeMessages.size>0)
+        if(disputeMessages.size>0)
             binding.rvMessages.scrollToPosition(0)
-
     }
+
+
 
 
 }
