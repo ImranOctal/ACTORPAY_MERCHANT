@@ -4,14 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,7 @@ import com.techno.taskmanagement.utils.EndlessRecyclerViewScrollListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+
 
 class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityManageProductBinding
@@ -98,27 +100,54 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
     private fun installation() {
         binding.swipeLoad.setOnRefreshListener(this)
-
         handler!!.postDelayed({ //Do something after delay
-
             productViewModel.getProductList("0", "", "", true, "", "")
-
         }, 3000)
 
-        binding.searchEdit.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                if (s.toString().length > 2) {
-                    searchRunnable = Runnable {
-                        productViewModel.getProductList("0", binding.searchEdit.text.toString(), "", true, "", "")
-                    }
-                    handler!!.removeCallbacks(searchRunnable!!)
-                    handler!!.postDelayed(searchRunnable!!, 1000)
+//        binding.searchEdit.setOnKeyListener { v, keyCode, event -> //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+//            if (keyCode == KeyEvent.KEYCODE_DEL) {
+//                if(binding.searchEdit.text.isEmpty()){
+//                    productViewModel.getProductList("0", binding.searchEdit.text.toString(), "", true, "", "")
+//                }
+//            }
+//            false
+//        }
+
+        binding.ivSearch.setOnClickListener {
+            productViewModel.getProductList("0", binding.searchEdit.text.toString(), "", true, "", "")
+        }
+        binding.searchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                if(binding.searchEdit.text.isNotEmpty()){
+                    productViewModel.getProductList("0", binding.searchEdit.text.toString(), "", true, "", "")
+                    catList.clear()
+                }else{
+                    productViewModel.getProductList("0", binding.searchEdit.text.toString(), "", true, "", "")
                 }
+
+
+                true
             }
+            else false
         })
-        val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
+
+//        binding.searchEdit.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//
+//
+//            }
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//
+//
+//            }
+//            override fun afterTextChanged(s: Editable) {
+//
+//            }
+//        })
+//
+//
+    val endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(LinearLayoutManager(this)) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
                     productViewModel.getProductList(page.toString(), "", "", true, "", "")
@@ -198,7 +227,7 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         binding.reset.setOnClickListener {
             binding.productName.setText("")
-            binding.chooseCategory.setSelection(0)
+            binding.chooseCategory.adapter=null
             cat = ""
             Sub = ""
         }
@@ -265,13 +294,16 @@ class ManageProductActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                                 binding.emptyText.visibility = View.VISIBLE
                                 binding.imageEmpty.visibility = View.VISIBLE
                             }
-
                             binding.shimmerViewContainer.stopShimmerAnimation()
                             binding.shimmerViewContainer.visibility = View.GONE
 
+
+
                         }else if(it.response is DeleteProductResponse){
                             showCustomAlert("Product Deleted Successfully", binding.root)
+                            catList.clear()
                             productViewModel.getProductList("0", "", "", true, "", "")
+
                         }
                         else {
                             showCustomAlert(getString(R.string.please_try_after_sometime), binding.root)

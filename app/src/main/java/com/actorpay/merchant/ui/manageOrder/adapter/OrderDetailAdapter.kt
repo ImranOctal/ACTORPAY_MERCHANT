@@ -36,7 +36,7 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
                 productTitle.text=data[position].productName
                 actualPriceText.text= AppConstance.rupee+data[position].productPrice.toString()
                 actualQuantityText.text="Quantity: "+data[position].productQty.toString()
-                orderItemStatus.text="Status: "+data[position].orderItemStatus
+                orderItemStatus.text="Status: "+data[position].orderItemStatus.replace("_"," ")
                 orderItemId.add(data[position].orderItemId)
                 when (data[position].orderItemStatus) {
                     AppConstance.STATUS_SUCCESS -> {

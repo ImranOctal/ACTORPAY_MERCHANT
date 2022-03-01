@@ -74,9 +74,11 @@ class DisputeActivity : BaseActivity() {
         binding.rvDispute.adapter?.notifyDataSetChanged()
 
         if (disputeViewModel.disputeListData.items.size > 0) {
-            binding.textEmpty.visibility = View.GONE
+            binding.tvEmptyText.visibility = View.GONE
+            binding.imageEmpty.visibility = View.GONE
         } else {
-            binding.textEmpty.visibility = View.VISIBLE
+            binding.tvEmptyText.visibility = View.VISIBLE
+            binding.imageEmpty.visibility = View.VISIBLE
         }
     }
 

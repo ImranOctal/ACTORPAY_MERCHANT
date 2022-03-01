@@ -44,8 +44,7 @@ class CommissionActivity : BaseActivity() {
     }
 
     private fun setAdapter() {
-        binding.rvCommission.layoutManager =
-            LinearLayoutManager(this@CommissionActivity, LinearLayoutManager.VERTICAL, false)
+        binding.rvCommission.layoutManager = LinearLayoutManager(this@CommissionActivity, LinearLayoutManager.VERTICAL, false)
         binding.rvCommission.adapter = CommissionAdapter(commissionViewModel.commissionList)
     }
 
@@ -66,10 +65,12 @@ class CommissionActivity : BaseActivity() {
                             binding.rvCommission.adapter?.notifyDataSetChanged()
                             if (commissionViewModel.commissionList.size > 0) {
                                 binding.rvCommission.visibility = View.VISIBLE
-                                binding.emptyText.visibility = View.GONE
+                                binding.tvEmptyText.visibility = View.GONE
+                                binding.imageEmpty.visibility = View.GONE
 
                             } else {
-                                binding.emptyText.visibility = View.VISIBLE
+                                binding.tvEmptyText.visibility = View.VISIBLE
+                                binding.imageEmpty.visibility = View.VISIBLE
                                 binding.rvCommission.visibility = View.GONE
                             }
 

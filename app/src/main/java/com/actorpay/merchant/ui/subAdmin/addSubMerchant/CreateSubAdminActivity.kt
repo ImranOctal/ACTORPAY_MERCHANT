@@ -46,16 +46,19 @@ class CreateSubAdminActivity :  BaseActivity() {
         rolesViewModel.getAllRoles()
         if(intent.getStringExtra("from")=="edit"){ intent.getStringExtra("id")?.let {
                 addSubViewModel.getMerchantById(it)
+                binding.emailEdit.isFocusable = false
+                binding.emailEdit.setTextColor(Color.parseColor("#8E8D8D"))
             }
         }
         apiResponse()
+
         binding.submit.setOnClickListener {
             if(intent.getStringExtra("from")=="edit"){
+
                 updateMerchant(intent.getStringExtra("id")!!)
             }else{
                 validation()
             }
-
 
         }
         binding.etDob.setOnClickListener {
@@ -95,9 +98,7 @@ class CreateSubAdminActivity :  BaseActivity() {
 
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    gender = binding.spinnerGender.selectedItem.toString()
-                }
+                gender = binding.spinnerGender.selectedItem.toString()
             }
         }
         val codeList = mutableListOf<String>()
@@ -129,6 +130,8 @@ class CreateSubAdminActivity :  BaseActivity() {
     }
 
     private fun updateMerchant(id: String) {
+
+
         val countryCode = binding.codePicker.text.toString().trim()
         val firstName = binding.firstName.text.toString().trim()
         val lastName = binding.lastName.text.toString().trim()
@@ -136,6 +139,7 @@ class CreateSubAdminActivity :  BaseActivity() {
         val contactNumber = binding.mobileNumber.text.toString().trim()
         addSubViewModel.updateSubMerchant(countryCode,firstName,lastName,email,contactNumber,roleId,gender,id)
     }
+
 
     private fun apiResponse() {
         lifecycleScope.launch {
@@ -209,18 +213,11 @@ class CreateSubAdminActivity :  BaseActivity() {
             }
         }
     }
-
-
-
     private fun validation() {
         var isValidate=true
         if (binding.etDob.text.toString().trim().isEmpty()) {
             binding.etDob.error = getString(R.string.dob_empty)
             binding.etDob.requestFocus()
-            isValidate = false
-        }
-        else  if (gender=="") {
-            showCustomToast(getString(R.string.gender_select))
             isValidate = false
         }
         if (binding.mobileNumber.text.toString().trim().isEmpty()) {
@@ -238,7 +235,6 @@ class CreateSubAdminActivity :  BaseActivity() {
             binding.mobileNumber.requestFocus()
             isValidate = false
         }
-
 
         else if (binding.etPassword.text.toString().trim().length < 8 || !addSubViewModel.methodRepo.isValidPassword(binding.etPassword.text.toString().trim())) {
             binding.etPassword.error = this.getString(R.string.oops_your_password_is_not_valid)
@@ -299,7 +295,6 @@ class CreateSubAdminActivity :  BaseActivity() {
             binding.toolbar.ToolbarTitle.text = getString(R.string.update_new_merchant)
 
         }else{
-
             binding.toolbar.ToolbarTitle.text = getString(R.string.add_merchant_new)
         }
         ClickListners()

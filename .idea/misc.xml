@@ -8,11 +8,12 @@
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_add_new_product.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_commission.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_create_sub_admin.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_dispute.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_home.xml" value="0.21014492753623187" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_manage_order.xml" value="0.20516304347826086" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_manage_product.xml" value="0.25" />
-        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_order_detail.xml" value="0.20516304347826086" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_order_detail.xml" value="0.33" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_outlet.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_roles.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_setting.xml" value="0.36666666666666664" />
@@ -24,6 +25,8 @@
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_commission.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_order_detail.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_order_status.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_outlet.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles_details.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/manage_order_layout_item.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/network_dialog.xml" value="0.36666666666666664" />

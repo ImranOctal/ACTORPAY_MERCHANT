@@ -12,6 +12,7 @@ data class Item (
     val orderNotesDtos: List<OrderNotesDto>,
     val orderNo: String,
     val orderStatus: String,
+    val paymentMethod: String,
     val shippingAddressDTO: ShippingAddressDTO,
     val totalCgst: Double,
     val totalPrice: Double,

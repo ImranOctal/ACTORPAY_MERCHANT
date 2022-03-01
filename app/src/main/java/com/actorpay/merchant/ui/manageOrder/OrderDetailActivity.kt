@@ -151,6 +151,7 @@ class OrderDetailActivity : BaseActivity() {
         binding.tvFirstName.text = "First Name: " + list.customer.firstName
         binding.tvLastName.text = "Last Name: " + list.customer.lastName
         binding.tvEmail.text = "Email: " + list.customer.email
+        binding.tvPaymentMode.text =  list.paymentMethod
         binding.tvContact.text = "Contact: " + list.customer.contactNumber
         if(list.orderStatus=="CANCELLED"){
             binding.OrderType.setTextColor(Color.parseColor(AppConstance.red_color))

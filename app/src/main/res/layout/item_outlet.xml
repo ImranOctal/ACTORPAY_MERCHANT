@@ -59,7 +59,7 @@
                     android:fontFamily="@font/poppins_bold"
                     android:paddingEnd="10dp"
                     android:singleLine="true"
-                    android:text="Title"
+                    android:text="Title:"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"

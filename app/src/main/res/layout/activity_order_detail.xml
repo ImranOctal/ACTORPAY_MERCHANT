@@ -153,16 +153,13 @@
                             android:layout_marginHorizontal="@dimen/_10sdp"
                             android:nestedScrollingEnabled="false"
                             android:layout_marginTop="@dimen/_5ssp"
-                            app:layout_constraintTop_toBottomOf="@+id/order_amount_text"
+                            app:layout_constraintTop_toBottomOf="@+id/tvPaymentMode"
                             tools:itemCount="0" />
-
-
                         <TextView
                             android:id="@+id/order_amount_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/_10sdp"
-
                             android:fontFamily="@font/poppins_regular"
                             android:gravity="center"
                             android:text="Order Total:"
@@ -241,7 +238,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="@dimen/_10sdp"
-
                                     android:fontFamily="@font/poppins_regular"
                                     android:gravity="center"
                                     android:paddingBottom="@dimen/_6ssp"
@@ -324,7 +320,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/_10sdp"
-
                                     android:layout_marginEnd="@dimen/_5sdp"
                                     android:fontFamily="@font/poppins_regular"
                                     android:gravity="center_vertical"
@@ -351,6 +346,36 @@
                             app:layout_constraintStart_toEndOf="@+id/order_amount_text"
                             app:layout_constraintTop_toBottomOf="@+id/order_date_text"
                             tools:text="Order Price" />
+
+
+                        <TextView
+                            android:id="@+id/paymentMethod"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center"
+                            android:text="Payment Method:"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/order_amount"/>
+
+
+                        <TextView
+                            android:id="@+id/tvPaymentMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center"
+                            android:text=" "
+                            android:textColor="@color/text_color"
+                            app:layout_constraintStart_toEndOf="@+id/paymentMethod"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintTop_toTopOf="@+id/paymentMethod"/>
+
+
 
 
                         <androidx.cardview.widget.CardView
@@ -437,17 +462,9 @@
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cardCustomerDetail" />
-
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
                 </RelativeLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </ScrollView>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -42,8 +42,9 @@ class CommissionAdapter(
                 tvOrderStatus.text = items[position].orderStatus.replace("_"," ")
                 merchantEarnings.text= decimalFormat.format(items[position].merchantEarnings)
                 commissionPercentage.text=items[position].commissionPercentage.toString()
-                commissionAmt.text=items[position].actorCommissionAmt.toString()
+                commissionAmt.text=decimalFormat.format(items[position].actorCommissionAmt)
                 settlementStatus.text=items[position].settlementStatus
+                settlementPrice.text=items[position].orderItemDTO.totalPrice.toString()
 
             }
         }

@@ -76,11 +76,21 @@
                     android:id="@+id/searchEdit"
                     style="@style/regular1Full"
                     android:autofillHints="name"
+                    android:layout_marginEnd="@dimen/_6sdp"
                     android:background="@color/transparent"
-                    android:drawableEnd="@drawable/search_ico"
+
+                    android:layout_weight="1"
                     android:hint="@string/search_hint"
                     android:inputType="textAutoComplete"
                     android:singleLine="true" />
+
+                <ImageView
+                    android:id="@+id/ivSearch"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:src="@drawable/search_ico"
+                    android:layout_height="@dimen/_20sdp"/>
+
 
 
             </LinearLayout>

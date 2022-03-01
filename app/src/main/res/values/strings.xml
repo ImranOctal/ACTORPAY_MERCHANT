@@ -125,8 +125,8 @@
     <string name="last_name">Last Name</string>
     <string name="userName">Username</string>
     <string name="manage_new_sub_admin">Manage New Sub Admin</string>
-    <string name="add_merchant_new">Add New Sub Merchant</string>
-    <string name="update_new_merchant">Update New Sub Merchant</string>
+    <string name="add_merchant_new">Add Sub Merchant</string>
+    <string name="update_new_merchant">Update Sub Merchant</string>
     <string name="ok">OK</string>
     <string name="cancel1">Cancel</string>
     <string name="change_password">Change Password</string>
@@ -171,8 +171,8 @@
     <string name="license_number">License Number</string>
     <string name="description">Description</string>
     <string name="outlet">Outlet</string>
-    <string name="address_line1">Address Line1 </string>
-    <string name="address_line2">Address Line2 </string>
+    <string name="address_line1">Address Line1: </string>
+    <string name="address_line2">Address Line2: </string>
     <string name="zip_code">Zip Code</string>
     <string name="msg_token_fmt">msg token fmt</string>
     <string name="city">City</string>
@@ -211,6 +211,8 @@
     <string name="network_error">Network Error</string>
     <string name="retry">Retry</string>
     <string name="no_role_found">No Role Found</string>
+    <string name="no_dispute_available">No Dispute Available.</string>
+    <string name="no_earning_available">No Earnings Found</string>
     >
 
     <string-array name="status_array">
@@ -249,7 +251,7 @@
     </string-array>
 
     <string-array name="Gender">
-        <item>Gender</item>
+
         <item>Male</item>
         <item>Female</item>
     </string-array>

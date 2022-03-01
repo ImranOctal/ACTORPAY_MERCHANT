@@ -1,6 +1,6 @@
 package com.actorpay.merchant.repositories.retrofitrepository.models.commission
 
-import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RoleItem
+
 
 
 data class CommissionResponse(
@@ -26,6 +26,7 @@ data class CommissionItem(
     val orderNo: String,
     val merchantId: String,
     val merchantName: String,
+    val orderItemDTO: OrderItemDTO,
     val productName: String,
     val merchantEarnings: Double,
     val quantity: Int,
@@ -44,4 +45,24 @@ data class CommissionParams(
     var merchantEarningsRangeTo : String = "",
     var actorCommissionAmtRangeFrom : String = "",
     var actorCommissionAmtRangeTo : String = "",
+)
+data class OrderItemDTO(
+    val active: Boolean,
+    val actualPrice: Double,
+    val categoryId: String,
+    val createdAt: String,
+    val image: String,
+    val merchantId: String,
+    val orderItemId: String,
+    val orderItemStatus: String,
+    val productCgst: Double,
+    val productId: String,
+    val productPrice: Double,
+    val productQty: Int,
+    val productSgst: Double,
+    val shippingCharge: Int,
+    val subcategoryId: String,
+    val taxPercentage: Double,
+    val taxableValue: Double,
+    val totalPrice: Double
 )
