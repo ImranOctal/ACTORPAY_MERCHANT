@@ -23,22 +23,13 @@ abstract class BaseAdapter<N,Y:ViewBinding>(val context: Context, private val la
         val binding:Y = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),layoutId, viewGroup, false)
         return BaseViewHolder(binding)
     }
-
     override fun onBindViewHolder(viewHolder: BaseViewHolder<Y>, position: Int) {
         if(list!=null && list!!.size>0){
             onViewHolderBind(viewHolder,viewHolder.binding, position, list!![position%2])
         }
     }
-
     override fun getItemCount(): Int {
         return list!!.size
     }
-
-
-
-    abstract fun onViewHolderBind(viewHolder: BaseViewHolder<Y>, binding: Y, position: Int, data: N)
-
-
-
-
+  abstract fun onViewHolderBind(viewHolder: BaseViewHolder<Y>, binding: Y, position: Int, data: N)
 }

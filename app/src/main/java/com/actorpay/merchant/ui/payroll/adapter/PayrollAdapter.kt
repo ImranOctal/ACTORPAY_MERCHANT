@@ -7,7 +7,7 @@ import com.actorpay.merchant.base.BaseViewHolder
 import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
 import com.actorpay.merchant.databinding.PayrollPaymentItemBinding
 
-class PayrollAdapter ( context: Context) :
+class PayrollAdapter (context: Context) :
     BaseAdapter<String, PayrollPaymentItemBinding>(context, R.layout.payroll_payment_item) {
 
 

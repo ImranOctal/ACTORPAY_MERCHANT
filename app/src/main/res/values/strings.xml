@@ -190,6 +190,7 @@
     <string name="no_data_found">No Data Found</string>
     <string name="no_sub_merchant_found">No Sub Merchant Found.</string>
     <string name="dob">DOB</string>
+    <string name="earning">Earnings</string>
     <string name="my_commission">My Commission</string>
     <string name="add_roll">Add Role</string>
     <string name="continues">Continue</string>
@@ -255,4 +256,7 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sub_merchants">Sub Merchants</string>
 </resources>

@@ -33,10 +33,7 @@ import com.actorpay.merchant.ui.login.LoginActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
-
-
-    var login=false
-
+   var login=false
     private lateinit var binding: ActivityMainBinding
     private val actorPayViewModel: ActorPayViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +52,7 @@ class SplashActivity : BaseActivity() {
                 }
             }
         }
-
         }
-
        private fun apiResponse(){
         lifecycleScope.launch {
             viewModel.actorcResponseLive.collect {

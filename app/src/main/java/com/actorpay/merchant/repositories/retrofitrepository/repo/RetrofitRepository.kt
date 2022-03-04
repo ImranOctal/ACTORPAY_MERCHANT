@@ -9,6 +9,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanVi
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.UpdateOrderStatus
 import com.actorpay.merchant.repositories.retrofitrepository.models.ordernote.OrderNote
+import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.addNewProduct.AddNewProductResponse
@@ -72,7 +73,7 @@ interface RetrofitRepository {
 
     suspend fun getAllCategoriesDetail(token:String):RetrofitResource<GetAllCategoriesDetails>
 
-    suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse>
+    suspend fun getProductList(token: String, pageNo: Int, pageSize: Int, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse>
 
     suspend fun getSubCatDataDetailsList(token: String, catId: String): RetrofitResource<GetSubCatDataDetails>
 
@@ -94,6 +95,9 @@ interface RetrofitRepository {
     suspend fun updateSubMerchant(token: String,param: UpdateSubMerchantParam): RetrofitResource<UpdateSubMerchant>
 
     suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet>
+
+
+    suspend fun getOutletById(token: String,id: String): RetrofitResource<GetOutletById>
 
     suspend fun getSubMerchants(token: String, pageNo: String, body: EMPTYJSON): RetrofitResource<GetAllSubMerchant>
     suspend fun getMerchantById(token: String, id: String): RetrofitResource<GetMerchantById>

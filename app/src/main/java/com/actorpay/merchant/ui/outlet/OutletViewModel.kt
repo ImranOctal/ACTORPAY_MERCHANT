@@ -36,6 +36,22 @@ class OutletViewModel(
         }
     }
 
+
+
+    fun getOutletById(id: String?) {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            responseLive.value = ResponseSealed.Loading(true)
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                when (val response = id?.let { apiRepo.getOutletById(token, it) }) {
+                    is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
+                    is RetrofitResource.Success -> responseLive.value =
+                        ResponseSealed.Success(response.data!!)
+                }
+            }
+        }
+    }
+
+
     fun deleteOutlet(ids: MutableList<String>) {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)

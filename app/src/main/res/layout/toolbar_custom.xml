@@ -1,50 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:id="@+id/toolbar1"
+        android:background="@drawable/bg"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal">
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_gravity="center_vertical"
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:background="@color/primary"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/map">
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-
-            <!--<androidx.appcompat.widget.AppCompatSpinner
-                   android:id="@+id/spAddressDashboard"
-                   style="@style/POP_regular"
-                   android:layout_width="@dimen/_155sdp"
-                   android:layout_height="@dimen/_20sdp"
-                   android:layout_weight="1"
-                   android:background="@drawable/edt_bg"
-                   android:padding="5dp"
-                   android:paddingStart="@dimen/_5sdp"
-                   />-->
 
             <TextView
-                android:maxLines="1"
-                android:maxLength="30"
-                android:id="@+id/txtToolbarTitle"
-                android:fontFamily="@font/poppins_regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/_5sdp"
-                android:visibility="visible"
-                android:textSize="8sp"
-                android:textColor="@color/white" />
+                android:id="@+id/ToolbarTitle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center_vertical"
+                android:text=""
+                android:layout_weight="1"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/ivNotification"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="8dp"
+                android:padding="@dimen/_5sdp"
+                android:visibility="gone"
+                android:src="@drawable/ic_notification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="8dp"
+
+                android:padding="@dimen/_5sdp"
+                android:visibility="gone"
+                android:src="@drawable/ic_filter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
 
 
 
-        </androidx.appcompat.widget.Toolbar>
 
-    </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
 </layout>

@@ -27,8 +27,10 @@ class ProductViewModel (
     val apiRepo: RetrofitRepository, ) : AndroidViewModel(Application())
 
 {
-    val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
+     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
 
+    var pageNo=0
+     var pageSize=10
 
     fun getCategory() {
         viewModelScope.launch(dispatcherProvider.IO) {
@@ -42,12 +44,12 @@ class ProductViewModel (
         }
     }
 
-    fun getProductList(pageno: String, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String) {
+    fun getProductList(pageno: Int, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String) {
         val body= ProductPram(name,categoryNam,status,subCategoryName,merchantId)
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.getProductList(token, pageno,"100","createdAt",asc = true,body)) {
+                when (val response = apiRepo.getProductList(token, pageNo,pageSize,"createdAt",asc = true,body)) {
                     is RetrofitResource.Error -> responseLive.value =
                         ResponseSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> responseLive.value =

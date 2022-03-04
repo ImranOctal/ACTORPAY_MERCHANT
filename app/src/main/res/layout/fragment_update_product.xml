@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        style="@style/parentFull"
+        android:background="@drawable/bg"
+        android:orientation="vertical"
+        tools:context=".ui.login.LoginActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar2" />
+
+        <LinearLayout
+            style="@style/parentFull"
+            android:background="@drawable/top_round_drawble_white"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView style="@style/parentFull">
+
+                <LinearLayout
+                    style="@style/parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        style="@style/parentFull"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="0dp">
+
+                        <LinearLayout
+                            style="@style/parent"
+                            android:gravity="center">
+
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/image"
+                                android:layout_width="96dp"
+                                android:layout_height="96dp"
+                                android:src="@drawable/demo"
+                                app:civ_border_color="#FF000000"
+                                app:civ_border_width="2dp" />
+
+                            <Button
+                                android:id="@+id/uploadImage"
+                                style="@style/btn_main_blue"
+                                android:layout_width="wrap_content"
+                                android:elevation="2dp"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:text="@string/Upload" />
+                        </LinearLayout>
+
+
+                        <EditText
+                            android:id="@+id/productNameEdit"
+                            style="@style/TxtOutlineCustom"
+                            android:autofillHints="name"
+                            android:hint="@string/productName"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:singleLine="true" />
+
+
+                        <TextView
+                            android:id="@+id/errorOnName"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_name_empty"
+                            android:visibility="gone" />
+
+                        <!--ChooseProductCategory-->
+
+                        <Spinner
+                            android:id="@+id/chooseCategory"
+                            style="@style/TxtOutlineCustom"
+                            android:gravity="start"
+                            android:hint="@string/chooseCategory"
+                            android:paddingVertical="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:textSize="14.5sp" />
+
+
+                        <!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+                        <!--                            android:id="@+id/chooseCategory"-->
+                        <!--                            style="@style/TxtOutlineCustom"-->
+                        <!--                            android:gravity="start"-->
+                        <!--                            android:hint="@string/chooseCategory"-->
+                        <!--                            android:paddingVertical="@dimen/_10sdp"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            android:textColorHint="@color/gray"-->
+                        <!--                            android:textSize="14.5sp"-->
+                        <!--                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"-->
+                        <!--                            app:spinner_arrow_gravity="end"-->
+                        <!--                            app:spinner_arrow_padding="1dp"-->
+                        <!--                            app:spinner_arrow_show="true"-->
+                        <!--                            app:spinner_divider_color="@color/gray"-->
+                        <!--                            app:spinner_divider_show="true"-->
+                        <!--                            app:spinner_divider_size="0.4dp"-->
+                        <!--                            app:spinner_item_array="@array/productCat"-->
+                        <!--                            app:spinner_popup_animation="dropdown"-->
+                        <!--                            app:spinner_popup_background="@color/white"-->
+                        <!--                            app:spinner_popup_elevation="14dp" />-->
+
+
+                        <!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+                        <!--                            android:id="@+id/chooseSubCategory"-->
+                        <!--                            style="@style/TxtOutlineCustom"-->
+                        <!--                            android:gravity="start"-->
+                        <!--                            android:hint="@string/chooseSubCategory"-->
+                        <!--                            android:paddingVertical="@dimen/_10sdp"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            android:textColorHint="@color/gray"-->
+                        <!--                            android:textSize="14.5sp"-->
+                        <!--                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"-->
+                        <!--                            app:spinner_arrow_gravity="end"-->
+                        <!--                            app:spinner_arrow_padding="8dp"-->
+                        <!--                            app:spinner_arrow_show="true"-->
+                        <!--                            app:spinner_divider_color="@color/gray"-->
+                        <!--                            app:spinner_divider_show="true"-->
+                        <!--                            app:spinner_divider_size="0.4dp"-->
+                        <!--                            app:spinner_item_array="@array/productCat"-->
+                        <!--                            app:spinner_popup_animation="dropdown"-->
+                        <!--                            app:spinner_popup_background="@color/white"-->
+                        <!--                            app:spinner_popup_elevation="14dp" />-->
+
+                        <Spinner
+                            android:id="@+id/chooseSubCategory"
+                            style="@style/TxtOutlineCustom"
+                            android:gravity="start"
+                            android:hint="@string/chooseSubCategory"
+                            android:paddingVertical="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:textSize="14.5sp" />
+
+                        <TextView
+                            android:id="@+id/error_on_subcat"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_choose_subcat"
+                            android:visibility="gone" />
+                        <!--Actual Price-->
+
+
+                        <EditText
+                            android:id="@+id/actualPrice"
+                            style="@style/TxtOutlineCustom"
+                            android:autofillHints="creditCardSecurityCode"
+                            android:hint="@string/actualPrice"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+
+                        <TextView
+                            android:id="@+id/errorOnActualPrice"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_price_empty"
+                            android:visibility="gone" />
+
+
+                        <EditText
+                            android:id="@+id/dealPrice"
+                            style="@style/TxtOutlineCustom"
+
+                            android:autofillHints="creditCardSecurityCode"
+                            android:hint="@string/dealPrice"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+
+                        <TextView
+                            android:id="@+id/errorOndealPrice"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_price_empty"
+                            android:visibility="gone" />
+
+                        <com.skydoves.powerspinner.PowerSpinnerView
+                            android:id="@+id/taxData"
+                            style="@style/TxtOutlineCustom"
+                            android:gravity="start"
+                            android:hint="@string/enter_taxation"
+                            android:paddingVertical="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:textSize="14.5sp"
+                            app:spinner_arrow_drawable="@drawable/drop_down_arrow"
+                            app:spinner_arrow_gravity="end"
+                            app:spinner_arrow_padding="8dp"
+                            app:spinner_arrow_show="true"
+                            app:spinner_divider_color="@color/gray"
+                            app:spinner_divider_show="true"
+                            app:spinner_divider_size="0.4dp"
+                            app:spinner_item_array="@array/productCat"
+                            app:spinner_popup_animation="dropdown"
+                            app:spinner_popup_background="@color/white"
+                            app:spinner_popup_elevation="14dp" />
+
+
+                        <TextView
+                            android:id="@+id/errorOntaxData"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/tax_detail_is_not_be_empty"
+                            android:visibility="gone" />
+
+                        <!--quantity-->
+
+                        <EditText
+
+                            android:id="@+id/quantity"
+                            style="@style/TxtOutlineCustom"
+                            android:autofillHints="creditCardSecurityCode"
+                            android:hint="@string/quantity"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+
+                        <TextView
+                            android:id="@+id/errorOnquantity"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_quant_empty"
+                            android:visibility="gone" />
+                        <!--Full Address-->
+
+
+                        <EditText
+                            android:id="@+id/description"
+                            style="@style/TxtOutlineCustom"
+                            android:autofillHints="postalAddress"
+                            android:ellipsize="end"
+                            android:hint="@string/discription"
+                            android:inputType="text"
+                            android:maxLength="500" />
+
+                        <TextView
+                            android:id="@+id/errorOnDescription"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/prod_desc_empty"
+                            android:visibility="gone" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/_20sdp">
+
+                            <Button
+                                android:id="@+id/addProduct"
+                                style="@style/btn_main"
+                                android:elevation="2dp"
+                                android:paddingLeft="@dimen/_50sdp"
+                                android:paddingRight="@dimen/_50sdp"
+                                android:text="@string/addProduct" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

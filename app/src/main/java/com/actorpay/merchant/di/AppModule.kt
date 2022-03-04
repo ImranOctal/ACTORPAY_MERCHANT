@@ -11,7 +11,7 @@ import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitMainRepository
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
-import com.actorpay.merchant.ui.commission.CommissionViewModel
+import com.actorpay.merchant.ui.commission.EarningViewModel
 import com.actorpay.merchant.ui.content.ContentViewModel
 import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsViewModel
 import com.actorpay.merchant.ui.home.HomeViewModel
@@ -32,7 +32,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TO
 import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.ui.setting.SettingViewModel
-import com.octal.actorpayuser.ui.dispute.DisputeViewModel
+import com.actorpay.merchant.ui.disputes.DisputeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -121,7 +121,7 @@ private val appKoinModule = module {
         RolesDetailsViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
     viewModel {
-        CommissionViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
+        EarningViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
     viewModel {
         OrderDetailViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())

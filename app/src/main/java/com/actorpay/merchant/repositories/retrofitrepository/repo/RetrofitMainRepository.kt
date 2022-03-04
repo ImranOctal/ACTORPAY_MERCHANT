@@ -35,6 +35,7 @@ import com.actorpay.merchant.retrofitrepository.apiclient.ApiClient
 import com.actorpay.merchant.ui.outlet.response.*
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.B_Token
+import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
@@ -405,7 +406,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-    override suspend fun getProductList(token: String, pageNo: String, pageSize: String, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse> {
+    override suspend fun getProductList(token: String, pageNo: Int, pageSize: Int, sortBy: String, asc: Boolean, data: ProductPram): RetrofitResource<GetProductListResponse> {
         try {
             val data = apiClient.getProductList(AppConstance.B_Token + token, pageNo, pageSize, sortBy, asc,  data)
             val result = data.body()
@@ -665,6 +666,32 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
     override suspend fun getOutlet(token: String, pageNo: String, body: EmptyBody): RetrofitResource<GetOutlet> {
         try {
             val data = apiClient.getOutlet(AppConstance.B_Token+token,pageNo,body)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if(data.errorBody()!=null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getOutletById(token: String,id: String): RetrofitResource<GetOutletById> {
+        try {
+            val data = apiClient.getOutletById(AppConstance.B_Token+token,id)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)

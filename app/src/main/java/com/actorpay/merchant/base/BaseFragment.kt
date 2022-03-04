@@ -1,32 +1,52 @@
 package com.actorpay.merchant.base
 
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.actorpay.merchant.R
+import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.ui.home.HomeActivity
+import com.actorpay.merchant.utils.OnFilterClick
+import com.actorpay.merchant.viewmodel.ActorPayViewModel
+import org.koin.android.ext.android.inject
 
- open class BaseFragment : Fragment() {
-    fun showCustomToast(msg: String) {
-        val myToast = Toast.makeText(
-            activity,
-            msg,
-            Toast.LENGTH_SHORT
-        )
-        myToast.setGravity(Gravity.CENTER, 0, 0)
-        myToast.show()
+open class BaseFragment : Fragment() {
+
+    val methods by inject<MethodsRepo>()
+    val viewModel: ActorPayViewModel by  inject()
+     fun showLoadingDialog(){
+         ( requireActivity() as BaseActivity).showLoadingDialog()
+
+     }
+
+     fun hideLoadingDialog(){
+         ( requireActivity() as BaseActivity).hideLoadingDialog()
+
+     }
+     fun forcelogout(methodRepo: MethodsRepo){
+
+         ( requireActivity() as BaseActivity).forcelogout(methodRepo)
+     }
+
+
+    fun showCustomToast(msg: String){
+        ( requireActivity() as BaseActivity).showCustomToast(msg)
+
     }
 
 
-    fun showMsg(connected: Boolean) {
-        if (connected == false) {
-            val myToast = Toast.makeText(
-                requireContext(),
-                getString(R.string.not_connected_internet),
-                Toast.LENGTH_SHORT
-            )
-            myToast.setGravity(Gravity.CENTER, 0, 0)
-            myToast.show()
-            //showAlertBar(getString(R.string.not_connected_internet))
-        }
+    fun showCustomAlert(msg: String?, v: View?){
+        ( requireActivity() as BaseActivity).showCustomAlert(msg,v)
+
     }
+
+    fun onFilterClick(filterClick: OnFilterClick){
+        (requireActivity() as HomeActivity).onFilterClick(filterClick)
+    }
+
+     fun updateToolbarText(title:String){
+        (requireActivity() as HomeActivity).updateToolbarText(title)
+    }
+
 }

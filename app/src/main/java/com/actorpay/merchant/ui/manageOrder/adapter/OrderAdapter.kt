@@ -1,20 +1,15 @@
 package com.actorpay.merchant.ui.manageOrder.adapter
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ManageOrderLayoutItemBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.Item
-import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.actorpay.merchant.utils.roundBorderedView
 import com.bumptech.glide.Glide
 
@@ -49,9 +44,7 @@ class OrderAdapter(
                 orderStatus.text = items[position].orderStatus.replace("_"," ")
                 tvDate.text= getFormattedOrderDate("Order Date: "+items[position].createdAt)
                 cardView.setOnClickListener {
-                    val intent = Intent(context, OrderDetailActivity::class.java)
-                    intent.putExtra("data", items[position])
-                    (context as Activity).startActivityForResult(intent, 101)
+                    onClick(position,"")
                 }
                 if(items[position].orderStatus=="CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.red_color))

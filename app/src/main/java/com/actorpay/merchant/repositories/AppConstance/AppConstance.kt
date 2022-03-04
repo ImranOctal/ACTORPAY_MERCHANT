@@ -79,6 +79,9 @@ class AppConstance {
         const val DELETE_OUTLET:String= SUB_DOMAIN + SUB_DOMAIN2 +"v1/merchant/outlet/delete/by/ids"
         const val DELETE_SUBMERCHANT:String= SUB_DOMAIN + SUB_DOMAIN2 +"submerchant/delete/by/ids"
         const val UPDATE_OUTLET:String= SUB_DOMAIN + SUB_DOMAIN2 +"v1/merchant/outlet/update"
+        const val GET_OUTLET_BY_ID:String= SUB_DOMAIN + SUB_DOMAIN2 +"v1/merchant/outlet/by/id/"
+
+
 
         const val GET_FAQ: String = SUB_DOMAIN + SUB_DOMAIN_CMS +  "faq/all"
         const val GET_COUNTRIES: String = SUB_DOMAIN + SUB_DOMAIN_GLOBAL +"v1/country/get/all"

@@ -186,4 +186,9 @@ dependencies {
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
+    //paging
+    dependencies {
+        def paging_version = "3.0.0-alpha03"
+        implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    }
 }

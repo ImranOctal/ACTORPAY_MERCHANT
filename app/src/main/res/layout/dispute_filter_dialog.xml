@@ -67,7 +67,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start|center"
             android:background="@android:color/transparent"
-            android:hint="Search by order no."
+            android:hint="Search by dispute code"
             android:textColorHint="@color/gray"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"

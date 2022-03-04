@@ -1,4 +1,4 @@
-package com.octal.actorpayuser.ui.dispute
+package com.actorpay.merchant.ui.disputes
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

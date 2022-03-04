@@ -37,11 +37,11 @@ class AddSubMerchantViewModel(
     }
 
 
-    fun getMerchantById(id:String) {
+    fun getMerchantById(id:String?) {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.getMerchantById(token,id)) {
+                when (val response = id?.let { apiRepo.getMerchantById(token, it) }) {
                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> responseLive.value =
                         ResponseSealed.Success(response.data!!)

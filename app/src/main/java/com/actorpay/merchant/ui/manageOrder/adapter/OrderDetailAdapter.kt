@@ -7,11 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOrderDetailBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.OrderItemDto
-import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
 import com.bumptech.glide.Glide
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
 
-class OrderDetailAdapter(val context: Context, private var  data: List<OrderItemDto>) :
+class OrderDetailAdapter(val context: Context, private var  data: List<OrderItemDto>,    val onClick: (list: ArrayList<String>, root: View, orderItemId: MutableList<String>) -> Unit) :
     RecyclerView.Adapter<OrderDetailAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
@@ -62,7 +61,10 @@ class OrderDetailAdapter(val context: Context, private var  data: List<OrderItem
                     }
                 }
                 ivMenu.setOnClickListener {
-                    (context as OrderDetailActivity).dialog(list,ivMenu,orderItemId)
+
+                    onClick(list,ivMenu,orderItemId)
+
+
                 }
 
             }

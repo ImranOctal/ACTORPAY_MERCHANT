@@ -3,7 +3,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    >
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.actorpay.merchant.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_roleFragment"
+            app:destination="@id/roleFragment"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_earnFragment"
+            app:destination="@id/earnFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_manageOrderFragment"
+            app:destination="@id/manageOrderFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_manageProductFragment"
+            app:destination="@id/manageProductFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_subMerchantFragment"
+            app:destination="@id/subMerchantFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_outletFragment"
+            app:destination="@id/outletFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/earnFragment"
+        android:name="com.actorpay.merchant.ui.commission.EarnFragment"
+        android:label="EarnFragment" />
+
+    <fragment
+        android:id="@+id/manageProductFragment"
+        android:name="com.actorpay.merchant.ui.manageProduct.ManageProductFragment"
+        android:label="ManageProductFragment" />
+
+
+    <fragment
+        android:id="@+id/manageOrderFragment"
+        android:name="com.actorpay.merchant.ui.manageOrder.ManageOrderFragment"
+        android:label="ManageOrderFragment" >
+        <action
+            android:id="@+id/action_manageOrderFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.actorpay.merchant.ui.manageOrder.OrderDetailFragment"
+        android:label="fragment_order_detaail"
+        tools:layout="@layout/fragment_order_detaail" />
+    <fragment
+        android:id="@+id/outletFragment"
+        android:name="com.actorpay.merchant.ui.outlet.OutletFragment"
+        android:label="OutletFragment" />
+    <fragment
+        android:id="@+id/roleFragment"
+        android:name="com.actorpay.merchant.ui.roles.RoleFragment"
+        android:label="RoleFragment" >
+        <action
+            android:id="@+id/action_roleFragment_to_roleDetailFragment"
+            app:destination="@id/roleDetailFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/roleDetailFragment"
+        android:name="com.actorpay.merchant.ui.roles.details.RoleDetailFragment"
+        android:label="RoleDetailFragment" />
+    <fragment
+        android:id="@+id/subMerchantFragment"
+        android:name="com.actorpay.merchant.ui.subAdmin.SubMerchantFragment"
+        android:label="SubMerchantFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.actorpay.merchant.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/payrollFragment"
+        android:name="com.actorpay.merchant.ui.payroll.PayrollFragment"
+        android:label="PayrollFragment" />
+
+    <fragment
+        android:id="@+id/addNewProductFragment"
+        android:name="com.actorpay.merchant.ui.addnewproduct.AddNewProductFragment"
+        android:label="AddNewProductFragment" />
+    <fragment
+        android:id="@+id/updateProductFragment"
+        android:name="com.actorpay.merchant.ui.updateproduct.UpdateProductFragment"
+        android:label="UpdateProductFragment" />
+    <fragment
+        android:id="@+id/addOutletFragment"
+        android:name="com.actorpay.merchant.ui.outlet.addoutlet.AddOutletFragment"
+        android:label="AddOutletFragment" />
+    <fragment
+        android:id="@+id/updateOutletFragment"
+        android:name="com.actorpay.merchant.ui.outlet.updateoutlet.UpdateOutletFragment"
+        android:label="UpdateOutletFragment" />
+    <fragment
+        android:id="@+id/addSubMerchantFragment"
+        android:name="com.actorpay.merchant.ui.subAdmin.addSubMerchant.AddSubMerchantFragment"
+        android:label="AddSubMerchantFragment" />
+    <fragment
+        android:id="@+id/disputeFragment"
+        android:name="com.actorpay.merchant.ui.disputes.DisputeFragment"
+        android:label="DisputeFragment" />
+    <fragment
+        android:id="@+id/disputeDetailFragment"
+        android:name="com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailFragment"
+        android:label="DisputeDetailFragment" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.actorpay.merchant.ui.setting.SettingFragment"
+        android:label="SettingFragment" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.actorpay.merchant.ui.more.MoreFragment"
+        android:label="MoreFragment" />
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="com.actorpay.merchant.ui.more.FaqFragment"
+        android:label="fragment_faq"
+        tools:layout="@layout/fragment_faq" />
 
 
 </navigation>

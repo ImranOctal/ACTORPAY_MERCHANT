@@ -46,6 +46,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_FAQ
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_MERCHANT_BY_ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_OUTLET
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_OUTLET_BY_ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_PERMISSION
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ROLES
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
@@ -64,6 +65,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UP
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
+import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
@@ -149,8 +151,8 @@ interface ApiClient {
     @POST(PRODUCT_LIST)
     suspend fun getProductList(
         @Header(AUTH) token: String,
-        @Query(AppConstance.PAGE_NO) pageNo: String,
-        @Query(AppConstance.PAGE_SIZE) pageSize: String,
+        @Query(AppConstance.PAGE_NO) pageNo: Int,
+        @Query(AppConstance.PAGE_SIZE) pageSize: Int,
         @Query(AppConstance.SORT_BY) sortBy: String,
         @Query(AppConstance.ASCECNDING) asc: Boolean,
         @Body data: ProductPram
@@ -365,5 +367,10 @@ interface ApiClient {
         @Body sendMessageParams: SendMessageParams,
     ): Response<SuccessResponse>
 
+    @GET(GET_OUTLET_BY_ID+IDS)
+    suspend fun getOutletById(
+        @Header(AUTH) token: String,
+        @Path(ID_VAR) id: String,
+    ): Response<GetOutletById>
 
 }

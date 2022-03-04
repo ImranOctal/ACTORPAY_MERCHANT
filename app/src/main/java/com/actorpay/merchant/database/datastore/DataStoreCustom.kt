@@ -65,8 +65,7 @@ class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Pre
 
         context.dataStore.edit {
                 preferences -> preferences[PreferenceKeys.MERCHANTID] = merchantId
-
-        }
+      }
     }
 
     override suspend fun setIsLoggedIn(value: Boolean) {

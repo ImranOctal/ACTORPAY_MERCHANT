@@ -81,13 +81,7 @@ abstract class BaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    open fun showCustomAlert(
-        msg: String?,
-        v: View?,
-        button: String?,
-        isRetryOptionAvailable: Boolean,
-        listener: RetrySnackBarClickListener
-    ) {
+    open fun showCustomAlert(msg: String?, v: View?, button: String?, isRetryOptionAvailable: Boolean, listener: RetrySnackBarClickListener) {
         snackBar = if (isRetryOptionAvailable) {
             Snackbar.make(v!!, msg!!, Snackbar.LENGTH_LONG)
                 .setAction(button) { listener.onClickRetry() }

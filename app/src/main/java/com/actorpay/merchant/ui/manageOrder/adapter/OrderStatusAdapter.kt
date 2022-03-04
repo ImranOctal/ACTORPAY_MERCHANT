@@ -7,16 +7,13 @@ import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOrderStatusBinding
-import com.actorpay.merchant.ui.manageOrder.OrderDetailActivity
-import org.json.JSONArray
-
-//val onClick:(pos:Int,status:String)->Unit
 
 class OrderStatusAdapter(
     val context: Context,
     private var list: List<String>,
     private var  orderItemId: MutableList<String>,
-    private var mpopup: PopupWindow
+    private var mpopup: PopupWindow,
+    val onClick: (itemStauts: String, orderItemId: MutableList<String>) -> Unit
 ) :
     RecyclerView.Adapter<OrderStatusAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -44,7 +41,7 @@ class OrderStatusAdapter(
                 tvStatus.text=list[position].replace("_"," ")
                 tvStatus.setOnClickListener {
                     mpopup.dismiss()
-                    (context as OrderDetailActivity).cancelBottomSheet(list[position].replace(" ","_"),orderItemId)
+                    onClick(list[position].replace(" ","_"),orderItemId)
 
                 }
 
