@@ -1,9 +1,7 @@
 package com.actorpay.merchant.ui.manageOrder
-
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
-
 import com.actorpay.merchant.databinding.DialogFilterBinding
 import com.actorpay.merchant.databinding.FragmentManageOrderBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.order.BeanViewAllOrder
@@ -44,11 +41,9 @@ class ManageOrderFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener
     var customerEmail = ""
     var orderNo = ""
     private var order = ArrayList<Item>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -216,8 +211,10 @@ class ManageOrderFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener
     private fun Installation() {
         apiResponse()
     }
+
     override fun onRefresh() {
     }
+
     override fun onClick() {
         filterBottomsheet()
     }

@@ -1,5 +1,6 @@
 package com.actorpay.merchant.repositories.retrofitrepository.repo
 
+import androidx.paging.PagingData
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
@@ -17,6 +18,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.cat
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductById.success.GetProductDataById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.GetProductListResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.MerchantSettingsDTO
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
@@ -26,13 +28,15 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 import com.actorpay.merchant.ui.outlet.response.*
-import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeSingleResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.SendMessageParams
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -128,6 +132,6 @@ interface RetrofitRepository {
     suspend fun getDispute(token: String,disputeId:String):RetrofitResource<DisputeSingleResponse>
 
     suspend fun sendDisputeMessage(token: String,sendMessageParams: SendMessageParams):RetrofitResource<SuccessResponse>
-
+    suspend fun getProductsWithPaging(viewmodelscope: CoroutineScope, token: String, productParams: ProductPram): Flow<PagingData<Item>>
 }
 

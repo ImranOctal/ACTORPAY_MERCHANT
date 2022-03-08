@@ -133,6 +133,14 @@
         android:name="com.actorpay.merchant.ui.more.FaqFragment"
         android:label="fragment_faq"
         tools:layout="@layout/fragment_faq" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.actorpay.merchant.ui.wallet.WalletFragment"
+        android:label="WalletFragment" />
+    <fragment
+        android:id="@+id/addMoneyFragment"
+        android:name="com.actorpay.merchant.ui.addMoney.AddMoneyFragment"
+        android:label="AddMoneyFragment" />
 
 
 </navigation>

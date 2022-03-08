@@ -8,7 +8,7 @@ data class GetAllSubMerchant(
 )
 
 data class EMPTYJSON(
-    val empty:String?=null
+    val firstName:String,
 )
 
 data class Data(
@@ -26,9 +26,13 @@ data class Item(
     val email: String,
     val extensionNumber: String,
     val firstName: String,
+    val gender: String,
     val id: String,
     val lastName: String,
     val merchantId: Any,
     val profilePicture: Any,
+    val roleId: String,
     val updatedAt: Any
 )
+
+

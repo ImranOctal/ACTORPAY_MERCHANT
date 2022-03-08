@@ -16,10 +16,8 @@ class AdapterOutlet(
     val onClick: (pos: Int,action:String) -> Unit
 ) :
     RecyclerView.Adapter<AdapterOutlet.ItemHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_outlet, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_outlet, parent, false)
         val orderBinding = ItemOutletBinding.bind(view)
         return ItemHolder(orderBinding)
     }
@@ -57,6 +55,9 @@ class AdapterOutlet(
 
         }
     }
+
+
+
     fun getFormattedOrderDate(orderDate: String): String? {
         try {
             return  AppConstance.dateFormate4.format(AppConstance.dateFormate3.parse(orderDate)!!)

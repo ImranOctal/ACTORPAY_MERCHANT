@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,8 @@ import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 
 import com.actorpay.merchant.databinding.FragmentAddSubMerchantBinding
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
+import com.actorpay.merchant.repositories.retrofitrepository.models.roles.GetRolesParams
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RoleItem
 import com.actorpay.merchant.repositories.retrofitrepository.models.roles.RolesResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.CreateSubMerchant
@@ -45,6 +49,7 @@ class AddSubMerchantFragment : BaseFragment() {
     var roleId=""
     var gender=""
     var list=ArrayList<RoleItem>()
+    private var handler: Handler? = null
     lateinit var adapter: ArrayAdapter<RoleItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,14 +63,15 @@ class AddSubMerchantFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_add_sub_merchant,container,false)
-        rolesViewModel.getAllRoles()
+        handler=Handler()
         if(arguments?.getString("from")=="edit"){
             binding.emailEdit.isFocusable = false
             binding.emailEdit.setTextColor(Color.parseColor("#8E8D8D"))
             addSubViewModel.getMerchantById(arguments?.getString("id"))
-
             updateToolbarText("Update Sub Merchant")
 
+        }else{
+            rolesViewModel.getAllRoles()
         }
         apiResponse()
         binding.submit.setOnClickListener {
@@ -94,11 +100,13 @@ class AddSubMerchantFragment : BaseFragment() {
             dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
             dpd.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
         }
-
         binding.spinnerRole.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
+
+
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
                 roleId=list[position].id
             }
         }
@@ -109,12 +117,19 @@ class AddSubMerchantFragment : BaseFragment() {
         }
         binding.spinnerGender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 gender = binding.spinnerGender.selectedItem.toString()
             }
         }
+        if(arguments?.getString("from")=="edit"){
+            val array = this.resources.getStringArray(R.array.Gender).toMutableList()
+            val pos = array.indexOfFirst {
+                it.equals(arguments?.getString("gender"))
+            }
+            binding.spinnerGender.setSelection(pos)
+        }
+
         val codeList = mutableListOf<String>()
         GlobalData.allCountries.forEach {
             val code = it.countryCode
@@ -146,8 +161,6 @@ class AddSubMerchantFragment : BaseFragment() {
 
 
     private fun updateMerchant(id: String) {
-
-
         val countryCode = binding.codePicker.text.toString().trim()
         val firstName = binding.firstName.text.toString().trim()
         val lastName = binding.lastName.text.toString().trim()
@@ -158,33 +171,6 @@ class AddSubMerchantFragment : BaseFragment() {
 
 
     private fun apiResponse() {
-        lifecycleScope.launch {
-            rolesViewModel.responseLive.collect { event->
-                when (event) {
-                    is ResponseSealed.Loading -> {
-                        showLoadingDialog()
-                    }
-                    is ResponseSealed.Success -> {
-                        hideLoadingDialog()
-                        if (event.response is RolesResponse) {
-                            list=event.response.data.items
-                            adapter= ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, list)
-                            binding.spinnerRole.adapter=adapter
-                        }
-                    }
-                    is ResponseSealed.ErrorOnResponse -> {
-                        hideLoadingDialog()
-                        showCustomAlert(
-                            event.failResponse!!.message,
-                            binding.root
-                        )
-                    }
-                    else -> {
-                        hideLoadingDialog()
-                    }
-                }
-            }
-        }
         lifecycleScope.launch {
             addSubViewModel.responseLive.collect { it->
                 when (it) {
@@ -201,6 +187,10 @@ class AddSubMerchantFragment : BaseFragment() {
                             binding.mobileNumber.setText(it.response.data.contactNumber)
                             binding.llPassword.visibility=View.GONE
                             binding.llDob.visibility=View.GONE
+                            roleId=it.response.data.roleId
+                            handler!!.postDelayed({
+                                rolesViewModel.getAllRoles()
+                            }, 200)
                         }
                         if (it.response is CreateSubMerchant) {
                             requireActivity().onBackPressed()
@@ -226,14 +216,50 @@ class AddSubMerchantFragment : BaseFragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            rolesViewModel.responseLive.collect { event->
+                when (event) {
+                    is ResponseSealed.Loading -> {
+                        showLoadingDialog()
+                    }
+                    is ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        if (event.response is RolesResponse) {
+                            list.clear()
+                            list.add(RoleItem("","Please Select Role","","",null))
+                            list.addAll(event.response.data.items)
+                            adapter= ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, list)
+                            binding.spinnerRole.adapter=adapter
+
+                            for ((index, value) in list.withIndex()) {
+                                Log.e("valueId",value.id)
+                                Log.e("roleId",roleId)
+                                if (value.id == roleId) {
+                                    binding.spinnerRole.setSelection(index)
+                                    break
+                                }
+                            }
+                        }
+
+                    }
+                    is ResponseSealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                        showCustomAlert(
+                            event.failResponse!!.message,
+                            binding.root
+                        )
+                    }
+                    else -> {
+                        hideLoadingDialog()
+                    }
+                }
+            }
+        }
     }
     private fun validation() {
         var isValidate=true
-        if (binding.etDob.text.toString().trim().isEmpty()) {
-            binding.etDob.error = getString(R.string.dob_empty)
-            binding.etDob.requestFocus()
-            isValidate = false
-        }
+
         if (binding.mobileNumber.text.toString().trim().isEmpty()) {
             binding.mobileNumber.error = getString(R.string.phone_empty)
             binding.mobileNumber.requestFocus()
@@ -279,10 +305,21 @@ class AddSubMerchantFragment : BaseFragment() {
             binding.lastName.requestFocus()
             isValidate = false
         }
-
         if (binding.firstName.text.isEmpty()) {
             binding.firstName.error = this.getString(R.string.first_name_empty)
             binding.firstName.requestFocus()
+            isValidate = false
+        }
+         else  if (binding.etDob.text.toString().trim().isEmpty()) {
+            showCustomToast("Please Select DOB")
+            isValidate = false
+        }
+        else  if (roleId=="") {
+            showCustomToast("Please Select Role")
+            isValidate = false
+        }
+        else if(gender=="Gender"){
+            showCustomToast("Please Select Gender")
             isValidate = false
         }
         if(isValidate) {

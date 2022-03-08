@@ -31,7 +31,6 @@ class RoleFragment : BaseFragment() {
     private val rolesViewModel: RolesViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,20 +38,14 @@ class RoleFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_role,container,false)
-
         apiResponse()
         setAdapter()
         handler=Handler()
-        handler!!.postDelayed({ //Do something after delay
-            rolesViewModel.getAllRoles()
-
-        }, 1500)
-
-//        binding.btnAddRole.setOnClickListener {
-//            val intent= Intent(this, RoleDetailsActivity::class.java)
-//            intent.putExtra("id","")
-//            resultLauncher.launch(intent)
-//        }
+        rolesViewModel.getAllRoles()
+        binding.btnAddRole.setOnClickListener {
+            val bundle= bundleOf("id" to "")
+            Navigation.findNavController(requireView()).navigate(R.id.roleDetailFragment,bundle)
+        }
         return  binding.root
     }
     fun setAdapter(){
@@ -62,11 +55,6 @@ class RoleFragment : BaseFragment() {
                 "edit"->{
                     val bundle= bundleOf("id" to rolesViewModel.rolesList[pos].id)
                     Navigation.findNavController(requireView()).navigate(R.id.roleDetailFragment,bundle)
-
-//
-//                    val intent=Intent(this, RoleDetailsActivity::class.java)
-//                    intent.putExtra("id",rolesViewModel.rolesList[pos].id)
-//                    resultLauncher.launch(intent)
                 }
                 "delete"->{
                     CommonDialogsUtils.showCommonDialog(requireActivity(),rolesViewModel.methodRepo,"Delete Role","Are you sure?",false,true,true,false,object :

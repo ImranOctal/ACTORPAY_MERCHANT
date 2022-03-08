@@ -66,8 +66,8 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UP
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
-import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse

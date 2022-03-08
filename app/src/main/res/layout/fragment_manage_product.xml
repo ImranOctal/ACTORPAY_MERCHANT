@@ -52,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 shimmer:layout_constraintStart_toStartOf="parent"
-
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
@@ -92,10 +91,7 @@
                     android:layout_weight=".88"
                     android:orientation="vertical" />
 
-
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"

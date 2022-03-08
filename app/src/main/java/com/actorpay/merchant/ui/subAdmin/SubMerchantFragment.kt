@@ -19,6 +19,7 @@ import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentSubMerchantBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionData
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.DeleteSubMerchant
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.GetAllSubMerchant
 import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.Item
@@ -37,30 +38,19 @@ class SubMerchantFragment : BaseFragment() {
     private lateinit var binding: FragmentSubMerchantBinding
     private val SubviewModel: SubMerchantsViewModel by inject()
     var permissionData= PermissionData(false,"5", AppConstance.SCREEN_SUB_MERCHANT,false)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_sub_merchant,container,false)
         binding.shimmerViewContainer.visibility=View.VISIBLE
         binding.shimmerViewContainer.startShimmerAnimation();
         handler=Handler()
-        handler!!.postDelayed({ //Do something after delay
-
-            SubviewModel.getSubMerchants()
-
-        }, 1000)
-
+        SubviewModel.getSubMerchants()
         apiResponse()
+
+
         permissionDataList.forEach {
             if(it.screenName==permissionData.screenName){
                 permissionData.read=it.read
@@ -109,7 +99,7 @@ class SubMerchantFragment : BaseFragment() {
                     }
                 )
             }else if(action=="edit"){
-                val bundle= bundleOf("from" to "edit","id" to items[pos].id)
+                val bundle= bundleOf("from" to "edit","id" to items[pos].id,"gender" to items[pos].gender,"roleId" to items[pos].roleId)
                 Navigation.findNavController(requireView()).navigate(R.id.addSubMerchantFragment,bundle)
             }
         }
@@ -129,6 +119,7 @@ class SubMerchantFragment : BaseFragment() {
                                 binding.tvEmptyText.visibility=View.GONE
                                 binding.imageEmpty.visibility=View.GONE
                                 binding.rvSubMerchants.visibility=View.VISIBLE
+
 
                             }else{
                                 setUpRv(mutableListOf())
@@ -160,23 +151,16 @@ class SubMerchantFragment : BaseFragment() {
                         hideLoadingDialog()
                     }
                 }
-
             }
         }
     }
-
-
     override fun onResume() {
         super.onResume()
         binding.shimmerViewContainer.startShimmerAnimation();
-
     }
-
     override fun onPause() {
         binding.shimmerViewContainer.visibility=View.GONE
         binding.shimmerViewContainer.stopShimmerAnimation();
         super.onPause()
     }
-
-
 }

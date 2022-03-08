@@ -72,7 +72,6 @@ class AddNewProductFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_add_new_product,container,false)
         handler=Handler()
         Installation()
@@ -80,14 +79,10 @@ class AddNewProductFragment : BaseFragment() {
     }
 
     private fun Installation() {
-
-
         handler!!.postDelayed({
-
             //Do something after delay
             productViewModel.getCategory()
         }, 200)
-
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()
         productViewModel.getTaxationDetails()
@@ -97,13 +92,10 @@ class AddNewProductFragment : BaseFragment() {
                 taxId = newItem.id
             }
         binding.taxData.setSpinnerAdapter(taxAdapter)
-
         ClickListners()
         apiResponse()
     }
-
     private fun ClickListners() {
-
         binding.addProduct.setOnClickListener {
             validate()
         }
@@ -122,7 +114,6 @@ class AddNewProductFragment : BaseFragment() {
                     subCatList.clear()
                     subCatList.add(Data(true, "", "", "", "", "", "Please Select Subcategory"))
                     setSubCatAdapter()
-
                     if (position == 0) {
                         try {
                             (view as TextView).setTextColor(requireActivity().resources.getColor(R.color.light_grey))
@@ -151,10 +142,8 @@ class AddNewProductFragment : BaseFragment() {
                 }
             }
     }
-
     private fun setSubCatAdapter() {
-        val branchListAdapter: ArrayAdapter<Data> =
-            ArrayAdapter<Data>(requireActivity(), android.R.layout.simple_spinner_item, subCatList)
+        val branchListAdapter: ArrayAdapter<Data> = ArrayAdapter<Data>(requireActivity(), android.R.layout.simple_spinner_item, subCatList)
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseSubCategory.adapter = branchListAdapter
     }
@@ -162,9 +151,7 @@ class AddNewProductFragment : BaseFragment() {
         val branchListAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(requireActivity(), android.R.layout.simple_spinner_item, catList)
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseCategory.adapter = branchListAdapter
-
     }
-
     fun validate() {
         var isValidate = true
         if (binding.description.text.toString().trim().isEmpty()) {
@@ -176,7 +163,6 @@ class AddNewProductFragment : BaseFragment() {
             showCustomToast("Please Select Product Image")
             isValidate = false
         }
-
         else if (binding.quantity.text.toString().trim().toInt() < 1) {
             binding.quantity.error = getString(R.string.prod_quant_length)
             binding.quantity.requestFocus()
@@ -186,7 +172,6 @@ class AddNewProductFragment : BaseFragment() {
             binding.quantity.error = getString(R.string.prod_quant_empty)
             binding.quantity.requestFocus()
             isValidate = false
-
         }
         else if (taxId == "") {
             showCustomToast("Please Select Tax")
@@ -219,7 +204,6 @@ class AddNewProductFragment : BaseFragment() {
             binding.productNameEdit.requestFocus()
             isValidate = false
         }
-
         if (binding.productNameEdit.text.toString().trim().isEmpty()) {
             binding.productNameEdit.error = getString(R.string.product_empty)
             binding.productNameEdit.requestFocus()
@@ -233,7 +217,6 @@ class AddNewProductFragment : BaseFragment() {
             showCustomToast("Please Select SubCategory")
             isValidate = false
         }
-
         if (isValidate) {
             lifecycleScope.launch {
                 viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
@@ -283,27 +266,23 @@ class AddNewProductFragment : BaseFragment() {
                 if (data != null) {
                     try {
                         val contentURI = data.data
-                        cropImage(contentURI!!)
+                         cropImage(contentURI!!)
 
                     } catch (e: IOException) {
-                        e.printStackTrace()
+                             e.printStackTrace()
 
                     }
-
                 }
-
             }
         }
 
     private fun cropImage(sourceUri: Uri) {
-        val destinationUri: Uri = Uri.fromFile(
-            File(requireActivity().cacheDir, queryName(requireActivity().contentResolver, sourceUri))
-        )
+        val destinationUri: Uri = Uri.fromFile(File(requireActivity().cacheDir, queryName(requireActivity().contentResolver, sourceUri)))
         val options: UCrop.Options = UCrop.Options();
-        options.setCompressionQuality(80);
-        options.setToolbarColor(ContextCompat.getColor(requireActivity(), R.color.black));
-        options.setStatusBarColor(ContextCompat.getColor(requireActivity(), R.color.black));
-        options.setToolbarWidgetColor(ContextCompat.getColor(requireActivity(), R.color.white));
+        options.setCompressionQuality(80)
+        options.setToolbarColor(ContextCompat.getColor(requireActivity(), R.color.black))
+        options.setStatusBarColor(ContextCompat.getColor(requireActivity(), R.color.black))
+        options.setToolbarWidgetColor(ContextCompat.getColor(requireActivity(), R.color.white))
         options.withAspectRatio(1f, 1f);
         val uCrop = UCrop.of(sourceUri, destinationUri).withOptions(options)
         val intent = uCrop.getIntent(requireActivity())

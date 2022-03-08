@@ -76,7 +76,7 @@ class DisputeFilterDialog(
 
         }
 
-            binding.orderNumber.setText(params.orderNo)
+            binding.disputeCode.setText(params.disputeCode)
             binding.startDate.setText(params.startDate)
             binding.endDate.setText(params.endDate)
 
@@ -134,12 +134,12 @@ class DisputeFilterDialog(
         }
 
         binding.apply.setOnClickListener {
-            var orderNo: String = ""
+            var disputeCode: String = ""
             var startDate: String = ""
             var endDate: String = ""
             var status: String = ""
-            if ((binding.orderNumber.text.toString().trim() == "").not())
-                orderNo = binding.orderNumber.text.toString().trim()
+            if ((binding.disputeCode.text.toString().trim() == "").not())
+                disputeCode = binding.disputeCode.text.toString().trim()
             if ((binding.startDate.text.toString().trim() == "").not())
                 startDate = binding.startDate.text.toString().trim()
             if ((binding.endDate.text.toString().trim() == "").not())
@@ -155,9 +155,8 @@ class DisputeFilterDialog(
                 DisputeListParams(
                     startDate,
                     endDate,
-                    orderNo,
                     status,
-                    ""
+                    disputeCode
                 )
             )
             dismiss()
@@ -168,7 +167,7 @@ class DisputeFilterDialog(
         }
 
         binding.reset.setOnClickListener {
-            binding.orderNumber.setText("")
+            binding.disputeCode.setText("")
             binding.startDate.setText("")
             binding.endDate.setText("")
             binding.spinnerStatus.setSelection(0)

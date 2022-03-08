@@ -5,6 +5,10 @@ package com.actorpay.merchant.repositories.retrofitrepository.repo
 * JAVA/KOTLIN
 * */
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.actorpay.merchant.R
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
@@ -36,13 +40,17 @@ import com.actorpay.merchant.ui.outlet.response.*
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.B_Token
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
-import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
+import com.actorpay.merchant.ui.paging.PagingDataSource
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeSingleResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.SendMessageParams
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -715,6 +723,7 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
+
     override suspend fun getSubMerchants(token: String, pageNo: String, body: EMPTYJSON): RetrofitResource<GetAllSubMerchant> {
         try {
             val data = apiClient.getSubMerchants(AppConstance.B_Token+token,pageNo, body)
@@ -1187,6 +1196,18 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
                 )
             )
         }
+    }
+
+    override suspend fun getProductsWithPaging(viewmodelscope: CoroutineScope, token: String, productParams: ProductPram): Flow<PagingData<Item>> {
+        val products: Flow<PagingData<Item>> =
+            Pager(config = PagingConfig(pageSize = 10, prefetchDistance = 2),
+                pagingSourceFactory = {
+                    PagingDataSource(apiClient,token,  productParams)
+
+                }
+            ).flow.cachedIn(viewmodelscope)
+
+        return products
     }
 
     fun handleError(code:Int,error:String):FailResponse{

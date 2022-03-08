@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityContentBinding
-import com.octal.actorpay.repositories.retrofitrepository.models.content.ContentResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -18,12 +18,10 @@ class ContentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_content)
-
         apiResponse()
         installation()
 
     }
-
 
     private fun installation() {
         contentViewModel.getContent(ContentViewModel.type.toString())

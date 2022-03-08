@@ -16,7 +16,6 @@ class ForgetPasswordDialog {
 
     fun show(activity:Activity, methodsRepo: MethodsRepo, onClick:(email:String)->Unit){
         val alertDialog = Dialog(activity)
-
         val binding = DataBindingUtil.inflate<ForgetPasswordDialogBinding>(
             activity.layoutInflater,
             R.layout.forget_password_dialog,

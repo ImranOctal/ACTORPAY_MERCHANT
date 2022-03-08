@@ -24,7 +24,7 @@ class DisputeDetailsViewModel (val dispatcherProvider: CoroutineContextProvider,
 
 
     var disputeListData = DisputeListData(0, 0, mutableListOf(), 0, 20)
-    var disputeListParams= DisputeListParams("","","","","")
+    var disputeListParams= DisputeListParams("","","","")
 
     fun getDispute(disputeId:String) {
         viewModelScope.launch(dispatcherProvider.IO) {

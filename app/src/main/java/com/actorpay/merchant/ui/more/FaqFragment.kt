@@ -1,7 +1,6 @@
 package com.actorpay.merchant.ui.more
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
-import com.actorpay.merchant.databinding.ActivityFaqBinding
 import com.actorpay.merchant.databinding.FragmentFaqBinding
 import com.actorpay.merchant.ui.more.adapter.CustomExpandableListAdapter
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
@@ -24,15 +22,11 @@ class FaqFragment : BaseFragment() {
     private lateinit var binding: FragmentFaqBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_faq,container,false)
         moreViewModel.getFAQ()
         apiResponse()
@@ -42,9 +36,7 @@ class FaqFragment : BaseFragment() {
 
     fun initExpandableList(){
         val adapter: ExpandableListAdapter = CustomExpandableListAdapter(requireActivity() ,moreViewModel.faqList)
-
         binding.expendableList.setAdapter(adapter)
-
         binding.expendableList.setOnGroupExpandListener (object :
             ExpandableListView.OnGroupExpandListener {
             var previousGroup = -1

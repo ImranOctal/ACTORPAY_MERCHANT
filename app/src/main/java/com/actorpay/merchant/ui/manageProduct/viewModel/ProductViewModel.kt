@@ -44,22 +44,6 @@ class ProductViewModel (
         }
     }
 
-    fun getProductList(pageno: Int, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String) {
-        val body= ProductPram(name,categoryNam,status,subCategoryName,merchantId)
-        viewModelScope.launch(dispatcherProvider.IO) {
-            responseLive.value = ResponseSealed.Loading(true)
-            methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response = apiRepo.getProductList(token, pageNo,pageSize,"createdAt",asc = true,body)) {
-                    is RetrofitResource.Error -> responseLive.value =
-                        ResponseSealed.ErrorOnResponse(response.failResponse)
-                    is RetrofitResource.Success -> responseLive.value =
-                        ResponseSealed.Success(response.data!!)
-                }
-            }
-
-        }
-    }
-
     fun getSubCatDetalis(catId: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
@@ -165,6 +149,12 @@ class ProductViewModel (
 
     }
 
+
+    suspend fun getProductsWithPaging(token:String, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String)=
+        apiRepo.getProductsWithPaging(
+            viewModelScope, token,
+            ProductPram(name,categoryNam,status,subCategoryName,merchantId)
+        )
 
 
 }

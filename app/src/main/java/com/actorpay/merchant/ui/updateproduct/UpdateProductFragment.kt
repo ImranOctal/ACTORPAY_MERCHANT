@@ -55,7 +55,6 @@ class UpdateProductFragment : BaseFragment() {
     private lateinit var binding: FragmentAddNewProductBinding
     private lateinit var taxAdapter: TaxAdapter
 
-
     private val productViewModel: ProductViewModel by inject()
     private var taxList: List<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>? = null
     private var response: GetProductDataById? = null
@@ -328,10 +327,8 @@ class UpdateProductFragment : BaseFragment() {
                             catId = it.response.data.categoryId
                             SubCatId = it.response.data.subCategoryId
                             taxId = it.response.data.taxId
-
                             handler!!.postDelayed({
                                 productViewModel.getCategory()  //Do something after delay
-
                             }, 200)
 
 
@@ -347,7 +344,11 @@ class UpdateProductFragment : BaseFragment() {
                                     break
                                 }
                             }
-                            productViewModel.getSubCatDetalis(catId)
+                            handler!!.postDelayed({
+                                productViewModel.getSubCatDetalis(catId)
+                            }, 200)
+
+
                         }else if(it.response is GetSubCatDataDetails){
                             if (it.response.data.isNotEmpty()) {
                                 subCatList.addAll(it.response.data)
@@ -383,7 +384,6 @@ class UpdateProductFragment : BaseFragment() {
                                         break
                                     }
                                 }
-
                             }
                             else showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         }

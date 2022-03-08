@@ -20,11 +20,10 @@ class SubMerchantsViewModel(
     val apiRepo: RetrofitRepository, ) : AndroidViewModel(
     Application()) {
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
-
     fun getSubMerchants() {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
-            val body= EMPTYJSON()
+            val body= EMPTYJSON("")
             methodRepo.dataStore.getAccessToken().collect { token ->
                 when (val response = apiRepo.getSubMerchants(token, "0",body)) {
                     is RetrofitResource.Error -> responseLive.value =

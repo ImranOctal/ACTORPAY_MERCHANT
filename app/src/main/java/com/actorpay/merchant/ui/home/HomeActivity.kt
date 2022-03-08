@@ -48,6 +48,7 @@ import com.actorpay.merchant.ui.profile.ProfileFragment
 import com.actorpay.merchant.ui.roles.RoleFragment
 import com.actorpay.merchant.ui.setting.SettingFragment
 import com.actorpay.merchant.ui.subAdmin.SubMerchantFragment
+import com.actorpay.merchant.ui.wallet.WalletFragment
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.actorpay.merchant.utils.OnFilterClick
@@ -82,8 +83,6 @@ class HomeActivity : BaseActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.container)!!
         navController = findNavController(R.id.container)
         setupNavigation()
-        homeviewmodel.getById()
-
         WorkSource()
         clickListeners()
         callSideDrawer()
@@ -99,14 +98,7 @@ class HomeActivity : BaseActivity() {
 
     private fun callSideDrawer() {
         cardview_content?.radius = 0f
-
-        actionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this,
-            binding.drawerLayout,
-            binding.toolbar.toolbar1,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        ) {
+        actionBarDrawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar.toolbar1, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             private val scaleFactor = 6f
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 super.onDrawerSlide(drawerView, slideOffset)
@@ -183,7 +175,6 @@ class HomeActivity : BaseActivity() {
         }
         return false
     }
-
     private fun fingerPrint() {
         if (!isBioMetricAvailable()) return
         val executor: Executor = ContextCompat.getMainExecutor(this)
@@ -191,18 +182,12 @@ class HomeActivity : BaseActivity() {
             BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-
                     keyGuard()
                 }
-
-                // THIS METHOD IS CALLED WHEN AUTHENTICATION IS SUCCESS
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     authSheet!!.dismiss()
-
-
                 }
-
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                 }
@@ -277,6 +262,17 @@ class HomeActivity : BaseActivity() {
                 onBackPressed()
             } else {
                 drawer_layout.openDrawer(GravityCompat.START, true)
+            }
+        }
+
+        binding.constWallet.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawers()
+            }
+            val fragment = navHostFragment.childFragmentManager.fragments[0]
+            if (fragment !is WalletFragment) {
+                navController.navigate(R.id.walletFragment)
+
             }
         }
         binding.myCommissionLay.setOnClickListener {
@@ -407,33 +403,8 @@ class HomeActivity : BaseActivity() {
                     }
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
-                        if (it.response is SuccessResponse) {
-                            hideLoadingDialog()
-                            CommonDialogsUtils.showCommonDialog(
-                                this@HomeActivity,
-                                homeviewmodel.methodRepo,
-                                "Signed Up",
-                                it.response.message,
-                                autoCancelable = false,
-                                isCancelAvailable = false,
-                                isOKAvailable = true,
-                                showClickable = false,
-                                callback = object : CommonDialogsUtils.DialogClick {
-                                    override fun onClick() {
-                                        startActivity(
-                                            Intent(
-                                                this@HomeActivity,
-                                                LoginActivity::class.java
-                                            )
-                                        )
-                                        finishAffinity()
-                                    }
 
-                                    override fun onCancel() {
-                                    }
-                                }
-                            )
-                        } else if (it.response is PermissionDetails) {
+                        if (it.response is PermissionDetails) {
                             for (i in it.response.data.indices) {
                                 permissionDataList.forEachIndexed { index, permissionData ->
                                     if (permissionData.screenName == it.response.data[i].screenName) {
@@ -442,6 +413,7 @@ class HomeActivity : BaseActivity() {
                                     }
                                 }
                             }
+                            homeviewmodel.getById()
                             updateUi()
                         } else if (it.response is GetUserById) {
                             val data = it.response
@@ -552,8 +524,6 @@ class HomeActivity : BaseActivity() {
 
         }
     }
-
-
     override fun onBackPressed() {
         val fragment = navHostFragment.childFragmentManager.fragments[0]
         if (fragment is HomeFragment) {
@@ -601,15 +571,12 @@ class HomeActivity : BaseActivity() {
                 }
             })
     }
-
-    var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 authSheet?.dismiss()
 
             }
             if (result.resultCode == Activity.RESULT_CANCELED) {
-
             }
         }
 
@@ -768,18 +735,29 @@ class HomeActivity : BaseActivity() {
 
                 }
 
+                R.id.walletFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.wallet)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+
+                }
+
+                R.id.addMoneyFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.add_money)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+
+                }
+
             }
         }
     }
-
     fun onFilterClick(filterClick: OnFilterClick) {
         this.filterClick = filterClick
     }
-
     fun updateToolbarText(title: String) {
         binding.toolbar.ToolbarTitle.text = title
-    }
-    fun lockDrawer() {
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 }

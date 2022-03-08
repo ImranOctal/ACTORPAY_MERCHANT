@@ -21,7 +21,7 @@ class DisputeViewModel (val dispatcherProvider: CoroutineContextProvider, val me
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
 
     var disputeListData = DisputeListData(0, 0, mutableListOf(), 0, 20)
-    var disputeListParams= DisputeListParams("","","","","")
+    var disputeListParams= DisputeListParams("","","","")
 
     fun getAllDisputes() {
         viewModelScope.launch(dispatcherProvider.IO) {

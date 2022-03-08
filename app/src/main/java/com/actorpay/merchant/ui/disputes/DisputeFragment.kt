@@ -57,10 +57,9 @@ class DisputeFragment : BaseFragment(), OnFilterClick {
         binding.rvDispute.adapter = adapter
     }
     fun updateUI(disputeListData: DisputeListData) {
-        disputeViewModel.disputeListData.pageNumber =
-            disputeListData.pageNumber
-        disputeViewModel.disputeListData.totalPages =
-            disputeListData.totalPages
+        disputeViewModel.disputeListData.pageNumber = disputeListData.pageNumber
+        disputeViewModel.disputeListData.totalPages = disputeListData.totalPages
+        disputeViewModel.disputeListData.items.clear()
         disputeViewModel.disputeListData.items.addAll(disputeListData.items)
         binding.rvDispute.adapter?.notifyDataSetChanged()
 

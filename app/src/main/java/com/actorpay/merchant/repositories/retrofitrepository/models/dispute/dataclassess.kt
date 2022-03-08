@@ -4,7 +4,6 @@ package com.octal.actorpayuser.repositories.retrofitrepository.models.dispute
 data class DisputeListParams(
     var startDate: String,
     var endDate: String,
-    var orderNo: String,
     var status: String,
     var disputeCode:String
 )

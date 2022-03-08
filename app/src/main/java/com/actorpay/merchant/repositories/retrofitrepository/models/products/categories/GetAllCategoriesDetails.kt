@@ -41,7 +41,9 @@ data class DataCategory(
     val image: String,
     val name: String,
     val status: Boolean
-){
+)
+
+{
     override fun toString(): String {
         return name
 

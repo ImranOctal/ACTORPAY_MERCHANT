@@ -45,17 +45,14 @@ class EarnFragment : BaseFragment(),OnFilterClick {
         commissionViewModel.getAllCommissions()
         binding.shimmerViewContainer.visibility=View.VISIBLE
         onFilterClick(this)
-
         apiResponse()
         setAdapter()
         return  binding.root
     }
-
     private fun setAdapter() {
         binding.rvCommission.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCommission.adapter = EarningAdapter(commissionViewModel.commissionList)
     }
-
     private fun apiResponse() {
         lifecycleScope.launchWhenStarted {
             commissionViewModel.responseLive.collect { action ->

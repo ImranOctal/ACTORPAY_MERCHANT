@@ -13,7 +13,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitRepository
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponseData
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponseData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

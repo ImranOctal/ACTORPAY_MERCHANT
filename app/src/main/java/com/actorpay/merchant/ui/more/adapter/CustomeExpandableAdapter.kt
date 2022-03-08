@@ -3,7 +3,6 @@ package com.actorpay.merchant.ui.more.adapter
 
 
 import android.content.Context
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,7 @@ import android.webkit.WebView
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import com.actorpay.merchant.R
-import com.octal.actorpay.repositories.retrofitrepository.models.content.FAQResponseData
-
-
-import java.util.HashMap
+import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponseData
 
 
 class CustomExpandableListAdapter internal constructor(

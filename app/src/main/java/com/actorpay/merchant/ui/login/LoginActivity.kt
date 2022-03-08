@@ -32,16 +32,8 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        installation()
-        apiResponse()
-    }
-
-    private fun installation() {
-        /*   binding.signInBtn.setOnClickListener {
-               switchActivity(Intent(baseContext(), HomeActivity::class.java))
-           }*/
         clickListeners()
-
+        apiResponse()
     }
     private fun clickListeners() {
         disposable = binding.signinBtn.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)

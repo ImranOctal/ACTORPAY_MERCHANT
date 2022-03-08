@@ -11,6 +11,7 @@
     <string name="resource_empty">Oops! Your Resource is Empty</string>
     <string name="licence_empty">Oops! Your Licence is Empty</string>
     <string name="title_empty">Oops! Your Title is Empty</string>
+    <string name="rs">₹</string>
     <string name="product_empty">Oops! Your Product is Empty</string>
     <string name="shop_address_empty">Oops! Your Shop Address is Empty</string>
     <string name="address_empty">Oops! Your Address is Empty</string>
@@ -56,6 +57,7 @@
     <string name="logout">Logout</string>
     <string name="my_profile">My Profile</string>
     <string name="wallet_statement">Wallet Statement</string>
+    <string name="wallet">Wallet</string>
     <string name="my_orders">My Orders</string>
     <string name="change_payment_option">Change Payment Option</string>
     <string name="settings">Settings</string>
@@ -113,7 +115,6 @@
     <string name="manage_product">Manage Products</string>
     <string name="dashboard">Dashboard</string>
     <string name="available_balance">Available Balance</string>
-    <string name="add_money">Add Money</string>
     <string name="upload_csv_file">+ Upload CSV File</string>
     <string name="total_number_user">Total Number of Users</string>
     <string name="demo_item">10000</string>
@@ -252,11 +253,16 @@
     </string-array>
 
     <string-array name="Gender">
-
+        <item>Gender</item>
         <item>Male</item>
         <item>Female</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sub_merchants">Sub Merchants</string>
+    <string name="add_money">Add Money</string>
+    <string name="send_money">Send Money</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="amount">Amount</string>
 </resources>
