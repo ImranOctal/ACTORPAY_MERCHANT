@@ -474,6 +474,7 @@
                         android:id="@+id/constWallet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
                         android:weightSum="1">
@@ -502,12 +503,6 @@
                             app:layout_constraintTop_toTopOf="@+id/ivWallet" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:background="@color/gray" />
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/earnMoney"
                         android:layout_width="match_parent"

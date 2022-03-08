@@ -241,7 +241,6 @@ class AddSubMerchantFragment : BaseFragment() {
                                 }
                             }
                         }
-
                     }
                     is ResponseSealed.ErrorOnResponse -> {
                         hideLoadingDialog()
