@@ -43,13 +43,14 @@ class DisputeDetailFragment : BaseFragment() {
         if(disputeID != ""){
             disputeDetailsViewModel.disputeListParams.disputeCode=disputeCode
             disputeDetailsViewModel.getAllDisputes()
-//            disputeDetailsViewModel.getDispute(disputeID)
+//           disputeDetailsViewModel.getDispute(disputeID)
         }
         else{
             showCustomToast("Something went wrong")
         }
 
         apiResponse()
+
         binding.sendMessageIcon.setOnClickListener {
             sendMessage()
         }

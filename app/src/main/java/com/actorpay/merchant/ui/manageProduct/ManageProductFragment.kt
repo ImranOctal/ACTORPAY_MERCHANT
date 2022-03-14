@@ -52,7 +52,6 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
     var catId = ""
     var SubCatId = ""
     var pos = 0
-
     var isComing=false
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
@@ -62,7 +61,6 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handler = Handler()
-
         setAdapter()
     }
     private fun setAdapter() {

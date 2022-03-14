@@ -37,6 +37,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.permission.P
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.commission.EarnFragment
 import com.actorpay.merchant.ui.disputes.DisputeFragment
+import com.actorpay.merchant.ui.invitation.InvitationFragment
 import com.actorpay.merchant.ui.login.AuthBottomSheetDialog
 import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.ui.manageOrder.ManageOrderFragment
@@ -54,12 +55,14 @@ import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.core.component.getScopeName
 import java.util.concurrent.Executor
 
 
@@ -109,7 +112,6 @@ class HomeActivity : BaseActivity() {
                         drawer_layout?.layoutDirection = View.LAYOUT_DIRECTION_LTR
                     }
                 }
-
                 cardview_content?.scaleX = 1 - slideOffset / scaleFactor
                 cardview_content?.scaleY = 1 - slideOffset / scaleFactor
                 cardview_content?.radius = 0f
@@ -141,6 +143,7 @@ class HomeActivity : BaseActivity() {
                 Log.e("qwerty", "onDrawerStateChanged")
             }
         }
+
         if (supportActionBar != null) {
             supportActionBar!!.setHomeButtonEnabled(true)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -154,6 +157,8 @@ class HomeActivity : BaseActivity() {
         (actionBarDrawerToggle as ActionBarDrawerToggle).isDrawerIndicatorEnabled =
             false //disable "hamburger to arrow" drawable
         (actionBarDrawerToggle as ActionBarDrawerToggle).syncState()
+
+
 
     }
 
@@ -204,6 +209,7 @@ class HomeActivity : BaseActivity() {
             }
             authSheet?.isCancelable = false
             authSheet?.show(supportFragmentManager, "auth sheet")
+            authSheet?.show(supportFragmentManager, "auth sheet")
             biometricPrompt?.authenticate(fingerPromptInfo)
 
         } else {
@@ -215,12 +221,10 @@ class HomeActivity : BaseActivity() {
     fun keyGuard() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         if (km.isKeyguardSecure) {
-            val i =
-                km.createConfirmDeviceCredentialIntent("Authentication required", "password")
+            val i = km.createConfirmDeviceCredentialIntent("Authentication required", "password")
             resultLauncher.launch(i)
-
-        } else {
-        }
+           } else {
+           }
     }
 
     private fun initialisation() {
@@ -256,6 +260,7 @@ class HomeActivity : BaseActivity() {
         binding.toolbar.ivFilter.setOnClickListener {
             filterClick.onClick()
         }
+
         binding.toolbar.back.setOnClickListener {
             val fragment = navHostFragment.childFragmentManager.fragments[0]
             if (fragment !is HomeFragment) {
@@ -272,7 +277,6 @@ class HomeActivity : BaseActivity() {
             val fragment = navHostFragment.childFragmentManager.fragments[0]
             if (fragment !is WalletFragment) {
                 navController.navigate(R.id.walletFragment)
-
             }
         }
         binding.myCommissionLay.setOnClickListener {
@@ -282,7 +286,6 @@ class HomeActivity : BaseActivity() {
             val fragment = navHostFragment.childFragmentManager.fragments[0]
             if (fragment !is EarnFragment) {
                 navController.navigate(R.id.earnFragment)
-
             }
         }
         binding.disputeLay.setOnClickListener {
@@ -320,6 +323,7 @@ class HomeActivity : BaseActivity() {
             }
         }
 
+
         binding.constSetting.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawers()
@@ -329,7 +333,6 @@ class HomeActivity : BaseActivity() {
                 navController.navigate(R.id.settingFragment)
             }
         }
-
         binding.profileLay.setOnClickListener {
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                 drawer_layout.closeDrawers()
@@ -367,6 +370,18 @@ class HomeActivity : BaseActivity() {
             val fragment = navHostFragment.childFragmentManager.fragments[0]
             if (fragment !is SubMerchantFragment) {
                 navController.navigate(R.id.subMerchantFragment)
+            }
+
+        }
+
+
+        constReferal.setOnClickListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawers()
+            }
+            val fragment = navHostFragment.childFragmentManager.fragments[0]
+            if (fragment !is InvitationFragment) {
+                navController.navigate(R.id.invitationFragment)
             }
 
         }
@@ -524,6 +539,7 @@ class HomeActivity : BaseActivity() {
 
         }
     }
+
     override fun onBackPressed() {
         val fragment = navHostFragment.childFragmentManager.fragments[0]
         if (fragment is HomeFragment) {
@@ -565,9 +581,7 @@ class HomeActivity : BaseActivity() {
                         finishAffinity()
                     }
                 }
-
                 override fun onCancel() {
-
                 }
             })
     }
@@ -580,6 +594,7 @@ class HomeActivity : BaseActivity() {
             }
         }
 
+
     fun setupNavigation() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
@@ -588,16 +603,12 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.dashboard)
                     binding.toolbar.ivNotification.visibility = View.VISIBLE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
-
-
                 }
                 R.id.earnFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.earning)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.VISIBLE
-
 
                 }
                 R.id.manageProductFragment -> {
@@ -708,7 +719,6 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.dispute_details)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
 
                 R.id.settingFragment -> {
@@ -716,7 +726,6 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.settings)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
 
                 R.id.moreFragment -> {
@@ -724,7 +733,6 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.more)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
 
                 R.id.faqFragment -> {
@@ -732,7 +740,6 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.faq)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
 
                 R.id.walletFragment -> {
@@ -740,17 +747,63 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.wallet)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
-
                 R.id.addMoneyFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.add_money)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
-
                 }
 
+                R.id.paymentFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.payment)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
+
+                R.id.transactionHistoryFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.transaction_history)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.VISIBLE
+                }
+
+                R.id.transactionDetailFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.transaction_detail)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
+
+                R.id.transferMoneyFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.Transfer_money)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
+                R.id.payFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.Transfer_money)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
+
+                R.id.requestMoneyFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.request_money)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.VISIBLE
+                }
+
+
+
+                R.id.invitationFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.my_refer)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
             }
         }
     }

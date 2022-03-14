@@ -165,10 +165,7 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
     }
 
     fun checkPermission(activity: Activity,permission:String):Boolean {
-        return ContextCompat.checkSelfPermission(
-            activity,
-            permission
-        ) != PackageManager.PERMISSION_DENIED
+        return ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_DENIED
     }
 
     fun getFormattedOrderDate(orderDate: String): String? {

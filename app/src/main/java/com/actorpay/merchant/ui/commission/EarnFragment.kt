@@ -23,6 +23,7 @@ import com.actorpay.merchant.ui.home.HomeActivity
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import java.text.DecimalFormat
@@ -34,7 +35,6 @@ class EarnFragment : BaseFragment(),OnFilterClick {
     private val commissionViewModel: EarningViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
     }

@@ -45,6 +45,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/_15ssp"
+                android:text="$100"
                 tools:text="$100" />
         </LinearLayout>
 
@@ -76,7 +77,7 @@
             app:cardCornerRadius="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/enter_amount_text">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/enter_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -89,7 +90,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/_14sdp" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/enter_amount_edt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -97,7 +98,6 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/amount"
                 android:inputType="numberDecimal"
-                android:maxLength="5"
                 android:paddingVertical="@dimen/_10sdp"
                 android:paddingStart="@dimen/_25sdp"
                 android:paddingEnd="@dimen/_10sdp"

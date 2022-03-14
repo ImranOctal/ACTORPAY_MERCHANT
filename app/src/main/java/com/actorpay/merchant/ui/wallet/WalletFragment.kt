@@ -24,19 +24,24 @@ class WalletFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wallet, container, false)
         listener()
         return binding.root
-
     }
-
     private fun listener() {
 
         binding.cvAddMoney.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.addMoneyFragment)
         }
-        binding. cvSendMoney.setOnClickListener {
-        }
-        binding.cvTransaction.setOnClickListener {
 
+        binding.linearTransaction.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.transactionHistoryFragment)
         }
 
+        binding. llTransferMoney.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.transferMoneyFragment)
+        }
+
+
+        binding. cvRequestMoney.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.requestMoneyFragment)
+        }
     }
 }

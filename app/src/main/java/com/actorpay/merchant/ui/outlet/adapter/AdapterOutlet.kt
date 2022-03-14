@@ -3,6 +3,7 @@ package com.actorpay.merchant.ui.outlet.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.ui.text.capitalize
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.ItemOutletBinding
@@ -41,14 +42,11 @@ class AdapterOutlet(
                 tvOutletAddress2.text=items[position].addressLine2
                 tvOutletContact.text=items[position].extensionNumber+items[position].contactNumber
 
-
                 edit.setOnClickListener {
                     onClick(position,"edit")
-
                 }
 
-
-                delete.setOnClickListener {
+               delete.setOnClickListener {
                     onClick(position,"delete")
                 }
             }

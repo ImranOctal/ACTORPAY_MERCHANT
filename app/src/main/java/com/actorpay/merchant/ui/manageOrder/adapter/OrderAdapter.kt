@@ -48,9 +48,7 @@ class OrderAdapter(
                 }
                 if(items[position].orderStatus=="CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.red_color))
-                    orderStatus.roundBorderedView(12,
-                        AppConstance.white_color,
-                        AppConstance.red_color,1)
+                    orderStatus.roundBorderedView(12, AppConstance.white_color, AppConstance.red_color,1)
 
                 }else if(items[position].orderStatus=="PARTIALLY_RETURNED"||items[position].orderStatus=="PARTIALLY_RETURNING"||items[position].orderStatus=="PARTIALLY_CANCELLED"||items[position].orderStatus=="PARTIALLY_CANCELLED"){
                     orderStatus.setTextColor(Color.parseColor(AppConstance.blue_color))

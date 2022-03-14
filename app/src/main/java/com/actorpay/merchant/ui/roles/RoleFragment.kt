@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-
 class RoleFragment : BaseFragment() {
     private lateinit var binding: FragmentRoleBinding
     private var handler: Handler? = null
@@ -32,10 +31,7 @@ class RoleFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_role,container,false)
         apiResponse()
@@ -48,10 +44,11 @@ class RoleFragment : BaseFragment() {
         }
         return  binding.root
     }
+
     fun setAdapter(){
         val adapter= RoleAdapter(rolesViewModel.methodRepo,rolesViewModel.rolesList){
                 pos, action ->
-            when(action){
+                when(action){
                 "edit"->{
                     val bundle= bundleOf("id" to rolesViewModel.rolesList[pos].id)
                     Navigation.findNavController(requireView()).navigate(R.id.roleDetailFragment,bundle)
@@ -67,7 +64,6 @@ class RoleFragment : BaseFragment() {
                     })
                 }
             }
-
         }
         binding.rvRoles.layoutManager= LinearLayoutManager(requireActivity())
         binding.rvRoles.adapter=adapter
@@ -112,7 +108,6 @@ class RoleFragment : BaseFragment() {
                         else if (event.response is SuccessResponse) {
                             showCustomToast(event.response.message)
                             rolesViewModel.getAllRoles()
-
                         }
                     }
                     is ResponseSealed.ErrorOnResponse -> {
@@ -120,10 +115,8 @@ class RoleFragment : BaseFragment() {
                         if(event.failResponse!!.code==403){
                             forcelogout(viewModel.methodRepo)
                         }else{
-                            showCustomAlert(
-                                event.failResponse.message,
-                                binding.root
-                            )
+                            showCustomToast(
+                                event.failResponse.message,)
                         }
                     }
                     else -> {

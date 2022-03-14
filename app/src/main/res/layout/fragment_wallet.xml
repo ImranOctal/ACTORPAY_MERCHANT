@@ -25,7 +25,7 @@
                 android:layout_marginEnd="@dimen/_20sdp">
 
 
-               <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical">
@@ -75,6 +75,7 @@
                 android:layout_marginEnd="@dimen/_20sdp">
 
                 <LinearLayout
+                    android:id="@+id/llTransferMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical">
@@ -99,10 +100,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:gravity="center_vertical"
                         android:text="@string/send_money"
-                        android:layout_weight="1"
                         android:textSize="@dimen/_12sdp" />
 
                     <ImageView
@@ -118,14 +119,15 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvRequestMoney"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:id="@+id/cvTransaction"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp">
 
                 <LinearLayout
+                    android:id="@+id/llRequestMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical">
@@ -150,10 +152,62 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_vertical"
+                        android:text="@string/request_money"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_6sdp"
+                        android:src="@drawable/next" />
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp">
+
+                <LinearLayout
+                    android:id="@+id/linearTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:background="@drawable/bg_round_corner">
+
+                        <ImageView
+                            android:layout_width="@dimen/_16sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_add_money" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:gravity="center_vertical"
                         android:text="@string/transaction_history"
-                        android:layout_weight="1"
                         android:textSize="@dimen/_12sdp" />
 
                     <ImageView

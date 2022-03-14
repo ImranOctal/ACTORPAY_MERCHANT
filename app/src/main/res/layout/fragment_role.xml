@@ -21,14 +21,12 @@
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 shimmer:duration="800"
-
                 shimmer:layout_constraintStart_toStartOf="parent">
 
                 <!-- Adding 7 rows of placeholders -->
@@ -52,6 +50,7 @@
 
 
                 </LinearLayout>
+
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 

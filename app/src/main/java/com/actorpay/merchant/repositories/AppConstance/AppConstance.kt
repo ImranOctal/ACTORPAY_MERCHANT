@@ -142,6 +142,13 @@ class AppConstance {
         const val GET_ALL_DISPUTES: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/list/paged"
         const val GET_DISPUTE: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/get/"
         const val SEND_DISPUTE_MESSAGE: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/send/message"
+        const val KEY_KEY="key"
+        const val KEY_NAME="name"
+        const val KEY_CONTACT="contact"
+        const val KEY_QR="qr"
+        const val KEY_MOBILE="mobile"
+        const val KEY_EMAIL="email"
+        const val KEY_AMOUNT="amount"
 
     }
 

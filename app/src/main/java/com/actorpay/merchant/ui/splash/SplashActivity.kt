@@ -105,11 +105,9 @@ class SplashActivity : BaseActivity() {
                 Log.e("ERROR in Firebase", "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }else{
-                // Get new FCM registration token
                 val newToken = task.result
                 sharedPre.setFirebaseToken(newToken)
-                if (sharedPre.firebaseDeviceToken != null && !sharedPre.firebaseDeviceToken!!.isEmpty()
-                ) {
+                if (sharedPre.firebaseDeviceToken != null && !sharedPre.firebaseDeviceToken!!.isEmpty()) {
                     Log.e("FirebaseToken", newToken )
                 }
                 lifecycleScope.launch (Dispatchers.Main) {

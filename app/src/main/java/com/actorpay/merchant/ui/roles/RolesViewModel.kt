@@ -39,12 +39,9 @@ class RolesViewModel(
          }
      }
      fun deleteRole(id:String) {
-
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
-
              val deleteRolesParams= DeleteRolesParams(mutableListOf(id))
-
              methodRepo.dataStore.getAccessToken().collect { token ->
                  when (val response = apiRepo.deleteRole(token,deleteRolesParams)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
@@ -55,11 +52,11 @@ class RolesViewModel(
          }
      }
 
-     fun getAllScreen() {
 
+
+     fun getAllScreen() {
          viewModelScope.launch(dispatcherProvider.IO) {
              responseLive.value = ResponseSealed.Loading(true)
-
              methodRepo.dataStore.getAccessToken().collect { token ->
                  when (val response = apiRepo.getAllScreens(token)) {
                      is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
@@ -69,5 +66,4 @@ class RolesViewModel(
              }
          }
      }
-
  }

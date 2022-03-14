@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable-hdpi/ic_baseline_contact_mail_24.xml" value="0.152" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable-hdpi/round_wallet_bg.xml" value="0.1085" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable-xxhdpi/dash_border.xml" value="0.219" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable/back.xml" value="0.243" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_gray.xml" value="0.2495" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/drawable/bg_message_green.xml" value="0.243" />
@@ -37,6 +40,7 @@
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_sub_merchant.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/activity_update_outlet.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/add_outlet_actitvity.xml" value="0.17831813576494426" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/add_transaction_status_dialog.xml" value="0.3663949275362319" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/cancel_bottomsheet.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/common_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/country_listitem.xml" value="0.36666666666666664" />
@@ -59,20 +63,28 @@
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_earn.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_faq.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_invitation.xml" value="0.18" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_manage_order.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_manage_product.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_more.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_order_detaail.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_outlet.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_pay.xml" value="0.20516304347826086" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_payment_dialog.xml" value="0.22" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_payroll.xml" value="0.25" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_request_money.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_role.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_role_detail.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_send_money.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_setting.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_sub_merchant.xml" value="0.35260416666666666" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_transaction_history.xml" value="0.23505434782608695" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_transfer_money.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_update_outlet.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_update_product.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_wallet.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/fragment_wallet_detail.xml" value="0.23505434782608695" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_add_money.xml" value="0.35260416666666666" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_commission.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_order_detail.xml" value="0.36666666666666664" />
@@ -80,13 +92,18 @@
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_outlet.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_roles_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/item_transaction_history.xml" value="0.23505434782608695" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/manage_order_layout_item.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/manage_product_item.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/network_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/payroll_payment_item.xml" value="0.17831813576494426" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/progress_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/request_filter_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/row_request_money_recieve.xml" value="0.1983695652173913" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/row_request_money_send.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/toolbar2.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/toolbar_custom.xml" value="0.36666666666666664" />
+        <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/layout/wallet_filter_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/ACTORPAY_MERCHANT/ACTORPAY_MERCHANT/app/src/main/res/xml/motion.xml" value="0.36666666666666664" />
         <entry key="..\:/Iftekhar/Android Projects/actorpay/ACTORPAYOCTAL/app/src/main/res/drawable-xxxhdpi/ic_baseline_search_24.xml" value="0.22" />
         <entry key="..\:/Iftekhar/Android Projects/actorpay/ACTORPAYOCTAL/app/src/main/res/drawable/bg_message_green.xml" value="0.22" />

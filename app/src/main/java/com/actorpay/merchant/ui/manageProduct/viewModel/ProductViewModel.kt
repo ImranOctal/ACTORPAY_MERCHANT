@@ -111,7 +111,6 @@ class ProductViewModel (
     fun updateProduct(product: String, file: File, isSelect: String) {
         var r1: RequestBody? = null
         var f1: MultipartBody.Part? = null
-
         r1 = file.asRequestBody("/*".toMediaTypeOrNull())
         val prod = product.toRequestBody("application/json".toMediaTypeOrNull())
         f1 = MultipartBody.Part.createFormData("file", "${System.currentTimeMillis()}.jpg", r1!!)
@@ -149,12 +148,9 @@ class ProductViewModel (
 
     }
 
-
     suspend fun getProductsWithPaging(token:String, name: String,categoryNam:String,status:Boolean,subCategoryName:String,merchantId:String)=
         apiRepo.getProductsWithPaging(
             viewModelScope, token,
             ProductPram(name,categoryNam,status,subCategoryName,merchantId)
         )
-
-
 }

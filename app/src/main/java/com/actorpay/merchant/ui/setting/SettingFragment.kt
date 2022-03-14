@@ -92,7 +92,6 @@ class SettingFragment : BaseFragment() {
         }
     }
 
-
     fun changePasswordUi() {
         ChangePasswordDialog().show(
             requireActivity(),

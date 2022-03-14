@@ -14,13 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SettingViewModel(
-    val dispatcherProvider: CoroutineContextProvider,
-    val methodRepo: MethodsRepo,
-    val apiRepo: RetrofitRepository,
-) : AndroidViewModel(
-    Application()
-) {
+class SettingViewModel(val dispatcherProvider: CoroutineContextProvider, val methodRepo: MethodsRepo, val apiRepo: RetrofitRepository, ) : AndroidViewModel(Application()) {
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
     fun changePassword(oldPassword: String, newPassword: String) {
         val body = ChangePasswordParams(oldPassword, newPassword, newPassword)

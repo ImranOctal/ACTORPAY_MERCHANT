@@ -142,5 +142,36 @@
         android:name="com.actorpay.merchant.ui.addMoney.AddMoneyFragment"
         android:label="AddMoneyFragment" />
 
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.actorpay.merchant.ui.payment.PaymentFragment"
+        android:label="PaymentFragment" />
+
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.actorpay.merchant.ui.wallet.TransactionHistoryFragment"
+        android:label="TransactionHistoryFragment" />
+
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="com.actorpay.merchant.ui.wallet.TransactionDetailFragment"
+        android:label="TransactionDetailFragment" />
+    <fragment
+        android:id="@+id/transferMoneyFragment"
+        android:name="com.actorpay.merchant.ui.sendMoney.TransferMoneyFragment"
+        android:label="TransferMoneyFragment" />
+    <fragment
+        android:id="@+id/payFragment"
+        android:name="com.actorpay.merchant.ui.sendMoney.PayFragment"
+        android:label="PayFragment" />
+    <fragment
+        android:id="@+id/requestMoneyFragment"
+        android:name="com.actorpay.merchant.ui.requestMoney.RequestMoneyFragment"
+        android:label="RequestMoneyFragment" />
+    <fragment
+        android:id="@+id/invitationFragment"
+        android:name="com.actorpay.merchant.ui.invitation.InvitationFragment"
+        android:label="InvitationFragment" />
+
 
 </navigation>

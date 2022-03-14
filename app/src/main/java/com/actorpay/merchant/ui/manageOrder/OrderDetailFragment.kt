@@ -50,7 +50,7 @@ class OrderDetailFragment : BaseFragment() {
         // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater ,R.layout.fragment_order_detaail, container, false)
         list = arguments?.getSerializable("data") as Item
-        binding.OrderType.text = list.orderStatus.replace("_"," ")
+
         binding.btnNote.setOnClickListener {
             addNote()
         }
@@ -87,6 +87,7 @@ class OrderDetailFragment : BaseFragment() {
 
                             is BeanViewAllOrder -> {
                                 if (it.response.data.items.size > 0) {
+                                    binding.OrderType.text = it.response.data.items[0].orderStatus.replace("_"," ")
                                     binding.orderRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
                                     binding.orderRecyclerView.adapter = OrderDetailAdapter(requireActivity(), it.response.data.items[0].orderItemDtos){ list: ArrayList<String>, root: View, orderItemId: MutableList<String> ->
                                         dialog(list,root,orderItemId)

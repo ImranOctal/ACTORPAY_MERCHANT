@@ -21,6 +21,7 @@
     <string name="country_empty">Oops! Your Country is Empty</string>
     <string name="password_empty">Oops! Your Password is Empty</string>
     <string name="business_empty">Oops! Your Business Name is Empty</string>
+    <string name="amount_empty">Oops! Your Amount is Empty</string>
     <string name="error_business">Oops! your business name\'s length is less than 3</string>
     <string name="error_shop_address">Oops! your shop address name\'s length is less than 3</string>
     <string name="address_error">Oops! your address name\'s length is less than 3</string>
@@ -71,6 +72,7 @@
     <string name="remember_me">Remember Me</string>
     <string name="loginwithFacial">Login with facial recognition</string>
     <string name="Signup">Don\'t have an account? Signup</string>
+    <string name="shareLink">Download ActorPayMerchant App and earn money \n http://ActorPayMerchant"+ "MARTIN MROC 0085</string>
     <string name="business">Business Name</string>
     <string name="mobile">Mobile</string>
     <string name="shopAddress">Shop Address</string>
@@ -121,6 +123,7 @@
     <string name="totalTransferAmount">Total Transfer Amount</string>
     <string name="payble_amount">Payble Amount</string>
     <string name="pay">Pay</string>
+    <string name="refer">Refer &amp; Earn</string>
     <string name="payroll">Payroll</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -233,6 +236,13 @@
         <item>FAILED</item>
     </string-array>
 
+
+    <string-array name="wallet_txn_type_status_array">
+        <item>All Types</item>
+        <item>CREDIT</item>
+        <item>DEBIT</item>
+    </string-array>
+
     <string-array name="settlement_array">
         <item>Select Status</item>
         <item>PENDING</item>
@@ -256,13 +266,29 @@
         <item>Gender</item>
         <item>Male</item>
         <item>Female</item>
+        <item>Other</item>
+
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sub_merchants">Sub Merchants</string>
     <string name="add_money">Add Money</string>
+    <string name="payment">Payment</string>
+    <string name="you_have_not_done_any_transactions_yet">No transaction found</string>
     <string name="send_money">Send Money</string>
     <string name="transaction_history">Transaction History</string>
+    <string name="transaction_detail">Transaction Detail</string>
+    <string name="Transfer_money">Transfer money</string>
     <string name="enter_amount">Enter Amount</string>
     <string name="amount">Amount</string>
+    <string name="wallet_to_wallet">Wallet To Wallet</string>
+    <string name="wallet_to_bank">Wallet To Bank</string>
+    <string name="done">Done</string>
+    <string name="enter_mobile_no_or_email">Enter mobile no. or email</string>
+    <string name="wallet_history">Wallet History</string>
+    <string name="payment_succeed">Payment Succeed!</string>
+    <string name="request_money">Request Money</string>
+    <string name="my_refer">My Refer</string>
+    <string name="share_now">Share Now</string>
+    <string name="refer_and_earn">Refer and Earn</string>
 </resources>

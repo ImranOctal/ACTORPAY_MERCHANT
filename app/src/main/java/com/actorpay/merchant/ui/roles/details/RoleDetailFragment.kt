@@ -101,7 +101,6 @@ class RoleDetailFragment : BaseFragment() {
                         else if(event.response is SuccessResponse){
                             showCustomToast(event.response.message)
                             requireActivity().onBackPressed()
-
                         }
                     }
                     is ResponseSealed.ErrorOnResponse -> {
@@ -131,7 +130,6 @@ class RoleDetailFragment : BaseFragment() {
                 it.write = false
             }
             rolesDetailsViewModel.allScreens.addAll(GlobalData.allScreens.toMutableList())
-
             rolesDetailsViewModel.allScreens.forEach { screen ->
                 rolesDetailsViewModel.screenPermissionsList.forEach { screenAccessPermission ->
                     if (screen.id == screenAccessPermission.screenId) {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/row_wallet_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/row_wallet_amount"
+                tools:text="Money added to your wallet"
+                android:textSize="@dimen/_10ssp"
+                android:text="Money added to your wallet"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_medium"
+                />
+
+            <TextView
+                android:id="@+id/row_wallet_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="+$100"
+                android:text="+$100"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_regular"
+                />
+
+
+            <TextView
+                android:id="@+id/row_wallet_txn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/row_wallet_text"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Transaction Id:  "
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_medium"
+                />
+            <TextView
+                android:id="@+id/row_wallet_txn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/row_wallet_text"
+                app:layout_constraintStart_toEndOf="@+id/row_wallet_txn_text"
+                tools:text="WTXN12324190"
+                android:text="WTXN12324190"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/primary"
+                android:fontFamily="@font/poppins_regular"
+                />
+
+            <TextView
+                android:id="@+id/row_wallet_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/row_wallet_txn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Date:  "
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_medium"
+                />
+            <TextView
+                android:id="@+id/row_wallet_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/row_wallet_txn"
+                app:layout_constraintStart_toEndOf="@+id/row_wallet_date_text"
+                tools:text="2000 12 01"
+                android:text="2000 12 01"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_light"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>
