@@ -85,7 +85,10 @@
     <string name="termsTxt">By Signing up you are agreeing to our Terms of use and Privacy Policy</string>
     <string name="error_phone">Oops! Your Phone is Not Correct or Empty</string>
     <string name="number_not_correct">Oops! Your Phone Number is Not Correct</string>
-    <string name="phone_empty">Oops! Your Phone Number Empty</string>
+    <string name="phone_empty">Oops! Your Phone Number Empty</string>'
+
+
+    <string name="digit">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
     <string name="mobile_not_start_with_0">Mobile No. should not start with 0</string>
     <string name="not_empty">Description is empty</string>

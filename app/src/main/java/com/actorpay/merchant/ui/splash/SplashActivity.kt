@@ -1,23 +1,25 @@
 package com.actorpay.merchant.ui.splash
 
 
+import android.R.id
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-
+import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseActivity
 import com.actorpay.merchant.databinding.ActivityMainBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.CountryResponse
 import com.actorpay.merchant.ui.home.HomeActivity
+import com.actorpay.merchant.ui.login.LoginActivity
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.GlobalData
 import com.actorpay.merchant.viewmodel.ActorPayViewModel
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.Dispatchers
@@ -27,10 +29,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
-import com.actorpay.merchant.R
-import com.actorpay.merchant.ui.login.LoginActivity
-
-
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
    var login=false
@@ -38,6 +36,7 @@ class SplashActivity : BaseActivity() {
     private val actorPayViewModel: ActorPayViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding=DataBindingUtil.setContentView(this, R.layout.activity_main)
         Firebase.messaging.isAutoInitEnabled = true
         apiResponse()

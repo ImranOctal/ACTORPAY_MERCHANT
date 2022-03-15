@@ -69,7 +69,6 @@ class ProductViewModel (
                         ResponseSealed.Success(response.data!!)
                 }
             }
-
         }
     }
 
@@ -91,8 +90,6 @@ class ProductViewModel (
             }
         }
     }
-
-
     fun getProduct(productId: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
@@ -104,7 +101,6 @@ class ProductViewModel (
                         ResponseSealed.Success(response.data!!)
                 }
             }
-
         }
     }
 
@@ -114,22 +110,18 @@ class ProductViewModel (
         r1 = file.asRequestBody("/*".toMediaTypeOrNull())
         val prod = product.toRequestBody("application/json".toMediaTypeOrNull())
         f1 = MultipartBody.Part.createFormData("file", "${System.currentTimeMillis()}.jpg", r1!!)
-
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
                 methodRepo.dataStore.getUserId().collect { userId ->
                     when (val response = apiRepo.updateProduct(token,userId, prod, f1)) {
                         is RetrofitResource.Error -> responseLive.value =
-                            ResponseSealed.ErrorOnResponse(
-                                response.failResponse
-                            )
+                            ResponseSealed.ErrorOnResponse(response.failResponse)
                         is RetrofitResource.Success -> responseLive.value =
                             ResponseSealed.Success(response.data!!)
                     }
                 }
             }
-
         }
     }
     fun getTaxationDetails() {
@@ -143,7 +135,6 @@ class ProductViewModel (
                         ResponseSealed.Success(response.data!!)
                 }
             }
-
         }
 
     }

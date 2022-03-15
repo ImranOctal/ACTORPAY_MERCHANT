@@ -78,8 +78,7 @@ class ProfileFragment : BaseFragment() {
                         if (it.response is GetUserById) {
                             updateUI(it.response)
                         } else if (it.response is SuccessResponse) {
-                            CommonDialogsUtils.showCommonDialog(
-                                requireActivity(), profileViewModel.methodRepo, getString(
+                            CommonDialogsUtils.showCommonDialog(requireActivity(), profileViewModel.methodRepo, getString(
                                     R.string.profile_update
                                 ), it.response.message
                             )

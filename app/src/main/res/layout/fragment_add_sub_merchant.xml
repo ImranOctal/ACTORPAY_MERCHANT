@@ -48,6 +48,7 @@
                                     android:id="@+id/firstName"
                                     style="@style/regular1Full"
                                     android:autofillHints="name"
+                                    android:digits="@string/digit"
                                     android:background="@color/transparent"
                                     android:hint="@string/first_name"
                                     android:inputType="textAutoComplete"
@@ -87,6 +88,7 @@
                                     android:autofillHints="postalAddress"
                                     android:background="@color/transparent"
                                     android:hint="@string/last_name"
+                                    android:digits="@string/digit"
                                     android:inputType="textAutoComplete"
                                     android:padding="@dimen/_5ssp"
                                     android:singleLine="true" />

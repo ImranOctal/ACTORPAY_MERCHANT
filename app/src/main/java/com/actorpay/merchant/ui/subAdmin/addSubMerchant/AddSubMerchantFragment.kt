@@ -102,11 +102,8 @@ class AddSubMerchantFragment : BaseFragment() {
         }
         binding.spinnerRole.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
-
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
                 roleId=list[position].id
             }
         }
@@ -129,7 +126,6 @@ class AddSubMerchantFragment : BaseFragment() {
             }
             binding.spinnerGender.setSelection(pos)
         }
-
         val codeList = mutableListOf<String>()
         GlobalData.allCountries.forEach {
             val code = it.countryCode
@@ -159,7 +155,6 @@ class AddSubMerchantFragment : BaseFragment() {
         return binding.root
     }
 
-
     private fun updateMerchant(id: String) {
         val countryCode = binding.codePicker.text.toString().trim()
         val firstName = binding.firstName.text.toString().trim()
@@ -168,7 +163,6 @@ class AddSubMerchantFragment : BaseFragment() {
         val contactNumber = binding.mobileNumber.text.toString().trim()
         addSubViewModel.updateSubMerchant(countryCode,firstName,lastName,email,contactNumber,roleId,gender,id)
     }
-
 
     private fun apiResponse() {
         lifecycleScope.launch {

@@ -1,5 +1,6 @@
 package com.actorpay.merchant.ui.updateproduct
 
+
 import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
@@ -11,7 +12,6 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +28,6 @@ import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentAddNewProductBinding
-
-
 import com.actorpay.merchant.repositories.AppConstance.AppConstanceData
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
@@ -44,12 +42,14 @@ import com.bumptech.glide.Glide
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.item_order_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
+
 
 class UpdateProductFragment : BaseFragment() {
     private lateinit var binding: FragmentAddNewProductBinding
@@ -65,6 +65,7 @@ class UpdateProductFragment : BaseFragment() {
     var isSelect = ""
     var catId = ""
     var SubCatId = ""
+    var image=""
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
     private var handler: Handler? = null
@@ -165,10 +166,11 @@ class UpdateProductFragment : BaseFragment() {
 
     fun validate() {
         if (binding.productNameEdit.text.toString().trim().isEmpty()) {
+
             binding.productNameEdit.error = getString(R.string.product_empty)
             binding.productNameEdit.requestFocus()
-
         } else if (binding.productNameEdit.text.toString().trim().length < 3) {
+
             binding.productNameEdit.error = getString(R.string.prod_name_empty)
             binding.productNameEdit.requestFocus()
 
@@ -200,9 +202,11 @@ class UpdateProductFragment : BaseFragment() {
         } else if (binding.description.text.toString().trim().isEmpty()) {
             binding.description.error = getString(R.string.prod_desc_empty)
             binding.description.requestFocus()
-        } else if (prodImage == null) {
+        }else if(prodImage==null){
             showCustomToast("Please Select Product Image")
-        } else {
+
+        }
+        else {
             lifecycleScope.launch {
                 viewModel.methodRepo.dataStore.getMerchantId().collect { merchantId ->
                     val name = binding.productNameEdit.text.toString().trim()
@@ -238,10 +242,7 @@ class UpdateProductFragment : BaseFragment() {
             if (permission) {
                 fetchImage()
             } else {
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                        requireActivity(), PERMISSIONS
-                    )
-                ) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), PERMISSIONS)) {
                     showCustomToast("Permission Denied, Go to setting to give access")
                 } else {
                     showCustomToast("Permission Denied")
@@ -331,7 +332,6 @@ class UpdateProductFragment : BaseFragment() {
                                 productViewModel.getCategory()  //Do something after delay
                             }, 200)
 
-
                             productViewModel.getTaxationDetails()
 
 
@@ -377,7 +377,6 @@ class UpdateProductFragment : BaseFragment() {
                             if (it.response.data.isNotEmpty()) {
                                 taxList = it.response.data
                                 taxAdapter.setItems(itemList = it.response.data)
-
                                 for ((index, value) in taxList!!.withIndex()) {
                                     if (value.id == taxId) {
                                         binding.taxData.selectItemByIndex(index)

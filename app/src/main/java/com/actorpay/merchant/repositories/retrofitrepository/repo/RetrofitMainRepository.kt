@@ -219,11 +219,8 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
-
     override suspend fun getContent(type: String): RetrofitResource<ContentResponse> {
-
         try {
-
             val data = apiClient.getContent(type)
             val result = data.body()
             if (data.isSuccessful && result != null) {
@@ -250,7 +247,6 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
 
     override suspend fun addProduct(token: String, product: RequestBody, poduct_pic: MultipartBody.Part): RetrofitResource<AddNewProductResponse> {
         try {
-
             val data = apiClient.addProduct(AppConstance.B_Token + token, product, poduct_pic)
             val result = data.body()
             if (data.isSuccessful && result != null) {

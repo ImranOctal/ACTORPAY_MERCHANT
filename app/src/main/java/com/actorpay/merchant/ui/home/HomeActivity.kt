@@ -32,7 +32,6 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SC
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_REPORTS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_SUB_MERCHANT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
-import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
 import com.actorpay.merchant.ui.commission.EarnFragment
@@ -51,6 +50,7 @@ import com.actorpay.merchant.ui.setting.SettingFragment
 import com.actorpay.merchant.ui.subAdmin.SubMerchantFragment
 import com.actorpay.merchant.ui.wallet.WalletFragment
 import com.actorpay.merchant.utils.CommonDialogsUtils
+import com.actorpay.merchant.utils.DrawersLock
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
@@ -62,11 +62,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.core.component.getScopeName
 import java.util.concurrent.Executor
 
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(),DrawersLock {
     private lateinit var binding: ActivityHomeBinding
     private var doubleBackToExitPressedOnce = false
     var Merchantrole = ""
@@ -208,7 +207,6 @@ class HomeActivity : BaseActivity() {
                 biometricPrompt?.authenticate(fingerPromptInfo)
             }
             authSheet?.isCancelable = false
-            authSheet?.show(supportFragmentManager, "auth sheet")
             authSheet?.show(supportFragmentManager, "auth sheet")
             biometricPrompt?.authenticate(fingerPromptInfo)
 
@@ -603,12 +601,15 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ToolbarTitle.text = getString(R.string.dashboard)
                     binding.toolbar.ivNotification.visibility = View.VISIBLE
                     binding.toolbar.ivFilter.visibility = View.GONE
+
+
                 }
                 R.id.earnFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.earning)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.VISIBLE
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
                 }
                 R.id.manageProductFragment -> {
@@ -813,4 +814,10 @@ class HomeActivity : BaseActivity() {
     fun updateToolbarText(title: String) {
         binding.toolbar.ToolbarTitle.text = title
     }
+
+    override fun lockDrawer() {
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+
 }

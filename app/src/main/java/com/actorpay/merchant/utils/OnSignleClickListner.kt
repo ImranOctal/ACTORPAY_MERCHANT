@@ -15,6 +15,5 @@ abstract class SingleClickListener @JvmOverloads constructor(protected var defau
         lastTimeClicked = SystemClock.elapsedRealtime()
         performClick(v)
     }
-
     abstract fun performClick(v: View?)
 }

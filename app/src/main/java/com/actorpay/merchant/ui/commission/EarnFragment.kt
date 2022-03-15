@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
@@ -19,7 +18,7 @@ import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.DialogCommissionFilterBinding
 import com.actorpay.merchant.databinding.FragmentEarnBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionResponse
-import com.actorpay.merchant.ui.home.HomeActivity
+import com.actorpay.merchant.utils.DrawersLock
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,12 +32,9 @@ import java.util.*
 class EarnFragment : BaseFragment(),OnFilterClick {
     private lateinit var binding: FragmentEarnBinding
     private val commissionViewModel: EarningViewModel by inject()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_earn,container,false)
@@ -315,4 +311,5 @@ class EarnFragment : BaseFragment(),OnFilterClick {
         binding.shimmerViewContainer.stopShimmerAnimation()
         super.onPause()
     }
+
 }

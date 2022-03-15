@@ -57,6 +57,7 @@ class OrderDetailFragment : BaseFragment() {
         binding.pullToRefresh.setOnRefreshListener {
             getAllOrderApi()
             binding.pullToRefresh.isRefreshing=false
+
         }
         getAllOrderApi()
         getIntentData(list)
