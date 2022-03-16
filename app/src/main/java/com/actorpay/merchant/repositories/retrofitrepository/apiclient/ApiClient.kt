@@ -1,5 +1,6 @@
 package com.actorpay.merchant.retrofitrepository.apiclient
 
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
@@ -25,6 +26,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.submerchant.
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.ui.outlet.response.*
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_MONEY
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_PRODUCT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_ROLE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ADD_SUBMERCHANT
@@ -51,6 +53,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ROLES
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_SINGLE_ROLE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_SUBMERCHANTS
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_WALLET_BALANCE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.IDS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ID_VAR
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT
@@ -65,6 +68,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UP
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.WALLET_HISTORY
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
@@ -372,5 +376,26 @@ interface ApiClient {
         @Header(AUTH) token: String,
         @Path(ID_VAR) id: String,
     ): Response<GetOutletById>
+
+    @POST(ADD_MONEY)
+    suspend fun addMoney(
+        @Header("Authorization") token: String,
+        @Body addMoneyParams: AddMoneyParams,
+    ): Response<AddMoneyResponse>
+
+    @GET(GET_WALLET_BALANCE+ IDS+"/balance")
+    suspend fun getWalletBalance(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): Response<WalletBalance>
+
+    @POST(WALLET_HISTORY)
+    suspend fun getWalletHistory(
+        @Header("Authorization") token: String,
+        @Query("pageNo") pageNo: Int,
+        @Query("pageSize") pageSize: Int,
+        @Body addMoneyParams: WallletMoneyParams
+    ): Response<WalletHistoryResponse>
+
 
 }

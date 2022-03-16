@@ -9,6 +9,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.actorpay.merchant.R
 import com.actorpay.merchant.repositories.retrofitrepository.models.FailResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
@@ -1204,6 +1205,93 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
             ).flow.cachedIn(viewmodelscope)
 
         return products
+    }
+
+    override suspend fun addMoney(
+        token: String,
+        addMoneyParams: AddMoneyParams
+    ): RetrofitResource<AddMoneyResponse> {
+        try {
+            val data = apiClient.addMoney(B_Token +token,addMoneyParams)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getWalletBalance(token: String, id: String): RetrofitResource<WalletBalance> {
+        try {
+            val data = apiClient.getWalletBalance(B_Token +token,id)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getWalletHistory(
+        token: String,
+        pageNo: Int,
+        pageSize: Int,
+        addMoneyParams: WallletMoneyParams
+    ): RetrofitResource<WalletHistoryResponse> {
+        try {
+            val data = apiClient.getWalletHistory(B_Token +token,pageNo, pageSize, addMoneyParams)
+
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
     }
 
     fun handleError(code:Int,error:String):FailResponse{

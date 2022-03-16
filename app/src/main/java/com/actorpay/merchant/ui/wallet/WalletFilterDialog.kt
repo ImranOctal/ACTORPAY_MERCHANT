@@ -14,15 +14,20 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.WallletMoneyParams
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.WalletFilterDialogBinding
+import com.actorpay.merchant.repositories.methods.MethodsRepo
 
 
 import java.text.DecimalFormat
 import java.util.*
 
 class WalletFilterDialog(
+    private val params: WallletMoneyParams,
     val mContext: Activity,
+    val methodsRepo: MethodsRepo,
+    val onClick: (WallletMoneyParams) -> Unit
 ) : Dialog(mContext) {
     override fun show() {
         super.show()
@@ -68,7 +73,22 @@ class WalletFilterDialog(
             }
         }
 
-        val array = mContext.resources.getStringArray(R.array.wallet_txn_type_status_array).toMutableList()
+        binding.walletId.setText(params.walletTransactionId)
+        binding.totalFrom.setText(params.transactionAmountFrom)
+        binding.totalTo.setText(params.transactionAmountTo)
+        binding.remark.setText(params.transactionRemark)
+
+        binding.startDate.setText(params.startDate)
+        binding.endDate.setText(params.endDate)
+
+        val array =
+            mContext.resources.getStringArray(R.array.wallet_txn_type_status_array).toMutableList()
+
+        if (params.transactionTypes !=null && array.contains(params.transactionTypes)) {
+            val pos = array.indexOfFirst { it.equals(params.transactionTypes) }
+            binding.spinnerStatus.setSelection(pos)
+        }
+
         binding.startDate.setOnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
@@ -139,6 +159,9 @@ class WalletFilterDialog(
             if (statusPosition != 0) {
                 transactionType = array[statusPosition]
             }
+            onClick(
+                WallletMoneyParams(wallet, totalTo, totalFrom, remark,  startDate, endDate,"",transactionType)
+            )
             dismiss()
         }
 

@@ -36,9 +36,9 @@ class AddMoneyAdapter(private  var list: MutableList<BeanPayment> ,val onClick:(
                 }
 
                 amount50.setOnClickListener {
-                    for( i in list.indices){
-                        list[i].isSelected=i==position
-                    }
+//                    for( i in list.indices){
+//                        list[i].isSelected=i==position
+//                    }
                     onClick(position)
                     notifyDataSetChanged()
                 }

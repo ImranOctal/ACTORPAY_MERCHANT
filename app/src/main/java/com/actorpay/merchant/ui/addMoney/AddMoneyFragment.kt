@@ -5,16 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.AddMoneyParams
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.AddMoneyResponse
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.WalletBalance
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentAddMoneyBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.payment.BeanPayment
+import com.actorpay.merchant.utils.ResponseSealed
+import kotlinx.coroutines.flow.collect
+import org.koin.android.ext.android.inject
 
 class AddMoneyFragment : BaseFragment() {
     val list = mutableListOf<BeanPayment>()
     lateinit var binding: FragmentAddMoneyBinding
+    private val addMoneyViewModel: AddMoneyViewModel by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -24,6 +34,8 @@ class AddMoneyFragment : BaseFragment() {
     ): View {
         binding = FragmentAddMoneyBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        addMoneyViewModel.getWalletBalance()
+        apiResponse()
         setupRv()
         binding.buttonAddMoney.setOnClickListener {
             validation()
@@ -38,22 +50,67 @@ class AddMoneyFragment : BaseFragment() {
     }
 
     private fun validation() {
-        if (binding.enterAmountEdt.text.toString().isEmpty()) {
+        if (binding.enterAmountEdt.text.toString().trim().isEmpty()) {
             binding.enterAmountEdt.error = "Please Enter Amount"
             binding.enterAmountEdt.requestFocus()
-        } else if (binding.enterAmountEdt.text.toString()=="0") {
+        } else if (binding.enterAmountEdt.text.toString().trim().toDouble()<=1) {
             binding.enterAmountEdt.error = "Amount should not less 1"
             binding.enterAmountEdt.requestFocus()
         } else{
-            list.clear()
-            val bundle= bundleOf("amount" to binding.enterAmountEdt.text.toString())
-            Navigation.findNavController(requireView()).navigate(R.id.paymentFragment,bundle)
+
+            addMoneyViewModel.methodRepo.hideSoftKeypad(requireActivity())
+
+            addMoneyViewModel.addMoney(AddMoneyParams(binding.enterAmountEdt.text.toString().trim()))
        }
     }
     private fun setupRv() {
         binding.rvAmount.layoutManager=GridLayoutManager(requireActivity(),3,)
         binding.rvAmount.adapter=AddMoneyAdapter(list){pos ->
             binding.enterAmountEdt.setText(list[pos].amount)
+            binding.enterAmountEdt.setSelection(binding.enterAmountEdt.text.toString().length)
+        }
+    }
+
+
+    fun apiResponse() {
+
+        lifecycleScope.launchWhenStarted {
+            addMoneyViewModel.responseLive.collect { event ->
+                when (event) {
+                    is ResponseSealed.Loading -> {
+                        showLoadingDialog()
+                    }
+                    is ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        when (event.response) {
+                            is AddMoneyResponse -> {
+                                list.clear()
+                                binding.enterAmountEdt.setText("")
+                                val bundle= bundleOf("amount" to binding.enterAmountEdt.text.toString().trim())
+                                Navigation.findNavController(requireView()).navigate(R.id.transactionStatusSuccessFragment,bundle)
+                            }
+                            is WalletBalance ->{
+                                binding.tvAmount.text= "₹ "+event.response.data.amount.toString()
+                            }
+                        }
+                        addMoneyViewModel.responseLive.value = ResponseSealed.Empty
+                    }
+                    is ResponseSealed.ErrorOnResponse -> {
+                        addMoneyViewModel.responseLive.value = ResponseSealed.Empty
+                        hideLoadingDialog()
+                        if (event.failResponse!!.code == 403) {
+                            forcelogout(addMoneyViewModel.methodRepo)
+                        }
+                        else
+                            showCustomToast(event.failResponse.message)
+
+                    }
+                    is ResponseSealed.Empty -> {
+                        hideLoadingDialog()
+
+                    }
+                }
+            }
         }
     }
 }

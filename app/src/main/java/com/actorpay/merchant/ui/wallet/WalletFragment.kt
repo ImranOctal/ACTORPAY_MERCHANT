@@ -19,7 +19,7 @@ class WalletFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wallet, container, false)
         listener()
@@ -35,7 +35,7 @@ class WalletFragment : BaseFragment() {
             Navigation.findNavController(requireView()).navigate(R.id.transactionHistoryFragment)
         }
 
-        binding. llTransferMoney.setOnClickListener {
+        binding.llTransferMoney.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.transferMoneyFragment)
         }
 

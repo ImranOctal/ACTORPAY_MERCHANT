@@ -81,6 +81,9 @@ class AppConstance {
         const val UPDATE_OUTLET:String= SUB_DOMAIN + SUB_DOMAIN2 +"v1/merchant/outlet/update"
         const val GET_OUTLET_BY_ID:String= SUB_DOMAIN + SUB_DOMAIN2 +"v1/merchant/outlet/by/id/"
 
+        const val ADD_MONEY:String=SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/addMoney"
+        const val GET_WALLET_BALANCE: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/"
+        const val WALLET_HISTORY:String=SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/list/paged"
 
 
         const val GET_FAQ: String = SUB_DOMAIN + SUB_DOMAIN_CMS +  "faq/all"

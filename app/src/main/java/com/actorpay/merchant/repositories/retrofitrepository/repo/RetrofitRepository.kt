@@ -1,6 +1,7 @@
 package com.actorpay.merchant.repositories.retrofitrepository.repo
 
 import androidx.paging.PagingData
+import ccom.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.SuccessResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.auth.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionParams
@@ -133,5 +134,13 @@ interface RetrofitRepository {
 
     suspend fun sendDisputeMessage(token: String,sendMessageParams: SendMessageParams):RetrofitResource<SuccessResponse>
     suspend fun getProductsWithPaging(viewmodelscope: CoroutineScope, token: String, productParams: ProductPram): Flow<PagingData<Item>>
+
+    suspend fun addMoney(token: String, addMoneyParams: AddMoneyParams):RetrofitResource<AddMoneyResponse>
+
+    suspend fun getWalletBalance(token: String,id: String):RetrofitResource<WalletBalance>
+
+    suspend fun getWalletHistory(token: String,pageNo:Int,pageSize:Int,addMoneyParams: WallletMoneyParams):RetrofitResource<WalletHistoryResponse>
+
+
 }
 

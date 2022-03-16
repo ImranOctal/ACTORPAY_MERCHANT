@@ -143,18 +143,18 @@
         android:label="AddMoneyFragment" />
 
     <fragment
-        android:id="@+id/paymentFragment"
-        android:name="com.actorpay.merchant.ui.payment.PaymentFragment"
-        android:label="PaymentFragment" />
+        android:id="@+id/transactionStatusSuccessFragment"
+        android:name="com.actorpay.merchant.ui.payment.TransactionStatusSuccessFragment"
+        android:label="TransactionStatusSuccessFragment" />
 
     <fragment
         android:id="@+id/transactionHistoryFragment"
-        android:name="com.actorpay.merchant.ui.wallet.TransactionHistoryFragment"
+        android:name="com.actorpay.merchant.ui.wallet.transactionhistory.TransactionHistoryFragment"
         android:label="TransactionHistoryFragment" />
 
     <fragment
         android:id="@+id/transactionDetailFragment"
-        android:name="com.actorpay.merchant.ui.wallet.TransactionDetailFragment"
+        android:name="com.actorpay.merchant.ui.wallet.transactionhistory.TransactionDetailFragment"
         android:label="TransactionDetailFragment" />
     <fragment
         android:id="@+id/transferMoneyFragment"
@@ -172,6 +172,18 @@
         android:id="@+id/invitationFragment"
         android:name="com.actorpay.merchant.ui.invitation.InvitationFragment"
         android:label="InvitationFragment" />
+    <fragment
+        android:id="@+id/walletUserFragment"
+        android:name="com.octal.actorpayuser.ui.dashboard.bottomnavfragments.wallet.walletuser.WalletUserFragment"
+        android:label="WalletUserFragment" >
+        <action
+            android:id="@+id/action_walletUserFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailFragment"
+            app:popUpTo="@id/transactionDetailFragment"
+            app:popUpToInclusive="true"
+            />
+
+    </fragment>
 
 
 </navigation>

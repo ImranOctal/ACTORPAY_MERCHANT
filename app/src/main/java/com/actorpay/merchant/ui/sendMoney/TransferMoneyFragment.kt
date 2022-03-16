@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.actorpay.merchant.R
@@ -45,9 +46,7 @@ class TransferMoneyFragment : BaseFragment() {
                 binding.scan.visibility = View.VISIBLE
                 codeScanner.stopPreview()
                 showCustomToast("Scan result: ${it.text}")
-//
-//                val bundle = bundleOf(KEY_KEY to KEY_QR, KEY_NAME to "John")
-//                Navigation.findNavController(requireView()).navigate(R.id.payFragment, bundle)
+
             }
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
@@ -115,20 +114,16 @@ class TransferMoneyFragment : BaseFragment() {
 
     private fun makeSelected(i: Int) {
         if(i==0){
-            binding.walletToWalletBtn.setBackgroundResource(R.drawable.round_wallet_blue_bg)
-            binding.walletToBankBtn.setBackgroundResource(R.drawable.round_wallet_bg)
-            binding.layoutScanQr.visibility = View.VISIBLE
-            binding.layoutBank.visibility = View.GONE
-            binding.walletToWalletBtn.setTextColor(Color.WHITE)
-            binding.walletToBankBtn.setTextColor(Color.BLACK)
-
-        }else{
             binding.walletToWalletBtn.setBackgroundResource(R.drawable.round_wallet_bg)
             binding.walletToBankBtn.setBackgroundResource(R.drawable.round_wallet_blue_bg)
+            binding.layoutScanQr.visibility = View.VISIBLE
+            binding.layoutBank.visibility = View.GONE
+
+        }else{
+            binding.walletToWalletBtn.setBackgroundResource(R.drawable.round_wallet_blue_bg)
+            binding.walletToBankBtn.setBackgroundResource(R.drawable.round_wallet_bg)
             binding.layoutScanQr.visibility = View.GONE
             binding.layoutBank.visibility = View.VISIBLE
-            binding.walletToWalletBtn.setTextColor(Color.BLACK)
-            binding.walletToBankBtn.setTextColor(Color.WHITE)
         }
     }
 

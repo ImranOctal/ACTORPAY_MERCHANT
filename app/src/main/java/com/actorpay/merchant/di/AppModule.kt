@@ -29,10 +29,13 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.AU
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.BASE_URL
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.BEARER
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
+import com.actorpay.merchant.ui.addMoney.AddMoneyViewModel
 import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.ui.setting.SettingViewModel
 import com.actorpay.merchant.ui.disputes.DisputeViewModel
+import com.actorpay.merchant.ui.wallet.transactionhistory.TransactionHistoryViewModel
+import com.octal.actorpayuser.ui.dashboard.bottomnavfragments.wallet.walletuser.WalletUserViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.koin.android.ext.koin.androidContext
@@ -143,8 +146,17 @@ private val appKoinModule = module {
     viewModel {
         SettingViewModel(dispatcherProvider = get(),methodRepo=get(),apiRepo = get())
     }
+    viewModel {
+        AddMoneyViewModel(dispatcherProvider = get(), methodRepo = get(), apiRepo = get())
+    }
+    viewModel {
+        TransactionHistoryViewModel(dispatcherProvider = get(), methodRepo = get(), apiRepo = get())
+    }
+    viewModel {
+        WalletUserViewModel(dispatcherProvider = get(), methodRepo = get(), apiRepo = get())
+    }
    /* factory<ScreenNavigator> {
-        LegacyNavigator()
+         LegacyNavigator()
     }*/
 }
 

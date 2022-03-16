@@ -756,7 +756,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
                     binding.toolbar.ivFilter.visibility = View.GONE
                 }
 
-                R.id.paymentFragment -> {
+                R.id.transactionStatusSuccessFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.payment)
                     binding.toolbar.ivNotification.visibility = View.GONE

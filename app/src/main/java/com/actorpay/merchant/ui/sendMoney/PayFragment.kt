@@ -20,9 +20,7 @@ class PayFragment : BaseFragment() {
     private var key = ""
     private var name = ""
     private var contact = ""
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,8 +60,7 @@ class PayFragment : BaseFragment() {
                 if (isValidate) {
                     val navOptions= NavOptions.Builder()
                     navOptions.setPopUpTo(R.id.homeFragment,false)
-                    Navigation.findNavController(requireView()).navigate(R.id.paymentFragment,null,  navOptions.build())
-
+                    Navigation.findNavController(requireView()).navigate(R.id.transactionStatusSuccessFragment,null,  navOptions.build())
                 }
             }
         }
