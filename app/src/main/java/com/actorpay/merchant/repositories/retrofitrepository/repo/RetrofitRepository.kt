@@ -141,6 +141,9 @@ interface RetrofitRepository {
 
     suspend fun getWalletHistory(token: String,pageNo:Int,pageSize:Int,addMoneyParams: WallletMoneyParams):RetrofitResource<WalletHistoryResponse>
 
+    suspend fun transferMoney(token: String, transferMoneyParams: TransferMoneyParams ):RetrofitResource<AddMoneyResponse>
+
+    suspend fun userExists(token: String, user:String ):RetrofitResource<UserDetailsResponse>
 
 }
 

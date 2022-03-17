@@ -25,18 +25,19 @@ class AddMoneyViewModel(val dispatcherProvider: CoroutineContextProvider, val me
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
-                when (val response =
-                    apiRepo.addMoney(token,addMoneyParams)) {
-                    is RetrofitResource.Error ->{
-                        responseLive.value =
-                            ResponseSealed.ErrorOnResponse(response.failResponse)
-                        this.cancel()
-                    }
-                    is RetrofitResource.Success -> {
-                        responseLive.value =
-                            ResponseSealed.Success(response.data!!)
-                        this.cancel()
-                    }
+                    when (val response =
+                        apiRepo.addMoney(token, addMoneyParams)) {
+                        is RetrofitResource.Error -> {
+                            responseLive.value =
+                                ResponseSealed.ErrorOnResponse(response.failResponse)
+                            this.cancel()
+                        }
+                        is RetrofitResource.Success -> {
+                            responseLive.value =
+                                ResponseSealed.Success(response.data!!)
+                            this.cancel()
+                        }
+
                 }
             }
         }

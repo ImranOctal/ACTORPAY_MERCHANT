@@ -17,19 +17,33 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentTransferMoneyBinding
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_CONTACT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_EMAIL
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_KEY
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_MOBILE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_NAME
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.KEY_TYPE
+import com.actorpay.merchant.repositories.retrofitrepository.models.auth.UserDetailsResponse
+import com.actorpay.merchant.utils.ResponseSealed
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
+import kotlinx.coroutines.flow.collect
+import org.koin.android.ext.android.inject
 import kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames.number
 
 
 class TransferMoneyFragment : BaseFragment() {
     private lateinit var binding: FragmentTransferMoneyBinding
+    private val transferMoneyViewModel: TransferMoneyViewModel by inject()
+
     private var permissions = Manifest.permission.CAMERA
     lateinit var codeScanner: CodeScanner
     private val CONTACT_PICKER_RESULT = 1001
@@ -40,6 +54,7 @@ class TransferMoneyFragment : BaseFragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transfer_money, container, false)
         init()
+        apiResponse()
         codeScanner = CodeScanner(requireContext(), binding.codeScannerView)
         codeScanner.decodeCallback = DecodeCallback {
             requireActivity().runOnUiThread {
@@ -73,12 +88,39 @@ class TransferMoneyFragment : BaseFragment() {
 
         binding.emailNumberField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Navigation.findNavController(requireView()).navigate(R.id.payFragment)
+//                Navigation.findNavController(requireView()).navigate(R.id.payFragment)
+                validate(true, "","")
                 return@setOnEditorActionListener true;
             }
             return@setOnEditorActionListener false;
         }
         return binding.root
+    }
+
+    fun validate(checkAPI: Boolean, name: String,type:String,destination:Int=0) {
+        transferMoneyViewModel.methodRepo.hideSoftKeypad(requireActivity())
+        val contact = binding.emailNumberField.text.toString().trim()
+        if (transferMoneyViewModel.methodRepo.isValidEmail(contact)) {
+            if (checkAPI)
+                transferMoneyViewModel.userExists(contact)
+            else {
+                val bundle =
+                    bundleOf(KEY_KEY to KEY_EMAIL, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
+                Navigation.findNavController(requireView())
+                    .navigate(destination, bundle)
+            }
+        } else if (transferMoneyViewModel.methodRepo.isValidPhoneNumber(contact)) {
+            if (checkAPI)
+                transferMoneyViewModel.userExists(contact)
+            else {
+                val bundle =
+                    bundleOf(KEY_KEY to KEY_MOBILE, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
+                Navigation.findNavController(requireView())
+                    .navigate(destination, bundle)
+            }
+        } else {
+            binding.emailNumberField.error = "Please enter valid input"
+        }
     }
 
 
@@ -127,6 +169,54 @@ class TransferMoneyFragment : BaseFragment() {
         }
     }
 
+    fun apiResponse() {
+
+        lifecycleScope.launchWhenStarted {
+            transferMoneyViewModel.responseLive.collect { event ->
+                when (event) {
+                    is ResponseSealed.Loading -> {
+                        showLoadingDialog()
+                    }
+                    is ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        when (event.response) {
+                            is UserDetailsResponse -> {
+                                if(event.response.data.customerDetails!=null)
+                                    validate(
+                                        false,
+                                        event.response.data.customerDetails.firstName + " " + event.response.data.customerDetails.lastName,"customer",R.id.payFragment
+                                    )
+                                else{
+                                    validate(
+                                        false,
+                                        event.response.data.merchantDetails!!.businessName,"merchant",R.id.payFragment
+                                    )
+                                }
+                            }
+                        }
+                        transferMoneyViewModel.responseLive.value = ResponseSealed.Empty
+                    }
+                    is ResponseSealed.ErrorOnResponse -> {
+                        transferMoneyViewModel.responseLive.value = ResponseSealed.Empty
+                        hideLoadingDialog()
+                        if (event.failResponse!!.code == 403) {
+                            forcelogout(transferMoneyViewModel.methodRepo)
+                        }
+                        else if(event.failResponse.message.contains("User is not found")){
+//                            validate(false, "","",R.id.referFragment)
+                        }
+                        else
+                            showCustomToast(event.failResponse.message)
+                    }
+                    is ResponseSealed.Empty -> {
+                        hideLoadingDialog()
+
+                    }
+                }
+            }
+        }
+    }
+
 
     @SuppressLint("Range")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -156,6 +246,5 @@ class TransferMoneyFragment : BaseFragment() {
                 }
             }
         }
-
     }
 }

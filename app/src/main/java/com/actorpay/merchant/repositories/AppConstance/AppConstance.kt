@@ -84,6 +84,8 @@ class AppConstance {
         const val ADD_MONEY:String=SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/addMoney"
         const val GET_WALLET_BALANCE: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/"
         const val WALLET_HISTORY:String=SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/list/paged"
+        const val TRANSFER_MONEY:String=SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/transfer"
+        const val USER_MERCHANT_EXISTS: String = SUB_DOMAIN+SUB_DOMAIN2+"users/get/"
 
 
         const val GET_FAQ: String = SUB_DOMAIN + SUB_DOMAIN_CMS +  "faq/all"
@@ -152,6 +154,8 @@ class AppConstance {
         const val KEY_MOBILE="mobile"
         const val KEY_EMAIL="email"
         const val KEY_AMOUNT="amount"
+        const val KEY_TYPE="type"
+
 
     }
 

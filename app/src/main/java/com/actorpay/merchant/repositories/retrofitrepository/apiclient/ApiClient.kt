@@ -63,11 +63,13 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TAX_URL
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TOKEN_ATTRIBUTE
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TRANSFER_MONEY
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TYPE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_OUTLET
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_ROLE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_STATUS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.UPDATE_SUBMERCHANT
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.USER_MERCHANT_EXISTS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.WALLET_HISTORY
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
@@ -397,5 +399,16 @@ interface ApiClient {
         @Body addMoneyParams: WallletMoneyParams
     ): Response<WalletHistoryResponse>
 
+    @POST(TRANSFER_MONEY)
+    suspend fun transferMoney(
+        @Header("Authorization") token: String,
+        @Body transferMoneyParams: TransferMoneyParams,
+    ): Response<AddMoneyResponse>
+
+    @GET("$USER_MERCHANT_EXISTS{user}")
+    suspend fun userExists(
+        @Header("Authorization") token: String,
+        @Path("user") user: String
+    ): Response<UserDetailsResponse>
 
 }

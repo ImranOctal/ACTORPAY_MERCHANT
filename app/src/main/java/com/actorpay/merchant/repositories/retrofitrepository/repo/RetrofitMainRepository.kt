@@ -1294,6 +1294,62 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
+
+    override suspend fun transferMoney(
+        token: String,
+        transferMoneyParams: TransferMoneyParams
+    ): RetrofitResource<AddMoneyResponse> {
+        try {
+            val data = apiClient.transferMoney(B_Token +token,transferMoneyParams)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun userExists(token: String, user: String): RetrofitResource<UserDetailsResponse> {
+        try {
+            val data = apiClient.userExists(B_Token +token,user)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
     fun handleError(code:Int,error:String):FailResponse{
         if (code == 403) {
             return FailResponse("", "", code)

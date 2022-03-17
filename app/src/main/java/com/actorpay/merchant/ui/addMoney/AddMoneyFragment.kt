@@ -53,15 +53,22 @@ class AddMoneyFragment : BaseFragment() {
         if (binding.enterAmountEdt.text.toString().trim().isEmpty()) {
             binding.enterAmountEdt.error = "Please Enter Amount"
             binding.enterAmountEdt.requestFocus()
-        } else if (binding.enterAmountEdt.text.toString().trim().toDouble()<=1) {
+        } else if (binding.enterAmountEdt.text.toString().trim().toDouble() <= 1) {
             binding.enterAmountEdt.error = "Amount should not less 1"
             binding.enterAmountEdt.requestFocus()
-        } else{
+        } else {
 
             addMoneyViewModel.methodRepo.hideSoftKeypad(requireActivity())
-
-            addMoneyViewModel.addMoney(AddMoneyParams(binding.enterAmountEdt.text.toString().trim()))
-       }
+            lifecycleScope.launchWhenCreated {
+                addMoneyViewModel.methodRepo.dataStore.getEmail().collect { email ->
+                    addMoneyViewModel.addMoney(
+                        AddMoneyParams(
+                            binding.enterAmountEdt.text.toString().trim(),email
+                        )
+                    )
+                }
+            }
+        }
     }
     private fun setupRv() {
         binding.rvAmount.layoutManager=GridLayoutManager(requireActivity(),3,)
@@ -85,9 +92,9 @@ class AddMoneyFragment : BaseFragment() {
                         when (event.response) {
                             is AddMoneyResponse -> {
                                 list.clear()
-                                binding.enterAmountEdt.setText("")
                                 val bundle= bundleOf("amount" to binding.enterAmountEdt.text.toString().trim())
                                 Navigation.findNavController(requireView()).navigate(R.id.transactionStatusSuccessFragment,bundle)
+                                binding.enterAmountEdt.setText("")
                             }
                             is WalletBalance ->{
                                 binding.tvAmount.text= "₹ "+event.response.data.amount.toString()
