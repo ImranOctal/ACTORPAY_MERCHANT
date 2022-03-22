@@ -59,10 +59,12 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
         return matcher.matches()
     }
     fun isValidPassword(password: String):Boolean{
-        val pattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$")
+        val pattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!&*^()-_]).{8,20}$")
         val matcher: Matcher = pattern.matcher(password)
         return matcher.matches()
     }
+
+
      fun isNetworkConnected(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
          val network = cm!!.activeNetwork

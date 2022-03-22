@@ -13,7 +13,6 @@ import com.actorpay.merchant.repositories.methods.MethodsRepo
 
 class ForgetPasswordDialog {
 
-
     fun show(activity:Activity, methodsRepo: MethodsRepo, onClick:(email:String)->Unit){
         val alertDialog = Dialog(activity)
         val binding = DataBindingUtil.inflate<ForgetPasswordDialogBinding>(

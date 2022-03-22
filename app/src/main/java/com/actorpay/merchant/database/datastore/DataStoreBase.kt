@@ -31,6 +31,8 @@ interface DataStoreBase {
 
     suspend fun setEmail(email:String)
 
+    suspend fun setWalletBalance(balance:String)
+
 
     suspend fun setRole(role:String)
 
@@ -70,4 +72,6 @@ interface DataStoreBase {
     fun getRefreshToken(): Flow<String>
 
     fun getRole(): Flow<String>
+
+    fun getWalletBalance(): Flow<String>
 }

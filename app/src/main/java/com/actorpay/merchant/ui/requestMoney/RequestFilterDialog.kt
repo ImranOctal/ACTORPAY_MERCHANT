@@ -1,5 +1,6 @@
 package com.actorpay.merchant.ui.requestMoney
 
+
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -16,13 +17,18 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.actorpay.merchant.R
 import com.actorpay.merchant.databinding.RequestFilterDialogBinding
+import com.actorpay.merchant.repositories.methods.MethodsRepo
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyParams
 
 
 import java.text.DecimalFormat
 import java.util.*
 
 class RequestFilterDialog(
+    private val params: GetAllRequestMoneyParams,
     val mContext: Activity,
+    val methodsRepo: MethodsRepo,
+    val onClick: (GetAllRequestMoneyParams) -> Unit
 ) : Dialog(mContext) {
     override fun show() {
         super.show()
@@ -44,42 +50,65 @@ class RequestFilterDialog(
 
         ArrayAdapter.createFromResource(
             mContext,
-            R.array.status_array,
+            R.array.request_status_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
             // Apply the adapter to the spinner
             binding.spinnerStatus.adapter = adapter
         }
         binding.spinnerStatus.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
+
                 if(position==0){
                     (view as TextView).setTextColor(ContextCompat.getColor(mContext,R.color.gray))
                 }
             }
+
         }
 
+//        if (params.toUserName != null)
+//            binding.requestName.setText(params.toUserName)
+
+            binding.fromAmount.setText(params.fromAmount.toString())
+            binding.toAmount.setText(params.toAmount.toString())
+            binding.startDate.setText(params.startDate)
+            binding.endDate.setText(params.endDate)
+
+        val array = mContext.resources.getStringArray(R.array.request_status_array).toMutableList()
+        if (params.requestMoneyStatus != null) {
+            if (array.contains(params.requestMoneyStatus!!.replace("_"," "))) {
+                val pos = array.indexOfFirst { it.equals(params.requestMoneyStatus!!.replace("_"," ")) }
+                binding.spinnerStatus.setSelection(pos)
+            }
+        }
 
         binding.startDate.setOnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
+
+
             val dpd = DatePickerDialog(mContext,  { _, yearR, monthOfYear, dayOfMonth ->
+
                 val f =  DecimalFormat("00")
                 val dayMonth=f.format(dayOfMonth)
                 val monthYear=f.format(monthOfYear+1)
-                binding.startDate.setText("$yearR-$monthYear-$dayMonth")
-            }, year, month, day)
 
+                binding.startDate.setText("" + yearR + "-" + (monthYear) + "-" + dayMonth)
+
+            }, year, month, day)
             dpd.show()
             dpd.datePicker.maxDate = Date().time
             dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
@@ -99,7 +128,7 @@ class RequestFilterDialog(
                 val dayMonth=f.format(dayOfMonth)
                 val monthYear=f.format(monthOfYear+1)
 
-                binding.endDate.setText("$yearR-$monthYear-$dayMonth")
+                binding.endDate.setText("" + yearR + "-" + (monthYear) + "-" + dayMonth)
 
             }, year, month, day)
 
@@ -111,22 +140,33 @@ class RequestFilterDialog(
 
         binding.apply.setOnClickListener {
             var requestName: String? = null
-            var fromAmount: Double? = null
-            var toAmount: Double? = null
-            var startDate: String? = null
-            var endDate: String? = null
+            var fromAmount: String = ""
+            var toAmount: String = ""
+            var startDate: String = ""
+            var endDate: String = ""
             var status: String? = null
             if ((binding.requestName.text.toString().trim() == "").not())
                 requestName = binding.requestName.text.toString().trim()
             if ((binding.fromAmount.text.toString().trim() == "").not())
-                fromAmount = binding.fromAmount.text.toString().trim().toDouble()
+                fromAmount = binding.fromAmount.text.toString().trim()
             if ((binding.toAmount.text.toString().trim() == "").not())
-                toAmount = binding.toAmount.text.toString().trim().toDouble()
+                toAmount = binding.toAmount.text.toString().trim()
             if ((binding.startDate.text.toString().trim() == "").not())
                 startDate = binding.startDate.text.toString().trim()
             if ((binding.endDate.text.toString().trim() == "").not())
                 endDate = binding.endDate.text.toString().trim()
+
+
             val statusPosition = binding.spinnerStatus.selectedItemPosition
+            if (statusPosition != 0) {
+                status = array[statusPosition]
+                status=status!!.replace(" ","_")
+            }
+            onClick(
+                GetAllRequestMoneyParams(
+                   fromAmount,toAmount, startDate, endDate,status
+                )
+            )
             dismiss()
         }
 

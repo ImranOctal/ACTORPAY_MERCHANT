@@ -27,8 +27,7 @@ class TransferMoneyViewModel(val dispatcherProvider: CoroutineContextProvider, v
                 when (val response =
                     apiRepo.transferMoney(token,transferMoneyParams)) {
                     is RetrofitResource.Error ->{
-                        responseLive.value =
-                            ResponseSealed.ErrorOnResponse(response.failResponse)
+                        responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                         this.cancel()
                     }
                     is RetrofitResource.Success -> {

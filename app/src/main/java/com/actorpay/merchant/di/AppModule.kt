@@ -34,6 +34,7 @@ import com.actorpay.merchant.ui.manageOrder.viewModel.ManageOrderViewModel
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
 import com.actorpay.merchant.ui.setting.SettingViewModel
 import com.actorpay.merchant.ui.disputes.DisputeViewModel
+import com.actorpay.merchant.ui.requestMoney.RequestMoneyViewModel
 import com.actorpay.merchant.ui.sendMoney.TransferMoneyViewModel
 import com.actorpay.merchant.ui.wallet.transactionhistory.TransactionHistoryViewModel
 import com.octal.actorpayuser.ui.dashboard.bottomnavfragments.wallet.walletuser.WalletUserViewModel
@@ -158,6 +159,9 @@ private val appKoinModule = module {
     }
     viewModel {
         TransferMoneyViewModel(dispatcherProvider = get(), methodRepo = get(), apiRepo = get())
+    }
+    viewModel {
+        RequestMoneyViewModel(dispatcherProvider = get(), methodRepo = get(), apiRepo = get())
     }
    /* factory<ScreenNavigator> {
          LegacyNavigator()

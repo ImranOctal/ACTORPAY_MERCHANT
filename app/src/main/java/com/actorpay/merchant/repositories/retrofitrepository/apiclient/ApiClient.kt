@@ -41,6 +41,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.DE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_COMMISSIONS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_DISPUTES
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_ORDER
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_REQUEST_MONEY
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_ALL_SCREENS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_CONTENT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.GET_COUNTRIES
@@ -59,6 +60,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.REQUEST_PROCESS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SEND_DISPUTE_MESSAGE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.TAX_URL
@@ -74,6 +76,9 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.WA
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.RequestProcessResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -411,4 +416,18 @@ interface ApiClient {
         @Path("user") user: String
     ): Response<UserDetailsResponse>
 
+    @POST(GET_ALL_REQUEST_MONEY)
+    suspend fun getAllRequestMoney(
+        @Header("Authorization") token: String,
+        @Query("pageNo") pageNo: Int,
+        @Query("pageSize") pageSize: Int,
+        @Body requestMoneyParams: GetAllRequestMoneyParams,
+    ): Response<GetAllRequestMoneyResponse>
+
+    @PUT("$REQUEST_PROCESS/{isAccept}/{requestId}/accept")
+    suspend fun processRequest(
+        @Header("Authorization") token: String,
+        @Path("isAccept") isAccept: Boolean,
+        @Path("requestId") requestId: String,
+    ): Response<RequestProcessResponse>
 }

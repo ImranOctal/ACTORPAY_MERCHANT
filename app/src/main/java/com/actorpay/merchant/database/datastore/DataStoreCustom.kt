@@ -78,6 +78,10 @@ class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Pre
         context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.EMAIL, email) }
     }
 
+    override suspend fun setWalletBalance(balance: String) {
+        context.dataStore.edit { preferences -> preferences.set(PreferenceKeys.Balance, balance) }
+    }
+
     override suspend fun setRole(role: String) {
         context.dataStore.edit {
 
@@ -250,6 +254,10 @@ class DataStoreCustom(val context: Context/*private val dataStore: DataStore<Pre
 
     override fun getRole(): Flow<String> {
         return getString(PreferenceKeys.Role)
+    }
+
+    override fun getWalletBalance(): Flow<String> {
+        return getString(PreferenceKeys.Balance)
     }
 
 }

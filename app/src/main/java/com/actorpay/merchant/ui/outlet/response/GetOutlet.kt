@@ -39,4 +39,9 @@ data class OutletItem(
     val title: String,
     val updatedAt: Any,
     val zipCode: String
-)
+){
+
+    override fun toString(): String {
+        return title
+    }
+}

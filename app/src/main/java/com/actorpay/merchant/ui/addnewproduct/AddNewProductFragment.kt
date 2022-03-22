@@ -11,7 +11,6 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +36,9 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.sub
 import com.actorpay.merchant.repositories.retrofitrepository.models.taxation.GetCurrentTaxDetail
 import com.actorpay.merchant.ui.addnewproduct.adapter.TaxAdapter
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
+import com.actorpay.merchant.ui.outlet.OutletViewModel
+import com.actorpay.merchant.ui.outlet.response.GetOutlet
+import com.actorpay.merchant.ui.outlet.response.OutletItem
 import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
 import com.bumptech.glide.Glide
@@ -54,6 +56,7 @@ class AddNewProductFragment : BaseFragment() {
     private lateinit var taxAdapter: TaxAdapter
     private var handler: Handler? = null
     private val productViewModel: ProductViewModel by inject()
+    private val outletViewModel: OutletViewModel by inject()
     var PERMISSIONS = Manifest.permission.READ_EXTERNAL_STORAGE
     var prodImage: File? = null
     var taxId: String = ""
@@ -61,6 +64,8 @@ class AddNewProductFragment : BaseFragment() {
     var SubCatId = ""
     var catList: MutableList<DataCategory> = ArrayList()
     var subCatList: MutableList<Data> = ArrayList()
+
+    var outlet: MutableList<OutletItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +90,11 @@ class AddNewProductFragment : BaseFragment() {
         }, 200)
         catList.add(DataCategory("", "", "", "", "Please select Category", false))
         catAdapter()
+
         productViewModel.getTaxationDetails()
+
+        outlet.add(OutletItem(false,"","","","","","","","","","","","","","","","Please Select Outlet","",""))
+        outletViewModel.getOutlet()
         taxAdapter = TaxAdapter(binding.taxData)
         taxAdapter.onSpinnerItemSelectedListener =
             OnSpinnerItemSelectedListener<com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data>() { oldIndex: Int, oldItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data?, newIndex: Int, newItem: com.actorpay.merchant.repositories.retrofitrepository.models.taxation.Data ->
@@ -141,12 +150,36 @@ class AddNewProductFragment : BaseFragment() {
                     }
                 }
             }
+
+
+        binding.outlet.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (position == 0) {
+                        try {
+                            (view as TextView).setTextColor(requireActivity().resources.getColor(R.color.light_grey))
+                        } catch (e:Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
     }
+
+
     private fun setSubCatAdapter() {
         val branchListAdapter: ArrayAdapter<Data> = ArrayAdapter<Data>(requireActivity(), android.R.layout.simple_spinner_item, subCatList)
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.chooseSubCategory.adapter = branchListAdapter
     }
+    private fun outletAdapter() {
+        val branchListAdapter: ArrayAdapter<OutletItem> = ArrayAdapter<OutletItem>(requireActivity(), android.R.layout.simple_spinner_item, outlet)
+        branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.outlet.adapter = branchListAdapter
+    }
+
     private fun catAdapter() {
         val branchListAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(requireActivity(), android.R.layout.simple_spinner_item, catList)
         branchListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -242,12 +275,10 @@ class AddNewProductFragment : BaseFragment() {
             }
         }
     }
-
     fun fetchImage() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryForResult.launch(galleryIntent)
     }
-
     private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
         if (permission) {
             fetchImage()
@@ -259,8 +290,7 @@ class AddNewProductFragment : BaseFragment() {
             }
         }
     }
-    val galleryForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+    val galleryForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 if (data != null) {
@@ -275,7 +305,6 @@ class AddNewProductFragment : BaseFragment() {
                 }
             }
         }
-
     private fun cropImage(sourceUri: Uri) {
         val destinationUri: Uri = Uri.fromFile(File(requireActivity().cacheDir, queryName(requireActivity().contentResolver, sourceUri)))
         val options: UCrop.Options = UCrop.Options();
@@ -288,9 +317,7 @@ class AddNewProductFragment : BaseFragment() {
         val intent = uCrop.getIntent(requireActivity())
         croporResult.launch(intent)
     }
-
-    val croporResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+    val croporResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
 
@@ -372,6 +399,43 @@ class AddNewProductFragment : BaseFragment() {
                                 showCustomAlert(getString(R.string.tax_not_found), binding.root)
                         }
 
+                        else {
+                            showCustomAlert(
+                                getString(R.string.please_try_after_sometime),
+                                binding.root
+                            )
+                        }
+
+                    }
+                    is ResponseSealed.ErrorOnResponse -> {
+                        hideLoadingDialog()
+                        if (it.failResponse!!.code == 403) {
+                            forcelogout(productViewModel.methodRepo)
+                        } else {
+                            showCustomAlert(
+                                it.failResponse.message,
+                                binding.root
+                            )
+                        }
+                    }
+                    else -> {
+                        hideLoadingDialog()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            outletViewModel.responseLive.collect {
+                when (it) {
+                    is ResponseSealed.Loading -> {
+                        showLoadingDialog()
+                    }
+                    is ResponseSealed.Success -> {
+                        hideLoadingDialog()
+                        if (it.response is GetOutlet) {
+                            outlet.addAll(it.response.data.items)
+                            outletAdapter()
+                        }
                         else {
                             showCustomAlert(
                                 getString(R.string.please_try_after_sometime),

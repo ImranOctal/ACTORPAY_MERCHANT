@@ -84,7 +84,6 @@ class PayFragment : BaseFragment() {
                     isValidate = false
                 }
                 if (isValidate) {
-
                     transferMoneyViewModel.transferMoney(TransferMoneyParams(contact,amount,reason,type))
 
 //                    val navOptions= NavOptions.Builder()
@@ -108,8 +107,9 @@ class PayFragment : BaseFragment() {
                         hideLoadingDialog()
                         when (event.response) {
                             is AddMoneyResponse -> {
-
-                                val bundle= bundleOf("amount" to binding.beneficiaryAmount.text.toString().trim())
+                                var transactionId=event.response.data.transactionId
+                                var customerName=event.response.data.customerName
+                                val bundle= bundleOf("amount" to binding.beneficiaryAmount.text.toString().trim(),"transactionId" to transactionId,"customerName" to customerName,"send" to true)
                                 Navigation.findNavController(requireView()).navigate(R.id.transactionStatusSuccessFragment,bundle)
                                 binding.beneficiaryReason.setText("")
                                 binding.beneficiaryAmount.setText("")

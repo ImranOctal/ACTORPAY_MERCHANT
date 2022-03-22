@@ -78,11 +78,14 @@ class LoginActivity : BaseActivity() {
             binding.password.error=getString(R.string.oops_your_password_is_empty)
             binding.password.requestFocus()
 
-        }else {
+        } else if (binding.password.text.toString().trim().length < 8 || !loginViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
+            binding.password.error = this.getString(R.string.oops_your_password_is_not_valid)
+            binding.password.requestFocus()
+        }
+        else {
             login()
         }
     }
-
     private fun apiResponse() {
         lifecycleScope.launch {
             loginViewModel.loginResponseLive.collect {

@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentTransactionStatusSuccessBinding
 import com.actorpay.merchant.repositories.AppConstance.AppConstance
+
 
 class TransactionStatusSuccessFragment : BaseFragment() {
     lateinit var binding: FragmentTransactionStatusSuccessBinding
@@ -23,9 +25,15 @@ class TransactionStatusSuccessFragment : BaseFragment() {
     ): View {
         // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_transaction_status_success,container,false)
-
         var amount =arguments?.getString("amount")
-        binding.paymentStatusText.text= "Amount ${AppConstance.rupee+amount}\n added into wallet successfully"
+
+        binding.paymentTxn.text="Transaction Id: "+arguments?.getString("transactionId")
+        if(arguments?.getBoolean("send")!!){
+             binding.paymentStatusText.text= "Amount ${AppConstance.rupee+amount}\n transferred  into "+arguments?.getString("customerName")+" wallet successfully"
+        }else{
+            binding.paymentStatusText.text= "Amount ${AppConstance.rupee+amount}\n added into "+arguments?.getString("customerName")+" wallet successfully"
+        }
+
         binding.done.setOnClickListener {
             Navigation.findNavController(requireView()).popBackStack(R.id.homeFragment,false)
         }

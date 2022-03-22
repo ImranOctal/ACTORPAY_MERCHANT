@@ -60,16 +60,10 @@ class AppConstance {
         const val DELET_PRODUCT: String = SUB_DOMAIN + SUB_DOMAIN2 + PRODUCTS +"/remove"
         const val TAX_URL: String = SUB_DOMAIN + SUB_DOMAIN2 + "taxes/get/all"
 
-
         const val CATEGORIES_URL: String = SUB_DOMAIN + SUB_DOMAIN2 + "get/all/categories"
-
-
-
         const val PRODUCT_LIST: String = SUB_DOMAIN + SUB_DOMAIN2 + PRODUCTS +"/list/paged"
         const val GET_BY_ID: String = SUB_DOMAIN + SUB_DOMAIN2 + SUB_DOMAIN_MERCHANT + BY + ID
-
         const val SUB_CAT_URL: String = SUB_DOMAIN + SUB_DOMAIN2 +"get/all/subcategories/by/category"
-
 
         const val GENRATE_TOKEN_AGAIN: String = SUB_DOMAIN + USER_SERVICE + SUB_DOMAIN3 + SLASH_TOKEN + REFRESH
         const val GET_ALL_ORDER:String= SUB_DOMAIN + SUB_DOMAIN2 + ORDER +"list/paged"
@@ -140,10 +134,10 @@ class AppConstance {
 
         const val GET_ALL_COMMISSIONS:String= SUB_DOMAIN + SUB_DOMAIN2 +"productCommission/list/paged"
         const val Add_Note:String= SUB_DOMAIN + SUB_DOMAIN2 +"orderNotes/post"
-
+        const val GET_ALL_REQUEST_MONEY: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney/get"
 
         const val GET_PERMISSION:String= SUB_DOMAIN + SUB_DOMAIN2 +"get/user/permissions"
-
+        const val REQUEST_PROCESS: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney"
         const val GET_ALL_DISPUTES: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/list/paged"
         const val GET_DISPUTE: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/get/"
         const val SEND_DISPUTE_MESSAGE: String = SUB_DOMAIN + SUB_DOMAIN2 +"dispute/send/message"
@@ -157,7 +151,28 @@ class AppConstance {
         const val KEY_TYPE="type"
 
 
+
     }
 
+}
 
+enum class Clicks{
+    AddCart,
+    Root,
+    Minus,
+    Plus,
+    BuyNow,
+    Edit,
+    Delete,
+    Success,
+    Cancel,
+    Details,
+    Skip,
+    Next,
+    Prev,
+    GetStart,
+    BACK,
+    DONE,
+    PAY,
+    DECLINE
 }

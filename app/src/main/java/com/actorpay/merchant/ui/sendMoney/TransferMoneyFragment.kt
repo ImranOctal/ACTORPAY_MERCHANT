@@ -104,19 +104,16 @@ class TransferMoneyFragment : BaseFragment() {
             if (checkAPI)
                 transferMoneyViewModel.userExists(contact)
             else {
-                val bundle =
-                    bundleOf(KEY_KEY to KEY_EMAIL, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
-                Navigation.findNavController(requireView())
+                val bundle = bundleOf(KEY_KEY to KEY_EMAIL, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
+                  Navigation.findNavController(requireView())
                     .navigate(destination, bundle)
             }
         } else if (transferMoneyViewModel.methodRepo.isValidPhoneNumber(contact)) {
             if (checkAPI)
                 transferMoneyViewModel.userExists(contact)
             else {
-                val bundle =
-                    bundleOf(KEY_KEY to KEY_MOBILE, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
-                Navigation.findNavController(requireView())
-                    .navigate(destination, bundle)
+                val bundle = bundleOf(KEY_KEY to KEY_MOBILE, KEY_CONTACT to contact, KEY_NAME to name,KEY_TYPE to type)
+                Navigation.findNavController(requireView()).navigate(destination, bundle)
             }
         } else {
             binding.emailNumberField.error = "Please enter valid input"
@@ -182,10 +179,7 @@ class TransferMoneyFragment : BaseFragment() {
                         when (event.response) {
                             is UserDetailsResponse -> {
                                 if(event.response.data.customerDetails!=null)
-                                    validate(
-                                        false,
-                                        event.response.data.customerDetails.firstName + " " + event.response.data.customerDetails.lastName,"customer",R.id.payFragment
-                                    )
+                                    validate(false, event.response.data.customerDetails.firstName + " " + event.response.data.customerDetails.lastName,"customer",R.id.payFragment)
                                 else{
                                     validate(
                                         false,

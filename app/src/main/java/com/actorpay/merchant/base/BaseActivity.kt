@@ -113,12 +113,8 @@ abstract class BaseActivity : AppCompatActivity() {
             finishAffinity()
         }
     }
-    fun showCustomToast(msg: String) {
-        val myToast = Toast.makeText(
-            this,
-            msg,
-            Toast.LENGTH_SHORT
-        )
+    fun showCustomToast(msg:String,length:Int=Toast.LENGTH_LONG){
+        val myToast = Toast.makeText(this, msg, length)
         myToast.setGravity(Gravity.BOTTOM, 0, 0)
         myToast.show()
     }

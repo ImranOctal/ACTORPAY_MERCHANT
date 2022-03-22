@@ -163,7 +163,7 @@
     <fragment
         android:id="@+id/payFragment"
         android:name="com.actorpay.merchant.ui.sendMoney.PayFragment"
-        android:label="PayFragment" />
+        android:label="PayFragment"/>
     <fragment
         android:id="@+id/requestMoneyFragment"
         android:name="com.actorpay.merchant.ui.requestMoney.RequestMoneyFragment"
@@ -184,6 +184,15 @@
             />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/requestMoneyDetailsFragment"
+        android:name="com.octal.actorpayuser.ui.request_money.RequestMoneyDetailsFragment"
+        android:label="RequestMoneyDetailsFragment" />
+    <fragment
+        android:id="@+id/receiveFragment"
+        android:name="com.actorpay.merchant.ui.requestMoney.ReceiveFragment"
+        android:label="ReceiveFragment" />
 
 
 </navigation>

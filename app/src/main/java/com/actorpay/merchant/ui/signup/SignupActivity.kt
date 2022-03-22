@@ -138,29 +138,37 @@ class SignupActivity : BaseActivity() {
             binding.shopAct.requestFocus()
             isValidate = false
 
-        } else if (binding.shopAct.text.toString().trim().length < 3) {
+        }
+
+        else if (binding.shopAct.text.toString().trim().length < 3) {
             binding.shopAct.error = getString(R.string.shop_Act_length)
             binding.shopAct.requestFocus()
             isValidate = false
         }
+
         if (binding.address.text.toString().trim().isEmpty()) {
             binding.address.error = getString(R.string.address_empty)
             binding.address.requestFocus()
             isValidate = false
 
 
-        } else if (binding.address.text.toString().trim().length < 3) {
+        }
+
+        else if (binding.address.text.toString().trim().length < 3) {
             binding.address.error = getString(R.string.address_error)
             binding.address.requestFocus()
             isValidate = false
 
         }
+
         if (binding.shopAddress.text.toString().trim().isEmpty()) {
             binding.shopAddress.error = getString(R.string.shop_address_empty)
             binding.shopAddress.requestFocus()
             isValidate = false
 
-        } else if (binding.shopAddress.text.toString().trim().length < 3) {
+        }
+
+        else if (binding.shopAddress.text.toString().trim().length < 3) {
             binding.shopAddress.error = getString(R.string.error_shop_address)
             binding.shopAddress.requestFocus()
             isValidate = false
@@ -170,7 +178,9 @@ class SignupActivity : BaseActivity() {
             binding.mobileNumber.error = getString(R.string.phone_empty)
             binding.mobileNumber.requestFocus()
             isValidate = false
-        } else if (binding.mobileNumber.text.toString().trim().length < 7) {
+        }
+
+        else if (binding.mobileNumber.text.toString().trim().length < 7) {
             binding.mobileNumber.error = getString(R.string.error_phone)
             binding.mobileNumber.requestFocus()
             isValidate = false
@@ -194,7 +204,8 @@ class SignupActivity : BaseActivity() {
             isValidate = false
         }
 
-       else if (binding.password.text.toString().trim().length < 8 || !signUpViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
+
+        else if (binding.password.text.toString().trim().length < 8 || !signUpViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
             binding.password.error = this.getString(R.string.oops_your_password_is_not_valid)
             binding.password.requestFocus()
             isValidate = false

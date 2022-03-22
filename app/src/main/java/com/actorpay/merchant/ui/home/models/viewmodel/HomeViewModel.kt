@@ -10,6 +10,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.repo.RetrofitReposi
 import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitResource
 
 import com.actorpay.merchant.utils.ResponseSealed
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -53,6 +54,28 @@ class HomeViewModel(
                 when (val response = apiRepo.getPermissions(token)) {
                     is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                     is RetrofitResource.Success -> responseLive.value = ResponseSealed.Success(response.data!!)
+                }
+            }
+        }
+    }
+
+    fun getWalletBalance() {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            responseLive.value = ResponseSealed.Loading(true)
+            methodRepo.dataStore.getAccessToken().collect { token ->
+                methodRepo.dataStore.getUserId().collect { id ->
+                    when (val response = apiRepo.getWalletBalance(token, id)) {
+                        is RetrofitResource.Error -> {
+                            responseLive.value =
+                                ResponseSealed.ErrorOnResponse(response.failResponse)
+                            this.cancel()
+                        }
+                        is RetrofitResource.Success -> {
+                            responseLive.value =
+                                ResponseSealed.Success(response.data!!)
+                            this.cancel()
+                        }
+                    }
                 }
             }
         }

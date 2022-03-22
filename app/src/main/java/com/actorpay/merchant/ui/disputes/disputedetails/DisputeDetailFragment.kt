@@ -45,6 +45,7 @@ class DisputeDetailFragment : BaseFragment() {
             disputeDetailsViewModel.getAllDisputes()
 //           disputeDetailsViewModel.getDispute(disputeID)
         }
+
         else{
             showCustomToast("Something went wrong")
         }
@@ -62,7 +63,6 @@ class DisputeDetailFragment : BaseFragment() {
         }
         return binding.root
     }
-
 
     fun sendMessage(){
         val message=binding.sendMessageEdt.text.toString().trim()

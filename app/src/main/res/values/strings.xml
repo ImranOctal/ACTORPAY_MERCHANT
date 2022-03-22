@@ -238,7 +238,12 @@
         <item>PENDING</item>
         <item>FAILED</item>
     </string-array>
-
+    <string-array name="request_status_array">
+        <item>All</item>
+        <item>MONEY REQUESTED</item>
+        <item>REQUEST ACCEPTED</item>
+        <item>REQUEST DECLINED</item>
+    </string-array>
 
     <string-array name="wallet_txn_type_status_array">
         <item>All Types</item>
@@ -294,4 +299,5 @@
     <string name="my_refer">My Refer</string>
     <string name="share_now">Share Now</string>
     <string name="refer_and_earn">Refer and Earn</string>
+    <string name="enter_outlet">Enter Outlet</string>
 </resources>

@@ -45,6 +45,9 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.ui.paging.PagingDataSource
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyParams
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.RequestProcessResponse
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -1195,6 +1198,36 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
         }
     }
 
+    override suspend fun processRequest(
+        token: String,
+        isAccept: Boolean,
+        requestId: String
+    ): RetrofitResource<RequestProcessResponse> {
+        try {
+            val data = apiClient.processRequest(B_Token +token, isAccept,requestId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
     override suspend fun getProductsWithPaging(viewmodelscope: CoroutineScope, token: String, productParams: ProductPram): Flow<PagingData<Item>> {
         val products: Flow<PagingData<Item>> =
             Pager(config = PagingConfig(pageSize = 10, prefetchDistance = 2),
@@ -1327,6 +1360,32 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
     override suspend fun userExists(token: String, user: String): RetrofitResource<UserDetailsResponse> {
         try {
             val data = apiClient.userExists(B_Token +token,user)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun getAllRequestMoney(token: String, pageNo: Int, pageSize: Int, requestMoneyParams: GetAllRequestMoneyParams): RetrofitResource<GetAllRequestMoneyResponse> {
+        try {
+            val data = apiClient.getAllRequestMoney(B_Token +token,pageNo,pageSize,requestMoneyParams)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)

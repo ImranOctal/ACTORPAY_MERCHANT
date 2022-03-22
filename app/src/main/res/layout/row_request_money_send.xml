@@ -13,6 +13,7 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/row_wallet_click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
@@ -64,6 +65,9 @@
                     android:fontFamily="@font/poppins_medium"
                     android:visibility="gone"
                     />
+
+
+
                 <TextView
                     android:id="@+id/row_request_txn"
                     android:layout_width="wrap_content"
@@ -75,8 +79,8 @@
                     android:textSize="@dimen/_10ssp"
                     android:textColor="@color/primary"
                     android:fontFamily="@font/poppins_regular"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
+
 
 
                 <TextView
@@ -105,6 +109,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="@dimen/_10ssp"
                     />
+
+
+                <TextView
+                    android:id="@+id/row_request_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/row_request_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Paid"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/text_color"
+                    android:fontFamily="@font/poppins_medium"
+                    />
+
 
 
                 <Button

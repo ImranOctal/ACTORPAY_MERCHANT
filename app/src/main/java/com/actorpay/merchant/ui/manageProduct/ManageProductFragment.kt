@@ -26,7 +26,6 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.permission.P
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.DataCategory
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.categories.GetAllCategoriesDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.deleteProduct.DeleteProductResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.products.getProductList.Item
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.Data
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.subCatogory.GetSubCatDataDetails
 import com.actorpay.merchant.ui.manageProduct.viewModel.ProductViewModel
@@ -132,13 +131,14 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
 
         return binding.root
     }
+
     private fun clickListener() {
         binding.AddNewProductButton.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.addNewProductFragment)
         }
     }
-    private fun installation() {
 
+    private fun installation() {
         binding.swipeLoad.setOnRefreshListener(this)
         binding.ivSearch.setOnClickListener {
             getProducts( binding.searchEdit.text.toString(), "", true, "", "")
@@ -238,11 +238,16 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
         subCatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         chooseSubCategory.adapter = subCatAdapter
     }
+
+
+
     fun setCatAdapter(chooseCategory: Spinner) {
         val catAdapter: ArrayAdapter<DataCategory> = ArrayAdapter<DataCategory>(requireActivity(), android.R.layout.simple_spinner_item, catList)
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         chooseCategory.adapter = catAdapter
     }
+
+
     private fun response() {
         lifecycleScope.launch {
             productViewModel.responseLive.collect {
@@ -296,6 +301,8 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
             }
         }
     }
+
+
     private fun setupRv() {
         binding.manageProduct.apply {
             layoutManager = LinearLayoutManager(context)
@@ -339,20 +346,24 @@ class ManageProductFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListen
             }
         }
     }
+
     override fun onRefresh() {
         binding.swipeLoad.isRefreshing = false
         getProducts("", "", true, "", "")
     }
+
     override fun onResume() {
         super.onResume()
         getProducts( "", "", true, "", "")
 
     }
+
     override fun onPause() {
         binding.shimmerViewContainer.visibility = View.GONE
         binding.shimmerViewContainer.stopShimmerAnimation()
         super.onPause()
     }
+
     override fun onClick() {
         productFilterBottomSheet()
     }

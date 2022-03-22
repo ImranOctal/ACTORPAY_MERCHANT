@@ -1,7 +1,6 @@
 package com.actorpay.merchant.base
 
 import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.actorpay.merchant.ui.home.HomeActivity
@@ -47,4 +46,13 @@ open class BaseFragment : Fragment() {
     fun updateToolbarText(title: String) {
         (requireActivity() as HomeActivity).updateToolbarText(title)
     }
+
+    fun getWalletBalance(balance: String) {
+        (requireActivity() as HomeActivity).getWalletBalance(balance)
+    }
+    fun getUserName(name: String) {
+        (requireActivity() as HomeActivity).getUserName(name)
+    }
+
+
 }

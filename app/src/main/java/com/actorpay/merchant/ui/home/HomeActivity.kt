@@ -17,6 +17,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -34,6 +35,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SC
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SCREEN_WALLET_BALANCE
 import com.actorpay.merchant.repositories.retrofitrepository.models.permission.PermissionDetails
 import com.actorpay.merchant.repositories.retrofitrepository.models.products.getUserById.GetUserById
+import com.actorpay.merchant.ui.addMoney.AddMoneyViewModel
 import com.actorpay.merchant.ui.commission.EarnFragment
 import com.actorpay.merchant.ui.disputes.DisputeFragment
 import com.actorpay.merchant.ui.invitation.InvitationFragment
@@ -74,6 +76,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
     private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
     private var flagDrawer = false
     var write = false
+    private val addMoneyViewModel: AddMoneyViewModel by inject()
     private val homeviewmodel: HomeViewModel by inject()
     private lateinit var filterClick: OnFilterClick
     private lateinit var navController: NavController
@@ -88,6 +91,8 @@ class HomeActivity : BaseActivity(),DrawersLock {
         WorkSource()
         clickListeners()
         callSideDrawer()
+
+//        getPermission()
         lifecycleScope.launch {
             viewModel.methodRepo.dataStore.getRole().collect { role ->
                 Merchantrole = role
@@ -232,6 +237,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
             }
         }
     }
+
 
     private fun getPermissionDetails() {
         if (Merchantrole != "MERCHANT") {
@@ -407,6 +413,11 @@ class HomeActivity : BaseActivity(),DrawersLock {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeviewmodel.getById()
+    }
+
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
             homeviewmodel.responseLive.collect {
@@ -416,7 +427,6 @@ class HomeActivity : BaseActivity(),DrawersLock {
                     }
                     is ResponseSealed.Success -> {
                         hideLoadingDialog()
-
                         if (it.response is PermissionDetails) {
                             for (i in it.response.data.indices) {
                                 permissionDataList.forEachIndexed { index, permissionData ->
@@ -426,14 +436,16 @@ class HomeActivity : BaseActivity(),DrawersLock {
                                     }
                                 }
                             }
-                            homeviewmodel.getById()
                             updateUi()
                         } else if (it.response is GetUserById) {
                             val data = it.response
                             Log.e("merchantId>>>", data.data.merchantId)
                             viewModel.methodRepo.dataStore.setMerchantId(data.data.merchantId)
                             binding.headerTitle.userProfileName.text = data.data.businessName
+
                             getPermissionDetails()
+
+
                         } else showCustomAlert(
                             getString(R.string.please_try_after_sometime),
                             binding.root
@@ -454,6 +466,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
                     else -> hideLoadingDialog()
                 }
             }
+
         }
     }
 
@@ -558,10 +571,6 @@ class HomeActivity : BaseActivity(),DrawersLock {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeviewmodel.getById()
-    }
 
     fun logOut() {
         CommonDialogsUtils.showCommonDialog(this, viewModel.methodRepo, getString(R.string.log_out),
@@ -797,8 +806,6 @@ class HomeActivity : BaseActivity(),DrawersLock {
                     binding.toolbar.ivFilter.visibility = View.VISIBLE
                 }
 
-
-
                 R.id.invitationFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.my_refer)
@@ -815,6 +822,12 @@ class HomeActivity : BaseActivity(),DrawersLock {
         binding.toolbar.ToolbarTitle.text = title
     }
 
+    fun getWalletBalance(balance: String) {
+        binding.headerTitle.userProfileBalance.text= "₹ $balance"
+    }
+    fun getUserName(balance: String) {
+        binding.headerTitle.userProfileName.text= "₹ $balance"
+    }
     override fun lockDrawer() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }

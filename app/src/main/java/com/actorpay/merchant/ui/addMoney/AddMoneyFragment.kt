@@ -57,7 +57,6 @@ class AddMoneyFragment : BaseFragment() {
             binding.enterAmountEdt.error = "Amount should not less 1"
             binding.enterAmountEdt.requestFocus()
         } else {
-
             addMoneyViewModel.methodRepo.hideSoftKeypad(requireActivity())
             lifecycleScope.launchWhenCreated {
                 addMoneyViewModel.methodRepo.dataStore.getEmail().collect { email ->
@@ -77,10 +76,7 @@ class AddMoneyFragment : BaseFragment() {
             binding.enterAmountEdt.setSelection(binding.enterAmountEdt.text.toString().length)
         }
     }
-
-
     fun apiResponse() {
-
         lifecycleScope.launchWhenStarted {
             addMoneyViewModel.responseLive.collect { event ->
                 when (event) {
@@ -92,7 +88,7 @@ class AddMoneyFragment : BaseFragment() {
                         when (event.response) {
                             is AddMoneyResponse -> {
                                 list.clear()
-                                val bundle= bundleOf("amount" to binding.enterAmountEdt.text.toString().trim())
+                                val bundle= bundleOf("amount" to binding.enterAmountEdt.text.toString().trim(),"customerName" to event.response.data.customerName,"transactionId" to event.response.data.transactionId,"send" to false)
                                 Navigation.findNavController(requireView()).navigate(R.id.transactionStatusSuccessFragment,bundle)
                                 binding.enterAmountEdt.setText("")
                             }

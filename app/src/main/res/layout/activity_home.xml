@@ -512,7 +512,6 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constReferal"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center"
@@ -543,6 +542,13 @@
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:background="@color/gray" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/earnMoney"

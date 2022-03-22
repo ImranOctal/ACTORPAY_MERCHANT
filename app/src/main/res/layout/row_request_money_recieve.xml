@@ -14,6 +14,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/row_wallet_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_20sdp"
@@ -116,8 +117,8 @@
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center"
-                android:text="Decline"
                 android:textColor="@color/white"
+                android:text="Decline"
                 android:textSize="@dimen/_9ssp" />
 
             <Button
@@ -135,7 +136,19 @@
                 android:visibility="visible"
                 android:text="Pay"
                 android:textSize="@dimen/_9ssp"
+                />
 
+            <TextView
+                android:id="@+id/row_request_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/row_request_date"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Paid"
+                android:visibility="gone"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/text_color"
+                android:fontFamily="@font/poppins_medium"
                 />
 
 

@@ -9,6 +9,8 @@
         android:orientation="vertical"
         android:weightSum="1"
         tools:context=".ui.manageProduct.ManageProductActivity">
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/parentFull"
             android:background="@drawable/top_round_drawble_white"

@@ -1,4 +1,4 @@
-package com.octal.actorpayuser.repositories.retrofitrepository.models.wallet
+package com.actorpay.merchant.repositories.retrofitrepository.models.wallet
 
 import java.io.Serializable
 
@@ -24,6 +24,7 @@ data class RequestMoneyData(
     var userEmail:String,
     var toUserId:String,
     var toUserEmail:String,
+    var userName:String,
     var toUserName:String,
     var amount:String,
     var requestMoneyStatus:String,
@@ -46,7 +47,9 @@ data class GetAllRequestMoneyParams(
 data class RequestMoneyParams(
     var userIdentity:String="",
     var amount:String="",
-    var reason:String=""
+    var reason:String="",
+    var requestUserTypeTo:String
+
 )
 
 

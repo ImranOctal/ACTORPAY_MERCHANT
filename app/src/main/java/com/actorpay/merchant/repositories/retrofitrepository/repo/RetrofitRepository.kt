@@ -31,6 +31,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.resource.RetrofitRe
 import com.actorpay.merchant.ui.outlet.response.*
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -144,6 +145,8 @@ interface RetrofitRepository {
     suspend fun transferMoney(token: String, transferMoneyParams: TransferMoneyParams ):RetrofitResource<AddMoneyResponse>
 
     suspend fun userExists(token: String, user:String ):RetrofitResource<UserDetailsResponse>
-
+    suspend fun getAllRequestMoney(token: String,pageNo:Int,pageSize:Int, requestMoneyParams: GetAllRequestMoneyParams):RetrofitResource<GetAllRequestMoneyResponse>
+    suspend fun processRequest(token: String,isAccept:Boolean,requestId:String ):RetrofitResource<RequestProcessResponse>
+    suspend fun requestMoney(token: String,requestMoneyParams: RequestMoneyParams):RetrofitResource<RequestMoneyResponse>
 }
 
