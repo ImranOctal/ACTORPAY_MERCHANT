@@ -23,7 +23,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/cancel"
+                android:src="@drawable/ic_notification"
                 app:tint="@color/red" />
 
         </RelativeLayout>
@@ -35,8 +35,8 @@
             android:layout_marginStart="@dimen/_5ssp"
             android:layout_marginTop="@dimen/_5ssp"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/loan_decline_by_bank"
-            android:textColor="@color/black"
+            android:text="Money Added into wallet"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@id/rltRoot"
             app:layout_constraintTop_toTopOf="@id/rltRoot" />
@@ -47,9 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5ssp"
             android:layout_marginTop="@dimen/_5ssp"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_regular"
             android:text="Date-15/10/2022"
-            android:textColor="#A6A5A5"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintStart_toEndOf="@id/rltRoot"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -60,9 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5ssp"
             android:layout_marginTop="@dimen/_5ssp"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_regular"
             android:text="Account No. *****1323"
-            android:textColor="#A6A5A5"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintStart_toEndOf="@id/rltRoot"
             app:layout_constraintTop_toBottomOf="@id/tvDate" />
@@ -74,8 +74,8 @@
             android:layout_marginStart="@dimen/_5ssp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:fontFamily="@font/poppins_bold"
-            android:text="$1000"
-            android:textColor="@color/blue_color"
+            android:text="₹100"
+            android:textColor="@color/primary"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDate"

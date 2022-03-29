@@ -60,6 +60,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_ID
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.PRODUCT_LIST
+import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.REQUEST_MONEY
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.REQUEST_PROCESS
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SEND_DISPUTE_MESSAGE
 import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.SUB_CAT_URL
@@ -76,9 +77,7 @@ import com.actorpay.merchant.repositories.AppConstance.AppConstance.Companion.WA
 import com.actorpay.merchant.repositories.retrofitrepository.models.outlet.GetOutletById
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyParams
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.RequestProcessResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -260,8 +259,7 @@ interface ApiClient {
         @Header(AUTH) token: String,
         @Query(AppConstance.PAGE_NO) pageNo: Int,
         @Body param: GetRolesParams,
-        @Query(AppConstance.ASCECNDING) asc: Boolean=true,
-        @Query(AppConstance.SORT_BY) sortBy: String="name",
+        @Query(AppConstance.ASCECNDING) asc: Boolean=false,
         @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
 
         ): Response<RolesResponse>
@@ -274,7 +272,7 @@ interface ApiClient {
         @Query(AppConstance.PAGE_NO) pageNo: String,
         @Body empty: EMPTYJSON,
         @Query(AppConstance.PAGE_SIZE) pageSize: String = "100",
-        @Query(AppConstance.ASCECNDING) asc: Boolean = true,
+        @Query(AppConstance.ASCECNDING) asc: Boolean = false,
 
         ):Response<GetAllSubMerchant>
 
@@ -430,4 +428,11 @@ interface ApiClient {
         @Path("isAccept") isAccept: Boolean,
         @Path("requestId") requestId: String,
     ): Response<RequestProcessResponse>
+
+
+    @POST(REQUEST_MONEY)
+    suspend fun requestMoney(
+        @Header("Authorization") token: String,
+        @Body requestMoneyParams: RequestMoneyParams,
+    ): Response<RequestMoneyResponse>
 }

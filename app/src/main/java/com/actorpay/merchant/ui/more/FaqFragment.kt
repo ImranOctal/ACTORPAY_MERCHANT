@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ExpandableListAdapter
-import android.widget.ExpandableListView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentFaqBinding
-import com.actorpay.merchant.ui.more.adapter.CustomExpandableListAdapter
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
+import com.actorpay.merchant.ui.more.adapter.CustomFAQAdapter
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
@@ -26,7 +25,7 @@ class FaqFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_faq,container,false)
         moreViewModel.getFAQ()
         apiResponse()
@@ -35,21 +34,10 @@ class FaqFragment : BaseFragment() {
     }
 
     fun initExpandableList(){
-        val adapter: ExpandableListAdapter = CustomExpandableListAdapter(requireActivity() ,moreViewModel.faqList)
-        binding.expendableList.setAdapter(adapter)
-        binding.expendableList.setOnGroupExpandListener (object :
-            ExpandableListView.OnGroupExpandListener {
-            var previousGroup = -1
-            var flag = false
-            override fun onGroupExpand(groupPosition: Int) {
-                if (groupPosition != previousGroup && flag) {
-                    binding.expendableList.collapseGroup(previousGroup);
-                }
-                previousGroup = groupPosition;
 
-                flag = true;
-            }
-        })
+        val adapter= CustomFAQAdapter(moreViewModel.faqList)
+        binding.rvFaq.layoutManager= LinearLayoutManager(requireContext())
+        binding.rvFaq.adapter=adapter
     }
     private fun apiResponse() {
         lifecycleScope.launchWhenStarted {

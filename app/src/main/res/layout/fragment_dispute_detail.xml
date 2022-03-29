@@ -65,11 +65,38 @@
                         tools:text="DIS123456"
 
                         />
+
+                    <TextView
+                        android:id="@+id/order_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/code_text"
+                        android:text='Order No: '
+                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/text_color"
+                        android:fontFamily="@font/poppins_medium"
+
+                        />
+                    <TextView
+                        android:id="@+id/order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@+id/order_text"
+                        app:layout_constraintTop_toBottomOf="@+id/code_text"
+                        android:text='@{disputedata.orderNo}'
+                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/primary"
+                        android:fontFamily="@font/poppins_medium"
+                        tools:text="ORD123"
+
+                        />
+
                     <TextView
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/code"
+                        app:layout_constraintTop_toBottomOf="@+id/order_text"
                         android:text="@{disputedata.title}"
                         android:textSize="@dimen/_11ssp"
                         android:textColor="@color/text_color"

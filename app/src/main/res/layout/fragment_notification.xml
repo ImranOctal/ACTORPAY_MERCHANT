@@ -9,21 +9,23 @@
         android:background="@color/primary"
         tools:context=".ui.login.LoginActivity">
 
-        <include layout="@layout/toolbar2"
-            android:id="@+id/toolbar"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/top_round_drawble_white"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/top_round_drawble_white"
+            >
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:id="@+id/rvNotification"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_notification"
+                />
 
 
         </LinearLayout>

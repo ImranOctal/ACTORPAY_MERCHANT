@@ -16,7 +16,7 @@ class PagingDataSource(private var apiClient: ApiClient, val token: String,
 
         try {
             val pageNumber = params.key ?: 0
-            var response=  apiClient.getProductList(token, pageNumber,10,"createdAt",asc = true,productParams)
+            var response=  apiClient.getProductList(token, pageNumber,10,"createdAt",asc = false,productParams)
 
             if(response.isSuccessful.not()) {
                 return LoadResult.Error(

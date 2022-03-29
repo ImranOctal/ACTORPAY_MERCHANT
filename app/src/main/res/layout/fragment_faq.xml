@@ -20,15 +20,15 @@
             android:background="@drawable/top_round_drawble_white"
             android:orientation="vertical">
 
-            <ExpandableListView
-                android:id="@+id/expendableList"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_faq"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@android:color/background_light"
-                android:dividerHeight="0.5dp"
-                android:layout_marginTop="@dimen/_5ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rltRoot" />
+                android:paddingBottom="@dimen/_5sdp"
+                android:clipToPadding="false"
+                android:layout_marginHorizontal="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_5sdp"
+                />
 
 
         </LinearLayout>

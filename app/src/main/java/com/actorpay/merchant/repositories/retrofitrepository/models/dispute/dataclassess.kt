@@ -28,6 +28,7 @@ data class DisputeData(
     var createdAt: String,
     var disputeId: String,
     var disputeCode: String,
+    var orderNo: String,
     var title: String,
     var description: String,
     var imagePath: String,

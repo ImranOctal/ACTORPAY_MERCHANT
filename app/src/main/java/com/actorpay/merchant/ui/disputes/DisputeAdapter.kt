@@ -1,13 +1,15 @@
 package com.actorpay.merchant.ui.disputes
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actorpay.merchant.databinding.RowDisputeBinding
+import com.actorpay.merchant.repositories.AppConstance.Clicks
 import com.actorpay.merchant.repositories.methods.MethodsRepo
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeData
 
-class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: MethodsRepo, val onClick: (position: Int) -> Unit):RecyclerView.Adapter<DisputeAdapter.MyViewHolder>() {
+class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: MethodsRepo, val onClick: (click: Clicks, position: Int) -> Unit):RecyclerView.Adapter<DisputeAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -19,7 +21,7 @@ class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: Methods
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindView(items[position])
+        holder.bindView(items[position],position)
     }
 
     override fun getItemCount(): Int {
@@ -27,13 +29,28 @@ class DisputeAdapter(val items:MutableList<DisputeData>,val methodsRepo: Methods
     }
 
     inner class MyViewHolder(val binding:RowDisputeBinding):RecyclerView.ViewHolder(binding.root) {
-            fun bindView(item:DisputeData){
+            fun bindView(item:DisputeData,position: Int){
 
                 binding.disputedata=item
                 binding.createdDate.text=methodsRepo.getFormattedOrderDate(item.createdAt)
 
-                binding.root.setOnClickListener { onClick(adapterPosition) }
+
+                binding.order.setPaintFlags(binding.order.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+                binding.order.setOnClickListener {
+                    onClick(Clicks.Success,position)
+                }
+                binding.root.setOnClickListener {
+                    onClick(Clicks.Root,position)
+                }
 
             }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 }

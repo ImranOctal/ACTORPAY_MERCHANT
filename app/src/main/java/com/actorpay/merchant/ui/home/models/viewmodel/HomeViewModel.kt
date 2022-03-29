@@ -32,11 +32,10 @@ class HomeViewModel(
     Application()
 ) {
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
-    fun getById() {
+    fun getById(userId:String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             responseLive.value = ResponseSealed.Loading(true)
             methodRepo.dataStore.getAccessToken().collect { token ->
-                methodRepo.dataStore.getUserId().collect { userId ->
                     when (val response = apiRepo.getById(token, userId)) {
                         is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
                         is RetrofitResource.Success -> responseLive.value =
@@ -44,7 +43,7 @@ class HomeViewModel(
                     }
                 }
             }
-        }
+
     }
 
     fun getPermissions() {

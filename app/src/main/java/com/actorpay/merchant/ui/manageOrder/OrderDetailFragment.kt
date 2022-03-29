@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class OrderDetailFragment : BaseFragment() {
-    lateinit var list: Item
+    private var orderNo: String =""
     private val orderViewModel: ManageOrderViewModel by inject()
     private val orderDetailViewModel: OrderDetailViewModel by inject()
     private lateinit var binding: FragmentOrderDetaailBinding
@@ -46,10 +46,10 @@ class OrderDetailFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater ,R.layout.fragment_order_detaail, container, false)
-        list = arguments?.getSerializable("data") as Item
+        orderNo = arguments?.getString("orderNo")!!
 
         binding.btnNote.setOnClickListener {
             addNote()
@@ -60,13 +60,13 @@ class OrderDetailFragment : BaseFragment() {
 
         }
         getAllOrderApi()
-        getIntentData(list)
+//        getIntentData(list)
         apiResponse()
         return  binding.root
 
     }
     private fun getAllOrderApi() {
-        orderViewModel.getAllOrder("", "", "", "", "", list.orderNo)
+        orderViewModel.getAllOrder("", "", "", "", "", orderNo)
     }
     private fun setupRv(orderNotesDtos: List<OrderNotesDto>) {
         binding.rvNote.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
@@ -94,6 +94,7 @@ class OrderDetailFragment : BaseFragment() {
                                         dialog(list,root,orderItemId)
                                     }
                                     setupRv(it.response.data.items[0].orderNotesDtos)
+                                    getIntentData(it.response.data.items[0])
                                 }
                             }
                             else -> {
@@ -202,7 +203,7 @@ class OrderDetailFragment : BaseFragment() {
                 showCustomToast(getString(R.string.add_note_description))
             } else {
                 dialog.dismiss()
-                orderViewModel.updateStatus(binding.etNote.text.trim().toString(), orderItemId, itemStauts, list.orderNo)
+                orderViewModel.updateStatus(binding.etNote.text.trim().toString(), orderItemId, itemStauts, orderNo)
             }
         }
         binding.btnCancnel.setOnClickListener {
@@ -219,7 +220,7 @@ class OrderDetailFragment : BaseFragment() {
                 showCustomToast(getString(R.string.add_note_description))
             } else {
                 dialog.dismiss()
-                orderDetailViewModel.addNote(binding.etNote.text.toString().trim(), list.orderNo)
+                orderDetailViewModel.addNote(binding.etNote.text.toString().trim(), orderNo)
             }
         }
         binding.btnCancnel.setOnClickListener {

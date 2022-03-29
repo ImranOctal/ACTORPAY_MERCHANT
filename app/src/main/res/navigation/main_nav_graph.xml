@@ -193,6 +193,10 @@
         android:id="@+id/receiveFragment"
         android:name="com.actorpay.merchant.ui.requestMoney.ReceiveFragment"
         android:label="ReceiveFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.actorpay.merchant.notification.NotificationFragment"
+        android:label="NotificationFragment" />
 
 
 </navigation>

@@ -406,6 +406,7 @@
                         <LinearLayout
                             android:id="@+id/adminCommissionLay"
                             style="@style/TxtOutline2"
+                            android:clickable="true"
                             android:orientation="horizontal">
 
                             <TextView
@@ -426,6 +427,7 @@
                                 android:autofillHints="creditCardSecurityCode"
                                 android:background="@color/transparent"
                                 android:clickable="false"
+                                android:longClickable="false"
                                 android:focusable="false"
                                 android:cursorVisible="false"
                                 android:focusableInTouchMode="false"

@@ -21,9 +21,6 @@
 
         android:usesCleartextTraffic="true">
 
-        <activity
-            android:name=".notification.NotificationActivity"
-            android:exported="false" />
 
         <activity
             android:name=".ui.content.ContentActivity"

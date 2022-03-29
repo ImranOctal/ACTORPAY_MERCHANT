@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.transferMoney.PayFragment"
         android:orientation="vertical"
+        android:background="@color/white"
         >
 
         <TextView
@@ -127,16 +128,17 @@
 
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/payNow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginVertical="@dimen/_10sdp"
-            android:backgroundTint="#ED335F"
+            android:backgroundTint="@color/colorAccent"
             android:text="Request Money"
             android:fontFamily="@font/poppins_regular"
             android:textAllCaps="true"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12sdp"
             app:cornerRadius="@dimen/_5sdp" />
 

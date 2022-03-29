@@ -102,7 +102,7 @@ class ManageOrderFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener
     private fun setupRv(orderList: ArrayList<Item>) {
         binding.manageOrder.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         binding.manageOrder.adapter = OrderAdapter(requireActivity(), orderList) { position, status ->
-            val bundle= bundleOf("data" to orderList[position])
+            val bundle= bundleOf("orderNo" to orderList[position].orderNo)
             Navigation.findNavController(requireView()).navigate(R.id.orderDetailFragment,bundle)
         }
     }

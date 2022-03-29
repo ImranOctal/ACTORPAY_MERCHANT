@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.FragmentDisputeBinding
+import com.actorpay.merchant.repositories.AppConstance.Clicks
 import com.actorpay.merchant.ui.disputes.disputedetails.DisputeDetailsViewModel
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
@@ -37,10 +38,22 @@ class DisputeFragment : BaseFragment(), OnFilterClick {
         return  binding.root
     }
     private fun setAdapter() {
-        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo){ position ->
-            DisputeDetailsViewModel.disputeData=disputeViewModel.disputeListData.items[position]
-            val bundle= bundleOf("disputeId" to disputeViewModel.disputeListData.items[position].disputeId,"disputeCode" to disputeViewModel.disputeListData.items[position].disputeCode)
-            Navigation.findNavController(requireView()).navigate(R.id.disputeDetailFragment,bundle)
+        val adapter=  DisputeAdapter(disputeViewModel.disputeListData.items,disputeViewModel.methodRepo){
+                action,position ->
+            when(action){
+                Clicks.Root->{
+                    DisputeDetailsViewModel.disputeData=disputeViewModel.disputeListData.items[position]
+                    val bundle= bundleOf("disputeId" to disputeViewModel.disputeListData.items[position].disputeId,"disputeCode" to disputeViewModel.disputeListData.items[position].disputeCode)
+                    Navigation.findNavController(requireView()).navigate(R.id.disputeDetailFragment,bundle)
+                }
+                Clicks.Success->{
+                    val bundle =
+                        bundleOf("orderNo" to disputeViewModel.disputeListData.items[position].orderNo)
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.orderDetailFragment, bundle, null)
+                }
+            }
+
         }
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvDispute.layoutManager = layoutManager

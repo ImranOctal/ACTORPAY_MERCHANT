@@ -101,6 +101,9 @@ class HomeActivity : BaseActivity(),DrawersLock {
                 this.cancel()
             }
         }
+        binding.toolbar.ivNotification.setOnClickListener {
+            navController.navigate(R.id.notificationFragment)
+        }
     }
 
     private fun callSideDrawer() {
@@ -413,10 +416,6 @@ class HomeActivity : BaseActivity(),DrawersLock {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeviewmodel.getById()
-    }
 
     fun WorkSource() {
         lifecycleScope.launchWhenStarted {
@@ -809,6 +808,13 @@ class HomeActivity : BaseActivity(),DrawersLock {
                 R.id.invitationFragment -> {
                     binding.toolbar.back.setImageResource(R.drawable.back)
                     binding.toolbar.ToolbarTitle.text = getString(R.string.my_refer)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
+
+                R.id.notificationFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.notification)
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
                 }

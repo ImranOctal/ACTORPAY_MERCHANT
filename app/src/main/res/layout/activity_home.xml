@@ -494,7 +494,7 @@
                         <TextView
                             style="@style/viewParent"
                             android:layout_marginStart="16dp"
-                            android:text="Wallet"
+                            android:text="Wallet &amp; Request Money"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/ivWallet"

@@ -82,8 +82,8 @@ class RequestFilterDialog(
 
             binding.fromAmount.setText(params.fromAmount.toString())
             binding.toAmount.setText(params.toAmount.toString())
-            binding.startDate.setText(params.startDate)
-            binding.endDate.setText(params.endDate)
+            binding.startDate.setText(params.startDate.replace(" 00:00",""))
+            binding.endDate.setText(params.endDate.replace(" 00:00",""))
 
         val array = mContext.resources.getStringArray(R.array.request_status_array).toMutableList()
         if (params.requestMoneyStatus != null) {
@@ -152,9 +152,9 @@ class RequestFilterDialog(
             if ((binding.toAmount.text.toString().trim() == "").not())
                 toAmount = binding.toAmount.text.toString().trim()
             if ((binding.startDate.text.toString().trim() == "").not())
-                startDate = binding.startDate.text.toString().trim()
+                startDate = binding.startDate.text.toString().trim()+" 00:00"
             if ((binding.endDate.text.toString().trim() == "").not())
-                endDate = binding.endDate.text.toString().trim()
+                endDate = binding.endDate.text.toString().trim()+" 00:00"
 
 
             val statusPosition = binding.spinnerStatus.selectedItemPosition

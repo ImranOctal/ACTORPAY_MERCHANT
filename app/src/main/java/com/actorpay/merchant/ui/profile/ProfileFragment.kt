@@ -53,7 +53,7 @@ class ProfileFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false)
@@ -306,6 +306,10 @@ class ProfileFragment : BaseFragment() {
             validate()
         }
         binding.adminCommissionLay.setOnClickListener {
+            showCustomToast("Your are not allowed to change admin commission")
+        }
+
+        binding.adminCommission.setOnClickListener {
             showCustomToast("Your are not allowed to change admin commission")
         }
 

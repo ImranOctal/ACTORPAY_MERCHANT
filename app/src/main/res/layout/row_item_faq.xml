@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_10sdp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/faq_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/faq_icon"
+        android:layout_marginEnd="@dimen/_5sdp"
+         android:textColor="@color/primary"
+        android:textSize="@dimen/_14ssp"
+        android:lineSpacingExtra="0.1dp"
+        android:fontFamily="@font/poppins_regular"
+        />
+
+    <ImageView
+        android:id="@+id/faq_icon"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:src="@drawable/drop_down_arrow"
+        app:layout_constraintTop_toTopOf="@+id/faq_question"
+        app:layout_constraintBottom_toBottomOf="@+id/faq_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_10ssp"
+        />
+
+    <TextView
+        android:id="@+id/faq_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/faq_question"
+        android:paddingVertical="@dimen/_3sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        android:scrollbars="none"
+        android:background="@drawable/notification_item_grey_bg"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="@dimen/_12ssp"
+        android:visibility="visible"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

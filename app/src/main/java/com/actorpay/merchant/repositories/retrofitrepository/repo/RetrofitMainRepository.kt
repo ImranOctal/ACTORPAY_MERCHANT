@@ -45,9 +45,7 @@ import com.actorpay.merchant.repositories.retrofitrepository.models.products.get
 import com.actorpay.merchant.ui.paging.PagingDataSource
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.ContentResponse
 import com.actorpay.merchant.repositories.retrofitrepository.models.content.FAQResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyParams
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.GetAllRequestMoneyResponse
-import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.RequestProcessResponse
+import com.actorpay.merchant.repositories.retrofitrepository.models.wallet.*
 import com.octal.actorpay.repositories.retrofitrepository.models.content.ProductResponse
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListParams
 import com.octal.actorpayuser.repositories.retrofitrepository.models.dispute.DisputeListResponse
@@ -1205,6 +1203,35 @@ class RetrofitMainRepository constructor(var context: Context, private var apiCl
     ): RetrofitResource<RequestProcessResponse> {
         try {
             val data = apiClient.processRequest(B_Token +token, isAccept,requestId)
+            val result = data.body()
+            if (data.isSuccessful && result != null) {
+                return RetrofitResource.Success(result)
+            } else {
+                if (data.errorBody() != null) {
+                    return RetrofitResource.Error(handleError(data.code(),data.errorBody()!!.string()))
+                }
+                return RetrofitResource.Error(
+                    FailResponse(
+                        context.getString(R.string.please_try_after_sometime),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            return RetrofitResource.Error(
+                FailResponse(
+                    e.message ?: context.getString(R.string.server_not_responding), ""
+                )
+            )
+        }
+    }
+
+    override suspend fun requestMoney(
+        token: String,
+        requestMoneyParams: RequestMoneyParams
+    ): RetrofitResource<RequestMoneyResponse> {
+        try {
+            val data = apiClient.requestMoney(B_Token +token, requestMoneyParams)
             val result = data.body()
             if (data.isSuccessful && result != null) {
                 return RetrofitResource.Success(result)

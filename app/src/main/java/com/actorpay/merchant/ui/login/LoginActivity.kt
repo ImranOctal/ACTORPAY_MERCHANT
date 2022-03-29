@@ -107,8 +107,6 @@ class LoginActivity : BaseActivity() {
                             delay(1000)
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                             finishAffinity()
-
-
                         } else if (it.response is ForgetPasswordResponses) {
                             CommonDialogsUtils.showCommonDialog(
                                 this@LoginActivity,

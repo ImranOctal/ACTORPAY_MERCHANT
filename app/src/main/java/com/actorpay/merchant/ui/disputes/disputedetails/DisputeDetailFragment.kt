@@ -1,12 +1,15 @@
 package com.actorpay.merchant.ui.disputes.disputedetails
 
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.actorpay.merchant.R
 import com.actorpay.merchant.base.BaseFragment
@@ -24,15 +27,11 @@ class DisputeDetailFragment : BaseFragment() {
     private val disputeDetailsViewModel: DisputeDetailsViewModel by inject()
     private var disputeID: String =""
     private var disputeCode: String =""
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_dispute_detail,container,false)
@@ -43,7 +42,6 @@ class DisputeDetailFragment : BaseFragment() {
         if(disputeID != ""){
             disputeDetailsViewModel.disputeListParams.disputeCode=disputeCode
             disputeDetailsViewModel.getAllDisputes()
-//           disputeDetailsViewModel.getDispute(disputeID)
         }
 
         else{
@@ -115,6 +113,14 @@ class DisputeDetailFragment : BaseFragment() {
         binding.createdDate.text=disputeDetailsViewModel.methodRepo.getFormattedOrderDate(disputeData.createdAt)
         if(disputeData.disputeMessages!=null)
             setAdapter(disputeData.disputeMessages)
+
+        binding.order.setPaintFlags(binding.order.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        binding.order.setOnClickListener {
+            val bundle =
+                bundleOf("orderNo" to disputeData.orderNo)
+            Navigation.findNavController(requireView())
+                .navigate(R.id.orderDetailFragment, bundle, null)
+        }
     }
 
     fun setAdapter(disputeMessages:MutableList<DisputeMessage>){

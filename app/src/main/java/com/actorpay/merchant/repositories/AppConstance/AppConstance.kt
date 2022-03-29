@@ -84,8 +84,8 @@ class AppConstance {
 
         const val GET_FAQ: String = SUB_DOMAIN + SUB_DOMAIN_CMS +  "faq/all"
         const val GET_COUNTRIES: String = SUB_DOMAIN + SUB_DOMAIN_GLOBAL +"v1/country/get/all"
-        val dateFormate3= SimpleDateFormat("yyyy-MM-dd HH:MM", Locale.ENGLISH)
-        val dateFormate4= SimpleDateFormat("dd MMM yyyy HH:MM", Locale.ENGLISH)
+        val dateFormate3= SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.ENGLISH)
+        val dateFormate4= SimpleDateFormat("dd MMM yyyy hh:mm", Locale.ENGLISH)
         const val STATUS_SUCCESS:String="SUCCESS"
         const val STATUS_READY:String="READY"
         const val STATUS_CANCELLED:String="CANCELLED"
@@ -134,7 +134,8 @@ class AppConstance {
 
         const val GET_ALL_COMMISSIONS:String= SUB_DOMAIN + SUB_DOMAIN2 +"productCommission/list/paged"
         const val Add_Note:String= SUB_DOMAIN + SUB_DOMAIN2 +"orderNotes/post"
-        const val GET_ALL_REQUEST_MONEY: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney/get"
+        const val GET_ALL_REQUEST_MONEY: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney/list/paged"
+        const val REQUEST_MONEY: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney"
 
         const val GET_PERMISSION:String= SUB_DOMAIN + SUB_DOMAIN2 +"get/user/permissions"
         const val REQUEST_PROCESS: String = SUB_DOMAIN+ SUB_DOMAIN2+"v1/wallet/requestMoney"
