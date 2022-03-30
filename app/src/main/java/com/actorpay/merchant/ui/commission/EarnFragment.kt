@@ -18,7 +18,6 @@ import com.actorpay.merchant.base.BaseFragment
 import com.actorpay.merchant.databinding.DialogCommissionFilterBinding
 import com.actorpay.merchant.databinding.FragmentEarnBinding
 import com.actorpay.merchant.repositories.retrofitrepository.models.commission.CommissionResponse
-import com.actorpay.merchant.utils.DrawersLock
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
 import com.google.android.material.bottomsheet.BottomSheetDialog

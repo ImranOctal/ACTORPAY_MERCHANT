@@ -20,6 +20,7 @@
 
     <color name="primary">#0077b6</color>
     <color name="primary_light">#3091c3</color>
+    <color name="primary_dark">#1F4E79</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#CECACA</color>
     <color name="gray_dark">#8E8D8D</color>

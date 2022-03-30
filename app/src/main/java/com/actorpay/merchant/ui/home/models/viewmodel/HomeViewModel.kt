@@ -34,7 +34,7 @@ class HomeViewModel(
     val responseLive = MutableStateFlow<ResponseSealed>(ResponseSealed.Empty)
     fun getById(userId:String) {
         viewModelScope.launch(dispatcherProvider.IO) {
-            responseLive.value = ResponseSealed.Loading(true)
+            responseLive.value = ResponseSealed.Loading(false)
             methodRepo.dataStore.getAccessToken().collect { token ->
                     when (val response = apiRepo.getById(token, userId)) {
                         is RetrofitResource.Error -> responseLive.value = ResponseSealed.ErrorOnResponse(response.failResponse)
@@ -60,7 +60,7 @@ class HomeViewModel(
 
     fun getWalletBalance() {
         viewModelScope.launch(dispatcherProvider.IO) {
-            responseLive.value = ResponseSealed.Loading(true)
+            responseLive.value = ResponseSealed.Loading(false)
             methodRepo.dataStore.getAccessToken().collect { token ->
                 methodRepo.dataStore.getUserId().collect { id ->
                     when (val response = apiRepo.getWalletBalance(token, id)) {

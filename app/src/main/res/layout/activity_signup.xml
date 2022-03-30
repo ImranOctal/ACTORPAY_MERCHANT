@@ -92,6 +92,33 @@
                                     />
 
                             </LinearLayout>
+                            <!--Password-->
+                            <LinearLayout
+                                android:id="@+id/confirn_passLay"
+                                style="@style/TxtOutline2"
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:id="@+id/confirm_password"
+                                    style="@style/regular1Full"
+                                    android:width="0dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/transparent"
+                                    android:hint="@string/confirm_password"
+                                    android:autofillHints="phone"
+                                    android:inputType="textPassword"
+                                    android:singleLine="true" />
+
+                                <ImageView
+                                    android:id="@+id/signup_confirm_password_show_hide"
+                                    android:layout_width="@dimen/_25sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:src="@drawable/hide"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    />
+
+                            </LinearLayout>
 
 
                             <TextView

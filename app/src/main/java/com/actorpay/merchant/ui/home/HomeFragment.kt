@@ -49,6 +49,7 @@ private fun apiResponse() {
         homeViewModel.responseLive.collect { event ->
             when (event) {
                 is ResponseSealed.Loading -> {
+                    if(event.isLoading)
                     showLoadingDialog()
                 }
                 is ResponseSealed.Success -> {

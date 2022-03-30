@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,7 +16,6 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -52,12 +50,10 @@ import com.actorpay.merchant.ui.setting.SettingFragment
 import com.actorpay.merchant.ui.subAdmin.SubMerchantFragment
 import com.actorpay.merchant.ui.wallet.WalletFragment
 import com.actorpay.merchant.utils.CommonDialogsUtils
-import com.actorpay.merchant.utils.DrawersLock
 import com.actorpay.merchant.utils.GlobalData.permissionDataList
 import com.actorpay.merchant.utils.OnFilterClick
 import com.actorpay.merchant.utils.ResponseSealed
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_home.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -67,7 +63,7 @@ import org.koin.android.ext.android.inject
 import java.util.concurrent.Executor
 
 
-class HomeActivity : BaseActivity(),DrawersLock {
+class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var doubleBackToExitPressedOnce = false
     var Merchantrole = ""
@@ -113,12 +109,8 @@ class HomeActivity : BaseActivity(),DrawersLock {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 super.onDrawerSlide(drawerView, slideOffset)
                 val slideX = drawerView.width * slideOffset
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    cardview_content?.translationX = slideX
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        drawer_layout?.layoutDirection = View.LAYOUT_DIRECTION_LTR
-                    }
-                }
+                cardview_content?.translationX = slideX
+                drawer_layout?.layoutDirection = View.LAYOUT_DIRECTION_LTR
                 cardview_content?.scaleX = 1 - slideOffset / scaleFactor
                 cardview_content?.scaleY = 1 - slideOffset / scaleFactor
                 cardview_content?.radius = 0f
@@ -422,6 +414,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
             homeviewmodel.responseLive.collect {
                 when (it) {
                     is ResponseSealed.Loading -> {
+                        if(it.isLoading)
                         showLoadingDialog()
                     }
                     is ResponseSealed.Success -> {
@@ -834,9 +827,7 @@ class HomeActivity : BaseActivity(),DrawersLock {
     fun getUserName(balance: String) {
         binding.headerTitle.userProfileName.text= "₹ $balance"
     }
-    override fun lockDrawer() {
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-    }
+
 
 
 }

@@ -40,6 +40,7 @@ class SignupActivity : BaseActivity() {
     var long=0.0
     var lat=0.0
     private var showPassword = false
+    private var showConfirmPassword = false
 
     private lateinit var disposable: Disposable
 
@@ -103,6 +104,19 @@ class SignupActivity : BaseActivity() {
                 showPassword = true
                 binding.signupPasswordShowHide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
                 binding.password.setSelection(binding.password.text.toString().length)
+            }
+        }
+        binding.signupConfirmPasswordShowHide.setOnClickListener {
+            if (showConfirmPassword) {
+                binding.confirmPassword.transformationMethod = PasswordTransformationMethod()
+                showConfirmPassword = false
+                binding.signupConfirmPasswordShowHide.setImageResource(R.drawable.hide)
+                binding.confirmPassword.setSelection(binding.password.text.toString().length)
+            } else {
+                binding.confirmPassword.transformationMethod = null
+                showConfirmPassword = true
+                binding.signupConfirmPasswordShowHide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
+                binding.confirmPassword.setSelection(binding.password.text.toString().length)
             }
         }
 
@@ -201,6 +215,20 @@ class SignupActivity : BaseActivity() {
         if (binding.password.text.toString().trim().isEmpty()) {
             binding.password.error = this.getString(R.string.password_empty)
             binding.password.requestFocus()
+            isValidate = false
+        }
+
+
+
+        if (binding.confirmPassword.text.toString().trim() != binding.password.text.toString().trim()) {
+            binding.confirmPassword.error = this.getString(R.string.password_match)
+            binding.confirmPassword.requestFocus()
+            isValidate = false
+        }
+
+        if (binding.confirmPassword.text.toString().trim().isEmpty()) {
+            binding.confirmPassword.error = this.getString(R.string.password_empty)
+            binding.confirmPassword.requestFocus()
             isValidate = false
         }
 
