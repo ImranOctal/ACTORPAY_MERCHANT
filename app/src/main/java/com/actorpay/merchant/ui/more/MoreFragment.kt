@@ -24,8 +24,7 @@ class MoreFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
 
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_more,container,false)
         clickListners()
@@ -47,6 +46,9 @@ class MoreFragment : Fragment() {
             }
             faqText.setOnClickListener {
                 Navigation.findNavController(requireView()).navigate(R.id.faqFragment)
+            }
+            contactUsText.setOnClickListener {
+                Navigation.findNavController(requireView()).navigate(R.id.contactUsFragment)
             }
 
         }

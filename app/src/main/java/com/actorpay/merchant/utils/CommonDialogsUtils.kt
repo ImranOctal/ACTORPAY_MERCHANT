@@ -91,7 +91,7 @@ class CommonDialogsUtils {
 
                     val mailto = "mailto:actorpay@gmail.com"
                     val emailIntent = Intent(Intent.ACTION_SENDTO)
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Experience with the Ouq App")
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Experience with the Actor Pay App")
                     emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     emailIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                     emailIntent.data = Uri.parse(mailto)

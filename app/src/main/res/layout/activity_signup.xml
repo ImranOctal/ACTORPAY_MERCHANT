@@ -63,8 +63,10 @@
                             <TextView
                                 android:id="@+id/errorOnEmail"
                                 style="@style/errotextViewStyle"
-                                android:text="@string/oops_your_email_is_not_correct_or_empty"
+                                android:layout_marginHorizontal="@dimen/_20sdp"
+                                android:text="@string/invalid_email"
                                 android:visibility="gone" />
+
                             <!--Password-->
                             <LinearLayout
                                 android:id="@+id/passLay"
@@ -92,6 +94,64 @@
                                     />
 
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_20sdp"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:id="@+id/password_1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="2dp"
+                                    android:layout_marginStart="@dimen/_10ssp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray" />
+
+                                <View
+                                    android:id="@+id/password_2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="2dp"
+                                    android:layout_marginStart="@dimen/_10ssp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray" />
+
+                                <View
+                                    android:id="@+id/password_3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="2dp"
+                                    android:layout_marginStart="@dimen/_10ssp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray" />
+
+                                <View
+                                    android:id="@+id/password_4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="2dp"
+                                    android:layout_marginStart="@dimen/_10ssp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray" />
+
+                                <View
+                                    android:id="@+id/password_5"
+                                    android:layout_width="0dp"
+                                    android:layout_height="2dp"
+                                    android:layout_marginStart="@dimen/_10ssp"
+                                    android:layout_marginEnd="@dimen/_10ssp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/errorOnPassword"
+                                style="@style/errotextViewStyle"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginHorizontal="@dimen/_25sdp"
+                                android:text="@string/error_password_capital"
+                                android:visibility="gone" />
+
                             <!--Password-->
                             <LinearLayout
                                 android:id="@+id/confirn_passLay"
@@ -120,15 +180,7 @@
 
                             </LinearLayout>
 
-
-                            <TextView
-                                android:id="@+id/errorOnPassword"
-                                style="@style/errotextViewStyle"
-                                android:text="@string/oops_your_password_is_not_valid"
-                                android:visibility="gone" />
                             <!--Business Name-->
-
-
                                 <EditText
                                     android:id="@+id/businessName"
                                     style="@style/TxtOutlineCustom"
@@ -139,11 +191,10 @@
                                     android:singleLine="true" />
 
 
-
                             <TextView
                                 android:id="@+id/errorOnBusinessName"
                                 style="@style/errotextViewStyle"
-                                android:text="@string/field_should_not_be_empty"
+                                android:text="@string/error_business"
                                 android:visibility="gone" />
 
                             <!--Mobile Number-->
@@ -230,11 +281,8 @@
                             <TextView
                                 android:id="@+id/errorOnShopAddress"
                                 style="@style/errotextViewStyle"
-                                android:text="@string/field_should_not_be_empty"
+                                android:text="@string/error_shop_address"
                                 android:visibility="gone" />
-
-                            <!--Full Address-->
-
 
                                 <EditText
                                     android:id="@+id/address"
@@ -248,11 +296,10 @@
                             <TextView
                                 android:id="@+id/errorOnfullAddress"
                                 style="@style/errotextViewStyle"
-                                android:text="@string/field_should_not_be_empty"
+                                android:text="@string/address_error"
                                 android:visibility="gone" />
 
                             <!--Shop Act or licence number-->
-
 
                                 <EditText
                                     android:id="@+id/shopAct"
@@ -267,33 +314,8 @@
                             <TextView
                                 android:id="@+id/errorOnShopAct"
                                 style="@style/errotextViewStyle"
-                                android:text="@string/field_should_not_be_empty"
+                                android:text="@string/shop_Act_length"
                                 android:visibility="gone" />
-                            <!--Resourse Type-->
-
-                      <!--      <LinearLayout
-                                android:id="@+id/resourseLay"
-                                style="@style/TxtOutline2"
-                                android:orientation="horizontal">
-
-                                <EditText
-                                    android:id="@+id/resourceType"
-                                    style="@style/regular1Full"
-                                    android:autofillHints="name"
-                                    android:background="@color/transparent"
-                                    android:hint="@string/resourceType"
-                                    android:inputType="textAutoComplete"
-                                    android:singleLine="true" />
-
-
-                            </LinearLayout>
-
-
-                            <TextView
-                                android:id="@+id/errorOnResourceType"
-                                style="@style/errotextViewStyle"
-                                android:visibility="gone" />
-                                -->
 
                             <LinearLayout
                                 android:id="@+id/termsAndConditionlay"

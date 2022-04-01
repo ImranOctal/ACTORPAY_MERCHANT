@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -47,7 +48,7 @@ class TransferMoneyFragment : BaseFragment() {
     private var permissions = Manifest.permission.CAMERA
     lateinit var codeScanner: CodeScanner
     private val CONTACT_PICKER_RESULT = 1001
-    private val RESULT_OK = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,6 +94,15 @@ class TransferMoneyFragment : BaseFragment() {
                 return@setOnEditorActionListener true;
             }
             return@setOnEditorActionListener false;
+        }
+
+        binding.emailNumberField.doOnTextChanged { text, start, before, count ->
+            if(text.toString() == "" || transferMoneyViewModel.methodRepo.isValidEmail(text.toString()) || transferMoneyViewModel.methodRepo.isValidPhoneNumber(text.toString())){
+                binding.errorOnEmail.visibility=View.GONE
+            }
+            else{
+                binding.errorOnEmail.visibility=View.VISIBLE
+            }
         }
         return binding.root
     }

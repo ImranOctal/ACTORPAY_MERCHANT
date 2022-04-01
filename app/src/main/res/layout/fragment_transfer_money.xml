@@ -92,14 +92,24 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/errorOnEmail"
+            style="@style/errotextViewStyle"
+            app:layout_constraintTop_toBottomOf="@+id/llEmailNo"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:text="@string/error_mobile_no_or_email"
+            android:visibility="gone" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/round_corner_white_bg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llEmailNo">
+            app:layout_constraintTop_toBottomOf="@id/errorOnEmail">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_scan_qr"

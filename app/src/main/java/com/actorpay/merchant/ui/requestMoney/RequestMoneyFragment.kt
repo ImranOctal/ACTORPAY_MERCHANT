@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +62,15 @@ class RequestMoneyFragment : BaseFragment(), OnFilterClick {
             requestMoneyViewModel.requestMoneyListData.items.clear()
             requestMoneyViewModel.getAllRequest()
             binding.messageRefresh.isRefreshing=false
+        }
+
+        binding.emailNumberField.doOnTextChanged { text, start, before, count ->
+            if(text.toString() == "" || requestMoneyViewModel.methodRepo.isValidEmail(text.toString()) || requestMoneyViewModel.methodRepo.isValidPhoneNumber(text.toString())){
+                binding.errorOnEmail.visibility=View.GONE
+            }
+            else{
+                binding.errorOnEmail.visibility=View.VISIBLE
+            }
         }
         return root
     }

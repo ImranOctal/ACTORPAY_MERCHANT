@@ -62,7 +62,9 @@
                 <TextView
                     android:id="@+id/errorOnEmail"
                     style="@style/errotextViewStyle"
-                    android:text="@string/oops_your_email_is_not_correct_or_empty"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:text="@string/invalid_email"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -94,6 +96,9 @@
                 <TextView
                     android:id="@+id/errorOnPassword"
                     style="@style/errotextViewStyle"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:text="@string/error_password_capital"
                     android:visibility="gone" />
 
 

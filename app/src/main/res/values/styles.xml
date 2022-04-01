@@ -301,7 +301,6 @@
     <style name="errotextViewStyle" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/_10sdp</item>
         <item name="android:textColor">@color/red</item>
         <item name="android:gravity">center|left</item>
         <item name="android:textAllCaps">false</item>

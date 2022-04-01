@@ -811,6 +811,12 @@ class HomeActivity : BaseActivity() {
                     binding.toolbar.ivNotification.visibility = View.GONE
                     binding.toolbar.ivFilter.visibility = View.GONE
                 }
+                R.id.contactUsFragment -> {
+                    binding.toolbar.back.setImageResource(R.drawable.back)
+                    binding.toolbar.ToolbarTitle.text = getString(R.string.contact_us)
+                    binding.toolbar.ivNotification.visibility = View.GONE
+                    binding.toolbar.ivFilter.visibility = View.GONE
+                }
             }
         }
     }

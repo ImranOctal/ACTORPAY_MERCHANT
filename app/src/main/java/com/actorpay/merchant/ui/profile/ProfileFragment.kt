@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
@@ -32,6 +32,7 @@ import com.actorpay.merchant.utils.CommonDialogsUtils
 import com.actorpay.merchant.utils.ResponseSealed
 import com.bumptech.glide.Glide
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -54,7 +55,6 @@ class ProfileFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false)
         initialisation()
@@ -62,10 +62,76 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun initialisation() {
+        inlineValidations()
         clickListeners()
         getProfile()
         apiResponse()
     }
+
+    fun inlineValidations(){
+        binding.apply {
+
+            businessName.doOnTextChanged { text, start, before, count ->
+                if (text.toString().isEmpty() || text.toString().length>2) {
+                    errorOnBusinessName.visibility = View.GONE
+                } else{
+                    errorOnBusinessName.visibility = View.VISIBLE
+                }
+            }
+            shopAddress.doOnTextChanged { text, start, before, count ->
+                if (text.toString().isEmpty() || text.toString().length >= 3) {
+                    errorOnShopAddress.visibility = View.GONE
+                } else if (text.toString().length < 3) {
+                    errorOnShopAddress.visibility = View.VISIBLE
+                }
+            }
+            address.doOnTextChanged { text, start, before, count ->
+                if (text.toString().isEmpty() || text.toString().length >= 3) {
+                    errorOnfullAddress.visibility = View.GONE
+                } else if (text.toString().length < 3) {
+                    errorOnfullAddress.visibility = View.VISIBLE
+                }
+            }
+            shopAct.doOnTextChanged { text, start, before, count ->
+                if (text.toString().isEmpty() || text.toString().length >= 3) {
+                    errorOnShopAct.visibility = View.GONE
+                } else if (text.toString().length < 3) {
+                    errorOnShopAct.visibility = View.VISIBLE
+                }
+            }
+            returnedt.doOnTextChanged { text, start, before, count ->
+                var isRetunFee=false
+
+                try {
+                    val returnF=text.toString().toDouble()
+                    if(returnF >=1 && returnF <=99)
+                        isRetunFee=true
+                }
+                catch (e:Exception){ }
+                if(text.toString().isEmpty() || isRetunFee)
+                    errorOnReturnFee.visibility = View.GONE
+                else
+                    errorOnReturnFee.visibility = View.VISIBLE
+            }
+            cancellation.doOnTextChanged { text, start, before, count ->
+                var isCancelFee=false
+
+                try {
+                    val cancelF=text.toString().toDouble()
+                    if(cancelF >=1 && cancelF <=99)
+                        isCancelFee=true
+                }
+                catch (e:Exception){ }
+                if(text.toString().isEmpty() || isCancelFee)
+                    errorOnCancelFee.visibility = View.GONE
+                else
+                    errorOnCancelFee.visibility = View.VISIBLE
+            }
+
+        }
+
+    }
+
     fun apiResponse() {
         lifecycleScope.launch {
             profileViewModel.profileResponseLive.collect {
@@ -157,8 +223,10 @@ class ProfileFragment : BaseFragment() {
     fun validate() {
         val returnFee=binding.returnedt.text.toString()
         val cancellationFee=binding.cancellation.text.toString()
+        val returnDays=binding.returnedD.text.toString()
         var isRerunFee=false
         var isCancelFee=false
+        var isReturnDays=false
         try {
             val returnF=returnFee.toDouble()
             if(returnF >=1 && returnF <=99)
@@ -169,6 +237,12 @@ class ProfileFragment : BaseFragment() {
             val cancellationF=cancellationFee.toDouble()
             if(cancellationF >=1 && cancellationF <=99)
                 isCancelFee=true
+        }
+        catch (e:Exception){ }
+        try {
+            val returnD=returnDays.toInt()
+            if(returnD >=0)
+                isReturnDays=true
         }
         catch (e:Exception){ }
         if (binding.emailEdit.text.toString().length < 3 || !profileViewModel.methodRepo.isValidEmail(binding.emailEdit.text.toString())) {
@@ -251,10 +325,15 @@ class ProfileFragment : BaseFragment() {
             binding.returnedt.error = getString(R.string.error_percentage_numeric)
             binding.returnedt.requestFocus()
         }
+        else if(!isReturnDays){
+            binding.returnedD.error = getString(R.string.error_days_numeric)
+            binding.returnedD.requestFocus()
+        }
         else if(!isCancelFee){
             binding.cancellation.error = getString(R.string.error_percentage_numeric)
             binding.cancellation.requestFocus()
         }
+
         else {
             saveProfile()
         }

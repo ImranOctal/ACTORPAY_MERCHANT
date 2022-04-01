@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.actorpay.merchant.R
@@ -29,11 +30,50 @@ class LoginActivity : BaseActivity() {
     private lateinit var disposable: Disposable
     private var showPassword=false
     private val loginViewModel: AuthViewModel by inject()
+    var isPasswrodValid=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        init()
         clickListeners()
         apiResponse()
+    }
+
+    fun init(){
+
+        binding.emailEdit.doOnTextChanged { text, start, before, count ->
+            if (text.toString().isEmpty() || loginViewModel.methodRepo.isValidEmail(text.toString().trim())) {
+                binding.errorOnEmail.visibility = View.GONE
+            } else{
+                binding.errorOnEmail.visibility = View.VISIBLE
+            }
+        }
+        binding.password.doOnTextChanged {  text, start, before, count ->
+
+            val password = text.toString()
+            var temp = ""
+            if (password.length < 8)
+                temp = getString(R.string.error_passord_8_characters)
+            if (!loginViewModel.methodRepo.isSpecialCharacter(password))
+                temp = getString(R.string.error_password_special)
+            if (!loginViewModel.methodRepo.isDigit(password))
+                temp = getString(R.string.error_password_digit)
+            if (!loginViewModel.methodRepo.isSmallLetter(password))
+                temp = getString(R.string.error_password_small)
+            if (!loginViewModel.methodRepo.isCapitalLetter(password))
+                temp = getString(R.string.error_password_capital)
+
+            if (temp!="" && password.length != 0) {
+                binding.errorOnPassword.visibility = View.VISIBLE
+                binding.errorOnPassword.text = temp
+            } else {
+                binding.errorOnPassword.visibility = View.GONE
+                binding.errorOnPassword.text = ""
+            }
+
+            isPasswrodValid=temp==""
+
+        }
     }
     private fun clickListeners() {
         disposable = binding.signinBtn.clicks().throttleFirst(CLICK_TIME, TimeUnit.MILLISECONDS)
@@ -66,23 +106,26 @@ class LoginActivity : BaseActivity() {
       }
 
       private fun validate() {
+          var isValid=true
+          if(!isPasswrodValid){
+              binding.password.error = this.getString(R.string.oops_your_password_is_not_valid)
+              binding.password.requestFocus()
+              isValid=false
+          }
         if (binding.emailEdit.text.isEmpty()) {
             binding.emailEdit.error=getString(R.string.email_empty)
             binding.emailEdit.requestFocus()
+            isValid=false
 
-        }else if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
+        }
+          if (!methods.isValidEmail(binding.emailEdit.text.toString())) {
             binding.emailEdit.error=getString(R.string.invalid_email)
             binding.emailEdit.requestFocus()
+            isValid=false
 
-        } else if (binding.password.text.isEmpty()) {
-            binding.password.error=getString(R.string.oops_your_password_is_empty)
-            binding.password.requestFocus()
-
-        } else if (binding.password.text.toString().trim().length < 8 || !loginViewModel.methodRepo.isValidPassword(binding.password.text.toString().trim())) {
-            binding.password.error = this.getString(R.string.oops_your_password_is_not_valid)
-            binding.password.requestFocus()
         }
-        else {
+
+        if(isValid) {
             login()
         }
     }

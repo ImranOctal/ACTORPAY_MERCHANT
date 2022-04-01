@@ -197,6 +197,10 @@
         android:id="@+id/notificationFragment"
         android:name="com.actorpay.merchant.notification.NotificationFragment"
         android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.actorpay.merchant.ui.more.ContactUsFragment"
+        android:label="ContactUsFragment" />
 
 
 </navigation>

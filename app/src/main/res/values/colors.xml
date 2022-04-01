@@ -12,8 +12,13 @@
     <color name="card_bg_color">#f6f6f6</color>
     <color name="red">#F44336</color>
     <color name="colorAccent">#ed3460</color>
+
+    <color name="orange">#FF9800</color>
+    <color name="yellow">#FFEB3B</color>
+
     <color name="blue_color">#0078b7</color>
     <color name="green_color">#00A63D</color>
+    <color name="light_green_color">#8BC34A</color>
     <color name="light_grey">#8E9092</color>
     <color name="very_light_grey">#DBDBDB</color>
     <color name="light_grey_home">#f9f9f9</color>

@@ -84,8 +84,10 @@
                         <TextView
                             android:id="@+id/errorOnEmail"
                             style="@style/errotextViewStyle"
-                            android:text="@string/oops_your_email_is_not_correct_or_empty"
-                            android:visibility="gone" />
+                            android:text="@string/invalid_email"
+                            android:visibility="gone"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            />
                         <!--Password-->
                         <!--     <LinearLayout
                                  android:id="@+id/passLay"
@@ -143,7 +145,8 @@
                         <TextView
                             android:id="@+id/errorOnBusinessName"
                             style="@style/errotextViewStyle"
-                            android:text="@string/field_should_not_be_empty"
+                            android:text="@string/error_business"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
                             android:visibility="gone" />
 
                         <!--Mobile Number-->
@@ -216,7 +219,8 @@
                         <TextView
                             android:id="@+id/errorOnMobile"
                             style="@style/errotextViewStyle"
-                            android:text="@string/error_phone"
+                            android:text="@string/number_not_correct"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
                             android:visibility="gone" />
 
                         <!--Shop Address -->
@@ -242,7 +246,8 @@
                         <TextView
                             android:id="@+id/errorOnShopAddress"
                             style="@style/errotextViewStyle"
-                            android:text="@string/field_should_not_be_empty"
+                            android:text="@string/shop_Act_length"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
                             android:visibility="gone" />
 
                         <!--Full Address-->
@@ -268,7 +273,8 @@
                         <TextView
                             android:id="@+id/errorOnfullAddress"
                             style="@style/errotextViewStyle"
-                            android:text="@string/field_should_not_be_empty"
+                            android:text="@string/address_error"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
                             android:visibility="gone" />
 
                         <!--Shop Act or licence number-->
@@ -293,7 +299,8 @@
                         <TextView
                             android:id="@+id/errorOnShopAct"
                             style="@style/errotextViewStyle"
-                            android:text="@string/field_should_not_be_empty"
+                            android:text="@string/shop_Act_length"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
                             android:visibility="gone" />
 
                         <LinearLayout
@@ -331,6 +338,13 @@
 
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/errorOnReturnFee"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/error_percentage_numeric"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:visibility="gone" />
+
                         <LinearLayout
                             android:id="@+id/returnDays"
                             style="@style/TxtOutline2"
@@ -355,7 +369,7 @@
                                 android:background="@color/transparent"
                                 android:text=""
                                 android:inputType="number"
-                                android:digits="0123456789."
+                                android:digits="0123456789"
                                 android:maxLength="5"
                                 android:singleLine="true"
                                 android:textSize="@dimen/_12ssp"
@@ -366,6 +380,12 @@
 
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/errorOnReturnDays"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/error_days_numeric"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:visibility="gone" />
 
 
                         <LinearLayout
@@ -402,6 +422,13 @@
 
 
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/errorOnCancelFee"
+                            style="@style/errotextViewStyle"
+                            android:text="@string/error_percentage_numeric"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:id="@+id/adminCommissionLay"

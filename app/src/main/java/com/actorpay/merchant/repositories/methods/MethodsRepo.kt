@@ -1,9 +1,5 @@
 package com.actorpay.merchant.repositories.methods
-/*
-* © Copyright Ishant Sharma
-* Android Developer
-* JAVA/KOTLIN
-* */
+
 
 import android.app.Activity
 import android.app.Dialog
@@ -41,7 +37,6 @@ import java.util.regex.Pattern
 
 class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
 ) {
-    private var  progressDialog:Dialog?=null
 
     fun isValidEmail(email: String): Boolean {
         val EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
@@ -60,6 +55,30 @@ class MethodsRepo(private  var context: Context,  var dataStore: DataStoreBase
     }
     fun isValidPassword(password: String):Boolean{
         val pattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!&*^()-_]).{8,20}$")
+        val matcher: Matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
+
+    fun isSpecialCharacter(password: String): Boolean {
+        val pattern = Pattern.compile("(.*[^A-Za-z0-9].*)")
+        val matcher: Matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
+
+    fun isCapitalLetter(password: String): Boolean {
+        val pattern = Pattern.compile("(.*[A-Z].*)")
+        val matcher: Matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
+
+    fun isSmallLetter(password: String): Boolean {
+        val pattern = Pattern.compile("(.*[a-z].*)")
+        val matcher: Matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
+
+    fun isDigit(password: String): Boolean {
+        val pattern = Pattern.compile("(.*[0-9].*)")
         val matcher: Matcher = pattern.matcher(password)
         return matcher.matches()
     }
